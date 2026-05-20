@@ -1,0 +1,460 @@
+# HouseKeep — Checklist por Fases
+
+Marca cada tarea con [x] cuando esté completada.
+
+---
+
+## Fase 0: Setup del proyecto
+
+### Flutter SDK
+- [x] Instalar Flutter SDK (stable channel)
+- [x] Verificar `flutter doctor` sin errores (Chrome/web falta, no bloquea)
+- [x] Configurar Android SDK (API 34+)
+- [ ] Verificar Xcode + CocoaPods (si desarrollas en macOS)
+
+### Creación del proyecto
+- [x] `flutter create --org com.housekeep --project-name housekeep`
+- [x] Verificar que compila en Android y Linux desktop
+- [x] Configurar `.gitignore` apropiado
+- [ ] `git init` + primer commit — se hará al subir a GitHub
+
+### Dependencias
+- [x] Añadir todas las dependencias a `pubspec.yaml` — Firebase packages incluidos
+- [x] `flutter pub get` sin errores
+- [x] Configurar `analysis_options.yaml` con riverpod_lint
+
+### Estructura de carpetas
+- [x] Crear estructura completa de `/lib` según ARCHITECTURE.md
+- [x] Crear carpeta `assets/templates/`
+- [x] Crear carpeta `assets/images/`
+- [x] Registrar assets en `pubspec.yaml`
+
+### Tema y diseño
+- [x] Crear `app_colors.dart` con paleta completa
+- [x] Crear `app_typography.dart`
+- [x] Crear `app_theme.dart` con ThemeData M3
+- [x] Verificar tema en pantalla de test
+
+### Internacionalización
+- [x] Configurar `l10n.yaml`
+- [x] Crear `app_en.arb` con strings iniciales
+- [x] Crear `app_es.arb` con strings iniciales
+- [x] Verificar que `flutter gen-l10n` funciona
+- [x] Configurar MaterialApp con `localizationsDelegates`
+
+### Base de datos (drift)
+- [x] Crear tablas en archivos separados
+- [x] Crear `app_database.dart`
+- [x] Ejecutar `dart run build_runner build`
+- [x] Verificar que genera sin errores
+
+### Navegación
+- [x] Configurar `go_router` con rutas iniciales
+- [x] Crear BottomNavigationBar con 4 tabs (Home, Items, Documents, Settings)
+- [x] Verificar navegación básica
+
+### Firebase
+- [ ] Crear proyecto en Firebase Console — **manual, requiere cuenta Google**
+- [ ] Registrar app Android (com.housekeep.app) — **manual, en Firebase Console**
+- [ ] Registrar app iOS (com.housekeep.app) — **manual, en Firebase Console**
+- [ ] Descargar y colocar archivos de configuración — **manual: `google-services.json` → `android/app/`, `GoogleService-Info.plist` → `ios/Runner/`**
+- [ ] Instalar FlutterFire CLI — **manual: `dart pub global activate flutterfire_cli`**
+- [ ] Ejecutar `flutterfire configure` — **manual, reemplazará `lib/firebase_options.dart` con credenciales reales**
+- [x] Inicializar Firebase en `main.dart` — **listo con try/catch; funciona sin config real**
+- [x] Crear placeholder `lib/firebase_options.dart` — **lanza UnsupportedError hasta `flutterfire configure`**
+- [x] Añadir `firebase_core`, `firebase_analytics`, `firebase_crashlytics` a `pubspec.yaml`
+- [x] Verificar `flutter analyze` sin errores con código Firebase presente
+- [ ] Verificar que Analytics registra eventos — **requiere proyecto Firebase real**
+
+---
+
+## Fase 1: Data Layer
+
+### Modelos de dominio
+- [ ] Crear `Item` model (con factory fromDb / toCompanion)
+- [ ] Crear `Maintenance` model
+- [ ] Crear `Document` model
+- [ ] Crear `MaintenanceTemplate` model
+- [ ] Crear `UpcomingEvent` model (unificado para timeline)
+
+### Enums
+- [ ] Crear `ItemCategory` enum con iconos y labels i18n
+- [ ] Crear `DocumentType` enum con labels i18n
+- [ ] Crear `UrgencyLevel` enum con colores
+- [ ] Crear `HomeType` enum (para plantillas)
+
+### DAOs
+- [ ] Implementar `ItemsDao` (CRUD + count + watch)
+- [ ] Implementar `MaintenancesDao` (CRUD + markDone + watchUpcoming)
+- [ ] Implementar `DocumentsDao` (CRUD + count + watchExpiring)
+- [ ] Regenerar código con build_runner
+
+### Repositories
+- [ ] Implementar `ItemsRepository`
+- [ ] Implementar `MaintenancesRepository`
+- [ ] Implementar `DocumentsRepository`
+- [ ] Implementar `PurchaseRepository` (interface)
+
+### Providers (Riverpod)
+- [ ] Provider para AppDatabase (singleton)
+- [ ] Provider para cada DAO
+- [ ] Provider para cada Repository
+- [ ] Provider `isProProvider` (estado de compra)
+- [ ] Provider `canAddItemProvider` (check límite free)
+- [ ] Provider `canAddDocumentProvider`
+
+### Tests
+- [ ] Unit test: ItemsDao CRUD
+- [ ] Unit test: MaintenancesDao markAsDone recalcula nextDueAt
+- [ ] Unit test: UrgencyLevel calculation
+- [ ] Unit test: Warranty expiry calculation
+
+---
+
+## Fase 2: Items (Electrodomésticos)
+
+### Pantallas
+- [ ] `ItemsListScreen` con grid/list view
+- [ ] Empty state cuando no hay items
+- [ ] `AddEditItemScreen` formulario completo
+- [ ] `ItemDetailScreen` con info + mantenimientos
+
+### Formulario de item
+- [ ] Campo: Nombre (obligatorio)
+- [ ] Campo: Categoría (selector con iconos)
+- [ ] Campo: Marca (opcional)
+- [ ] Campo: Modelo (opcional)
+- [ ] Campo: Fecha de compra (date picker)
+- [ ] Campo: Duración garantía en meses (número)
+- [ ] Campo: Foto (cámara / galería)
+- [ ] Campo: Notas (texto libre)
+- [ ] Validación de formulario
+- [ ] Guardar en base de datos
+
+### Funcionalidad
+- [ ] Listar items ordenados por fecha de creación
+- [ ] Filtrar por categoría
+- [ ] Ver detalle de item
+- [ ] Editar item existente
+- [ ] Borrar item con confirmación (y sus mantenimientos)
+- [ ] Badge de garantía (activa/vencida/sin garantía)
+- [ ] Gate freemium: al intentar añadir 6to item → paywall
+
+### Fotos
+- [ ] Image picker (cámara + galería)
+- [ ] Compresión de imagen antes de guardar
+- [ ] Guardar en app directory (path_provider)
+- [ ] Mostrar thumbnail en lista
+- [ ] Mostrar full en detalle
+- [ ] Borrar foto al borrar item
+
+---
+
+## Fase 3: Mantenimiento
+
+### Pantallas
+- [ ] `MaintenanceListScreen` (mantenimientos de un item)
+- [ ] `AddEditMaintenanceScreen` formulario
+- [ ] Sección de mantenimientos dentro de `ItemDetailScreen`
+
+### Formulario
+- [ ] Campo: Nombre de la tarea
+- [ ] Campo: Descripción (opcional)
+- [ ] Campo: Intervalo en meses
+- [ ] Campo: Última vez realizado (date picker, opcional)
+- [ ] Campo: Días de antelación para notificación
+- [ ] Auto-cálculo de `nextDueAt`
+
+### Plantillas
+- [ ] Crear `maintenance_templates.json` con ~20 plantillas
+- [ ] Parsear JSON al iniciar app
+- [ ] Pantalla/bottom sheet de selección de plantilla
+- [ ] Sugerir plantillas según categoría del item
+- [ ] Marcar plantillas PRO (solo accesibles con compra)
+- [ ] Auto-rellenar formulario desde plantilla
+
+### Funcionalidad
+- [ ] Listar mantenimientos de un item
+- [ ] Añadir mantenimiento manual o desde plantilla
+- [ ] Marcar como realizado (recalcula próximo)
+- [ ] Editar mantenimiento
+- [ ] Borrar mantenimiento
+- [ ] Indicador visual de urgencia (semáforo)
+- [ ] Historial de realizaciones pasadas
+
+---
+
+## Fase 4: Documentos
+
+### Pantallas
+- [ ] `DocumentsListScreen` con lista y semáforo
+- [ ] `AddEditDocumentScreen` formulario
+- [ ] Empty state
+
+### Formulario
+- [ ] Campo: Nombre (obligatorio)
+- [ ] Campo: Tipo de documento (selector)
+- [ ] Campo: Fecha de caducidad (date picker, obligatorio)
+- [ ] Campo: Días de antelación para notificación
+- [ ] Campo: Foto/scan (opcional)
+- [ ] Campo: Notas (opcional)
+- [ ] Validación
+
+### Funcionalidad
+- [ ] Listar documentos ordenados por fecha de caducidad
+- [ ] Filtrar por tipo
+- [ ] Semáforo: verde (>90 días), amarillo (30-90), rojo (<30), vencido
+- [ ] Editar documento
+- [ ] Borrar documento con confirmación
+- [ ] Gate freemium: al intentar añadir 4to documento → paywall
+
+---
+
+## Fase 5: Home Dashboard
+
+### Timeline
+- [ ] Query unificada: próximos mantenimientos + documentos que vencen
+- [ ] Ordenar cronológicamente
+- [ ] Mostrar los próximos 10-15 eventos
+- [ ] Card diferenciada para mantenimiento vs documento vs garantía
+- [ ] Tap en card → navegar al item/documento
+
+### Resumen
+- [ ] Contadores: total items, mantenimientos pendientes, docs urgentes
+- [ ] Visual summary card con semáforo
+- [ ] "Todo al día" state cuando no hay nada urgente
+
+### UX
+- [ ] FAB expandible (+Item, +Mantenimiento, +Documento)
+- [ ] Pull-to-refresh
+- [ ] Empty state para primer uso (call to action)
+- [ ] Transición suave desde onboarding
+
+---
+
+## Fase 6: Notificaciones
+
+### Setup
+- [ ] Configurar flutter_local_notifications (iOS + Android)
+- [ ] Crear canal de notificación "housekeep_reminders" (Android)
+- [ ] Solicitar permisos en iOS (provisional + alert)
+- [ ] Solicitar permisos en Android 13+ (POST_NOTIFICATIONS)
+- [ ] Configurar timezone para scheduled notifications
+
+### Lógica
+- [ ] Al crear/editar mantenimiento → programar notificación
+- [ ] Al crear/editar documento → programar notificación
+- [ ] Al marcar mantenimiento como realizado → reprogramar
+- [ ] Al borrar item/mantenimiento/documento → cancelar notificación
+- [ ] Usar ID único derivado del UUID del item/doc
+- [ ] Free: 1 notificación por item (X días antes)
+- [ ] Pro: múltiples notificaciones (90d + 30d + 7d)
+
+### Contenido de notificaciones
+- [ ] Mantenimiento: "🔧 [Nombre item]: [Nombre mantenimiento] en [X] días"
+- [ ] Documento: "📄 [Nombre documento] caduca en [X] días"
+- [ ] Garantía: "⚠️ La garantía de [Nombre item] vence en [X] días"
+
+### Edge cases
+- [ ] Dispositivo reiniciado → reboot receiver (Android)
+- [ ] Permisos denegados → mostrar explicación y link a settings
+- [ ] Fecha pasada → no programar, mostrar como "vencido"
+
+---
+
+## Fase 7: Paywall y Premium
+
+### Abstracción
+- [ ] Definir `PurchaseService` interface abstracta
+- [ ] Métodos: `initialize()`, `purchasePro()`, `restorePurchases()`, `isPro` stream
+- [ ] Implementar `PurchaseServiceMock` (toggle manual)
+- [ ] Implementar `PurchaseServiceRevenueCat`
+
+### RevenueCat
+- [ ] Crear cuenta RevenueCat
+- [ ] Crear proyecto "HouseKeep"
+- [ ] Configurar API keys (iOS + Android)
+- [ ] Crear Entitlement "housekeep_pro"
+- [ ] (Cuando estén los productos en stores) Crear Products y Offerings
+
+### Paywall UI
+- [ ] Pantalla paywall con lista de beneficios
+- [ ] Comparativa visual Free vs Pro
+- [ ] Botón de compra con precio dinámico
+- [ ] Botón "Restaurar compra"
+- [ ] Loading state durante compra
+- [ ] Success state con confetti/animación
+- [ ] Error handling (cancelled, error, etc.)
+
+### Gates
+- [ ] Check al añadir 6to item → mostrar paywall
+- [ ] Check al añadir 4to documento → mostrar paywall
+- [ ] Check al intentar usar plantilla PRO → mostrar paywall
+- [ ] Check al intentar configurar múltiples notificaciones → paywall
+- [ ] Widget solo disponible en pro → mostrar paywall desde settings
+- [ ] Exportar PDF → solo pro
+
+### Provider
+- [ ] `isProProvider` → bool stream
+- [ ] `canAddItemProvider` → bool (items < 5 OR isPro)
+- [ ] `canAddDocumentProvider` → bool (docs < 3 OR isPro)
+- [ ] Refresh al volver de paywall
+
+---
+
+## Fase 8: Onboarding + Settings
+
+### Onboarding
+- [ ] PageView con 3 páginas animadas
+- [ ] Página 1: Problema ("Tu casa tiene muchas cosas que cuidar")
+- [ ] Página 2: Solución ("HouseKeep te avisa antes de que sea tarde")
+- [ ] Página 3: Acción ("Empieza añadiendo tu primer electrodoméstico")
+- [ ] Botón "Empezar" en última página
+- [ ] Selector de tipo de vivienda (piso/casa/chalet) → sugiere plantillas
+- [ ] Persistir en SharedPreferences que ya se completó
+- [ ] Solo mostrar en primer uso
+
+### Settings
+- [ ] Sección "General": Idioma (ES/EN)
+- [ ] Sección "Notificaciones": on/off + defaults
+- [ ] Sección "Premium": estado actual + restaurar compra
+- [ ] Sección "Sobre": versión, contacto, feedback
+- [ ] Link a política de privacidad
+- [ ] Link a términos de uso
+- [ ] Botón "Valorar la app" (url_launcher a store)
+
+---
+
+## Fase 9: Widget de pantalla de inicio
+
+### Diseño
+- [ ] Diseñar widget small (2x2): próximo evento + countdown
+- [ ] Diseñar widget medium (4x2): próximos 3 eventos
+- [ ] Colores coherentes con la app (semáforo)
+
+### iOS (WidgetKit via home_widget)
+- [ ] Configurar Widget Extension en Xcode
+- [ ] Crear timeline provider
+- [ ] Crear vistas SwiftUI para small y medium
+- [ ] Deep link al tocar → abre item/documento correspondiente
+- [ ] Actualización periódica (cada 6 horas)
+
+### Android (Glance via home_widget)
+- [ ] Configurar AppWidgetProvider
+- [ ] Crear layouts para small y medium
+- [ ] Deep link al tocar
+- [ ] Actualización periódica
+
+### Datos
+- [ ] Servicio que prepara datos para el widget
+- [ ] Actualizar widget al marcar mantenimiento como realizado
+- [ ] Actualizar widget al añadir/editar/borrar items/docs
+- [ ] Solo disponible para usuarios PRO
+
+---
+
+## Fase 10: Pulido y QA
+
+### Animaciones
+- [ ] Page transitions (shared axis / fade through)
+- [ ] Hero animation en fotos (lista → detalle)
+- [ ] Animated counter en dashboard
+- [ ] Haptic feedback en acciones (marcar realizado, borrar)
+- [ ] Shimmer loading en listas
+
+### Responsive
+- [ ] Tablet layout (2 columnas en landscape)
+- [ ] Text scaling respetado
+- [ ] Safe areas correctas
+
+### Edge cases
+- [ ] Sin permiso de cámara → mensaje explicativo
+- [ ] Sin permiso de notificaciones → funciona sin ellas
+- [ ] Storage casi lleno → aviso al guardar foto
+- [ ] 50+ items → performance ok
+- [ ] Rotación de pantalla → estado preservado
+- [ ] Back button handling correcto
+
+### Accessibility
+- [ ] Semantic labels en todos los widgets interactivos
+- [ ] Contrast ratio ≥ 4.5:1
+- [ ] Touch targets ≥ 48dp
+- [ ] Screen reader navigation coherente
+
+### Performance
+- [ ] Profile con DevTools → no jank
+- [ ] Memory leaks check
+- [ ] App size < 30MB
+
+### Branding
+- [ ] App icon (adaptive icon Android + iOS)
+- [ ] Splash screen con logo
+- [ ] Colores de status bar coherentes
+
+---
+
+## Fase 11: Store Prep
+
+### Assets visuales
+- [ ] 6 screenshots iPhone 6.7" (ES + EN)
+- [ ] 6 screenshots iPhone 6.5" (ES + EN)
+- [ ] 6 screenshots Android phone (ES + EN)
+- [ ] 6 screenshots Android 10" tablet (ES + EN)
+- [ ] Feature graphic 1024x500 (Google Play)
+- [ ] App icon 1024x1024 (stores)
+- [ ] Preview video 30s (opcional, recomendado para iOS)
+
+### Metadata
+- [ ] Descripción larga EN (Google Play)
+- [ ] Descripción larga ES (Google Play)
+- [ ] Descripción larga EN (App Store)
+- [ ] Descripción larga ES (App Store)
+- [ ] What's New / Release Notes
+- [ ] Privacy policy URL (hosted)
+- [ ] Support URL
+- [ ] Marketing URL (landing page)
+
+### App Store Connect
+- [ ] Crear app "HouseKeep"
+- [ ] Configurar metadata ES + EN
+- [ ] Subir screenshots
+- [ ] Configurar precio: Free con IAP
+- [ ] Crear producto IAP: `com.housekeep.app.pro` (non-consumable, €5.99)
+- [ ] Configurar App Privacy (data collection disclosure)
+- [ ] Configurar age rating
+- [ ] Submit para review
+
+### Google Play Console
+- [ ] Crear app "HouseKeep"
+- [ ] Completar store listing ES + EN
+- [ ] Subir screenshots + feature graphic
+- [ ] Configurar contenido (rating, data safety)
+- [ ] Crear producto IAP: `housekeep_pro` (one-time, €5.99)
+- [ ] Internal testing track → testear
+- [ ] Production release → submit
+
+### RevenueCat producción
+- [ ] Conectar App Store Connect
+- [ ] Conectar Google Play Console
+- [ ] Crear Products apuntando a los IAP reales
+- [ ] Crear Offering "default"
+- [ ] Verificar sandbox purchases en ambas plataformas
+- [ ] Cambiar de mock a real en `main.dart`
+
+### Legal
+- [ ] Privacy policy (qué datos se recogen: ninguno en v1, todo local)
+- [ ] Terms of use
+- [ ] Hostear en web (GitHub Pages o similar)
+
+---
+
+## Post-lanzamiento (semana 1-2)
+
+- [ ] Monitorizar crash reports (Crashlytics)
+- [ ] Responder a primeras reviews
+- [ ] Analizar funnel: installs → items added → paywall views → purchases
+- [ ] Optimizar conversion si < 3%
+- [ ] Solicitar reviews a usuarios activos (SKStoreReviewController)
+- [ ] Publicar en Product Hunt
+- [ ] Publicar en Reddit (r/homeowners, r/apps)
+- [ ] Crear contenido SEO para landing (blog posts)

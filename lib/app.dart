@@ -1,0 +1,175 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
+
+import 'core/l10n/generated/app_localizations.dart';
+import 'core/theme/app_theme.dart';
+import 'features/documents/documents_list_screen.dart';
+import 'features/home/home_screen.dart';
+import 'features/items/items_list_screen.dart';
+import 'features/settings/settings_screen.dart';
+
+class ShellDestination {
+  const ShellDestination({
+    required this.index,
+    required this.location,
+    required this.title,
+  });
+
+  final int index;
+  final String location;
+  final String Function(AppLocalizations l10n) title;
+}
+
+ShellDestination resolveShellDestination(String location) {
+  if (_matchesBranch(location, '/items')) {
+    return ShellDestination(
+      index: 1,
+      location: '/items',
+      title: (l10n) => l10n.itemsTitle,
+    );
+  }
+
+  if (_matchesBranch(location, '/documents')) {
+    return ShellDestination(
+      index: 2,
+      location: '/documents',
+      title: (l10n) => l10n.documentsTitle,
+    );
+  }
+
+  if (_matchesBranch(location, '/settings')) {
+    return ShellDestination(
+      index: 3,
+      location: '/settings',
+      title: (l10n) => l10n.settingsTitle,
+    );
+  }
+
+  return ShellDestination(
+    index: 0,
+    location: '/',
+    title: (l10n) => l10n.appName,
+  );
+}
+
+bool _matchesBranch(String location, String branch) {
+  return location == branch || location.startsWith('$branch/');
+}
+
+GoRouter _createRouter({String initialLocation = '/'}) {
+  return GoRouter(
+    initialLocation: initialLocation,
+    routes: [
+      ShellRoute(
+        builder: (context, state, child) {
+          return _AppShell(location: state.uri.path, child: child);
+        },
+        routes: [
+          GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
+          GoRoute(
+            path: '/items',
+            builder: (context, state) => const ItemsListScreen(),
+          ),
+          GoRoute(
+            path: '/documents',
+            builder: (context, state) => const DocumentsListScreen(),
+          ),
+          GoRoute(
+            path: '/settings',
+            builder: (context, state) => const SettingsScreen(),
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+class HouseKeepApp extends StatefulWidget {
+  const HouseKeepApp({
+    super.key,
+    this.localeOverride,
+    this.initialLocation = '/',
+  });
+
+  final Locale? localeOverride;
+  final String initialLocation;
+
+  @override
+  State<HouseKeepApp> createState() => _HouseKeepAppState();
+}
+
+class _HouseKeepAppState extends State<HouseKeepApp> {
+  late final GoRouter _router = _createRouter(
+    initialLocation: widget.initialLocation,
+  );
+
+  @override
+  void dispose() {
+    _router.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+      locale: widget.localeOverride,
+      theme: AppTheme.light(),
+      routerConfig: _router,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+    );
+  }
+}
+
+class _AppShell extends StatelessWidget {
+  const _AppShell({required this.location, required this.child});
+
+  final String location;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    const destinations = ['/', '/items', '/documents', '/settings'];
+    final destination = resolveShellDestination(location);
+    final title = destination.title(l10n);
+
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: SafeArea(child: child),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: destination.index,
+        onDestinationSelected: (index) => context.go(destinations[index]),
+        destinations: [
+          NavigationDestination(
+            icon: const Icon(Icons.home_outlined),
+            selectedIcon: const Icon(Icons.home),
+            label: l10n.homeTab,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.kitchen_outlined),
+            selectedIcon: const Icon(Icons.kitchen),
+            label: l10n.itemsTab,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.description_outlined),
+            selectedIcon: const Icon(Icons.description),
+            label: l10n.documentsTab,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.settings_outlined),
+            selectedIcon: const Icon(Icons.settings),
+            label: l10n.settingsTab,
+          ),
+        ],
+      ),
+    );
+  }
+}

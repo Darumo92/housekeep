@@ -1,0 +1,14 @@
+{
+  "@@locale": "en",
+  "appName": "HouseKeep",
+  "appTitle": "HouseKeep",
+  "homeTab": "Home",
+  "itemsTab": "Items",
+  "documentsTab": "Documents",
+  "settingsTab": "Settings",
+  "homeTitle": "Your home at a glance",
+  "itemsTitle": "Items",
+  "documentsTitle": "Documents",
+  "settingsTitle": "Settings",
+  "phaseZeroMessage": "Phase 0 foundation is ready for the next feature phase."
+}

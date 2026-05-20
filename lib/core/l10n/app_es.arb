@@ -1,0 +1,14 @@
+{
+  "@@locale": "es",
+  "appName": "HouseKeep",
+  "appTitle": "HouseKeep",
+  "homeTab": "Inicio",
+  "itemsTab": "Items",
+  "documentsTab": "Documentos",
+  "settingsTab": "Ajustes",
+  "homeTitle": "Tu casa de un vistazo",
+  "itemsTitle": "Items",
+  "documentsTitle": "Documentos",
+  "settingsTitle": "Ajustes",
+  "phaseZeroMessage": "La base de la Fase 0 ya est\u00e1 lista para la siguiente fase."
+}
