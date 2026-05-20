@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "24721474076",
+    "project_id": "housekeep-8715e",
+    "storage_bucket": "housekeep-8715e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24721474076:android:f232bd323a3ca618b915d9",
+        "android_client_info": {
+          "package_name": "com.housekeep.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP_h5jP6WqQc3LgMVDsrrpcFh4u87C_P0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

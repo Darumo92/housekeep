@@ -54,17 +54,16 @@ Marca cada tarea con [x] cuando esté completada.
 - [x] Verificar navegación básica
 
 ### Firebase
-- [ ] Crear proyecto en Firebase Console — **manual, requiere cuenta Google**
-- [ ] Registrar app Android (com.housekeep.app) — **manual, en Firebase Console**
-- [ ] Registrar app iOS (com.housekeep.app) — **manual, en Firebase Console**
-- [ ] Descargar y colocar archivos de configuración — **manual: `google-services.json` → `android/app/`, `GoogleService-Info.plist` → `ios/Runner/`**
-- [ ] Instalar FlutterFire CLI — **manual: `dart pub global activate flutterfire_cli`**
-- [ ] Ejecutar `flutterfire configure` — **manual, reemplazará `lib/firebase_options.dart` con credenciales reales**
-- [x] Inicializar Firebase en `main.dart` — **listo con try/catch; funciona sin config real**
-- [x] Crear placeholder `lib/firebase_options.dart` — **lanza UnsupportedError hasta `flutterfire configure`**
+- [x] Crear proyecto en Firebase Console — proyecto `housekeep-8715e`
+- [x] Registrar app Android (com.housekeep.app) — **hecho en Firebase Console**
+- [x] Registrar app iOS (com.housekeep.app) — **hecho en Firebase Console**
+- [x] Descargar y colocar archivos de configuración — `google-services.json` → `android/app/`, `GoogleService-Info.plist` → `ios/Runner/`
+- [x] Instalar FlutterFire CLI — `dart pub global activate flutterfire_cli`
+- [x] Ejecutar `flutterfire configure` — generado `lib/firebase_options.dart` con credenciales reales
+- [x] Inicializar Firebase en `main.dart` — funciona con config real + try/catch
 - [x] Añadir `firebase_core`, `firebase_analytics`, `firebase_crashlytics` a `pubspec.yaml`
 - [x] Verificar `flutter analyze` sin errores con código Firebase presente
-- [ ] Verificar que Analytics registra eventos — **requiere proyecto Firebase real**
+- [ ] Verificar que Analytics registra eventos — **requiere dispositivo/emulador real**
 
 ---
 
