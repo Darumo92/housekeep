@@ -10,13 +10,13 @@ Marca cada tarea con [x] cuando esté completada.
 - [x] Instalar Flutter SDK (stable channel)
 - [x] Verificar `flutter doctor` sin errores (Chrome/web falta, no bloquea)
 - [x] Configurar Android SDK (API 34+)
-- [ ] Verificar Xcode + CocoaPods (si desarrollas en macOS)
+- [x] Verificar Xcode + CocoaPods (si desarrollas en macOS)
 
 ### Creación del proyecto
 - [x] `flutter create --org com.housekeep --project-name housekeep`
 - [x] Verificar que compila en Android y Linux desktop
 - [x] Configurar `.gitignore` apropiado
-- [ ] `git init` + primer commit — se hará al subir a GitHub
+- [x] `git init` + primer commit
 
 ### Dependencias
 - [x] Añadir todas las dependencias a `pubspec.yaml` — Firebase packages incluidos
@@ -63,7 +63,7 @@ Marca cada tarea con [x] cuando esté completada.
 - [x] Inicializar Firebase en `main.dart` — funciona con config real + try/catch
 - [x] Añadir `firebase_core`, `firebase_analytics`, `firebase_crashlytics` a `pubspec.yaml`
 - [x] Verificar `flutter analyze` sin errores con código Firebase presente
-- [ ] Verificar que Analytics registra eventos — **requiere dispositivo/emulador real**
+- [x] Verificar que Analytics registra eventos — **requiere dispositivo/emulador real**
 
 ---
 
