@@ -41,4 +41,94 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get phaseZeroMessage =>
       'Phase 0 foundation is ready for the next feature phase.';
+
+  @override
+  String get itemCategoryKitchen => 'Kitchen';
+
+  @override
+  String get itemCategoryBathroom => 'Bathroom';
+
+  @override
+  String get itemCategoryLaundry => 'Laundry';
+
+  @override
+  String get itemCategoryLiving => 'Living room';
+
+  @override
+  String get itemCategoryBedroom => 'Bedroom';
+
+  @override
+  String get itemCategoryGarden => 'Garden';
+
+  @override
+  String get itemCategoryGarage => 'Garage';
+
+  @override
+  String get itemCategoryPlumbing => 'Plumbing';
+
+  @override
+  String get itemCategoryElectrical => 'Electrical';
+
+  @override
+  String get itemCategorySecurity => 'Security';
+
+  @override
+  String get itemCategoryGeneral => 'General';
+
+  @override
+  String get documentTypePassport => 'Passport';
+
+  @override
+  String get documentTypeIdCard => 'ID card';
+
+  @override
+  String get documentTypeDriversLicense => 'Driver\'s license';
+
+  @override
+  String get documentTypeVehicleInspection => 'Vehicle inspection';
+
+  @override
+  String get documentTypeInsuranceHome => 'Home insurance';
+
+  @override
+  String get documentTypeInsuranceCar => 'Car insurance';
+
+  @override
+  String get documentTypeInsuranceLife => 'Life insurance';
+
+  @override
+  String get documentTypeInsuranceHealth => 'Health insurance';
+
+  @override
+  String get documentTypeLease => 'Lease';
+
+  @override
+  String get documentTypeWarrantyDoc => 'Warranty document';
+
+  @override
+  String get documentTypeSubscription => 'Subscription';
+
+  @override
+  String get documentTypeOther => 'Other';
+
+  @override
+  String get urgencyOk => 'All good';
+
+  @override
+  String get urgencyUpcoming => 'Coming up';
+
+  @override
+  String get urgencyUrgent => 'Urgent';
+
+  @override
+  String get urgencyOverdue => 'Overdue';
+
+  @override
+  String get homeTypeApartment => 'Apartment';
+
+  @override
+  String get homeTypeHouse => 'House';
+
+  @override
+  String get homeTypeVilla => 'Villa';
 }

@@ -1653,6 +1653,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       'CREATE INDEX documents_expiry_date_idx ON documents (expiry_date)');
   late final Index documentsTypeIdx = Index('documents_type_idx',
       'CREATE INDEX documents_type_idx ON documents (type)');
+  late final ItemsDao itemsDao = ItemsDao(this as AppDatabase);
+  late final MaintenancesDao maintenancesDao =
+      MaintenancesDao(this as AppDatabase);
+  late final DocumentsDao documentsDao = DocumentsDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

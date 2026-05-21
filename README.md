@@ -6,7 +6,7 @@ App móvil freemium (iOS + Android) para gestión del mantenimiento del hogar, c
 
 **Qué es:** App de utilidad del hogar con modelo de pago único (€5.99 lifetime unlock).
 
-**Estado actual:** Fase 0 completada (sin Firebase Console manual). Siguiente paso: Fase 1 (Data Layer).
+**Estado actual:** Fase 1 completada. Siguiente paso: Fase 2 (Items/Electrodomésticos).
 
 **Documentación completa en `/docs/`:**
 - `docs/PLAN.md` — Plan de desarrollo, fases, stack, costes, roadmap
@@ -44,7 +44,7 @@ App móvil freemium (iOS + Android) para gestión del mantenimiento del hogar, c
 | Fase | Contenido | Estado |
 |------|-----------|--------|
 | 0 | Setup Flutter, dependencias, tema, i18n, drift, Firebase | Completada |
-| 1 | Data layer (tablas, DAOs, repos, providers) | Pendiente |
+| 1 | Data layer (tablas, DAOs, repos, providers) | Completada |
 | 2 | Items/Electrodomésticos (CRUD + fotos) | Pendiente |
 | 3 | Mantenimiento (CRUD + plantillas) | Pendiente |
 | 4 | Documentos (CRUD + semáforo) | Pendiente |

@@ -163,6 +163,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Phase 0 foundation is ready for the next feature phase.'**
   String get phaseZeroMessage;
+
+  /// No description provided for @itemCategoryKitchen.
+  ///
+  /// In en, this message translates to:
+  /// **'Kitchen'**
+  String get itemCategoryKitchen;
+
+  /// No description provided for @itemCategoryBathroom.
+  ///
+  /// In en, this message translates to:
+  /// **'Bathroom'**
+  String get itemCategoryBathroom;
+
+  /// No description provided for @itemCategoryLaundry.
+  ///
+  /// In en, this message translates to:
+  /// **'Laundry'**
+  String get itemCategoryLaundry;
+
+  /// No description provided for @itemCategoryLiving.
+  ///
+  /// In en, this message translates to:
+  /// **'Living room'**
+  String get itemCategoryLiving;
+
+  /// No description provided for @itemCategoryBedroom.
+  ///
+  /// In en, this message translates to:
+  /// **'Bedroom'**
+  String get itemCategoryBedroom;
+
+  /// No description provided for @itemCategoryGarden.
+  ///
+  /// In en, this message translates to:
+  /// **'Garden'**
+  String get itemCategoryGarden;
+
+  /// No description provided for @itemCategoryGarage.
+  ///
+  /// In en, this message translates to:
+  /// **'Garage'**
+  String get itemCategoryGarage;
+
+  /// No description provided for @itemCategoryPlumbing.
+  ///
+  /// In en, this message translates to:
+  /// **'Plumbing'**
+  String get itemCategoryPlumbing;
+
+  /// No description provided for @itemCategoryElectrical.
+  ///
+  /// In en, this message translates to:
+  /// **'Electrical'**
+  String get itemCategoryElectrical;
+
+  /// No description provided for @itemCategorySecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get itemCategorySecurity;
+
+  /// No description provided for @itemCategoryGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get itemCategoryGeneral;
+
+  /// No description provided for @documentTypePassport.
+  ///
+  /// In en, this message translates to:
+  /// **'Passport'**
+  String get documentTypePassport;
+
+  /// No description provided for @documentTypeIdCard.
+  ///
+  /// In en, this message translates to:
+  /// **'ID card'**
+  String get documentTypeIdCard;
+
+  /// No description provided for @documentTypeDriversLicense.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver\'s license'**
+  String get documentTypeDriversLicense;
+
+  /// No description provided for @documentTypeVehicleInspection.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle inspection'**
+  String get documentTypeVehicleInspection;
+
+  /// No description provided for @documentTypeInsuranceHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home insurance'**
+  String get documentTypeInsuranceHome;
+
+  /// No description provided for @documentTypeInsuranceCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Car insurance'**
+  String get documentTypeInsuranceCar;
+
+  /// No description provided for @documentTypeInsuranceLife.
+  ///
+  /// In en, this message translates to:
+  /// **'Life insurance'**
+  String get documentTypeInsuranceLife;
+
+  /// No description provided for @documentTypeInsuranceHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health insurance'**
+  String get documentTypeInsuranceHealth;
+
+  /// No description provided for @documentTypeLease.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease'**
+  String get documentTypeLease;
+
+  /// No description provided for @documentTypeWarrantyDoc.
+  ///
+  /// In en, this message translates to:
+  /// **'Warranty document'**
+  String get documentTypeWarrantyDoc;
+
+  /// No description provided for @documentTypeSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription'**
+  String get documentTypeSubscription;
+
+  /// No description provided for @documentTypeOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get documentTypeOther;
+
+  /// No description provided for @urgencyOk.
+  ///
+  /// In en, this message translates to:
+  /// **'All good'**
+  String get urgencyOk;
+
+  /// No description provided for @urgencyUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming up'**
+  String get urgencyUpcoming;
+
+  /// No description provided for @urgencyUrgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent'**
+  String get urgencyUrgent;
+
+  /// No description provided for @urgencyOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get urgencyOverdue;
+
+  /// No description provided for @homeTypeApartment.
+  ///
+  /// In en, this message translates to:
+  /// **'Apartment'**
+  String get homeTypeApartment;
+
+  /// No description provided for @homeTypeHouse.
+  ///
+  /// In en, this message translates to:
+  /// **'House'**
+  String get homeTypeHouse;
+
+  /// No description provided for @homeTypeVilla.
+  ///
+  /// In en, this message translates to:
+  /// **'Villa'**
+  String get homeTypeVilla;
 }
 
 class _AppLocalizationsDelegate

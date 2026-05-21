@@ -70,43 +70,43 @@ Marca cada tarea con [x] cuando esté completada.
 ## Fase 1: Data Layer
 
 ### Modelos de dominio
-- [ ] Crear `Item` model (con factory fromDb / toCompanion)
-- [ ] Crear `Maintenance` model
-- [ ] Crear `Document` model
-- [ ] Crear `MaintenanceTemplate` model
-- [ ] Crear `UpcomingEvent` model (unificado para timeline)
+- [x] Crear `Item` model (con factory fromDb / toCompanion)
+- [x] Crear `Maintenance` model
+- [x] Crear `Document` model
+- [x] Crear `MaintenanceTemplate` model
+- [x] Crear `UpcomingEvent` model (unificado para timeline)
 
 ### Enums
-- [ ] Crear `ItemCategory` enum con iconos y labels i18n
-- [ ] Crear `DocumentType` enum con labels i18n
-- [ ] Crear `UrgencyLevel` enum con colores
-- [ ] Crear `HomeType` enum (para plantillas)
+- [x] Crear `ItemCategory` enum con iconos y labels i18n
+- [x] Crear `DocumentType` enum con labels i18n
+- [x] Crear `UrgencyLevel` enum con colores
+- [x] Crear `HomeType` enum (para plantillas)
 
 ### DAOs
-- [ ] Implementar `ItemsDao` (CRUD + count + watch)
-- [ ] Implementar `MaintenancesDao` (CRUD + markDone + watchUpcoming)
-- [ ] Implementar `DocumentsDao` (CRUD + count + watchExpiring)
-- [ ] Regenerar código con build_runner
+- [x] Implementar `ItemsDao` (CRUD + count + watch)
+- [x] Implementar `MaintenancesDao` (CRUD + markDone + watchUpcoming)
+- [x] Implementar `DocumentsDao` (CRUD + count + watchExpiring)
+- [x] Regenerar código con build_runner
 
 ### Repositories
-- [ ] Implementar `ItemsRepository`
-- [ ] Implementar `MaintenancesRepository`
-- [ ] Implementar `DocumentsRepository`
-- [ ] Implementar `PurchaseRepository` (interface)
+- [x] Implementar `ItemsRepository`
+- [x] Implementar `MaintenancesRepository`
+- [x] Implementar `DocumentsRepository`
+- [x] Implementar `PurchaseRepository` (interface)
 
 ### Providers (Riverpod)
-- [ ] Provider para AppDatabase (singleton)
-- [ ] Provider para cada DAO
-- [ ] Provider para cada Repository
-- [ ] Provider `isProProvider` (estado de compra)
-- [ ] Provider `canAddItemProvider` (check límite free)
-- [ ] Provider `canAddDocumentProvider`
+- [x] Provider para AppDatabase (singleton)
+- [x] Provider para cada DAO
+- [x] Provider para cada Repository
+- [x] Provider `isProProvider` (estado de compra)
+- [x] Provider `canAddItemProvider` (check límite free)
+- [x] Provider `canAddDocumentProvider`
 
 ### Tests
-- [ ] Unit test: ItemsDao CRUD
-- [ ] Unit test: MaintenancesDao markAsDone recalcula nextDueAt
-- [ ] Unit test: UrgencyLevel calculation
-- [ ] Unit test: Warranty expiry calculation
+- [x] Unit test: ItemsDao CRUD
+- [x] Unit test: MaintenancesDao markAsDone recalcula nextDueAt
+- [x] Unit test: UrgencyLevel calculation
+- [x] Unit test: Warranty expiry calculation
 
 ---
 
