@@ -18,7 +18,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get homeTab => 'Inicio';
 
   @override
-  String get itemsTab => 'Items';
+  String get itemsTab => 'Artículos';
 
   @override
   String get documentsTab => 'Documentos';
@@ -30,7 +30,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get homeTitle => 'Tu casa de un vistazo';
 
   @override
-  String get itemsTitle => 'Items';
+  String get itemsTitle => 'Artículos';
 
   @override
   String get documentsTitle => 'Documentos';
@@ -110,6 +110,136 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get documentTypeOther => 'Otro';
+
+  @override
+  String get itemsEmptyTitle => 'Empieza con tu primer artículo';
+
+  @override
+  String get itemsEmptyBody =>
+      'Añade un electrodoméstico, dispositivo o sistema del hogar para controlar su garantía y mantenimiento.';
+
+  @override
+  String get itemsEmptyCta => 'Añadir artículo';
+
+  @override
+  String get itemsFilteredEmptyTitle => 'No hay artículos en esta categoría';
+
+  @override
+  String get itemsFilteredEmptyBody =>
+      'Prueba otra categoría o quita el filtro.';
+
+  @override
+  String get itemsClearFilter => 'Quitar filtro';
+
+  @override
+  String get itemsFilterAll => 'Todos';
+
+  @override
+  String get itemNameLabel => 'Nombre';
+
+  @override
+  String get itemBrandLabel => 'Marca';
+
+  @override
+  String get itemModelLabel => 'Modelo';
+
+  @override
+  String get itemPurchaseDateLabel => 'Fecha de compra';
+
+  @override
+  String get itemWarrantyMonthsLabel => 'Meses de garantía';
+
+  @override
+  String get itemNotesLabel => 'Notas';
+
+  @override
+  String get itemPhotoLabel => 'Foto';
+
+  @override
+  String get itemCategoryLabel => 'Categoría';
+
+  @override
+  String get itemSave => 'Guardar';
+
+  @override
+  String get itemEdit => 'Editar';
+
+  @override
+  String get itemDelete => 'Borrar';
+
+  @override
+  String get itemDeleteTitle => '¿Borrar artículo?';
+
+  @override
+  String get itemDeleteBody =>
+      'Esto también borrará el historial de mantenimiento relacionado.';
+
+  @override
+  String get itemDeleteConfirm => 'Borrar';
+
+  @override
+  String get itemDeleteFailed =>
+      'No se pudo borrar el artículo. Inténtalo de nuevo.';
+
+  @override
+  String get itemNoWarranty => 'Sin garantía';
+
+  @override
+  String get itemWarrantyActive => 'Garantía activa';
+
+  @override
+  String get itemWarrantyExpired => 'Garantía vencida';
+
+  @override
+  String get itemAddTitle => 'Añadir artículo';
+
+  @override
+  String get itemEditTitle => 'Editar artículo';
+
+  @override
+  String get itemDetailTitle => 'Detalle del artículo';
+
+  @override
+  String get itemPhotoAdd => 'Añadir foto';
+
+  @override
+  String get itemPhotoReplace => 'Cambiar foto';
+
+  @override
+  String get itemPhotoRemove => 'Quitar foto';
+
+  @override
+  String get itemPhotoCamera => 'Hacer foto';
+
+  @override
+  String get itemPhotoGallery => 'Elegir de galería';
+
+  @override
+  String get itemValidationName => 'Introduce un nombre';
+
+  @override
+  String get itemValidationWarrantyMonths =>
+      'Introduce un número de meses válido';
+
+  @override
+  String get itemMaintenanceSectionTitle => 'Mantenimiento';
+
+  @override
+  String get itemMaintenanceSectionPlaceholder =>
+      'Las tareas de mantenimiento aparecerán aquí en la Fase 3.';
+
+  @override
+  String get paywallItemsLimitTitle => 'Desbloquea artículos ilimitados';
+
+  @override
+  String get paywallItemsLimitBody =>
+      'El plan gratuito incluye hasta 5 artículos. Mejora a Pro para añadir todos los que necesites.';
+
+  @override
+  String get paywallUpgradeCta => 'Mejorar pronto';
+
+  @override
+  String get paywallBack => 'Volver';
 
   @override
   String get urgencyOk => 'Todo bien';

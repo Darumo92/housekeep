@@ -302,6 +302,252 @@ abstract class AppLocalizations {
   /// **'Other'**
   String get documentTypeOther;
 
+  /// No description provided for @itemsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with your first item'**
+  String get itemsEmptyTitle;
+
+  /// No description provided for @itemsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an appliance, device, or home system to track its warranty and maintenance.'**
+  String get itemsEmptyBody;
+
+  /// No description provided for @itemsEmptyCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get itemsEmptyCta;
+
+  /// No description provided for @itemsFilteredEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No items in this category'**
+  String get itemsFilteredEmptyTitle;
+
+  /// No description provided for @itemsFilteredEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another category or clear the filter.'**
+  String get itemsFilteredEmptyBody;
+
+  /// No description provided for @itemsClearFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filter'**
+  String get itemsClearFilter;
+
+  /// No description provided for @itemsFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get itemsFilterAll;
+
+  /// No description provided for @itemNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get itemNameLabel;
+
+  /// No description provided for @itemBrandLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand'**
+  String get itemBrandLabel;
+
+  /// No description provided for @itemModelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get itemModelLabel;
+
+  /// No description provided for @itemPurchaseDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase date'**
+  String get itemPurchaseDateLabel;
+
+  /// No description provided for @itemWarrantyMonthsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Warranty months'**
+  String get itemWarrantyMonthsLabel;
+
+  /// No description provided for @itemNotesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get itemNotesLabel;
+
+  /// No description provided for @itemPhotoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get itemPhotoLabel;
+
+  /// No description provided for @itemCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get itemCategoryLabel;
+
+  /// No description provided for @itemSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get itemSave;
+
+  /// No description provided for @itemEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get itemEdit;
+
+  /// No description provided for @itemDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get itemDelete;
+
+  /// No description provided for @itemDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete item?'**
+  String get itemDeleteTitle;
+
+  /// No description provided for @itemDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This will also delete related maintenance history.'**
+  String get itemDeleteBody;
+
+  /// No description provided for @itemDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get itemDeleteConfirm;
+
+  /// No description provided for @itemDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not delete the item. Please try again.'**
+  String get itemDeleteFailed;
+
+  /// No description provided for @itemNoWarranty.
+  ///
+  /// In en, this message translates to:
+  /// **'No warranty'**
+  String get itemNoWarranty;
+
+  /// No description provided for @itemWarrantyActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Warranty active'**
+  String get itemWarrantyActive;
+
+  /// No description provided for @itemWarrantyExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Warranty expired'**
+  String get itemWarrantyExpired;
+
+  /// No description provided for @itemAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get itemAddTitle;
+
+  /// No description provided for @itemEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit item'**
+  String get itemEditTitle;
+
+  /// No description provided for @itemDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Item details'**
+  String get itemDetailTitle;
+
+  /// No description provided for @itemPhotoAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photo'**
+  String get itemPhotoAdd;
+
+  /// No description provided for @itemPhotoReplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace photo'**
+  String get itemPhotoReplace;
+
+  /// No description provided for @itemPhotoRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get itemPhotoRemove;
+
+  /// No description provided for @itemPhotoCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get itemPhotoCamera;
+
+  /// No description provided for @itemPhotoGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get itemPhotoGallery;
+
+  /// No description provided for @itemValidationName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name'**
+  String get itemValidationName;
+
+  /// No description provided for @itemValidationWarrantyMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid number of months'**
+  String get itemValidationWarrantyMonths;
+
+  /// No description provided for @itemMaintenanceSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance'**
+  String get itemMaintenanceSectionTitle;
+
+  /// No description provided for @itemMaintenanceSectionPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance tasks will appear here in Phase 3.'**
+  String get itemMaintenanceSectionPlaceholder;
+
+  /// No description provided for @paywallItemsLimitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock unlimited items'**
+  String get paywallItemsLimitTitle;
+
+  /// No description provided for @paywallItemsLimitBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The free plan includes up to 5 items. Upgrade to Pro to add as many as you need.'**
+  String get paywallItemsLimitBody;
+
+  /// No description provided for @paywallUpgradeCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade soon'**
+  String get paywallUpgradeCta;
+
+  /// No description provided for @paywallBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back'**
+  String get paywallBack;
+
   /// No description provided for @urgencyOk.
   ///
   /// In en, this message translates to:

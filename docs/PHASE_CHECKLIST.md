@@ -113,39 +113,42 @@ Marca cada tarea con [x] cuando esté completada.
 ## Fase 2: Items (Electrodomésticos)
 
 ### Pantallas
-- [ ] `ItemsListScreen` con grid/list view
-- [ ] Empty state cuando no hay items
-- [ ] `AddEditItemScreen` formulario completo
-- [ ] `ItemDetailScreen` con info + mantenimientos
+- [x] `ItemsListScreen` con grid/list view
+- [x] Empty state cuando no hay items
+- [x] `AddEditItemScreen` formulario completo
+- [x] `ItemDetailScreen` con info + mantenimientos
 
 ### Formulario de item
-- [ ] Campo: Nombre (obligatorio)
-- [ ] Campo: Categoría (selector con iconos)
-- [ ] Campo: Marca (opcional)
-- [ ] Campo: Modelo (opcional)
-- [ ] Campo: Fecha de compra (date picker)
-- [ ] Campo: Duración garantía en meses (número)
-- [ ] Campo: Foto (cámara / galería)
-- [ ] Campo: Notas (texto libre)
-- [ ] Validación de formulario
-- [ ] Guardar en base de datos
+- [x] Campo: Nombre (obligatorio)
+- [x] Campo: Categoría (selector con iconos)
+- [x] Campo: Marca (opcional)
+- [x] Campo: Modelo (opcional)
+- [x] Campo: Fecha de compra (date picker)
+- [x] Campo: Duración garantía en meses (número)
+- [x] Campo: Foto (cámara / galería)
+- [x] Campo: Notas (texto libre)
+- [x] Validación de formulario
+- [x] Guardar en base de datos
 
 ### Funcionalidad
-- [ ] Listar items ordenados por fecha de creación
-- [ ] Filtrar por categoría
-- [ ] Ver detalle de item
-- [ ] Editar item existente
-- [ ] Borrar item con confirmación (y sus mantenimientos)
-- [ ] Badge de garantía (activa/vencida/sin garantía)
-- [ ] Gate freemium: al intentar añadir 6to item → paywall
+- [x] Listar items ordenados por fecha de creación
+- [x] Filtrar por categoría
+- [x] Ver detalle de item
+- [x] Editar item existente
+- [x] Borrar item con confirmación (y sus mantenimientos)
+- [x] Badge de garantía (activa/vencida/sin garantía)
+- [x] Gate freemium: al intentar añadir 6to item → paywall
 
 ### Fotos
-- [ ] Image picker (cámara + galería)
-- [ ] Compresión de imagen antes de guardar
-- [ ] Guardar en app directory (path_provider)
-- [ ] Mostrar thumbnail en lista
-- [ ] Mostrar full en detalle
-- [ ] Borrar foto al borrar item
+- [x] Image picker (cámara + galería)
+- [x] Compresión de imagen antes de guardar
+- [x] Guardar en app directory (path_provider)
+- [x] Mostrar thumbnail en lista
+- [x] Mostrar full en detalle
+- [x] Borrar foto al borrar item
+
+### Verificación
+- [x] Resolver timeouts en `test/app_smoke_test.dart` para rutas/shell de items detectados al cerrar la Fase 2
 
 ---
 

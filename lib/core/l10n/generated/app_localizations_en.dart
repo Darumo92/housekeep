@@ -112,6 +112,134 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentTypeOther => 'Other';
 
   @override
+  String get itemsEmptyTitle => 'Start with your first item';
+
+  @override
+  String get itemsEmptyBody =>
+      'Add an appliance, device, or home system to track its warranty and maintenance.';
+
+  @override
+  String get itemsEmptyCta => 'Add item';
+
+  @override
+  String get itemsFilteredEmptyTitle => 'No items in this category';
+
+  @override
+  String get itemsFilteredEmptyBody =>
+      'Try another category or clear the filter.';
+
+  @override
+  String get itemsClearFilter => 'Clear filter';
+
+  @override
+  String get itemsFilterAll => 'All';
+
+  @override
+  String get itemNameLabel => 'Name';
+
+  @override
+  String get itemBrandLabel => 'Brand';
+
+  @override
+  String get itemModelLabel => 'Model';
+
+  @override
+  String get itemPurchaseDateLabel => 'Purchase date';
+
+  @override
+  String get itemWarrantyMonthsLabel => 'Warranty months';
+
+  @override
+  String get itemNotesLabel => 'Notes';
+
+  @override
+  String get itemPhotoLabel => 'Photo';
+
+  @override
+  String get itemCategoryLabel => 'Category';
+
+  @override
+  String get itemSave => 'Save';
+
+  @override
+  String get itemEdit => 'Edit';
+
+  @override
+  String get itemDelete => 'Delete';
+
+  @override
+  String get itemDeleteTitle => 'Delete item?';
+
+  @override
+  String get itemDeleteBody =>
+      'This will also delete related maintenance history.';
+
+  @override
+  String get itemDeleteConfirm => 'Delete';
+
+  @override
+  String get itemDeleteFailed => 'Could not delete the item. Please try again.';
+
+  @override
+  String get itemNoWarranty => 'No warranty';
+
+  @override
+  String get itemWarrantyActive => 'Warranty active';
+
+  @override
+  String get itemWarrantyExpired => 'Warranty expired';
+
+  @override
+  String get itemAddTitle => 'Add item';
+
+  @override
+  String get itemEditTitle => 'Edit item';
+
+  @override
+  String get itemDetailTitle => 'Item details';
+
+  @override
+  String get itemPhotoAdd => 'Add photo';
+
+  @override
+  String get itemPhotoReplace => 'Replace photo';
+
+  @override
+  String get itemPhotoRemove => 'Remove photo';
+
+  @override
+  String get itemPhotoCamera => 'Take photo';
+
+  @override
+  String get itemPhotoGallery => 'Choose from gallery';
+
+  @override
+  String get itemValidationName => 'Enter a name';
+
+  @override
+  String get itemValidationWarrantyMonths => 'Enter a valid number of months';
+
+  @override
+  String get itemMaintenanceSectionTitle => 'Maintenance';
+
+  @override
+  String get itemMaintenanceSectionPlaceholder =>
+      'Maintenance tasks will appear here in Phase 3.';
+
+  @override
+  String get paywallItemsLimitTitle => 'Unlock unlimited items';
+
+  @override
+  String get paywallItemsLimitBody =>
+      'The free plan includes up to 5 items. Upgrade to Pro to add as many as you need.';
+
+  @override
+  String get paywallUpgradeCta => 'Upgrade soon';
+
+  @override
+  String get paywallBack => 'Go back';
+
+  @override
   String get urgencyOk => 'All good';
 
   @override

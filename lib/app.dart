@@ -6,7 +6,10 @@ import 'core/l10n/generated/app_localizations.dart';
 import 'core/theme/app_theme.dart';
 import 'features/documents/documents_list_screen.dart';
 import 'features/home/home_screen.dart';
+import 'features/items/add_edit_item_screen.dart';
+import 'features/items/item_detail_screen.dart';
 import 'features/items/items_list_screen.dart';
+import 'features/paywall/paywall_screen.dart';
 import 'features/settings/settings_screen.dart';
 
 class ShellDestination {
@@ -72,6 +75,20 @@ GoRouter _createRouter({String initialLocation = '/'}) {
             builder: (context, state) => const ItemsListScreen(),
           ),
           GoRoute(
+            path: '/items/add',
+            builder: (context, state) => const AddEditItemScreen(),
+          ),
+          GoRoute(
+            path: '/items/:id/edit',
+            builder: (context, state) =>
+                AddEditItemScreen(itemId: state.pathParameters['id']),
+          ),
+          GoRoute(
+            path: '/items/:id',
+            builder: (context, state) =>
+                ItemDetailScreen(itemId: state.pathParameters['id']!),
+          ),
+          GoRoute(
             path: '/documents',
             builder: (context, state) => const DocumentsListScreen(),
           ),
@@ -80,6 +97,10 @@ GoRouter _createRouter({String initialLocation = '/'}) {
             builder: (context, state) => const SettingsScreen(),
           ),
         ],
+      ),
+      GoRoute(
+        path: '/paywall',
+        builder: (context, state) => const PaywallScreen(),
       ),
     ],
   );
