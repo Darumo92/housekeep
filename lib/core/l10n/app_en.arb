@@ -70,7 +70,70 @@
   "itemValidationName": "Enter a name",
   "itemValidationWarrantyMonths": "Enter a valid number of months",
   "itemMaintenanceSectionTitle": "Maintenance",
-  "itemMaintenanceSectionPlaceholder": "Maintenance tasks will appear here in Phase 3.",
+  "itemMaintenanceSectionEmpty": "No maintenance tasks for this item yet.",
+  "itemMaintenanceAdd": "Add maintenance",
+  "maintenanceAddTitle": "Add maintenance",
+  "maintenanceEditTitle": "Edit maintenance",
+  "maintenanceNameLabel": "Task name",
+  "maintenanceDescriptionLabel": "Description",
+  "maintenanceIntervalLabel": "Interval (months)",
+  "maintenanceLastDoneLabel": "Last done",
+  "maintenanceLastDoneNever": "Not recorded",
+  "maintenanceNotifyDaysLabel": "Notify days before",
+  "maintenanceNextDueLabel": "Next due",
+  "maintenanceSave": "Save",
+  "maintenanceMarkDone": "Mark as done",
+  "maintenanceEdit": "Edit",
+  "maintenanceDelete": "Delete",
+  "maintenanceDeleteTitle": "Delete maintenance?",
+  "maintenanceDeleteBody": "This action cannot be undone.",
+  "maintenanceDeleteConfirm": "Delete",
+  "maintenanceDeleteFailed": "Could not delete the maintenance.",
+  "maintenanceSaveFailed": "Could not save the maintenance.",
+  "maintenanceMarkDoneFailed": "Could not mark as done.",
+  "maintenanceValidationName": "Enter a name",
+  "maintenanceValidationInterval": "Enter a valid number of months",
+  "maintenanceValidationNotifyDays": "Enter a valid number of days",
+  "maintenanceUseTemplate": "Use template",
+  "maintenanceTemplatesTitle": "Maintenance templates",
+  "maintenanceTemplatesEmpty": "No templates for this category.",
+  "maintenanceTemplatesAll": "All",
+  "maintenanceTemplatesSuggested": "Suggested for {category}",
+  "@maintenanceTemplatesSuggested": {
+    "placeholders": {
+      "category": {"type": "String"}
+    }
+  },
+  "maintenanceTemplateProBadge": "PRO",
+  "maintenanceTemplateProLocked": "This template requires HouseKeep Pro.",
+  "maintenanceIntervalMonths": "{count, plural, one {{count} month} other {{count} months}}",
+  "@maintenanceIntervalMonths": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "maintenanceNextDueIn": "Due in {days, plural, one {{days} day} other {{days} days}}",
+  "@maintenanceNextDueIn": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "maintenanceOverdueBy": "Overdue by {days, plural, one {{days} day} other {{days} days}}",
+  "@maintenanceOverdueBy": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "maintenanceDoneToday": "Due today",
+  "maintenanceHistoryTitle": "Last done: {date}",
+  "@maintenanceHistoryTitle": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "maintenanceLastDoneNeverShort": "Never done",
+  "paywallMaintenanceProTitle": "Unlock Pro templates",
+  "paywallMaintenanceProBody": "Some advanced templates (pool, irrigation, solar panels) require HouseKeep Pro.",
   "paywallItemsLimitTitle": "Unlock unlimited items",
   "paywallItemsLimitBody": "The free plan includes up to 5 items. Upgrade to Pro to add as many as you need.",
   "paywallUpgradeCta": "Upgrade soon",

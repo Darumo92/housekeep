@@ -518,11 +518,239 @@ abstract class AppLocalizations {
   /// **'Maintenance'**
   String get itemMaintenanceSectionTitle;
 
-  /// No description provided for @itemMaintenanceSectionPlaceholder.
+  /// No description provided for @itemMaintenanceSectionEmpty.
   ///
   /// In en, this message translates to:
-  /// **'Maintenance tasks will appear here in Phase 3.'**
-  String get itemMaintenanceSectionPlaceholder;
+  /// **'No maintenance tasks for this item yet.'**
+  String get itemMaintenanceSectionEmpty;
+
+  /// No description provided for @itemMaintenanceAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add maintenance'**
+  String get itemMaintenanceAdd;
+
+  /// No description provided for @maintenanceAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add maintenance'**
+  String get maintenanceAddTitle;
+
+  /// No description provided for @maintenanceEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit maintenance'**
+  String get maintenanceEditTitle;
+
+  /// No description provided for @maintenanceNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Task name'**
+  String get maintenanceNameLabel;
+
+  /// No description provided for @maintenanceDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get maintenanceDescriptionLabel;
+
+  /// No description provided for @maintenanceIntervalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval (months)'**
+  String get maintenanceIntervalLabel;
+
+  /// No description provided for @maintenanceLastDoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last done'**
+  String get maintenanceLastDoneLabel;
+
+  /// No description provided for @maintenanceLastDoneNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Not recorded'**
+  String get maintenanceLastDoneNever;
+
+  /// No description provided for @maintenanceNotifyDaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify days before'**
+  String get maintenanceNotifyDaysLabel;
+
+  /// No description provided for @maintenanceNextDueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Next due'**
+  String get maintenanceNextDueLabel;
+
+  /// No description provided for @maintenanceSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get maintenanceSave;
+
+  /// No description provided for @maintenanceMarkDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as done'**
+  String get maintenanceMarkDone;
+
+  /// No description provided for @maintenanceEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get maintenanceEdit;
+
+  /// No description provided for @maintenanceDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get maintenanceDelete;
+
+  /// No description provided for @maintenanceDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete maintenance?'**
+  String get maintenanceDeleteTitle;
+
+  /// No description provided for @maintenanceDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get maintenanceDeleteBody;
+
+  /// No description provided for @maintenanceDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get maintenanceDeleteConfirm;
+
+  /// No description provided for @maintenanceDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not delete the maintenance.'**
+  String get maintenanceDeleteFailed;
+
+  /// No description provided for @maintenanceSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the maintenance.'**
+  String get maintenanceSaveFailed;
+
+  /// No description provided for @maintenanceMarkDoneFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not mark as done.'**
+  String get maintenanceMarkDoneFailed;
+
+  /// No description provided for @maintenanceValidationName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name'**
+  String get maintenanceValidationName;
+
+  /// No description provided for @maintenanceValidationInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid number of months'**
+  String get maintenanceValidationInterval;
+
+  /// No description provided for @maintenanceValidationNotifyDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid number of days'**
+  String get maintenanceValidationNotifyDays;
+
+  /// No description provided for @maintenanceUseTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Use template'**
+  String get maintenanceUseTemplate;
+
+  /// No description provided for @maintenanceTemplatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance templates'**
+  String get maintenanceTemplatesTitle;
+
+  /// No description provided for @maintenanceTemplatesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No templates for this category.'**
+  String get maintenanceTemplatesEmpty;
+
+  /// No description provided for @maintenanceTemplatesAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get maintenanceTemplatesAll;
+
+  /// No description provided for @maintenanceTemplatesSuggested.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested for {category}'**
+  String maintenanceTemplatesSuggested(String category);
+
+  /// No description provided for @maintenanceTemplateProBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'PRO'**
+  String get maintenanceTemplateProBadge;
+
+  /// No description provided for @maintenanceTemplateProLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'This template requires HouseKeep Pro.'**
+  String get maintenanceTemplateProLocked;
+
+  /// No description provided for @maintenanceIntervalMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one {{count} month} other {{count} months}}'**
+  String maintenanceIntervalMonths(int count);
+
+  /// No description provided for @maintenanceNextDueIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Due in {days, plural, one {{days} day} other {{days} days}}'**
+  String maintenanceNextDueIn(int days);
+
+  /// No description provided for @maintenanceOverdueBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue by {days, plural, one {{days} day} other {{days} days}}'**
+  String maintenanceOverdueBy(int days);
+
+  /// No description provided for @maintenanceDoneToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Due today'**
+  String get maintenanceDoneToday;
+
+  /// No description provided for @maintenanceHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Last done: {date}'**
+  String maintenanceHistoryTitle(String date);
+
+  /// No description provided for @maintenanceLastDoneNeverShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Never done'**
+  String get maintenanceLastDoneNeverShort;
+
+  /// No description provided for @paywallMaintenanceProTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Pro templates'**
+  String get paywallMaintenanceProTitle;
+
+  /// No description provided for @paywallMaintenanceProBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Some advanced templates (pool, irrigation, solar panels) require HouseKeep Pro.'**
+  String get paywallMaintenanceProBody;
 
   /// No description provided for @paywallItemsLimitTitle.
   ///

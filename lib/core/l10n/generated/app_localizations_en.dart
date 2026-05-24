@@ -223,8 +223,152 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemMaintenanceSectionTitle => 'Maintenance';
 
   @override
-  String get itemMaintenanceSectionPlaceholder =>
-      'Maintenance tasks will appear here in Phase 3.';
+  String get itemMaintenanceSectionEmpty =>
+      'No maintenance tasks for this item yet.';
+
+  @override
+  String get itemMaintenanceAdd => 'Add maintenance';
+
+  @override
+  String get maintenanceAddTitle => 'Add maintenance';
+
+  @override
+  String get maintenanceEditTitle => 'Edit maintenance';
+
+  @override
+  String get maintenanceNameLabel => 'Task name';
+
+  @override
+  String get maintenanceDescriptionLabel => 'Description';
+
+  @override
+  String get maintenanceIntervalLabel => 'Interval (months)';
+
+  @override
+  String get maintenanceLastDoneLabel => 'Last done';
+
+  @override
+  String get maintenanceLastDoneNever => 'Not recorded';
+
+  @override
+  String get maintenanceNotifyDaysLabel => 'Notify days before';
+
+  @override
+  String get maintenanceNextDueLabel => 'Next due';
+
+  @override
+  String get maintenanceSave => 'Save';
+
+  @override
+  String get maintenanceMarkDone => 'Mark as done';
+
+  @override
+  String get maintenanceEdit => 'Edit';
+
+  @override
+  String get maintenanceDelete => 'Delete';
+
+  @override
+  String get maintenanceDeleteTitle => 'Delete maintenance?';
+
+  @override
+  String get maintenanceDeleteBody => 'This action cannot be undone.';
+
+  @override
+  String get maintenanceDeleteConfirm => 'Delete';
+
+  @override
+  String get maintenanceDeleteFailed => 'Could not delete the maintenance.';
+
+  @override
+  String get maintenanceSaveFailed => 'Could not save the maintenance.';
+
+  @override
+  String get maintenanceMarkDoneFailed => 'Could not mark as done.';
+
+  @override
+  String get maintenanceValidationName => 'Enter a name';
+
+  @override
+  String get maintenanceValidationInterval => 'Enter a valid number of months';
+
+  @override
+  String get maintenanceValidationNotifyDays => 'Enter a valid number of days';
+
+  @override
+  String get maintenanceUseTemplate => 'Use template';
+
+  @override
+  String get maintenanceTemplatesTitle => 'Maintenance templates';
+
+  @override
+  String get maintenanceTemplatesEmpty => 'No templates for this category.';
+
+  @override
+  String get maintenanceTemplatesAll => 'All';
+
+  @override
+  String maintenanceTemplatesSuggested(String category) {
+    return 'Suggested for $category';
+  }
+
+  @override
+  String get maintenanceTemplateProBadge => 'PRO';
+
+  @override
+  String get maintenanceTemplateProLocked =>
+      'This template requires HouseKeep Pro.';
+
+  @override
+  String maintenanceIntervalMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count months',
+      one: '$count month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String maintenanceNextDueIn(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '$days day',
+    );
+    return 'Due in $_temp0';
+  }
+
+  @override
+  String maintenanceOverdueBy(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '$days day',
+    );
+    return 'Overdue by $_temp0';
+  }
+
+  @override
+  String get maintenanceDoneToday => 'Due today';
+
+  @override
+  String maintenanceHistoryTitle(String date) {
+    return 'Last done: $date';
+  }
+
+  @override
+  String get maintenanceLastDoneNeverShort => 'Never done';
+
+  @override
+  String get paywallMaintenanceProTitle => 'Unlock Pro templates';
+
+  @override
+  String get paywallMaintenanceProBody =>
+      'Some advanced templates (pool, irrigation, solar panels) require HouseKeep Pro.';
 
   @override
   String get paywallItemsLimitTitle => 'Unlock unlimited items';

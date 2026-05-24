@@ -1,0 +1,222 @@
+[
+  {
+    "id": "boiler_annual_service",
+    "name_en": "Boiler annual service",
+    "name_es": "Revisión anual de la caldera",
+    "category": "plumbing",
+    "interval_months": 12,
+    "description_en": "Schedule a certified technician to inspect, clean and test the boiler.",
+    "description_es": "Llama a un técnico autorizado para inspeccionar, limpiar y probar la caldera.",
+    "notify_days_before": 14,
+    "is_pro": false
+  },
+  {
+    "id": "ac_filter_clean",
+    "name_en": "Air conditioner filter cleaning",
+    "name_es": "Limpieza del filtro del aire acondicionado",
+    "category": "living",
+    "interval_months": 3,
+    "description_en": "Remove and wash the filters of every indoor split unit.",
+    "description_es": "Retira y lava los filtros de cada split interior.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "ac_deep_service",
+    "name_en": "Air conditioner deep service",
+    "name_es": "Mantenimiento profundo del aire acondicionado",
+    "category": "living",
+    "interval_months": 12,
+    "description_en": "Professional service: gas check, coil cleaning, leak inspection.",
+    "description_es": "Servicio profesional: revisión de gas, limpieza de serpentines, fugas.",
+    "notify_days_before": 14,
+    "is_pro": false
+  },
+  {
+    "id": "water_filter_replacement",
+    "name_en": "Water filter replacement",
+    "name_es": "Cambio del filtro de agua",
+    "category": "kitchen",
+    "interval_months": 6,
+    "description_en": "Replace the cartridge of the kitchen water filter.",
+    "description_es": "Sustituye el cartucho del filtro de agua de la cocina.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "washing_machine_drum_clean",
+    "name_en": "Washing machine drum cleaning",
+    "name_es": "Limpieza del tambor de la lavadora",
+    "category": "laundry",
+    "interval_months": 2,
+    "description_en": "Run an empty hot cycle with descaler to clean the drum.",
+    "description_es": "Lanza un ciclo en vacío a alta temperatura con descalcificador.",
+    "notify_days_before": 5,
+    "is_pro": false
+  },
+  {
+    "id": "dishwasher_filter_clean",
+    "name_en": "Dishwasher filter cleaning",
+    "name_es": "Limpieza del filtro del lavavajillas",
+    "category": "kitchen",
+    "interval_months": 1,
+    "description_en": "Remove the filter, rinse it and check the spray arms.",
+    "description_es": "Retira el filtro, enjuágalo y revisa los aspersores.",
+    "notify_days_before": 3,
+    "is_pro": false
+  },
+  {
+    "id": "fridge_coil_clean",
+    "name_en": "Refrigerator coil cleaning",
+    "name_es": "Limpieza de los serpentines de la nevera",
+    "category": "kitchen",
+    "interval_months": 12,
+    "description_en": "Vacuum the rear coils to keep cooling efficiency.",
+    "description_es": "Aspira los serpentines traseros para mantener la eficiencia.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "oven_deep_clean",
+    "name_en": "Oven deep cleaning",
+    "name_es": "Limpieza profunda del horno",
+    "category": "kitchen",
+    "interval_months": 6,
+    "description_en": "Run the pyrolytic cycle or scrub the interior walls.",
+    "description_es": "Activa el ciclo pirolítico o limpia a fondo el interior.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "extractor_filter_replace",
+    "name_en": "Range hood filter replacement",
+    "name_es": "Cambio del filtro de la campana extractora",
+    "category": "kitchen",
+    "interval_months": 6,
+    "description_en": "Replace the charcoal filter and degrease the metal filter.",
+    "description_es": "Sustituye el filtro de carbón y desengrasa el filtro metálico.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "smoke_detector_test",
+    "name_en": "Smoke detector test",
+    "name_es": "Prueba del detector de humo",
+    "category": "security",
+    "interval_months": 6,
+    "description_en": "Press the test button and replace batteries if weak.",
+    "description_es": "Pulsa el botón de prueba y cambia las pilas si están bajas.",
+    "notify_days_before": 5,
+    "is_pro": false
+  },
+  {
+    "id": "smoke_detector_battery",
+    "name_en": "Smoke detector battery replacement",
+    "name_es": "Cambio de pilas del detector de humo",
+    "category": "security",
+    "interval_months": 12,
+    "description_en": "Replace the 9V battery in every smoke alarm in the house.",
+    "description_es": "Sustituye la pila de 9V en cada detector de la casa.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "drain_treatment",
+    "name_en": "Drain enzymatic treatment",
+    "name_es": "Tratamiento enzimático de desagües",
+    "category": "bathroom",
+    "interval_months": 3,
+    "description_en": "Pour enzymatic cleaner in sinks and showers to prevent clogs.",
+    "description_es": "Vierte limpiador enzimático en lavabos y duchas para evitar atascos.",
+    "notify_days_before": 5,
+    "is_pro": false
+  },
+  {
+    "id": "silicone_seal_check",
+    "name_en": "Bathroom silicone seal check",
+    "name_es": "Revisión de silicona del baño",
+    "category": "bathroom",
+    "interval_months": 12,
+    "description_en": "Inspect shower and basin silicone seals for mould or gaps.",
+    "description_es": "Revisa la silicona de ducha y lavabo por moho o huecos.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "water_heater_descaling",
+    "name_en": "Water heater descaling",
+    "name_es": "Descalcificación del termo eléctrico",
+    "category": "plumbing",
+    "interval_months": 18,
+    "description_en": "Drain the tank and remove limescale from the resistance.",
+    "description_es": "Vacía el depósito y retira la cal de la resistencia.",
+    "notify_days_before": 14,
+    "is_pro": false
+  },
+  {
+    "id": "electrical_panel_check",
+    "name_en": "Electrical panel inspection",
+    "name_es": "Revisión del cuadro eléctrico",
+    "category": "electrical",
+    "interval_months": 12,
+    "description_en": "Test the residual current device (RCD) and check breakers.",
+    "description_es": "Prueba el diferencial y revisa los magnetotérmicos.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "garden_irrigation_check",
+    "name_en": "Irrigation system check",
+    "name_es": "Revisión del sistema de riego",
+    "category": "garden",
+    "interval_months": 6,
+    "description_en": "Inspect drippers and timer programs before each season.",
+    "description_es": "Revisa goteros y programación antes de cada temporada.",
+    "notify_days_before": 7,
+    "is_pro": true
+  },
+  {
+    "id": "pool_winterizing",
+    "name_en": "Pool winterizing",
+    "name_es": "Invernaje de la piscina",
+    "category": "garden",
+    "interval_months": 12,
+    "description_en": "Lower water level, add winter chemicals and cover the pool.",
+    "description_es": "Baja el nivel, añade químicos de invierno y cubre la piscina.",
+    "notify_days_before": 14,
+    "is_pro": true
+  },
+  {
+    "id": "solar_panel_clean",
+    "name_en": "Solar panel cleaning",
+    "name_es": "Limpieza de placas solares",
+    "category": "electrical",
+    "interval_months": 6,
+    "description_en": "Wash panels with soft water in early morning to maximise yield.",
+    "description_es": "Limpia las placas con agua suave a primera hora para optimizar.",
+    "notify_days_before": 7,
+    "is_pro": true
+  },
+  {
+    "id": "garage_door_lubrication",
+    "name_en": "Garage door lubrication",
+    "name_es": "Lubricación de la puerta del garaje",
+    "category": "garage",
+    "interval_months": 6,
+    "description_en": "Lubricate rails, hinges and springs with silicone grease.",
+    "description_es": "Engrasa raíles, bisagras y muelles con grasa de silicona.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "mattress_rotation",
+    "name_en": "Mattress rotation",
+    "name_es": "Rotación del colchón",
+    "category": "bedroom",
+    "interval_months": 6,
+    "description_en": "Rotate or flip the mattress to extend its life.",
+    "description_es": "Gira o voltea el colchón para prolongar su vida útil.",
+    "notify_days_before": 5,
+    "is_pro": false
+  }
+]

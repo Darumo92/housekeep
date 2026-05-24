@@ -225,8 +225,155 @@ class AppLocalizationsEs extends AppLocalizations {
   String get itemMaintenanceSectionTitle => 'Mantenimiento';
 
   @override
-  String get itemMaintenanceSectionPlaceholder =>
-      'Las tareas de mantenimiento aparecerán aquí en la Fase 3.';
+  String get itemMaintenanceSectionEmpty =>
+      'Aún no hay mantenimientos para este artículo.';
+
+  @override
+  String get itemMaintenanceAdd => 'Añadir mantenimiento';
+
+  @override
+  String get maintenanceAddTitle => 'Añadir mantenimiento';
+
+  @override
+  String get maintenanceEditTitle => 'Editar mantenimiento';
+
+  @override
+  String get maintenanceNameLabel => 'Nombre de la tarea';
+
+  @override
+  String get maintenanceDescriptionLabel => 'Descripción';
+
+  @override
+  String get maintenanceIntervalLabel => 'Intervalo (meses)';
+
+  @override
+  String get maintenanceLastDoneLabel => 'Última vez realizado';
+
+  @override
+  String get maintenanceLastDoneNever => 'Sin registrar';
+
+  @override
+  String get maintenanceNotifyDaysLabel => 'Días de antelación para aviso';
+
+  @override
+  String get maintenanceNextDueLabel => 'Próxima vez';
+
+  @override
+  String get maintenanceSave => 'Guardar';
+
+  @override
+  String get maintenanceMarkDone => 'Marcar como realizado';
+
+  @override
+  String get maintenanceEdit => 'Editar';
+
+  @override
+  String get maintenanceDelete => 'Borrar';
+
+  @override
+  String get maintenanceDeleteTitle => '¿Borrar mantenimiento?';
+
+  @override
+  String get maintenanceDeleteBody => 'Esta acción no se puede deshacer.';
+
+  @override
+  String get maintenanceDeleteConfirm => 'Borrar';
+
+  @override
+  String get maintenanceDeleteFailed => 'No se pudo borrar el mantenimiento.';
+
+  @override
+  String get maintenanceSaveFailed => 'No se pudo guardar el mantenimiento.';
+
+  @override
+  String get maintenanceMarkDoneFailed => 'No se pudo marcar como realizado.';
+
+  @override
+  String get maintenanceValidationName => 'Introduce un nombre';
+
+  @override
+  String get maintenanceValidationInterval =>
+      'Introduce un número de meses válido';
+
+  @override
+  String get maintenanceValidationNotifyDays =>
+      'Introduce un número de días válido';
+
+  @override
+  String get maintenanceUseTemplate => 'Usar plantilla';
+
+  @override
+  String get maintenanceTemplatesTitle => 'Plantillas de mantenimiento';
+
+  @override
+  String get maintenanceTemplatesEmpty =>
+      'No hay plantillas para esta categoría.';
+
+  @override
+  String get maintenanceTemplatesAll => 'Todas';
+
+  @override
+  String maintenanceTemplatesSuggested(String category) {
+    return 'Sugeridas para $category';
+  }
+
+  @override
+  String get maintenanceTemplateProBadge => 'PRO';
+
+  @override
+  String get maintenanceTemplateProLocked =>
+      'Esta plantilla requiere HouseKeep Pro.';
+
+  @override
+  String maintenanceIntervalMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meses',
+      one: '$count mes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String maintenanceNextDueIn(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days días',
+      one: '$days día',
+    );
+    return 'Vence en $_temp0';
+  }
+
+  @override
+  String maintenanceOverdueBy(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days días',
+      one: '$days día',
+    );
+    return 'Vencido hace $_temp0';
+  }
+
+  @override
+  String get maintenanceDoneToday => 'Vence hoy';
+
+  @override
+  String maintenanceHistoryTitle(String date) {
+    return 'Última vez: $date';
+  }
+
+  @override
+  String get maintenanceLastDoneNeverShort => 'Nunca realizado';
+
+  @override
+  String get paywallMaintenanceProTitle => 'Desbloquea plantillas Pro';
+
+  @override
+  String get paywallMaintenanceProBody =>
+      'Algunas plantillas avanzadas (piscina, riego, placas solares) requieren HouseKeep Pro.';
 
   @override
   String get paywallItemsLimitTitle => 'Desbloquea artículos ilimitados';

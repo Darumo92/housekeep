@@ -9,6 +9,8 @@ import 'features/home/home_screen.dart';
 import 'features/items/add_edit_item_screen.dart';
 import 'features/items/item_detail_screen.dart';
 import 'features/items/items_list_screen.dart';
+import 'features/maintenance/add_edit_maintenance_screen.dart';
+import 'features/maintenance/maintenance_list_screen.dart';
 import 'features/paywall/paywall_screen.dart';
 import 'features/settings/settings_screen.dart';
 
@@ -87,6 +89,25 @@ GoRouter _createRouter({String initialLocation = '/'}) {
             path: '/items/:id',
             builder: (context, state) =>
                 ItemDetailScreen(itemId: state.pathParameters['id']!),
+          ),
+          GoRoute(
+            path: '/items/:id/maintenance',
+            builder: (context, state) => MaintenanceListScreen(
+              itemId: state.pathParameters['id']!,
+            ),
+          ),
+          GoRoute(
+            path: '/items/:id/maintenance/add',
+            builder: (context, state) => AddEditMaintenanceScreen(
+              itemId: state.pathParameters['id']!,
+            ),
+          ),
+          GoRoute(
+            path: '/items/:id/maintenance/:maintenanceId/edit',
+            builder: (context, state) => AddEditMaintenanceScreen(
+              itemId: state.pathParameters['id']!,
+              maintenanceId: state.pathParameters['maintenanceId'],
+            ),
           ),
           GoRoute(
             path: '/documents',

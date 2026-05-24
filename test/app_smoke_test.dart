@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 import 'package:housekeep/app.dart';
 import 'package:housekeep/data/repositories/items_repository.dart';
+import 'package:housekeep/data/repositories/maintenances_repository.dart';
 import 'package:housekeep/data/repositories/repository_providers.dart';
 import 'package:housekeep/domain/enums/item_category.dart';
 import 'package:housekeep/domain/models/item.dart';
+import 'package:housekeep/domain/models/maintenance.dart';
 import 'package:housekeep/features/documents/documents_list_screen.dart';
 import 'package:housekeep/features/home/home_screen.dart';
 import 'package:housekeep/features/items/add_edit_item_screen.dart';
@@ -54,6 +56,9 @@ void main() {
         initialLocation: '/items/add',
         overrides: [
           itemsRepositoryProvider.overrideWithValue(fakeItemsRepository),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
+          ),
         ],
       ),
     );
@@ -69,6 +74,9 @@ void main() {
         initialLocation: '/items/abc',
         overrides: [
           itemsRepositoryProvider.overrideWithValue(fakeItemsRepository),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
+          ),
         ],
       ),
     );
@@ -85,6 +93,9 @@ void main() {
         initialLocation: '/items/abc/edit',
         overrides: [
           itemsRepositoryProvider.overrideWithValue(fakeItemsRepository),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
+          ),
         ],
       ),
     );
@@ -112,6 +123,9 @@ void main() {
       _buildApp(
         overrides: [
           itemsRepositoryProvider.overrideWithValue(fakeItemsRepository),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
+          ),
         ],
       ),
     );
@@ -179,6 +193,30 @@ final _testItem = Item(
 );
 
 final _testTimestamp = DateTime(2024, 1, 1);
+
+class _FakeMaintenancesRepository implements MaintenancesRepository {
+  @override
+  Future<int> deleteMaintenance(String id) async => 0;
+
+  @override
+  Future<Maintenance?> getMaintenance(String id) async => null;
+
+  @override
+  Future<void> markAsDone(String id, {DateTime? doneAt}) async {}
+
+  @override
+  Future<void> saveMaintenance(Maintenance maintenance) async {}
+
+  @override
+  Stream<List<Maintenance>> watchMaintenancesForItem(String itemId) {
+    return Stream.value(const <Maintenance>[]);
+  }
+
+  @override
+  Stream<List<Maintenance>> watchUpcomingMaintenances({int limit = 15}) {
+    return Stream.value(const <Maintenance>[]);
+  }
+}
 
 class _FakeItemsRepository implements ItemsRepository {
   const _FakeItemsRepository({

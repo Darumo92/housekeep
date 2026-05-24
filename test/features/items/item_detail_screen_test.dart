@@ -7,9 +7,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:housekeep/app.dart';
 import 'package:housekeep/core/l10n/generated/app_localizations.dart';
 import 'package:housekeep/data/repositories/items_repository.dart';
+import 'package:housekeep/data/repositories/maintenances_repository.dart';
 import 'package:housekeep/data/repositories/repository_providers.dart';
 import 'package:housekeep/domain/enums/item_category.dart';
 import 'package:housekeep/domain/models/item.dart';
+import 'package:housekeep/domain/models/maintenance.dart';
 import 'package:housekeep/features/items/item_detail_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -29,6 +31,9 @@ void main() {
           itemsRepositoryProvider.overrideWithValue(
             _FakeItemsRepository(item: item),
           ),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
+          ),
         ],
         child: const HouseKeepApp(initialLocation: '/items/item-1'),
       ),
@@ -40,7 +45,7 @@ void main() {
     expect(find.text('Fridge'), findsOneWidget);
     expect(find.text(l10n.itemWarrantyActive), findsOneWidget);
     expect(find.text(l10n.itemMaintenanceSectionTitle), findsOneWidget);
-    expect(find.text(l10n.itemMaintenanceSectionPlaceholder), findsOneWidget);
+    expect(find.text(l10n.itemMaintenanceSectionEmpty), findsOneWidget);
   });
 
   testWidgets('shows delete confirmation dialog when delete is tapped', (
@@ -57,6 +62,9 @@ void main() {
         overrides: [
           itemsRepositoryProvider.overrideWithValue(
             _FakeItemsRepository(item: item),
+          ),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
           ),
         ],
         child: const HouseKeepApp(initialLocation: '/items/item-1'),
@@ -89,7 +97,12 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [itemsRepositoryProvider.overrideWithValue(repository)],
+        overrides: [
+          itemsRepositoryProvider.overrideWithValue(repository),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
+          ),
+        ],
         child: const _DetailRouteTestApp(),
       ),
     );
@@ -122,7 +135,12 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [itemsRepositoryProvider.overrideWithValue(repository)],
+        overrides: [
+          itemsRepositoryProvider.overrideWithValue(repository),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
+          ),
+        ],
         child: const _DetailRouteTestApp(),
       ),
     );
@@ -158,7 +176,12 @@ void main() {
 
       await tester.pumpWidget(
         ProviderScope(
-          overrides: [itemsRepositoryProvider.overrideWithValue(repository)],
+          overrides: [
+            itemsRepositoryProvider.overrideWithValue(repository),
+            maintenancesRepositoryProvider.overrideWithValue(
+              _FakeMaintenancesRepository(),
+            ),
+          ],
           child: const _DetailRouteTestApp(),
         ),
       );
@@ -196,7 +219,12 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [itemsRepositoryProvider.overrideWithValue(repository)],
+        overrides: [
+          itemsRepositoryProvider.overrideWithValue(repository),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
+          ),
+        ],
         child: const _DetailRouteTestApp(),
       ),
     );
@@ -299,6 +327,30 @@ class _FakeItemsRepository implements ItemsRepository {
   @override
   Stream<List<Item>> watchItemsByCategory(ItemCategory category) {
     return Stream.value(item.category == category ? [item] : const <Item>[]);
+  }
+}
+
+class _FakeMaintenancesRepository implements MaintenancesRepository {
+  @override
+  Future<int> deleteMaintenance(String id) async => 0;
+
+  @override
+  Future<Maintenance?> getMaintenance(String id) async => null;
+
+  @override
+  Future<void> markAsDone(String id, {DateTime? doneAt}) async {}
+
+  @override
+  Future<void> saveMaintenance(Maintenance maintenance) async {}
+
+  @override
+  Stream<List<Maintenance>> watchMaintenancesForItem(String itemId) {
+    return Stream.value(const <Maintenance>[]);
+  }
+
+  @override
+  Stream<List<Maintenance>> watchUpcomingMaintenances({int limit = 15}) {
+    return Stream.value(const <Maintenance>[]);
   }
 }
 

@@ -6,7 +6,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
 import '../../domain/models/item.dart';
+import '../../domain/models/maintenance.dart';
 import '../../shared/widgets/confirm_dialog.dart';
+import '../maintenance/maintenances_provider.dart';
+import '../maintenance/widgets/maintenance_card.dart';
 import 'items_provider.dart';
 
 class ItemDetailScreen extends ConsumerWidget {
@@ -62,12 +65,24 @@ class ItemDetailScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              Text(
-                l10n.itemMaintenanceSectionTitle,
-                style: Theme.of(context).textTheme.titleMedium,
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      l10n.itemMaintenanceSectionTitle,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: () =>
+                        context.push('/items/${item.id}/maintenance/add'),
+                    icon: const Icon(Icons.add),
+                    label: Text(l10n.itemMaintenanceAdd),
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
-              Text(l10n.itemMaintenanceSectionPlaceholder),
+              _MaintenanceSection(itemId: item.id),
             ],
           ),
         );
@@ -128,6 +143,97 @@ class _ItemPhoto extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _MaintenanceSection extends ConsumerWidget {
+  const _MaintenanceSection({required this.itemId});
+
+  final String itemId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final maintenancesAsync = ref.watch(maintenancesForItemProvider(itemId));
+
+    return maintenancesAsync.when(
+      data: (maintenances) {
+        if (maintenances.isEmpty) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Text(l10n.itemMaintenanceSectionEmpty),
+          );
+        }
+        return Column(
+          children: [
+            for (final maintenance in maintenances)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: MaintenanceCard(
+                  maintenance: maintenance,
+                  onTap: () => context.push(
+                    '/items/$itemId/maintenance/${maintenance.id}/edit',
+                  ),
+                  onMarkDone: () => _markDone(context, ref, maintenance),
+                  onDelete: () => _delete(context, ref, maintenance),
+                ),
+              ),
+          ],
+        );
+      },
+      loading: () => const Padding(
+        padding: EdgeInsets.symmetric(vertical: 12),
+        child: Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, _) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Text(error.toString()),
+      ),
+    );
+  }
+
+  Future<void> _markDone(
+    BuildContext context,
+    WidgetRef ref,
+    Maintenance maintenance,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    try {
+      await ref
+          .read(markMaintenanceDoneProvider.notifier)
+          .markDone(maintenance.id);
+    } catch (_) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.maintenanceMarkDoneFailed)),
+      );
+    }
+  }
+
+  Future<void> _delete(
+    BuildContext context,
+    WidgetRef ref,
+    Maintenance maintenance,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showConfirmDialog(
+      context: context,
+      title: l10n.maintenanceDeleteTitle,
+      body: l10n.maintenanceDeleteBody,
+      confirmLabel: l10n.maintenanceDeleteConfirm,
+    );
+    if (!confirmed) return;
+
+    try {
+      await ref
+          .read(deleteMaintenanceProvider.notifier)
+          .delete(maintenance.id);
+    } catch (_) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.maintenanceDeleteFailed)),
+      );
+    }
   }
 }
 

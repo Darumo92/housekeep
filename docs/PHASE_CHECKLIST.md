@@ -155,34 +155,34 @@ Marca cada tarea con [x] cuando esté completada.
 ## Fase 3: Mantenimiento
 
 ### Pantallas
-- [ ] `MaintenanceListScreen` (mantenimientos de un item)
-- [ ] `AddEditMaintenanceScreen` formulario
-- [ ] Sección de mantenimientos dentro de `ItemDetailScreen`
+- [x] `MaintenanceListScreen` (mantenimientos de un item)
+- [x] `AddEditMaintenanceScreen` formulario
+- [x] Sección de mantenimientos dentro de `ItemDetailScreen`
 
 ### Formulario
-- [ ] Campo: Nombre de la tarea
-- [ ] Campo: Descripción (opcional)
-- [ ] Campo: Intervalo en meses
-- [ ] Campo: Última vez realizado (date picker, opcional)
-- [ ] Campo: Días de antelación para notificación
-- [ ] Auto-cálculo de `nextDueAt`
+- [x] Campo: Nombre de la tarea
+- [x] Campo: Descripción (opcional)
+- [x] Campo: Intervalo en meses
+- [x] Campo: Última vez realizado (date picker, opcional)
+- [x] Campo: Días de antelación para notificación
+- [x] Auto-cálculo de `nextDueAt`
 
 ### Plantillas
-- [ ] Crear `maintenance_templates.json` con ~20 plantillas
-- [ ] Parsear JSON al iniciar app
-- [ ] Pantalla/bottom sheet de selección de plantilla
-- [ ] Sugerir plantillas según categoría del item
-- [ ] Marcar plantillas PRO (solo accesibles con compra)
-- [ ] Auto-rellenar formulario desde plantilla
+- [x] Crear `maintenance_templates.json` con ~20 plantillas
+- [x] Parsear JSON al iniciar app
+- [x] Pantalla/bottom sheet de selección de plantilla
+- [x] Sugerir plantillas según categoría del item
+- [x] Marcar plantillas PRO (solo accesibles con compra)
+- [x] Auto-rellenar formulario desde plantilla
 
 ### Funcionalidad
-- [ ] Listar mantenimientos de un item
-- [ ] Añadir mantenimiento manual o desde plantilla
-- [ ] Marcar como realizado (recalcula próximo)
-- [ ] Editar mantenimiento
-- [ ] Borrar mantenimiento
-- [ ] Indicador visual de urgencia (semáforo)
-- [ ] Historial de realizaciones pasadas
+- [x] Listar mantenimientos de un item
+- [x] Añadir mantenimiento manual o desde plantilla
+- [x] Marcar como realizado (recalcula próximo)
+- [x] Editar mantenimiento
+- [x] Borrar mantenimiento
+- [x] Indicador visual de urgencia (semáforo)
+- [x] Historial de realizaciones pasadas (campo `lastDoneAt` visible en tarjeta)
 
 ---
 

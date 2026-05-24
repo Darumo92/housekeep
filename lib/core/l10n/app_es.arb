@@ -70,7 +70,70 @@
   "itemValidationName": "Introduce un nombre",
   "itemValidationWarrantyMonths": "Introduce un número de meses válido",
   "itemMaintenanceSectionTitle": "Mantenimiento",
-  "itemMaintenanceSectionPlaceholder": "Las tareas de mantenimiento aparecerán aquí en la Fase 3.",
+  "itemMaintenanceSectionEmpty": "Aún no hay mantenimientos para este artículo.",
+  "itemMaintenanceAdd": "Añadir mantenimiento",
+  "maintenanceAddTitle": "Añadir mantenimiento",
+  "maintenanceEditTitle": "Editar mantenimiento",
+  "maintenanceNameLabel": "Nombre de la tarea",
+  "maintenanceDescriptionLabel": "Descripción",
+  "maintenanceIntervalLabel": "Intervalo (meses)",
+  "maintenanceLastDoneLabel": "Última vez realizado",
+  "maintenanceLastDoneNever": "Sin registrar",
+  "maintenanceNotifyDaysLabel": "Días de antelación para aviso",
+  "maintenanceNextDueLabel": "Próxima vez",
+  "maintenanceSave": "Guardar",
+  "maintenanceMarkDone": "Marcar como realizado",
+  "maintenanceEdit": "Editar",
+  "maintenanceDelete": "Borrar",
+  "maintenanceDeleteTitle": "¿Borrar mantenimiento?",
+  "maintenanceDeleteBody": "Esta acción no se puede deshacer.",
+  "maintenanceDeleteConfirm": "Borrar",
+  "maintenanceDeleteFailed": "No se pudo borrar el mantenimiento.",
+  "maintenanceSaveFailed": "No se pudo guardar el mantenimiento.",
+  "maintenanceMarkDoneFailed": "No se pudo marcar como realizado.",
+  "maintenanceValidationName": "Introduce un nombre",
+  "maintenanceValidationInterval": "Introduce un número de meses válido",
+  "maintenanceValidationNotifyDays": "Introduce un número de días válido",
+  "maintenanceUseTemplate": "Usar plantilla",
+  "maintenanceTemplatesTitle": "Plantillas de mantenimiento",
+  "maintenanceTemplatesEmpty": "No hay plantillas para esta categoría.",
+  "maintenanceTemplatesAll": "Todas",
+  "maintenanceTemplatesSuggested": "Sugeridas para {category}",
+  "@maintenanceTemplatesSuggested": {
+    "placeholders": {
+      "category": {"type": "String"}
+    }
+  },
+  "maintenanceTemplateProBadge": "PRO",
+  "maintenanceTemplateProLocked": "Esta plantilla requiere HouseKeep Pro.",
+  "maintenanceIntervalMonths": "{count, plural, one {{count} mes} other {{count} meses}}",
+  "@maintenanceIntervalMonths": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "maintenanceNextDueIn": "Vence en {days, plural, one {{days} día} other {{days} días}}",
+  "@maintenanceNextDueIn": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "maintenanceOverdueBy": "Vencido hace {days, plural, one {{days} día} other {{days} días}}",
+  "@maintenanceOverdueBy": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "maintenanceDoneToday": "Vence hoy",
+  "maintenanceHistoryTitle": "Última vez: {date}",
+  "@maintenanceHistoryTitle": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "maintenanceLastDoneNeverShort": "Nunca realizado",
+  "paywallMaintenanceProTitle": "Desbloquea plantillas Pro",
+  "paywallMaintenanceProBody": "Algunas plantillas avanzadas (piscina, riego, placas solares) requieren HouseKeep Pro.",
   "paywallItemsLimitTitle": "Desbloquea artículos ilimitados",
   "paywallItemsLimitBody": "El plan gratuito incluye hasta 5 artículos. Mejora a Pro para añadir todos los que necesites.",
   "paywallUpgradeCta": "Mejorar pronto",
