@@ -144,5 +144,84 @@
   "urgencyOverdue": "Vencido",
   "homeTypeApartment": "Piso",
   "homeTypeHouse": "Casa",
-  "homeTypeVilla": "Villa"
+  "homeTypeVilla": "Villa",
+  "documentsEmptyTitle": "Aún no hay documentos",
+  "documentsEmptyBody": "Añade documentos importantes (DNI, seguros, ITV…) para recibir avisos antes de que caduquen.",
+  "documentsEmptyCta": "Añadir documento",
+  "documentsFilteredEmptyTitle": "No hay documentos de este tipo",
+  "documentsFilteredEmptyBody": "Prueba otro tipo o quita el filtro.",
+  "documentsClearFilter": "Quitar filtro",
+  "documentsFilterAll": "Todos",
+  "documentAddTitle": "Añadir documento",
+  "documentEditTitle": "Editar documento",
+  "documentDetailTitle": "Detalle del documento",
+  "documentNameLabel": "Nombre",
+  "documentTypeLabel": "Tipo de documento",
+  "documentExpiryDateLabel": "Fecha de caducidad",
+  "documentExpiryDatePick": "Selecciona una fecha",
+  "documentNotifyDaysLabel": "Días de antelación para aviso",
+  "documentNotesLabel": "Notas",
+  "documentPhotoLabel": "Foto / escaneo",
+  "documentSave": "Guardar",
+  "documentEdit": "Editar",
+  "documentDelete": "Borrar",
+  "documentDeleteTitle": "¿Borrar documento?",
+  "documentDeleteBody": "Esta acción no se puede deshacer.",
+  "documentDeleteConfirm": "Borrar",
+  "documentDeleteFailed": "No se pudo borrar el documento.",
+  "documentSaveFailed": "No se pudo guardar el documento.",
+  "documentValidationName": "Introduce un nombre",
+  "documentValidationExpiry": "Selecciona una fecha de caducidad",
+  "documentValidationNotifyDays": "Introduce un número de días válido",
+  "documentExpiryIn": "Caduca en {days, plural, one {{days} día} other {{days} días}}",
+  "@documentExpiryIn": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "documentExpiredAgo": "Caducó hace {days, plural, one {{days} día} other {{days} días}}",
+  "@documentExpiredAgo": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "documentExpiresToday": "Caduca hoy",
+  "paywallDocumentsLimitTitle": "Desbloquea documentos ilimitados",
+  "paywallDocumentsLimitBody": "El plan gratuito incluye hasta 3 documentos. Mejora a Pro para añadir todos los que necesites.",
+  "homeSummaryTitle": "Tu casa",
+  "homeSummarySubtitle": "Resumen de mantenimientos y documentos",
+  "homeSummaryItems": "{count, plural, =0{Sin artículos} one {{count} artículo} other {{count} artículos}}",
+  "@homeSummaryItems": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "homeSummaryPendingMaintenances": "{count, plural, =0{Sin mantenimientos pendientes} one {{count} mantenimiento pendiente} other {{count} mantenimientos pendientes}}",
+  "@homeSummaryPendingMaintenances": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "homeSummaryUrgentDocuments": "{count, plural, =0{Sin documentos urgentes} one {{count} documento urgente} other {{count} documentos urgentes}}",
+  "@homeSummaryUrgentDocuments": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "homeAllClearTitle": "Todo al día",
+  "homeAllClearBody": "No hay mantenimientos ni documentos urgentes ahora mismo.",
+  "homeTimelineTitle": "Próximos eventos",
+  "homeEmptyTitle": "Empieza a cuidar tu casa",
+  "homeEmptyBody": "Añade un artículo, mantenimiento o documento para verlo en tu línea de tiempo.",
+  "homeEmptyCta": "Añadir artículo",
+  "homeEventMaintenance": "Mantenimiento",
+  "homeEventDocument": "Documento",
+  "homeEventWarranty": "Garantía",
+  "homeEventDueIn": "En {days, plural, one {{days} día} other {{days} días}}",
+  "@homeEventDueIn": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "homeEventOverdueBy": "Vencido hace {days, plural, one {{days} día} other {{days} días}}",
+  "@homeEventOverdueBy": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "homeEventDueToday": "Hoy",
+  "homeFabAddItem": "Añadir artículo",
+  "homeFabAddMaintenance": "Añadir mantenimiento",
+  "homeFabAddDocument": "Añadir documento",
+  "homeFabAddMaintenanceNoItems": "Crea un artículo primero para añadir mantenimientos."
 }

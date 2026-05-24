@@ -817,6 +817,330 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Villa'**
   String get homeTypeVilla;
+
+  /// No description provided for @documentsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No documents yet'**
+  String get documentsEmptyTitle;
+
+  /// No description provided for @documentsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add important documents (ID, insurance, vehicle inspection…) to get warnings before they expire.'**
+  String get documentsEmptyBody;
+
+  /// No description provided for @documentsEmptyCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Add document'**
+  String get documentsEmptyCta;
+
+  /// No description provided for @documentsFilteredEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No documents of this type'**
+  String get documentsFilteredEmptyTitle;
+
+  /// No description provided for @documentsFilteredEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another type or clear the filter.'**
+  String get documentsFilteredEmptyBody;
+
+  /// No description provided for @documentsClearFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filter'**
+  String get documentsClearFilter;
+
+  /// No description provided for @documentsFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get documentsFilterAll;
+
+  /// No description provided for @documentAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add document'**
+  String get documentAddTitle;
+
+  /// No description provided for @documentEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit document'**
+  String get documentEditTitle;
+
+  /// No description provided for @documentDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Document details'**
+  String get documentDetailTitle;
+
+  /// No description provided for @documentNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get documentNameLabel;
+
+  /// No description provided for @documentTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Document type'**
+  String get documentTypeLabel;
+
+  /// No description provided for @documentExpiryDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry date'**
+  String get documentExpiryDateLabel;
+
+  /// No description provided for @documentExpiryDatePick.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get documentExpiryDatePick;
+
+  /// No description provided for @documentNotifyDaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify days before'**
+  String get documentNotifyDaysLabel;
+
+  /// No description provided for @documentNotesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get documentNotesLabel;
+
+  /// No description provided for @documentPhotoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo / scan'**
+  String get documentPhotoLabel;
+
+  /// No description provided for @documentSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get documentSave;
+
+  /// No description provided for @documentEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get documentEdit;
+
+  /// No description provided for @documentDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get documentDelete;
+
+  /// No description provided for @documentDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete document?'**
+  String get documentDeleteTitle;
+
+  /// No description provided for @documentDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get documentDeleteBody;
+
+  /// No description provided for @documentDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get documentDeleteConfirm;
+
+  /// No description provided for @documentDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not delete the document.'**
+  String get documentDeleteFailed;
+
+  /// No description provided for @documentSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the document.'**
+  String get documentSaveFailed;
+
+  /// No description provided for @documentValidationName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name'**
+  String get documentValidationName;
+
+  /// No description provided for @documentValidationExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick an expiry date'**
+  String get documentValidationExpiry;
+
+  /// No description provided for @documentValidationNotifyDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid number of days'**
+  String get documentValidationNotifyDays;
+
+  /// No description provided for @documentExpiryIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires in {days, plural, one {{days} day} other {{days} days}}'**
+  String documentExpiryIn(int days);
+
+  /// No description provided for @documentExpiredAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired {days, plural, one {{days} day} other {{days} days}} ago'**
+  String documentExpiredAgo(int days);
+
+  /// No description provided for @documentExpiresToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires today'**
+  String get documentExpiresToday;
+
+  /// No description provided for @paywallDocumentsLimitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock unlimited documents'**
+  String get paywallDocumentsLimitTitle;
+
+  /// No description provided for @paywallDocumentsLimitBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The free plan includes up to 3 documents. Upgrade to Pro to add as many as you need.'**
+  String get paywallDocumentsLimitBody;
+
+  /// No description provided for @homeSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your home'**
+  String get homeSummaryTitle;
+
+  /// No description provided for @homeSummarySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance and documents overview'**
+  String get homeSummarySubtitle;
+
+  /// No description provided for @homeSummaryItems.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No items} one {{count} item} other {{count} items}}'**
+  String homeSummaryItems(int count);
+
+  /// No description provided for @homeSummaryPendingMaintenances.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No pending maintenance} one {{count} pending maintenance} other {{count} pending maintenances}}'**
+  String homeSummaryPendingMaintenances(int count);
+
+  /// No description provided for @homeSummaryUrgentDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No urgent documents} one {{count} urgent document} other {{count} urgent documents}}'**
+  String homeSummaryUrgentDocuments(int count);
+
+  /// No description provided for @homeAllClearTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All clear'**
+  String get homeAllClearTitle;
+
+  /// No description provided for @homeAllClearBody.
+  ///
+  /// In en, this message translates to:
+  /// **'No urgent maintenance or documents right now.'**
+  String get homeAllClearBody;
+
+  /// No description provided for @homeTimelineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming events'**
+  String get homeTimelineTitle;
+
+  /// No description provided for @homeEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start taking care of your home'**
+  String get homeEmptyTitle;
+
+  /// No description provided for @homeEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an item, maintenance task or document to see it in your timeline.'**
+  String get homeEmptyBody;
+
+  /// No description provided for @homeEmptyCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get homeEmptyCta;
+
+  /// No description provided for @homeEventMaintenance.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance'**
+  String get homeEventMaintenance;
+
+  /// No description provided for @homeEventDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Document'**
+  String get homeEventDocument;
+
+  /// No description provided for @homeEventWarranty.
+  ///
+  /// In en, this message translates to:
+  /// **'Warranty'**
+  String get homeEventWarranty;
+
+  /// No description provided for @homeEventDueIn.
+  ///
+  /// In en, this message translates to:
+  /// **'In {days, plural, one {{days} day} other {{days} days}}'**
+  String homeEventDueIn(int days);
+
+  /// No description provided for @homeEventOverdueBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue by {days, plural, one {{days} day} other {{days} days}}'**
+  String homeEventOverdueBy(int days);
+
+  /// No description provided for @homeEventDueToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get homeEventDueToday;
+
+  /// No description provided for @homeFabAddItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get homeFabAddItem;
+
+  /// No description provided for @homeFabAddMaintenance.
+  ///
+  /// In en, this message translates to:
+  /// **'Add maintenance'**
+  String get homeFabAddMaintenance;
+
+  /// No description provided for @homeFabAddDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Add document'**
+  String get homeFabAddDocument;
+
+  /// No description provided for @homeFabAddMaintenanceNoItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an item first to add maintenance.'**
+  String get homeFabAddMaintenanceNoItems;
 }
 
 class _AppLocalizationsDelegate

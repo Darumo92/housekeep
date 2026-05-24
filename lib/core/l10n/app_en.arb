@@ -144,5 +144,84 @@
   "urgencyOverdue": "Overdue",
   "homeTypeApartment": "Apartment",
   "homeTypeHouse": "House",
-  "homeTypeVilla": "Villa"
+  "homeTypeVilla": "Villa",
+  "documentsEmptyTitle": "No documents yet",
+  "documentsEmptyBody": "Add important documents (ID, insurance, vehicle inspection…) to get warnings before they expire.",
+  "documentsEmptyCta": "Add document",
+  "documentsFilteredEmptyTitle": "No documents of this type",
+  "documentsFilteredEmptyBody": "Try another type or clear the filter.",
+  "documentsClearFilter": "Clear filter",
+  "documentsFilterAll": "All",
+  "documentAddTitle": "Add document",
+  "documentEditTitle": "Edit document",
+  "documentDetailTitle": "Document details",
+  "documentNameLabel": "Name",
+  "documentTypeLabel": "Document type",
+  "documentExpiryDateLabel": "Expiry date",
+  "documentExpiryDatePick": "Pick a date",
+  "documentNotifyDaysLabel": "Notify days before",
+  "documentNotesLabel": "Notes",
+  "documentPhotoLabel": "Photo / scan",
+  "documentSave": "Save",
+  "documentEdit": "Edit",
+  "documentDelete": "Delete",
+  "documentDeleteTitle": "Delete document?",
+  "documentDeleteBody": "This action cannot be undone.",
+  "documentDeleteConfirm": "Delete",
+  "documentDeleteFailed": "Could not delete the document.",
+  "documentSaveFailed": "Could not save the document.",
+  "documentValidationName": "Enter a name",
+  "documentValidationExpiry": "Pick an expiry date",
+  "documentValidationNotifyDays": "Enter a valid number of days",
+  "documentExpiryIn": "Expires in {days, plural, one {{days} day} other {{days} days}}",
+  "@documentExpiryIn": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "documentExpiredAgo": "Expired {days, plural, one {{days} day} other {{days} days}} ago",
+  "@documentExpiredAgo": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "documentExpiresToday": "Expires today",
+  "paywallDocumentsLimitTitle": "Unlock unlimited documents",
+  "paywallDocumentsLimitBody": "The free plan includes up to 3 documents. Upgrade to Pro to add as many as you need.",
+  "homeSummaryTitle": "Your home",
+  "homeSummarySubtitle": "Maintenance and documents overview",
+  "homeSummaryItems": "{count, plural, =0{No items} one {{count} item} other {{count} items}}",
+  "@homeSummaryItems": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "homeSummaryPendingMaintenances": "{count, plural, =0{No pending maintenance} one {{count} pending maintenance} other {{count} pending maintenances}}",
+  "@homeSummaryPendingMaintenances": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "homeSummaryUrgentDocuments": "{count, plural, =0{No urgent documents} one {{count} urgent document} other {{count} urgent documents}}",
+  "@homeSummaryUrgentDocuments": {
+    "placeholders": {"count": {"type": "int"}}
+  },
+  "homeAllClearTitle": "All clear",
+  "homeAllClearBody": "No urgent maintenance or documents right now.",
+  "homeTimelineTitle": "Upcoming events",
+  "homeEmptyTitle": "Start taking care of your home",
+  "homeEmptyBody": "Add an item, maintenance task or document to see it in your timeline.",
+  "homeEmptyCta": "Add item",
+  "homeEventMaintenance": "Maintenance",
+  "homeEventDocument": "Document",
+  "homeEventWarranty": "Warranty",
+  "homeEventDueIn": "In {days, plural, one {{days} day} other {{days} days}}",
+  "@homeEventDueIn": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "homeEventOverdueBy": "Overdue by {days, plural, one {{days} day} other {{days} days}}",
+  "@homeEventOverdueBy": {
+    "placeholders": {"days": {"type": "int"}}
+  },
+  "homeEventDueToday": "Today",
+  "homeFabAddItem": "Add item",
+  "homeFabAddMaintenance": "Add maintenance",
+  "homeFabAddDocument": "Add document",
+  "homeFabAddMaintenanceNoItems": "Create an item first to add maintenance."
 }

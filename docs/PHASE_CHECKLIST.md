@@ -189,47 +189,47 @@ Marca cada tarea con [x] cuando esté completada.
 ## Fase 4: Documentos
 
 ### Pantallas
-- [ ] `DocumentsListScreen` con lista y semáforo
-- [ ] `AddEditDocumentScreen` formulario
-- [ ] Empty state
+- [x] `DocumentsListScreen` con lista y semáforo
+- [x] `AddEditDocumentScreen` formulario
+- [x] Empty state
 
 ### Formulario
-- [ ] Campo: Nombre (obligatorio)
-- [ ] Campo: Tipo de documento (selector)
-- [ ] Campo: Fecha de caducidad (date picker, obligatorio)
-- [ ] Campo: Días de antelación para notificación
-- [ ] Campo: Foto/scan (opcional)
-- [ ] Campo: Notas (opcional)
-- [ ] Validación
+- [x] Campo: Nombre (obligatorio)
+- [x] Campo: Tipo de documento (selector)
+- [x] Campo: Fecha de caducidad (date picker, obligatorio)
+- [x] Campo: Días de antelación para notificación
+- [x] Campo: Foto/scan (opcional)
+- [x] Campo: Notas (opcional)
+- [x] Validación
 
 ### Funcionalidad
-- [ ] Listar documentos ordenados por fecha de caducidad
-- [ ] Filtrar por tipo
-- [ ] Semáforo: verde (>90 días), amarillo (30-90), rojo (<30), vencido
-- [ ] Editar documento
-- [ ] Borrar documento con confirmación
-- [ ] Gate freemium: al intentar añadir 4to documento → paywall
+- [x] Listar documentos ordenados por fecha de caducidad
+- [x] Filtrar por tipo
+- [x] Semáforo: verde (>90 días), amarillo (30-90), rojo (<30), vencido
+- [x] Editar documento
+- [x] Borrar documento con confirmación
+- [x] Gate freemium: al intentar añadir 4to documento → paywall
 
 ---
 
 ## Fase 5: Home Dashboard
 
 ### Timeline
-- [ ] Query unificada: próximos mantenimientos + documentos que vencen
-- [ ] Ordenar cronológicamente
-- [ ] Mostrar los próximos 10-15 eventos
-- [ ] Card diferenciada para mantenimiento vs documento vs garantía
-- [ ] Tap en card → navegar al item/documento
+- [x] Query unificada: próximos mantenimientos + documentos que vencen
+- [x] Ordenar cronológicamente
+- [x] Mostrar los próximos 10-15 eventos
+- [x] Card diferenciada para mantenimiento vs documento vs garantía
+- [x] Tap en card → navegar al item/documento
 
 ### Resumen
-- [ ] Contadores: total items, mantenimientos pendientes, docs urgentes
-- [ ] Visual summary card con semáforo
-- [ ] "Todo al día" state cuando no hay nada urgente
+- [x] Contadores: total items, mantenimientos pendientes, docs urgentes
+- [x] Visual summary card con semáforo
+- [x] "Todo al día" state cuando no hay nada urgente
 
 ### UX
-- [ ] FAB expandible (+Item, +Mantenimiento, +Documento)
-- [ ] Pull-to-refresh
-- [ ] Empty state para primer uso (call to action)
+- [x] FAB expandible (+Item, +Mantenimiento, +Documento)
+- [x] Pull-to-refresh
+- [x] Empty state para primer uso (call to action)
 - [ ] Transición suave desde onboarding
 
 ---

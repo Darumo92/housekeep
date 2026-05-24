@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'core/l10n/generated/app_localizations.dart';
 import 'core/theme/app_theme.dart';
+import 'features/documents/add_edit_document_screen.dart';
 import 'features/documents/documents_list_screen.dart';
 import 'features/home/home_screen.dart';
 import 'features/items/add_edit_item_screen.dart';
@@ -112,6 +113,26 @@ GoRouter _createRouter({String initialLocation = '/'}) {
           GoRoute(
             path: '/documents',
             builder: (context, state) => const DocumentsListScreen(),
+          ),
+          GoRoute(
+            path: '/documents/add',
+            builder: (context, state) => const AddEditDocumentScreen(),
+          ),
+          GoRoute(
+            path: '/documents/:id/edit',
+            builder: (context, state) => AddEditDocumentScreen(
+              documentId: state.pathParameters['id'],
+            ),
+          ),
+          GoRoute(
+            path: '/documents/add',
+            builder: (context, state) => const AddEditDocumentScreen(),
+          ),
+          GoRoute(
+            path: '/documents/:id/edit',
+            builder: (context, state) => AddEditDocumentScreen(
+              documentId: state.pathParameters['id'],
+            ),
           ),
           GoRoute(
             path: '/settings',

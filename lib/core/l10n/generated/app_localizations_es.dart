@@ -408,4 +408,232 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get homeTypeVilla => 'Villa';
+
+  @override
+  String get documentsEmptyTitle => 'Aún no hay documentos';
+
+  @override
+  String get documentsEmptyBody =>
+      'Añade documentos importantes (DNI, seguros, ITV…) para recibir avisos antes de que caduquen.';
+
+  @override
+  String get documentsEmptyCta => 'Añadir documento';
+
+  @override
+  String get documentsFilteredEmptyTitle => 'No hay documentos de este tipo';
+
+  @override
+  String get documentsFilteredEmptyBody =>
+      'Prueba otro tipo o quita el filtro.';
+
+  @override
+  String get documentsClearFilter => 'Quitar filtro';
+
+  @override
+  String get documentsFilterAll => 'Todos';
+
+  @override
+  String get documentAddTitle => 'Añadir documento';
+
+  @override
+  String get documentEditTitle => 'Editar documento';
+
+  @override
+  String get documentDetailTitle => 'Detalle del documento';
+
+  @override
+  String get documentNameLabel => 'Nombre';
+
+  @override
+  String get documentTypeLabel => 'Tipo de documento';
+
+  @override
+  String get documentExpiryDateLabel => 'Fecha de caducidad';
+
+  @override
+  String get documentExpiryDatePick => 'Selecciona una fecha';
+
+  @override
+  String get documentNotifyDaysLabel => 'Días de antelación para aviso';
+
+  @override
+  String get documentNotesLabel => 'Notas';
+
+  @override
+  String get documentPhotoLabel => 'Foto / escaneo';
+
+  @override
+  String get documentSave => 'Guardar';
+
+  @override
+  String get documentEdit => 'Editar';
+
+  @override
+  String get documentDelete => 'Borrar';
+
+  @override
+  String get documentDeleteTitle => '¿Borrar documento?';
+
+  @override
+  String get documentDeleteBody => 'Esta acción no se puede deshacer.';
+
+  @override
+  String get documentDeleteConfirm => 'Borrar';
+
+  @override
+  String get documentDeleteFailed => 'No se pudo borrar el documento.';
+
+  @override
+  String get documentSaveFailed => 'No se pudo guardar el documento.';
+
+  @override
+  String get documentValidationName => 'Introduce un nombre';
+
+  @override
+  String get documentValidationExpiry => 'Selecciona una fecha de caducidad';
+
+  @override
+  String get documentValidationNotifyDays =>
+      'Introduce un número de días válido';
+
+  @override
+  String documentExpiryIn(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days días',
+      one: '$days día',
+    );
+    return 'Caduca en $_temp0';
+  }
+
+  @override
+  String documentExpiredAgo(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days días',
+      one: '$days día',
+    );
+    return 'Caducó hace $_temp0';
+  }
+
+  @override
+  String get documentExpiresToday => 'Caduca hoy';
+
+  @override
+  String get paywallDocumentsLimitTitle => 'Desbloquea documentos ilimitados';
+
+  @override
+  String get paywallDocumentsLimitBody =>
+      'El plan gratuito incluye hasta 3 documentos. Mejora a Pro para añadir todos los que necesites.';
+
+  @override
+  String get homeSummaryTitle => 'Tu casa';
+
+  @override
+  String get homeSummarySubtitle => 'Resumen de mantenimientos y documentos';
+
+  @override
+  String homeSummaryItems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count artículos',
+      one: '$count artículo',
+      zero: 'Sin artículos',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String homeSummaryPendingMaintenances(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mantenimientos pendientes',
+      one: '$count mantenimiento pendiente',
+      zero: 'Sin mantenimientos pendientes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String homeSummaryUrgentDocuments(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count documentos urgentes',
+      one: '$count documento urgente',
+      zero: 'Sin documentos urgentes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get homeAllClearTitle => 'Todo al día';
+
+  @override
+  String get homeAllClearBody =>
+      'No hay mantenimientos ni documentos urgentes ahora mismo.';
+
+  @override
+  String get homeTimelineTitle => 'Próximos eventos';
+
+  @override
+  String get homeEmptyTitle => 'Empieza a cuidar tu casa';
+
+  @override
+  String get homeEmptyBody =>
+      'Añade un artículo, mantenimiento o documento para verlo en tu línea de tiempo.';
+
+  @override
+  String get homeEmptyCta => 'Añadir artículo';
+
+  @override
+  String get homeEventMaintenance => 'Mantenimiento';
+
+  @override
+  String get homeEventDocument => 'Documento';
+
+  @override
+  String get homeEventWarranty => 'Garantía';
+
+  @override
+  String homeEventDueIn(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days días',
+      one: '$days día',
+    );
+    return 'En $_temp0';
+  }
+
+  @override
+  String homeEventOverdueBy(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days días',
+      one: '$days día',
+    );
+    return 'Vencido hace $_temp0';
+  }
+
+  @override
+  String get homeEventDueToday => 'Hoy';
+
+  @override
+  String get homeFabAddItem => 'Añadir artículo';
+
+  @override
+  String get homeFabAddMaintenance => 'Añadir mantenimiento';
+
+  @override
+  String get homeFabAddDocument => 'Añadir documento';
+
+  @override
+  String get homeFabAddMaintenanceNoItems =>
+      'Crea un artículo primero para añadir mantenimientos.';
 }

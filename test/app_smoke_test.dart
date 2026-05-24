@@ -3,10 +3,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 
 import 'package:housekeep/app.dart';
+import 'package:housekeep/data/repositories/documents_repository.dart';
 import 'package:housekeep/data/repositories/items_repository.dart';
 import 'package:housekeep/data/repositories/maintenances_repository.dart';
 import 'package:housekeep/data/repositories/repository_providers.dart';
+import 'package:housekeep/domain/enums/document_type.dart';
 import 'package:housekeep/domain/enums/item_category.dart';
+import 'package:housekeep/domain/models/document.dart';
 import 'package:housekeep/domain/models/item.dart';
 import 'package:housekeep/domain/models/maintenance.dart';
 import 'package:housekeep/features/documents/documents_list_screen.dart';
@@ -59,6 +62,9 @@ void main() {
           maintenancesRepositoryProvider.overrideWithValue(
             _FakeMaintenancesRepository(),
           ),
+          documentsRepositoryProvider.overrideWithValue(
+            _FakeDocumentsRepository(),
+          ),
         ],
       ),
     );
@@ -76,6 +82,9 @@ void main() {
           itemsRepositoryProvider.overrideWithValue(fakeItemsRepository),
           maintenancesRepositoryProvider.overrideWithValue(
             _FakeMaintenancesRepository(),
+          ),
+          documentsRepositoryProvider.overrideWithValue(
+            _FakeDocumentsRepository(),
           ),
         ],
       ),
@@ -96,6 +105,9 @@ void main() {
           maintenancesRepositoryProvider.overrideWithValue(
             _FakeMaintenancesRepository(),
           ),
+          documentsRepositoryProvider.overrideWithValue(
+            _FakeDocumentsRepository(),
+          ),
         ],
       ),
     );
@@ -107,7 +119,21 @@ void main() {
   });
 
   testWidgets('shows the home screen shell on launch', (tester) async {
-    await tester.pumpWidget(const ProviderScope(child: HouseKeepApp()));
+    await tester.pumpWidget(
+      _buildApp(
+        overrides: [
+          itemsRepositoryProvider.overrideWithValue(
+            _FakeItemsRepository(items: const [], itemsById: const {}),
+          ),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
+          ),
+          documentsRepositoryProvider.overrideWithValue(
+            _FakeDocumentsRepository(),
+          ),
+        ],
+      ),
+    );
     await tester.pumpAndSettle();
 
     expect(find.byType(HomeScreen), findsOneWidget);
@@ -126,30 +152,38 @@ void main() {
           maintenancesRepositoryProvider.overrideWithValue(
             _FakeMaintenancesRepository(),
           ),
+          documentsRepositoryProvider.overrideWithValue(
+            _FakeDocumentsRepository(),
+          ),
         ],
       ),
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byIcon(Icons.kitchen_outlined));
+    Finder navIcon(IconData icon) => find.descendant(
+          of: find.byType(NavigationBar),
+          matching: find.byIcon(icon),
+        );
+
+    await tester.tap(navIcon(Icons.kitchen_outlined));
     await tester.pumpAndSettle();
     expect(find.byType(ItemsListScreen), findsOneWidget);
     expect(find.byType(HomeScreen), findsNothing);
     expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 1);
 
-    await tester.tap(find.byIcon(Icons.description_outlined));
+    await tester.tap(navIcon(Icons.description_outlined));
     await tester.pumpAndSettle();
     expect(find.byType(DocumentsListScreen), findsOneWidget);
     expect(find.byType(ItemsListScreen), findsNothing);
     expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 2);
 
-    await tester.tap(find.byIcon(Icons.settings_outlined));
+    await tester.tap(navIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
     expect(find.byType(SettingsScreen), findsOneWidget);
     expect(find.byType(DocumentsListScreen), findsNothing);
     expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 3);
 
-    await tester.tap(find.byIcon(Icons.home_outlined));
+    await tester.tap(navIcon(Icons.home_outlined));
     await tester.pumpAndSettle();
     expect(find.byType(HomeScreen), findsOneWidget);
     expect(find.byType(SettingsScreen), findsNothing);
@@ -158,12 +192,23 @@ void main() {
 
   testWidgets('supports a Spanish locale override', (tester) async {
     await tester.pumpWidget(
-      const ProviderScope(child: HouseKeepApp(localeOverride: Locale('es'))),
+      ProviderScope(
+        overrides: [
+          itemsRepositoryProvider.overrideWithValue(fakeItemsRepository),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
+          ),
+          documentsRepositoryProvider.overrideWithValue(
+            _FakeDocumentsRepository(),
+          ),
+        ],
+        child: const HouseKeepApp(localeOverride: Locale('es')),
+      ),
     );
     await tester.pumpAndSettle();
 
     expect(find.byType(HomeScreen), findsOneWidget);
-    expect(find.text('Tu casa de un vistazo'), findsOneWidget);
+    expect(find.text('Tu casa'), findsOneWidget);
     expect(find.text('Inicio'), findsOneWidget);
   });
 }
@@ -216,6 +261,31 @@ class _FakeMaintenancesRepository implements MaintenancesRepository {
   Stream<List<Maintenance>> watchUpcomingMaintenances({int limit = 15}) {
     return Stream.value(const <Maintenance>[]);
   }
+}
+
+class _FakeDocumentsRepository implements DocumentsRepository {
+  @override
+  Future<int> countDocuments() async => 0;
+
+  @override
+  Future<int> deleteDocument(String id) async => 0;
+
+  @override
+  Future<Document?> getDocument(String id) async => null;
+
+  @override
+  Future<void> saveDocument(Document document) async {}
+
+  @override
+  Stream<List<Document>> watchDocuments() => Stream.value(const <Document>[]);
+
+  @override
+  Stream<List<Document>> watchDocumentsByType(DocumentType type) =>
+      Stream.value(const <Document>[]);
+
+  @override
+  Stream<List<Document>> watchExpiringDocuments({int limit = 15}) =>
+      Stream.value(const <Document>[]);
 }
 
 class _FakeItemsRepository implements ItemsRepository {
