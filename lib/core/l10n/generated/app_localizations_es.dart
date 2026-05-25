@@ -902,4 +902,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get documentSavedSuccess => 'Documento guardado';
+
+  @override
+  String get itemDeletedSuccess => 'Artículo borrado';
+
+  @override
+  String get maintenanceDeletedSuccess => 'Mantenimiento borrado';
+
+  @override
+  String get documentDeletedSuccess => 'Documento borrado';
+
+  @override
+  String get maintenanceMarkDoneSuccess => 'Marcado como realizado';
 }

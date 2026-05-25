@@ -64,8 +64,8 @@ class HomeScreen extends ConsumerWidget {
     final summary = summaryAsync.valueOrNull;
     final hasNoData = summary != null &&
         summary.totalItems == 0 &&
-        summary.pendingMaintenances == 0 &&
-        summary.urgentDocuments == 0;
+        summary.totalDocuments == 0 &&
+        summary.totalMaintenances == 0;
 
     final canShowMaintenance = (summary?.totalItems ?? 0) > 0;
 

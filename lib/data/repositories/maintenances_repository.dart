@@ -4,6 +4,7 @@ import '../database/daos/maintenances_dao.dart';
 abstract class MaintenancesRepository {
   Future<void> saveMaintenance(Maintenance maintenance);
   Future<int> deleteMaintenance(String id);
+  Future<int> deleteMaintenancesForItem(String itemId);
   Future<Maintenance?> getMaintenance(String id);
   Stream<List<Maintenance>> watchMaintenancesForItem(String itemId);
   Stream<List<Maintenance>> watchUpcomingMaintenances({int limit});
@@ -23,6 +24,11 @@ class DriftMaintenancesRepository implements MaintenancesRepository {
   @override
   Future<int> deleteMaintenance(String id) {
     return _dao.deleteMaintenance(id);
+  }
+
+  @override
+  Future<int> deleteMaintenancesForItem(String itemId) {
+    return _dao.deleteMaintenancesForItem(itemId);
   }
 
   @override

@@ -12,12 +12,16 @@ part 'home_provider.g.dart';
 class HomeSummary {
   const HomeSummary({
     required this.totalItems,
+    required this.totalDocuments,
+    required this.totalMaintenances,
     required this.pendingMaintenances,
     required this.urgentDocuments,
     required this.overallUrgency,
   });
 
   final int totalItems;
+  final int totalDocuments;
+  final int totalMaintenances;
   final int pendingMaintenances;
   final int urgentDocuments;
   final UrgencyLevel overallUrgency;
@@ -183,6 +187,8 @@ AsyncValue<HomeSummary> homeSummary(HomeSummaryRef ref) {
   return AsyncValue.data(
     HomeSummary(
       totalItems: items.length,
+      totalDocuments: documents.length,
+      totalMaintenances: maintenances.length,
       pendingMaintenances: pendingMaintenances,
       urgentDocuments: urgentDocuments,
       overallUrgency: overall,

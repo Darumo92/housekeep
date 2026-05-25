@@ -892,4 +892,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get documentSavedSuccess => 'Document saved';
+
+  @override
+  String get itemDeletedSuccess => 'Item deleted';
+
+  @override
+  String get maintenanceDeletedSuccess => 'Maintenance deleted';
+
+  @override
+  String get documentDeletedSuccess => 'Document deleted';
+
+  @override
+  String get maintenanceMarkDoneSuccess => 'Marked as done';
 }

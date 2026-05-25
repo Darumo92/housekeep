@@ -322,5 +322,9 @@
   "settingsLinkOpenFailed": "No se pudo abrir el enlace",
   "itemSavedSuccess": "Artículo guardado",
   "maintenanceSavedSuccess": "Mantenimiento guardado",
-  "documentSavedSuccess": "Documento guardado"
+  "documentSavedSuccess": "Documento guardado",
+  "itemDeletedSuccess": "Artículo borrado",
+  "maintenanceDeletedSuccess": "Mantenimiento borrado",
+  "documentDeletedSuccess": "Documento borrado",
+  "maintenanceMarkDoneSuccess": "Marcado como realizado"
 }

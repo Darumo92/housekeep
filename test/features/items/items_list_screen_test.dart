@@ -36,7 +36,7 @@ void main() {
     expect(find.text(l10n.itemsEmptyBody), findsOneWidget);
     expect(
       find.widgetWithText(FilledButton, l10n.itemsEmptyCta),
-      findsOneWidget,
+      findsNothing,
     );
     expect(find.byType(FloatingActionButton), findsOneWidget);
   });

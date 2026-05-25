@@ -108,9 +108,11 @@ class ItemDetailScreen extends ConsumerWidget {
       confirmLabel: l10n.itemDeleteConfirm,
     );
     if (!confirmed || ref.read(deleteItemProvider).isLoading) return;
+    if (!context.mounted) return;
 
-    final maintenances = await ref
-        .read(maintenancesRepositoryProvider)
+    final messenger = ScaffoldMessenger.of(context);
+    final maintenancesRepo = ref.read(maintenancesRepositoryProvider);
+    final maintenances = await maintenancesRepo
         .watchMaintenancesForItem(item.id)
         .first;
     await ref
@@ -121,15 +123,20 @@ class ItemDetailScreen extends ConsumerWidget {
         );
 
     try {
+      // Explicit cascade so Drift's stream tracker re-emits maintenance
+      // queries instead of relying on SQLite's silent ON DELETE CASCADE.
+      await maintenancesRepo.deleteMaintenancesForItem(item.id);
       await ref.read(deleteItemProvider.notifier).delete(item.id);
       if (context.mounted) {
         context.pop();
       }
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.itemDeletedSuccess)),
+      );
     } catch (error) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.itemDeleteFailed)));
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.itemDeleteFailed)),
+      );
     }
   }
 }
@@ -212,18 +219,21 @@ class _MaintenanceSection extends ConsumerWidget {
     Maintenance maintenance,
   ) async {
     final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
     final texts = NotificationTexts.fromL10n(l10n);
     try {
       await ref
-          .read(markMaintenanceDoneProvider.notifier)
-          .markDone(maintenance.id);
+          .read(maintenancesRepositoryProvider)
+          .markAsDone(maintenance.id);
     } catch (_) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(content: Text(l10n.maintenanceMarkDoneFailed)),
       );
       return;
     }
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.maintenanceMarkDoneSuccess)),
+    );
     await _rescheduleAfterMarkDone(ref, maintenance.id, texts);
   }
 
@@ -233,6 +243,7 @@ class _MaintenanceSection extends ConsumerWidget {
     Maintenance maintenance,
   ) async {
     final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
     final confirmed = await showConfirmDialog(
       context: context,
       title: l10n.maintenanceDeleteTitle,
@@ -249,9 +260,11 @@ class _MaintenanceSection extends ConsumerWidget {
       await ref
           .read(deleteMaintenanceProvider.notifier)
           .delete(maintenance.id);
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.maintenanceDeletedSuccess)),
+      );
     } catch (_) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(content: Text(l10n.maintenanceDeleteFailed)),
       );
     }

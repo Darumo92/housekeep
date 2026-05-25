@@ -185,6 +185,8 @@ class _FakeMaintenances implements MaintenancesRepository {
   @override
   Future<int> deleteMaintenance(String id) async => 0;
   @override
+  Future<int> deleteMaintenancesForItem(String itemId) async => 0;
+  @override
   Future<Maintenance?> getMaintenance(String id) async => null;
   @override
   Future<void> markAsDone(String id, {DateTime? doneAt}) async {}

@@ -94,18 +94,21 @@ class MaintenanceListView extends ConsumerWidget {
     Maintenance maintenance,
   ) async {
     final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
     final texts = NotificationTexts.fromL10n(l10n);
     try {
       await ref
-          .read(markMaintenanceDoneProvider.notifier)
-          .markDone(maintenance.id);
+          .read(maintenancesRepositoryProvider)
+          .markAsDone(maintenance.id);
     } catch (_) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(content: Text(l10n.maintenanceMarkDoneFailed)),
       );
       return;
     }
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.maintenanceMarkDoneSuccess)),
+    );
     await _rescheduleAfterMarkDone(ref, maintenance.id, texts);
   }
 
@@ -115,6 +118,7 @@ class MaintenanceListView extends ConsumerWidget {
     Maintenance maintenance,
   ) async {
     final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
     final confirmed = await showConfirmDialog(
       context: context,
       title: l10n.maintenanceDeleteTitle,
@@ -131,9 +135,11 @@ class MaintenanceListView extends ConsumerWidget {
       await ref
           .read(deleteMaintenanceProvider.notifier)
           .delete(maintenance.id);
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.maintenanceDeletedSuccess)),
+      );
     } catch (_) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(content: Text(l10n.maintenanceDeleteFailed)),
       );
     }

@@ -88,8 +88,6 @@ class _ItemsListScreenState extends ConsumerState<ItemsListScreen> {
                     icon: Icons.kitchen_rounded,
                     title: l10n.itemsEmptyTitle,
                     body: l10n.itemsEmptyBody,
-                    actionLabel: l10n.itemsEmptyCta,
-                    onAction: navigateToAdd,
                   );
                 }
 

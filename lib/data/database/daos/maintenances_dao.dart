@@ -21,6 +21,12 @@ class MaintenancesDao extends DatabaseAccessor<AppDatabase>
     )..where((maintenance) => maintenance.id.equals(id))).go();
   }
 
+  Future<int> deleteMaintenancesForItem(String itemId) {
+    return (delete(
+      maintenancesTable,
+    )..where((maintenance) => maintenance.itemId.equals(itemId))).go();
+  }
+
   Future<MaintenanceRow?> getMaintenance(String id) {
     return (select(
       maintenancesTable,

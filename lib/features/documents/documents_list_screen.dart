@@ -94,8 +94,6 @@ class _DocumentsListScreenState extends ConsumerState<DocumentsListScreen> {
                     icon: Icons.description_rounded,
                     title: l10n.documentsEmptyTitle,
                     body: l10n.documentsEmptyBody,
-                    actionLabel: l10n.documentsEmptyCta,
-                    onAction: navigateToAdd,
                   );
                 }
 
@@ -131,6 +129,7 @@ class _DocumentsListScreenState extends ConsumerState<DocumentsListScreen> {
     Document document,
   ) async {
     final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
     final confirmed = await showConfirmDialog(
       context: context,
       title: l10n.documentDeleteTitle,
@@ -145,9 +144,11 @@ class _DocumentsListScreenState extends ConsumerState<DocumentsListScreen> {
 
     try {
       await ref.read(deleteDocumentProvider.notifier).delete(document.id);
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.documentDeletedSuccess)),
+      );
     } catch (_) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(content: Text(l10n.documentDeleteFailed)),
       );
     }

@@ -1585,6 +1585,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Document saved'**
   String get documentSavedSuccess;
+
+  /// No description provided for @itemDeletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Item deleted'**
+  String get itemDeletedSuccess;
+
+  /// No description provided for @maintenanceDeletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance deleted'**
+  String get maintenanceDeletedSuccess;
+
+  /// No description provided for @documentDeletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Document deleted'**
+  String get documentDeletedSuccess;
+
+  /// No description provided for @maintenanceMarkDoneSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as done'**
+  String get maintenanceMarkDoneSuccess;
 }
 
 class _AppLocalizationsDelegate
