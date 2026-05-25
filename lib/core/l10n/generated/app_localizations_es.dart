@@ -636,4 +636,60 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get homeFabAddMaintenanceNoItems =>
       'Crea un artículo primero para añadir mantenimientos.';
+
+  @override
+  String get notificationMaintenanceTitle => 'Recordatorio de mantenimiento';
+
+  @override
+  String notificationMaintenanceBody(String item, String task, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'vence en $days días',
+      one: 'vence en 1 día',
+      zero: 'vence hoy',
+    );
+    return '🔧 $item: $task $_temp0';
+  }
+
+  @override
+  String get notificationDocumentTitle => 'Recordatorio de documento';
+
+  @override
+  String notificationDocumentBody(String name, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'caduca en $days días',
+      one: 'caduca en 1 día',
+      zero: 'caduca hoy',
+    );
+    return '📄 $name $_temp0';
+  }
+
+  @override
+  String get notificationWarrantyTitle => 'Recordatorio de garantía';
+
+  @override
+  String notificationWarrantyBody(String item, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'termina en $days días',
+      one: 'termina en 1 día',
+      zero: 'termina hoy',
+    );
+    return '⚠️ La garantía de $item $_temp0';
+  }
+
+  @override
+  String get notificationsPermissionDeniedTitle =>
+      'Notificaciones desactivadas';
+
+  @override
+  String get notificationsPermissionDeniedBody =>
+      'HouseKeep necesita permisos de notificación para avisarte de mantenimientos y caducidades.';
+
+  @override
+  String get notificationsPermissionOpenSettings => 'Abrir ajustes';
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../data/services/notification_providers.dart';
 import '../../domain/enums/document_type.dart';
 import '../../domain/models/document.dart';
 import '../../shared/widgets/confirm_dialog.dart';
@@ -137,6 +138,10 @@ class _DocumentsListScreenState extends ConsumerState<DocumentsListScreen> {
       confirmLabel: l10n.documentDeleteConfirm,
     );
     if (!confirmed) return;
+
+    await ref
+        .read(notificationSchedulerProvider)
+        .cancelDocument(document.id);
 
     try {
       await ref.read(deleteDocumentProvider.notifier).delete(document.id);

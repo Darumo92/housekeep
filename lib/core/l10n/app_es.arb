@@ -223,5 +223,33 @@
   "homeFabAddItem": "Añadir artículo",
   "homeFabAddMaintenance": "Añadir mantenimiento",
   "homeFabAddDocument": "Añadir documento",
-  "homeFabAddMaintenanceNoItems": "Crea un artículo primero para añadir mantenimientos."
+  "homeFabAddMaintenanceNoItems": "Crea un artículo primero para añadir mantenimientos.",
+  "notificationMaintenanceTitle": "Recordatorio de mantenimiento",
+  "notificationMaintenanceBody": "🔧 {item}: {task} {days, plural, =0{vence hoy} one {vence en 1 día} other {vence en {days} días}}",
+  "@notificationMaintenanceBody": {
+    "placeholders": {
+      "item": {"type": "String"},
+      "task": {"type": "String"},
+      "days": {"type": "int"}
+    }
+  },
+  "notificationDocumentTitle": "Recordatorio de documento",
+  "notificationDocumentBody": "📄 {name} {days, plural, =0{caduca hoy} one {caduca en 1 día} other {caduca en {days} días}}",
+  "@notificationDocumentBody": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "days": {"type": "int"}
+    }
+  },
+  "notificationWarrantyTitle": "Recordatorio de garantía",
+  "notificationWarrantyBody": "⚠️ La garantía de {item} {days, plural, =0{termina hoy} one {termina en 1 día} other {termina en {days} días}}",
+  "@notificationWarrantyBody": {
+    "placeholders": {
+      "item": {"type": "String"},
+      "days": {"type": "int"}
+    }
+  },
+  "notificationsPermissionDeniedTitle": "Notificaciones desactivadas",
+  "notificationsPermissionDeniedBody": "HouseKeep necesita permisos de notificación para avisarte de mantenimientos y caducidades.",
+  "notificationsPermissionOpenSettings": "Abrir ajustes"
 }

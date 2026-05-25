@@ -6,6 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../data/repositories/repository_providers.dart';
+import '../../data/services/notification_providers.dart';
+import '../../data/services/notification_strings.dart';
 import '../../data/services/photo_service.dart';
 import '../../data/services/photo_service_providers.dart';
 import '../../domain/enums/item_category.dart';
@@ -184,6 +187,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
   Future<void> _saveItem({Item? existingItem}) async {
     if (!_formKey.currentState!.validate()) return;
 
+    final texts = NotificationTexts.fromL10n(AppLocalizations.of(context));
     final now = DateTime.now();
     final warrantyMonthsText = _warrantyMonthsController.text.trim();
     final item = Item(
@@ -207,6 +211,11 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     } catch (_) {
       return;
     }
+
+    final isPro = await ref.read(isProProvider.future);
+    await ref
+        .read(notificationSchedulerProvider)
+        .rescheduleWarranty(item: item, isPro: isPro, texts: texts);
 
     if (!mounted) return;
 

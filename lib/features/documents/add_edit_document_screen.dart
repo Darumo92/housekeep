@@ -7,6 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../data/repositories/repository_providers.dart';
+import '../../data/services/notification_providers.dart';
+import '../../data/services/notification_strings.dart';
 import '../../data/services/photo_service.dart';
 import '../../data/services/photo_service_providers.dart';
 import '../../domain/enums/document_type.dart';
@@ -277,6 +280,15 @@ class _AddEditDocumentScreenState
       );
       return;
     }
+
+    final isPro = await ref.read(isProProvider.future);
+    await ref
+        .read(notificationSchedulerProvider)
+        .rescheduleDocument(
+          document: document,
+          isPro: isPro,
+          texts: NotificationTexts.fromL10n(l10n),
+        );
 
     if (!mounted) return;
     context.pop();

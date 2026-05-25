@@ -237,30 +237,30 @@ Marca cada tarea con [x] cuando esté completada.
 ## Fase 6: Notificaciones
 
 ### Setup
-- [ ] Configurar flutter_local_notifications (iOS + Android)
-- [ ] Crear canal de notificación "housekeep_reminders" (Android)
-- [ ] Solicitar permisos en iOS (provisional + alert)
-- [ ] Solicitar permisos en Android 13+ (POST_NOTIFICATIONS)
-- [ ] Configurar timezone para scheduled notifications
+- [x] Configurar flutter_local_notifications (iOS + Android)
+- [x] Crear canal de notificación "housekeep_reminders" (Android)
+- [x] Solicitar permisos en iOS (provisional + alert)
+- [x] Solicitar permisos en Android 13+ (POST_NOTIFICATIONS)
+- [x] Configurar timezone para scheduled notifications
 
 ### Lógica
-- [ ] Al crear/editar mantenimiento → programar notificación
-- [ ] Al crear/editar documento → programar notificación
-- [ ] Al marcar mantenimiento como realizado → reprogramar
-- [ ] Al borrar item/mantenimiento/documento → cancelar notificación
-- [ ] Usar ID único derivado del UUID del item/doc
-- [ ] Free: 1 notificación por item (X días antes)
-- [ ] Pro: múltiples notificaciones (90d + 30d + 7d)
+- [x] Al crear/editar mantenimiento → programar notificación
+- [x] Al crear/editar documento → programar notificación
+- [x] Al marcar mantenimiento como realizado → reprogramar
+- [x] Al borrar item/mantenimiento/documento → cancelar notificación
+- [x] Usar ID único derivado del UUID del item/doc
+- [x] Free: 1 notificación por item (X días antes)
+- [x] Pro: múltiples notificaciones (90d + 30d + 7d)
 
 ### Contenido de notificaciones
-- [ ] Mantenimiento: "🔧 [Nombre item]: [Nombre mantenimiento] en [X] días"
-- [ ] Documento: "📄 [Nombre documento] caduca en [X] días"
-- [ ] Garantía: "⚠️ La garantía de [Nombre item] vence en [X] días"
+- [x] Mantenimiento: "🔧 [Nombre item]: [Nombre mantenimiento] en [X] días"
+- [x] Documento: "📄 [Nombre documento] caduca en [X] días"
+- [x] Garantía: "⚠️ La garantía de [Nombre item] vence en [X] días"
 
 ### Edge cases
-- [ ] Dispositivo reiniciado → reboot receiver (Android)
+- [x] Dispositivo reiniciado → reboot receiver (Android, RECEIVE_BOOT_COMPLETED + manifest del plugin)
 - [ ] Permisos denegados → mostrar explicación y link a settings
-- [ ] Fecha pasada → no programar, mostrar como "vencido"
+- [x] Fecha pasada → no programar, mostrar como "vencido"
 
 ---
 

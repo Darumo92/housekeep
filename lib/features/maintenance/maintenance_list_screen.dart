@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../data/repositories/repository_providers.dart';
+import '../../data/services/notification_providers.dart';
+import '../../data/services/notification_strings.dart';
 import '../../domain/models/maintenance.dart';
 import '../../shared/widgets/confirm_dialog.dart';
 import '../../shared/widgets/empty_state.dart';
@@ -91,6 +94,7 @@ class MaintenanceListView extends ConsumerWidget {
     Maintenance maintenance,
   ) async {
     final l10n = AppLocalizations.of(context);
+    final texts = NotificationTexts.fromL10n(l10n);
     try {
       await ref
           .read(markMaintenanceDoneProvider.notifier)
@@ -100,7 +104,9 @@ class MaintenanceListView extends ConsumerWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.maintenanceMarkDoneFailed)),
       );
+      return;
     }
+    await _rescheduleAfterMarkDone(ref, maintenance.id, texts);
   }
 
   Future<void> _delete(
@@ -117,6 +123,10 @@ class MaintenanceListView extends ConsumerWidget {
     );
     if (!confirmed) return;
 
+    await ref
+        .read(notificationSchedulerProvider)
+        .cancelMaintenance(maintenance.id);
+
     try {
       await ref
           .read(deleteMaintenanceProvider.notifier)
@@ -128,4 +138,26 @@ class MaintenanceListView extends ConsumerWidget {
       );
     }
   }
+}
+
+Future<void> _rescheduleAfterMarkDone(
+  WidgetRef ref,
+  String maintenanceId,
+  NotificationTexts texts,
+) async {
+  final maintenancesRepo = ref.read(maintenancesRepositoryProvider);
+  final itemsRepo = ref.read(itemsRepositoryProvider);
+  final updated = await maintenancesRepo.getMaintenance(maintenanceId);
+  if (updated == null) return;
+  final item = await itemsRepo.getItem(updated.itemId);
+  if (item == null) return;
+  final isPro = await ref.read(isProProvider.future);
+  await ref
+      .read(notificationSchedulerProvider)
+      .rescheduleMaintenance(
+        maintenance: updated,
+        item: item,
+        isPro: isPro,
+        texts: texts,
+      );
 }

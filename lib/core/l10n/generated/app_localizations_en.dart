@@ -630,4 +630,59 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeFabAddMaintenanceNoItems =>
       'Create an item first to add maintenance.';
+
+  @override
+  String get notificationMaintenanceTitle => 'Maintenance reminder';
+
+  @override
+  String notificationMaintenanceBody(String item, String task, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'is due in $days days',
+      one: 'is due in 1 day',
+      zero: 'is due today',
+    );
+    return '🔧 $item: $task $_temp0';
+  }
+
+  @override
+  String get notificationDocumentTitle => 'Document reminder';
+
+  @override
+  String notificationDocumentBody(String name, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'expires in $days days',
+      one: 'expires in 1 day',
+      zero: 'expires today',
+    );
+    return '📄 $name $_temp0';
+  }
+
+  @override
+  String get notificationWarrantyTitle => 'Warranty reminder';
+
+  @override
+  String notificationWarrantyBody(String item, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'ends in $days days',
+      one: 'ends in 1 day',
+      zero: 'ends today',
+    );
+    return '⚠️ $item warranty $_temp0';
+  }
+
+  @override
+  String get notificationsPermissionDeniedTitle => 'Notifications disabled';
+
+  @override
+  String get notificationsPermissionDeniedBody =>
+      'HouseKeep needs notification access to remind you about maintenance and expiries.';
+
+  @override
+  String get notificationsPermissionOpenSettings => 'Open settings';
 }

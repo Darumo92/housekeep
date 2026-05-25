@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
+import 'data/services/notification_providers.dart';
+import 'data/services/notification_service.dart';
 import 'firebase_options.dart';
 
 bool firebaseInitialized = false;
@@ -14,7 +16,40 @@ void main() async {
 
   await _initFirebase();
 
-  runApp(const ProviderScope(child: HouseKeepApp()));
+  final container = ProviderContainer();
+  await _initNotifications(container.read(notificationServiceProvider));
+
+  runApp(
+    UncontrolledProviderScope(
+      container: container,
+      child: const HouseKeepApp(),
+    ),
+  );
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    _requestNotificationPermissions(
+      container.read(notificationServiceProvider),
+    );
+  });
+}
+
+Future<void> _requestNotificationPermissions(
+  NotificationService service,
+) async {
+  if (!service.isInitialized) return;
+  try {
+    await service.requestPermissions();
+  } catch (e) {
+    debugPrint('[HouseKeep] Notification permissions skipped: $e');
+  }
+}
+
+Future<void> _initNotifications(NotificationService service) async {
+  try {
+    await service.init();
+  } catch (e) {
+    debugPrint('[HouseKeep] Notification init skipped: $e');
+  }
 }
 
 Future<void> _initFirebase() async {

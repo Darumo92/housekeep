@@ -5,7 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../data/repositories/repository_providers.dart';
+import '../../data/services/notification_providers.dart';
+import '../../data/services/notification_strings.dart';
 import '../../domain/enums/item_category.dart';
+import '../../domain/models/item.dart';
 import '../../domain/models/maintenance.dart';
 import '../../domain/models/maintenance_template.dart';
 import '../items/items_provider.dart';
@@ -68,9 +72,9 @@ class _AddEditMaintenanceScreenState
             return const SizedBox.shrink();
           }
           if (_isEditing) {
-            return _buildEditing(item.category);
+            return _buildEditing(item);
           }
-          return _buildForm(item.category);
+          return _buildForm(item);
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(child: Text(error.toString())),
@@ -78,7 +82,7 @@ class _AddEditMaintenanceScreenState
     );
   }
 
-  Widget _buildEditing(ItemCategory category) {
+  Widget _buildEditing(Item item) {
     final maintenanceAsync = ref.watch(
       maintenanceByIdProvider(widget.maintenanceId!),
     );
@@ -88,7 +92,7 @@ class _AddEditMaintenanceScreenState
           return const SizedBox.shrink();
         }
         _populateFromMaintenance(maintenance);
-        return _buildForm(category, existing: maintenance);
+        return _buildForm(item, existing: maintenance);
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, _) => Center(child: Text(error.toString())),
@@ -106,8 +110,9 @@ class _AddEditMaintenanceScreenState
     _isFromTemplate = maintenance.isFromTemplate;
   }
 
-  Widget _buildForm(ItemCategory category, {Maintenance? existing}) {
+  Widget _buildForm(Item item, {Maintenance? existing}) {
     final l10n = AppLocalizations.of(context);
+    final category = item.category;
     final isSaving = ref.watch(saveMaintenanceProvider).isLoading;
 
     return SafeArea(
@@ -184,7 +189,9 @@ class _AddEditMaintenanceScreenState
             ),
             const SizedBox(height: 24),
             FilledButton(
-              onPressed: isSaving ? null : () => _save(existing: existing),
+              onPressed: isSaving
+                  ? null
+                  : () => _save(item: item, existing: existing),
               child: Text(l10n.maintenanceSave),
             ),
           ],
@@ -229,10 +236,11 @@ class _AddEditMaintenanceScreenState
     });
   }
 
-  Future<void> _save({Maintenance? existing}) async {
+  Future<void> _save({required Item item, Maintenance? existing}) async {
     if (!_formKey.currentState!.validate()) return;
 
     final l10n = AppLocalizations.of(context);
+    final texts = NotificationTexts.fromL10n(l10n);
     final now = DateTime.now();
     final intervalMonths = int.parse(_intervalController.text.trim());
     final notifyDaysBefore = int.parse(_notifyDaysController.text.trim());
@@ -267,6 +275,16 @@ class _AddEditMaintenanceScreenState
       );
       return;
     }
+
+    final isPro = await ref.read(isProProvider.future);
+    await ref
+        .read(notificationSchedulerProvider)
+        .rescheduleMaintenance(
+          maintenance: maintenance,
+          item: item,
+          isPro: isPro,
+          texts: texts,
+        );
 
     if (!mounted) return;
     context.pop();

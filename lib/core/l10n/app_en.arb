@@ -223,5 +223,33 @@
   "homeFabAddItem": "Add item",
   "homeFabAddMaintenance": "Add maintenance",
   "homeFabAddDocument": "Add document",
-  "homeFabAddMaintenanceNoItems": "Create an item first to add maintenance."
+  "homeFabAddMaintenanceNoItems": "Create an item first to add maintenance.",
+  "notificationMaintenanceTitle": "Maintenance reminder",
+  "notificationMaintenanceBody": "🔧 {item}: {task} {days, plural, =0{is due today} one {is due in 1 day} other {is due in {days} days}}",
+  "@notificationMaintenanceBody": {
+    "placeholders": {
+      "item": {"type": "String"},
+      "task": {"type": "String"},
+      "days": {"type": "int"}
+    }
+  },
+  "notificationDocumentTitle": "Document reminder",
+  "notificationDocumentBody": "📄 {name} {days, plural, =0{expires today} one {expires in 1 day} other {expires in {days} days}}",
+  "@notificationDocumentBody": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "days": {"type": "int"}
+    }
+  },
+  "notificationWarrantyTitle": "Warranty reminder",
+  "notificationWarrantyBody": "⚠️ {item} warranty {days, plural, =0{ends today} one {ends in 1 day} other {ends in {days} days}}",
+  "@notificationWarrantyBody": {
+    "placeholders": {
+      "item": {"type": "String"},
+      "days": {"type": "int"}
+    }
+  },
+  "notificationsPermissionDeniedTitle": "Notifications disabled",
+  "notificationsPermissionDeniedBody": "HouseKeep needs notification access to remind you about maintenance and expiries.",
+  "notificationsPermissionOpenSettings": "Open settings"
 }

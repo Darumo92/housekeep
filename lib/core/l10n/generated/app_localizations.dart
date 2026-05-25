@@ -1141,6 +1141,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create an item first to add maintenance.'**
   String get homeFabAddMaintenanceNoItems;
+
+  /// No description provided for @notificationMaintenanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance reminder'**
+  String get notificationMaintenanceTitle;
+
+  /// No description provided for @notificationMaintenanceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'🔧 {item}: {task} {days, plural, =0{is due today} one {is due in 1 day} other {is due in {days} days}}'**
+  String notificationMaintenanceBody(String item, String task, int days);
+
+  /// No description provided for @notificationDocumentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Document reminder'**
+  String get notificationDocumentTitle;
+
+  /// No description provided for @notificationDocumentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'📄 {name} {days, plural, =0{expires today} one {expires in 1 day} other {expires in {days} days}}'**
+  String notificationDocumentBody(String name, int days);
+
+  /// No description provided for @notificationWarrantyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Warranty reminder'**
+  String get notificationWarrantyTitle;
+
+  /// No description provided for @notificationWarrantyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'⚠️ {item} warranty {days, plural, =0{ends today} one {ends in 1 day} other {ends in {days} days}}'**
+  String notificationWarrantyBody(String item, int days);
+
+  /// No description provided for @notificationsPermissionDeniedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications disabled'**
+  String get notificationsPermissionDeniedTitle;
+
+  /// No description provided for @notificationsPermissionDeniedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'HouseKeep needs notification access to remind you about maintenance and expiries.'**
+  String get notificationsPermissionDeniedBody;
+
+  /// No description provided for @notificationsPermissionOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get notificationsPermissionOpenSettings;
 }
 
 class _AppLocalizationsDelegate
