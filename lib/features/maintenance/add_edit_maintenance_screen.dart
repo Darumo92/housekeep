@@ -266,27 +266,36 @@ class _AddEditMaintenanceScreenState
       updatedAt: now,
     );
 
+    final messenger = ScaffoldMessenger.of(context);
+
     try {
       await ref.read(saveMaintenanceProvider.notifier).save(maintenance);
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(content: Text(l10n.maintenanceSaveFailed)),
       );
       return;
     }
 
-    final isPro = await ref.read(isProProvider.future);
-    await ref
-        .read(notificationSchedulerProvider)
-        .rescheduleMaintenance(
-          maintenance: maintenance,
-          item: item,
-          isPro: isPro,
-          texts: texts,
-        );
+    try {
+      final isPro = ref.read(isProProvider).valueOrNull ?? false;
+      await ref
+          .read(notificationSchedulerProvider)
+          .rescheduleMaintenance(
+            maintenance: maintenance,
+            item: item,
+            isPro: isPro,
+            texts: texts,
+          );
+    } catch (e) {
+      debugPrint('[HouseKeep] Maintenance reschedule skipped: $e');
+    }
 
     if (!mounted) return;
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.maintenanceSavedSuccess)),
+    );
     context.pop();
   }
 }

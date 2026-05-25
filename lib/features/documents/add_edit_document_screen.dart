@@ -271,26 +271,35 @@ class _AddEditDocumentScreenState
       updatedAt: now,
     );
 
+    final messenger = ScaffoldMessenger.of(context);
+
     try {
       await ref.read(saveDocumentProvider.notifier).save(document);
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(content: Text(l10n.documentSaveFailed)),
       );
       return;
     }
 
-    final isPro = await ref.read(isProProvider.future);
-    await ref
-        .read(notificationSchedulerProvider)
-        .rescheduleDocument(
-          document: document,
-          isPro: isPro,
-          texts: NotificationTexts.fromL10n(l10n),
-        );
+    try {
+      final isPro = ref.read(isProProvider).valueOrNull ?? false;
+      await ref
+          .read(notificationSchedulerProvider)
+          .rescheduleDocument(
+            document: document,
+            isPro: isPro,
+            texts: NotificationTexts.fromL10n(l10n),
+          );
+    } catch (e) {
+      debugPrint('[HouseKeep] Document reschedule skipped: $e');
+    }
 
     if (!mounted) return;
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.documentSavedSuccess)),
+    );
     context.pop();
   }
 }

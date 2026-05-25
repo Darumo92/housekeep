@@ -25,6 +25,8 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
       throw StateError('RevenueCat apiKey is empty');
     }
 
+    _isProController.onListen = () => _isProController.add(_isProValue);
+
     await Purchases.setLogLevel(LogLevel.warn);
     await Purchases.configure(PurchasesConfiguration(apiKey));
 
@@ -40,7 +42,6 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
       debugPrint('[RevenueCat] getCustomerInfo failed: $e');
     }
 
-    _isProController.onListen = () => _isProController.add(_isProValue);
     _initialized = true;
   }
 

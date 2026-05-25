@@ -17,6 +17,7 @@ import 'package:housekeep/features/home/home_screen.dart';
 import 'package:housekeep/features/items/add_edit_item_screen.dart';
 import 'package:housekeep/features/items/item_detail_screen.dart';
 import 'package:housekeep/features/items/items_list_screen.dart';
+import 'package:housekeep/features/onboarding/onboarding_screen.dart';
 import 'package:housekeep/features/paywall/paywall_screen.dart';
 import 'package:housekeep/features/settings/settings_screen.dart';
 
@@ -187,6 +188,20 @@ void main() {
     expect(find.byType(HomeScreen), findsOneWidget);
     expect(find.byType(SettingsScreen), findsNothing);
     expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 0);
+  });
+
+  testWidgets('renders the onboarding route outside the shell', (tester) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: HouseKeepApp(initialLocation: '/onboarding'),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.byType(OnboardingScreen), findsOneWidget);
+    expect(find.byType(PageView), findsOneWidget);
+    expect(find.byType(NavigationBar), findsNothing);
   });
 
   testWidgets('supports a Spanish locale override', (tester) async {

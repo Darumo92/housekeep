@@ -36,7 +36,7 @@ Stream<bool> isPro(IsProRef ref) {
 
 @riverpod
 Future<bool> canAddItem(CanAddItemRef ref) async {
-  final isPro = await ref.watch(isProProvider.future);
+  final isPro = ref.watch(isProProvider).valueOrNull ?? false;
   if (isPro) return true;
 
   final count = await ref.watch(itemsRepositoryProvider).countItems();
@@ -45,7 +45,7 @@ Future<bool> canAddItem(CanAddItemRef ref) async {
 
 @riverpod
 Future<bool> canAddDocument(CanAddDocumentRef ref) async {
-  final isPro = await ref.watch(isProProvider.future);
+  final isPro = ref.watch(isProProvider).valueOrNull ?? false;
   if (isPro) return true;
 
   final count = await ref.watch(documentsRepositoryProvider).countDocuments();

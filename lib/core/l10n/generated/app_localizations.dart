@@ -1357,6 +1357,234 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Products not available right now. Try again later.'**
   String get paywallOfferingUnavailable;
+
+  /// No description provided for @onboardingPage1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your home has many things to take care of'**
+  String get onboardingPage1Title;
+
+  /// No description provided for @onboardingPage1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Warranties, maintenance, expiring documents… it\'s easy to forget something important.'**
+  String get onboardingPage1Body;
+
+  /// No description provided for @onboardingPage2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'HouseKeep warns you before it\'s too late'**
+  String get onboardingPage2Title;
+
+  /// No description provided for @onboardingPage2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Save your appliances and documents. We\'ll remind you when it\'s time to act.'**
+  String get onboardingPage2Body;
+
+  /// No description provided for @onboardingPage3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Start by adding your first appliance'**
+  String get onboardingPage3Title;
+
+  /// No description provided for @onboardingPage3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us about your home so we can suggest tailored templates.'**
+  String get onboardingPage3Body;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get onboardingStart;
+
+  /// No description provided for @onboardingHomeTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Home type'**
+  String get onboardingHomeTypeLabel;
+
+  /// No description provided for @settingsSectionGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get settingsSectionGeneral;
+
+  /// No description provided for @settingsSectionNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsSectionNotifications;
+
+  /// No description provided for @settingsSectionPremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium'**
+  String get settingsSectionPremium;
+
+  /// No description provided for @settingsSectionAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsSectionAbout;
+
+  /// No description provided for @settingsLanguageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguageLabel;
+
+  /// No description provided for @settingsLanguageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get settingsLanguageSystem;
+
+  /// No description provided for @settingsLanguageEs.
+  ///
+  /// In en, this message translates to:
+  /// **'Español'**
+  String get settingsLanguageEs;
+
+  /// No description provided for @settingsLanguageEn.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get settingsLanguageEn;
+
+  /// No description provided for @settingsNotificationsEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable reminders'**
+  String get settingsNotificationsEnabled;
+
+  /// No description provided for @settingsNotificationsEnabledBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive maintenance and expiry reminders.'**
+  String get settingsNotificationsEnabledBody;
+
+  /// No description provided for @settingsNotificationsOpenSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System permissions'**
+  String get settingsNotificationsOpenSystem;
+
+  /// No description provided for @settingsPremiumStatusFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Free plan'**
+  String get settingsPremiumStatusFree;
+
+  /// No description provided for @settingsPremiumStatusPro.
+  ///
+  /// In en, this message translates to:
+  /// **'HouseKeep Pro'**
+  String get settingsPremiumStatusPro;
+
+  /// No description provided for @settingsPremiumUpgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro'**
+  String get settingsPremiumUpgrade;
+
+  /// No description provided for @settingsPremiumRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchases'**
+  String get settingsPremiumRestore;
+
+  /// No description provided for @settingsPremiumRestoreSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases restored'**
+  String get settingsPremiumRestoreSuccess;
+
+  /// No description provided for @settingsPremiumRestoreNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No previous purchase found'**
+  String get settingsPremiumRestoreNone;
+
+  /// No description provided for @settingsPremiumRestoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not restore purchase'**
+  String get settingsPremiumRestoreFailed;
+
+  /// No description provided for @settingsAboutVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String settingsAboutVersion(String version);
+
+  /// No description provided for @settingsAboutContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact support'**
+  String get settingsAboutContact;
+
+  /// No description provided for @settingsAboutFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get settingsAboutFeedback;
+
+  /// No description provided for @settingsAboutPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get settingsAboutPrivacy;
+
+  /// No description provided for @settingsAboutTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of use'**
+  String get settingsAboutTerms;
+
+  /// No description provided for @settingsAboutRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate the app'**
+  String get settingsAboutRate;
+
+  /// No description provided for @settingsLinkOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open link'**
+  String get settingsLinkOpenFailed;
+
+  /// No description provided for @itemSavedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Item saved'**
+  String get itemSavedSuccess;
+
+  /// No description provided for @maintenanceSavedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance saved'**
+  String get maintenanceSavedSuccess;
+
+  /// No description provided for @documentSavedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Document saved'**
+  String get documentSavedSuccess;
 }
 
 class _AppLocalizationsDelegate

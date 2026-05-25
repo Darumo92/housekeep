@@ -307,23 +307,23 @@ Marca cada tarea con [x] cuando esté completada.
 ## Fase 8: Onboarding + Settings
 
 ### Onboarding
-- [ ] PageView con 3 páginas animadas
-- [ ] Página 1: Problema ("Tu casa tiene muchas cosas que cuidar")
-- [ ] Página 2: Solución ("HouseKeep te avisa antes de que sea tarde")
-- [ ] Página 3: Acción ("Empieza añadiendo tu primer electrodoméstico")
-- [ ] Botón "Empezar" en última página
-- [ ] Selector de tipo de vivienda (piso/casa/chalet) → sugiere plantillas
-- [ ] Persistir en SharedPreferences que ya se completó
-- [ ] Solo mostrar en primer uso
+- [x] PageView con 3 páginas animadas
+- [x] Página 1: Problema ("Tu casa tiene muchas cosas que cuidar")
+- [x] Página 2: Solución ("HouseKeep te avisa antes de que sea tarde")
+- [x] Página 3: Acción ("Empieza añadiendo tu primer electrodoméstico")
+- [x] Botón "Empezar" en última página
+- [x] Selector de tipo de vivienda (piso/casa/chalet) — guardado en SharedPreferences (sugerencia de plantillas pendiente de fase posterior)
+- [x] Persistir en SharedPreferences que ya se completó
+- [x] Solo mostrar en primer uso
 
 ### Settings
-- [ ] Sección "General": Idioma (ES/EN)
-- [ ] Sección "Notificaciones": on/off + defaults
-- [ ] Sección "Premium": estado actual + restaurar compra
-- [ ] Sección "Sobre": versión, contacto, feedback
-- [ ] Link a política de privacidad
-- [ ] Link a términos de uso
-- [ ] Botón "Valorar la app" (url_launcher a store)
+- [x] Sección "General": Idioma (ES/EN/sistema)
+- [x] Sección "Notificaciones": on/off + acceso a permisos del sistema
+- [x] Sección "Premium": estado actual + restaurar compra
+- [x] Sección "Sobre": versión, contacto, feedback
+- [x] Link a política de privacidad
+- [x] Link a términos de uso
+- [x] Botón "Valorar la app" (url_launcher a store)
 
 ---
 

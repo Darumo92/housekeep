@@ -5,6 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 import 'core/constants/app_constants.dart';
@@ -32,10 +33,12 @@ void main() async {
   );
   await _initNotifications(container.read(notificationServiceProvider));
 
+  final initialLocation = await _resolveInitialLocation();
+
   runApp(
     UncontrolledProviderScope(
       container: container,
-      child: const HouseKeepApp(),
+      child: HouseKeepApp(initialLocation: initialLocation),
     ),
   );
 
@@ -83,6 +86,17 @@ Future<void> _initNotifications(NotificationService service) async {
     await service.init();
   } catch (e) {
     debugPrint('[HouseKeep] Notification init skipped: $e');
+  }
+}
+
+Future<String> _resolveInitialLocation() async {
+  try {
+    final prefs = SharedPreferencesAsync();
+    final completed = await prefs.getBool('onboarding.completed') ?? false;
+    return completed ? '/' : '/onboarding';
+  } catch (e) {
+    debugPrint('[HouseKeep] Onboarding state read failed: $e');
+    return '/';
   }
 }
 

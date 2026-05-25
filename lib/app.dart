@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'core/l10n/generated/app_localizations.dart';
@@ -12,7 +13,9 @@ import 'features/items/item_detail_screen.dart';
 import 'features/items/items_list_screen.dart';
 import 'features/maintenance/add_edit_maintenance_screen.dart';
 import 'features/maintenance/maintenance_list_screen.dart';
+import 'features/onboarding/onboarding_screen.dart';
 import 'features/paywall/paywall_screen.dart';
+import 'features/settings/settings_provider.dart';
 import 'features/settings/settings_screen.dart';
 
 class ShellDestination {
@@ -125,16 +128,6 @@ GoRouter _createRouter({String initialLocation = '/'}) {
             ),
           ),
           GoRoute(
-            path: '/documents/add',
-            builder: (context, state) => const AddEditDocumentScreen(),
-          ),
-          GoRoute(
-            path: '/documents/:id/edit',
-            builder: (context, state) => AddEditDocumentScreen(
-              documentId: state.pathParameters['id'],
-            ),
-          ),
-          GoRoute(
             path: '/settings',
             builder: (context, state) => const SettingsScreen(),
           ),
@@ -144,11 +137,15 @@ GoRouter _createRouter({String initialLocation = '/'}) {
         path: '/paywall',
         builder: (context, state) => const PaywallScreen(),
       ),
+      GoRoute(
+        path: '/onboarding',
+        builder: (context, state) => const OnboardingScreen(),
+      ),
     ],
   );
 }
 
-class HouseKeepApp extends StatefulWidget {
+class HouseKeepApp extends ConsumerStatefulWidget {
   const HouseKeepApp({
     super.key,
     this.localeOverride,
@@ -159,10 +156,10 @@ class HouseKeepApp extends StatefulWidget {
   final String initialLocation;
 
   @override
-  State<HouseKeepApp> createState() => _HouseKeepAppState();
+  ConsumerState<HouseKeepApp> createState() => _HouseKeepAppState();
 }
 
-class _HouseKeepAppState extends State<HouseKeepApp> {
+class _HouseKeepAppState extends ConsumerState<HouseKeepApp> {
   late final GoRouter _router = _createRouter(
     initialLocation: widget.initialLocation,
   );
@@ -175,9 +172,15 @@ class _HouseKeepAppState extends State<HouseKeepApp> {
 
   @override
   Widget build(BuildContext context) {
+    final settings = ref.watch(settingsControllerProvider);
+    final localeFromSettings = settings.maybeWhen(
+      data: (s) => s.localePreference.toLocale(),
+      orElse: () => null,
+    );
+
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      locale: widget.localeOverride,
+      locale: widget.localeOverride ?? localeFromSettings,
       theme: AppTheme.light(),
       routerConfig: _router,
       supportedLocales: AppLocalizations.supportedLocales,

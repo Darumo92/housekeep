@@ -206,19 +206,29 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
       updatedAt: now,
     );
 
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+
     try {
       await ref.read(saveItemProvider.notifier).save(item);
     } catch (_) {
       return;
     }
 
-    final isPro = await ref.read(isProProvider.future);
-    await ref
-        .read(notificationSchedulerProvider)
-        .rescheduleWarranty(item: item, isPro: isPro, texts: texts);
+    try {
+      final isPro = ref.read(isProProvider).valueOrNull ?? false;
+      await ref
+          .read(notificationSchedulerProvider)
+          .rescheduleWarranty(item: item, isPro: isPro, texts: texts);
+    } catch (e) {
+      debugPrint('[HouseKeep] Warranty reschedule skipped: $e');
+    }
 
     if (!mounted) return;
 
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.itemSavedSuccess)),
+    );
     context.pop();
   }
 

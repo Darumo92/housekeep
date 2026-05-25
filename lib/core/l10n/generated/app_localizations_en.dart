@@ -770,4 +770,126 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get paywallOfferingUnavailable =>
       'Products not available right now. Try again later.';
+
+  @override
+  String get onboardingPage1Title =>
+      'Your home has many things to take care of';
+
+  @override
+  String get onboardingPage1Body =>
+      'Warranties, maintenance, expiring documents… it\'s easy to forget something important.';
+
+  @override
+  String get onboardingPage2Title =>
+      'HouseKeep warns you before it\'s too late';
+
+  @override
+  String get onboardingPage2Body =>
+      'Save your appliances and documents. We\'ll remind you when it\'s time to act.';
+
+  @override
+  String get onboardingPage3Title => 'Start by adding your first appliance';
+
+  @override
+  String get onboardingPage3Body =>
+      'Tell us about your home so we can suggest tailored templates.';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingStart => 'Get started';
+
+  @override
+  String get onboardingHomeTypeLabel => 'Home type';
+
+  @override
+  String get settingsSectionGeneral => 'General';
+
+  @override
+  String get settingsSectionNotifications => 'Notifications';
+
+  @override
+  String get settingsSectionPremium => 'Premium';
+
+  @override
+  String get settingsSectionAbout => 'About';
+
+  @override
+  String get settingsLanguageLabel => 'Language';
+
+  @override
+  String get settingsLanguageSystem => 'System';
+
+  @override
+  String get settingsLanguageEs => 'Español';
+
+  @override
+  String get settingsLanguageEn => 'English';
+
+  @override
+  String get settingsNotificationsEnabled => 'Enable reminders';
+
+  @override
+  String get settingsNotificationsEnabledBody =>
+      'Receive maintenance and expiry reminders.';
+
+  @override
+  String get settingsNotificationsOpenSystem => 'System permissions';
+
+  @override
+  String get settingsPremiumStatusFree => 'Free plan';
+
+  @override
+  String get settingsPremiumStatusPro => 'HouseKeep Pro';
+
+  @override
+  String get settingsPremiumUpgrade => 'Upgrade to Pro';
+
+  @override
+  String get settingsPremiumRestore => 'Restore purchases';
+
+  @override
+  String get settingsPremiumRestoreSuccess => 'Purchases restored';
+
+  @override
+  String get settingsPremiumRestoreNone => 'No previous purchase found';
+
+  @override
+  String get settingsPremiumRestoreFailed => 'Could not restore purchase';
+
+  @override
+  String settingsAboutVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get settingsAboutContact => 'Contact support';
+
+  @override
+  String get settingsAboutFeedback => 'Send feedback';
+
+  @override
+  String get settingsAboutPrivacy => 'Privacy policy';
+
+  @override
+  String get settingsAboutTerms => 'Terms of use';
+
+  @override
+  String get settingsAboutRate => 'Rate the app';
+
+  @override
+  String get settingsLinkOpenFailed => 'Could not open link';
+
+  @override
+  String get itemSavedSuccess => 'Item saved';
+
+  @override
+  String get maintenanceSavedSuccess => 'Maintenance saved';
+
+  @override
+  String get documentSavedSuccess => 'Document saved';
 }
