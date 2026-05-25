@@ -57,7 +57,7 @@ final documentsRepositoryProvider =
 
 typedef DocumentsRepositoryRef = AutoDisposeProviderRef<DocumentsRepository>;
 String _$purchaseRepositoryHash() =>
-    r'9c72784925f396d970051fa3a204ad0a2872ca63';
+    r'bb31c4ada06f0928f3b404d6b4d6a53e223d7d1c';
 
 /// See also [purchaseRepository].
 @ProviderFor(purchaseRepository)

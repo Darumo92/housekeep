@@ -1195,6 +1195,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open settings'**
   String get notificationsPermissionOpenSettings;
+
+  /// No description provided for @paywallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'HouseKeep Pro'**
+  String get paywallTitle;
+
+  /// No description provided for @paywallTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Take care of your home without limits'**
+  String get paywallTagline;
+
+  /// No description provided for @paywallFeatureUnlimitedItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited items'**
+  String get paywallFeatureUnlimitedItems;
+
+  /// No description provided for @paywallFeatureUnlimitedDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited documents'**
+  String get paywallFeatureUnlimitedDocuments;
+
+  /// No description provided for @paywallFeatureProTemplates.
+  ///
+  /// In en, this message translates to:
+  /// **'All maintenance templates'**
+  String get paywallFeatureProTemplates;
+
+  /// No description provided for @paywallFeatureMultiNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Multiple reminders (90/30/7 days)'**
+  String get paywallFeatureMultiNotifications;
+
+  /// No description provided for @paywallFeatureWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Home screen widget'**
+  String get paywallFeatureWidget;
+
+  /// No description provided for @paywallFeatureExportPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Export to PDF'**
+  String get paywallFeatureExportPdf;
+
+  /// No description provided for @paywallFreeColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get paywallFreeColumn;
+
+  /// No description provided for @paywallProColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro'**
+  String get paywallProColumn;
+
+  /// No description provided for @paywallFreeItemsValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 5 items'**
+  String get paywallFreeItemsValue;
+
+  /// No description provided for @paywallProItemsValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited'**
+  String get paywallProItemsValue;
+
+  /// No description provided for @paywallFreeDocumentsValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 3 documents'**
+  String get paywallFreeDocumentsValue;
+
+  /// No description provided for @paywallProDocumentsValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited'**
+  String get paywallProDocumentsValue;
+
+  /// No description provided for @paywallFreeNotificationsValue.
+  ///
+  /// In en, this message translates to:
+  /// **'1 reminder'**
+  String get paywallFreeNotificationsValue;
+
+  /// No description provided for @paywallProNotificationsValue.
+  ///
+  /// In en, this message translates to:
+  /// **'3 reminders'**
+  String get paywallProNotificationsValue;
+
+  /// No description provided for @paywallBuyCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Pro for {price}'**
+  String paywallBuyCta(String price);
+
+  /// No description provided for @paywallBuyCtaUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade unavailable'**
+  String get paywallBuyCtaUnavailable;
+
+  /// No description provided for @paywallRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchases'**
+  String get paywallRestore;
+
+  /// No description provided for @paywallSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Pro!'**
+  String get paywallSuccessTitle;
+
+  /// No description provided for @paywallSuccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'All features unlocked. Enjoy.'**
+  String get paywallSuccessBody;
+
+  /// No description provided for @paywallSuccessContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get paywallSuccessContinue;
+
+  /// No description provided for @paywallErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get paywallErrorTitle;
+
+  /// No description provided for @paywallErrorRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get paywallErrorRetry;
+
+  /// No description provided for @paywallCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase cancelled'**
+  String get paywallCancelled;
+
+  /// No description provided for @paywallNothingToRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'No previous purchase found'**
+  String get paywallNothingToRestore;
+
+  /// No description provided for @paywallOfferingUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Products not available right now. Try again later.'**
+  String get paywallOfferingUnavailable;
 }
 
 class _AppLocalizationsDelegate

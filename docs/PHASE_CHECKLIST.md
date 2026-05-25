@@ -267,40 +267,40 @@ Marca cada tarea con [x] cuando esté completada.
 ## Fase 7: Paywall y Premium
 
 ### Abstracción
-- [ ] Definir `PurchaseService` interface abstracta
-- [ ] Métodos: `initialize()`, `purchasePro()`, `restorePurchases()`, `isPro` stream
-- [ ] Implementar `PurchaseServiceMock` (toggle manual)
-- [ ] Implementar `PurchaseServiceRevenueCat`
+- [x] Definir `PurchaseService` interface abstracta
+- [x] Métodos: `initialize()`, `purchasePro()`, `restorePurchases()`, `isPro` stream
+- [x] Implementar `PurchaseServiceMock` (toggle manual)
+- [x] Implementar `PurchaseServiceRevenueCat`
 
 ### RevenueCat
-- [ ] Crear cuenta RevenueCat
-- [ ] Crear proyecto "HouseKeep"
-- [ ] Configurar API keys (iOS + Android)
-- [ ] Crear Entitlement "housekeep_pro"
+- [x] Crear cuenta RevenueCat
+- [x] Crear proyecto "HouseKeep"
+- [x] Configurar API keys (iOS + Android) — Android sandbox key embebida; iOS pendiente cuando se publique en App Store
+- [x] Crear Entitlement "housekeep_pro"
 - [ ] (Cuando estén los productos en stores) Crear Products y Offerings
 
 ### Paywall UI
-- [ ] Pantalla paywall con lista de beneficios
-- [ ] Comparativa visual Free vs Pro
-- [ ] Botón de compra con precio dinámico
-- [ ] Botón "Restaurar compra"
-- [ ] Loading state durante compra
-- [ ] Success state con confetti/animación
-- [ ] Error handling (cancelled, error, etc.)
+- [x] Pantalla paywall con lista de beneficios
+- [x] Comparativa visual Free vs Pro
+- [x] Botón de compra con precio dinámico
+- [x] Botón "Restaurar compra"
+- [x] Loading state durante compra
+- [x] Success state con confetti/animación (success view simple sin confetti — opcional fase 10)
+- [x] Error handling (cancelled, error, etc.)
 
 ### Gates
-- [ ] Check al añadir 6to item → mostrar paywall
-- [ ] Check al añadir 4to documento → mostrar paywall
-- [ ] Check al intentar usar plantilla PRO → mostrar paywall
-- [ ] Check al intentar configurar múltiples notificaciones → paywall
-- [ ] Widget solo disponible en pro → mostrar paywall desde settings
-- [ ] Exportar PDF → solo pro
+- [x] Check al añadir 6to item → mostrar paywall
+- [x] Check al añadir 4to documento → mostrar paywall
+- [x] Check al intentar usar plantilla PRO → mostrar paywall
+- [x] Check al intentar configurar múltiples notificaciones → paywall (cubierto vía isPro en NotificationScheduler)
+- [ ] Widget solo disponible en pro → mostrar paywall desde settings (depende fase 9)
+- [ ] Exportar PDF → solo pro (no implementado aún)
 
 ### Provider
-- [ ] `isProProvider` → bool stream
-- [ ] `canAddItemProvider` → bool (items < 5 OR isPro)
-- [ ] `canAddDocumentProvider` → bool (docs < 3 OR isPro)
-- [ ] Refresh al volver de paywall
+- [x] `isProProvider` → bool stream
+- [x] `canAddItemProvider` → bool (items < 5 OR isPro)
+- [x] `canAddDocumentProvider` → bool (docs < 3 OR isPro)
+- [x] Refresh al volver de paywall (CustomerInfoUpdateListener actualiza stream)
 
 ---
 

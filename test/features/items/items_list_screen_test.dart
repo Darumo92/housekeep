@@ -12,6 +12,7 @@ import 'package:housekeep/domain/enums/item_category.dart';
 import 'package:housekeep/domain/models/item.dart';
 import 'package:housekeep/features/items/item_detail_screen.dart';
 import 'package:housekeep/features/items/items_provider.dart';
+import 'package:housekeep/features/paywall/paywall_screen.dart';
 
 void main() {
   testWidgets('shows first-use empty state when there are no items', (
@@ -177,13 +178,8 @@ void main() {
       await tester.tap(find.byType(FloatingActionButton));
       await tester.pumpAndSettle();
 
-      expect(find.text(l10n.paywallItemsLimitTitle), findsOneWidget);
-      expect(find.text(l10n.paywallItemsLimitBody), findsOneWidget);
-      expect(
-        find.widgetWithText(FilledButton, l10n.paywallUpgradeCta),
-        findsOneWidget,
-      );
-      expect(find.widgetWithText(TextButton, l10n.paywallBack), findsOneWidget);
+      expect(find.byType(PaywallScreen), findsOneWidget);
+      expect(find.text(l10n.paywallTagline), findsOneWidget);
     },
   );
 
@@ -207,18 +203,10 @@ void main() {
 
     final l10n = _l10n(tester);
 
-    await tester.scrollUntilVisible(
-      find.widgetWithText(TextButton, l10n.paywallBack),
-      100,
-    );
+    await tester.scrollUntilVisible(find.text(l10n.paywallTagline), 100);
 
-    expect(find.text(l10n.paywallItemsLimitTitle), findsOneWidget);
-    expect(find.text(l10n.paywallItemsLimitBody), findsOneWidget);
-    expect(
-      find.widgetWithText(FilledButton, l10n.paywallUpgradeCta),
-      findsOneWidget,
-    );
-    expect(find.widgetWithText(TextButton, l10n.paywallBack), findsOneWidget);
+    expect(find.byType(PaywallScreen), findsOneWidget);
+    expect(find.text(l10n.paywallTagline), findsOneWidget);
   });
 
   testWidgets('disables the fab while add navigation is in flight', (
@@ -252,7 +240,7 @@ void main() {
     completer.complete('/paywall');
     await tester.pumpAndSettle();
 
-    expect(find.text(_l10n(tester).paywallItemsLimitTitle), findsOneWidget);
+    expect(find.byType(PaywallScreen), findsOneWidget);
   });
 }
 

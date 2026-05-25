@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/generated/app_localizations.dart';
 import '../../../data/repositories/repository_providers.dart';
@@ -140,7 +141,6 @@ class _TemplateTile extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return ListTile(
-      enabled: !locked,
       leading: Icon(
         template.category.icon,
         color: locked ? colorScheme.outline : colorScheme.primary,
@@ -178,7 +178,14 @@ class _TemplateTile extends StatelessWidget {
         ],
       ),
       isThreeLine: true,
-      onTap: locked ? null : () => Navigator.of(context).pop(template),
+      onTap: () {
+        if (locked) {
+          Navigator.of(context).pop();
+          context.push('/paywall');
+          return;
+        }
+        Navigator.of(context).pop(template);
+      },
     );
   }
 }

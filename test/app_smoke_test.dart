@@ -50,7 +50,6 @@ void main() {
 
     expect(find.byType(PaywallScreen), findsOneWidget);
     expect(find.byType(NavigationBar), findsNothing);
-    expect(find.byType(AppBar), findsNothing);
   });
 
   testWidgets('supports the item add route inside the shell', (tester) async {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -5,6 +7,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
+import 'core/constants/app_constants.dart';
+import 'data/repositories/purchase_repository.dart';
+import 'data/repositories/repository_providers.dart';
+import 'data/repositories/revenuecat_purchase_repository.dart';
 import 'data/services/notification_providers.dart';
 import 'data/services/notification_service.dart';
 import 'firebase_options.dart';
@@ -16,7 +22,14 @@ void main() async {
 
   await _initFirebase();
 
-  final container = ProviderContainer();
+  final purchaseRepository = await _initPurchases();
+
+  final container = ProviderContainer(
+    overrides: [
+      if (purchaseRepository != null)
+        purchaseRepositoryProvider.overrideWithValue(purchaseRepository),
+    ],
+  );
   await _initNotifications(container.read(notificationServiceProvider));
 
   runApp(
@@ -31,6 +44,27 @@ void main() async {
       container.read(notificationServiceProvider),
     );
   });
+}
+
+Future<PurchaseRepository?> _initPurchases() async {
+  final key = Platform.isIOS
+      ? AppConstants.revenueCatIosKey
+      : Platform.isAndroid
+      ? AppConstants.revenueCatAndroidKey
+      : '';
+  if (key.isEmpty) {
+    debugPrint('[HouseKeep] RevenueCat key missing for this platform');
+    return null;
+  }
+  final repo = RevenueCatPurchaseRepository(apiKey: key);
+  try {
+    await repo.init();
+    debugPrint('[HouseKeep] RevenueCat initialized');
+    return repo;
+  } catch (e) {
+    debugPrint('[HouseKeep] RevenueCat init failed: $e');
+    return null;
+  }
 }
 
 Future<void> _requestNotificationPermissions(

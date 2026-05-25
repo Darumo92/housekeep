@@ -26,7 +26,7 @@ DocumentsRepository documentsRepository(DocumentsRepositoryRef ref) {
 
 @Riverpod(keepAlive: true)
 PurchaseRepository purchaseRepository(PurchaseRepositoryRef ref) {
-  return const MockPurchaseRepository();
+  return MockPurchaseRepository();
 }
 
 @riverpod

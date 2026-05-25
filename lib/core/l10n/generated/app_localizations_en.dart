@@ -685,4 +685,89 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationsPermissionOpenSettings => 'Open settings';
+
+  @override
+  String get paywallTitle => 'HouseKeep Pro';
+
+  @override
+  String get paywallTagline => 'Take care of your home without limits';
+
+  @override
+  String get paywallFeatureUnlimitedItems => 'Unlimited items';
+
+  @override
+  String get paywallFeatureUnlimitedDocuments => 'Unlimited documents';
+
+  @override
+  String get paywallFeatureProTemplates => 'All maintenance templates';
+
+  @override
+  String get paywallFeatureMultiNotifications =>
+      'Multiple reminders (90/30/7 days)';
+
+  @override
+  String get paywallFeatureWidget => 'Home screen widget';
+
+  @override
+  String get paywallFeatureExportPdf => 'Export to PDF';
+
+  @override
+  String get paywallFreeColumn => 'Free';
+
+  @override
+  String get paywallProColumn => 'Pro';
+
+  @override
+  String get paywallFreeItemsValue => 'Up to 5 items';
+
+  @override
+  String get paywallProItemsValue => 'Unlimited';
+
+  @override
+  String get paywallFreeDocumentsValue => 'Up to 3 documents';
+
+  @override
+  String get paywallProDocumentsValue => 'Unlimited';
+
+  @override
+  String get paywallFreeNotificationsValue => '1 reminder';
+
+  @override
+  String get paywallProNotificationsValue => '3 reminders';
+
+  @override
+  String paywallBuyCta(String price) {
+    return 'Get Pro for $price';
+  }
+
+  @override
+  String get paywallBuyCtaUnavailable => 'Upgrade unavailable';
+
+  @override
+  String get paywallRestore => 'Restore purchases';
+
+  @override
+  String get paywallSuccessTitle => 'Welcome to Pro!';
+
+  @override
+  String get paywallSuccessBody => 'All features unlocked. Enjoy.';
+
+  @override
+  String get paywallSuccessContinue => 'Continue';
+
+  @override
+  String get paywallErrorTitle => 'Something went wrong';
+
+  @override
+  String get paywallErrorRetry => 'Try again';
+
+  @override
+  String get paywallCancelled => 'Purchase cancelled';
+
+  @override
+  String get paywallNothingToRestore => 'No previous purchase found';
+
+  @override
+  String get paywallOfferingUnavailable =>
+      'Products not available right now. Try again later.';
 }

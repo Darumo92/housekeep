@@ -692,4 +692,91 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get notificationsPermissionOpenSettings => 'Abrir ajustes';
+
+  @override
+  String get paywallTitle => 'HouseKeep Pro';
+
+  @override
+  String get paywallTagline => 'Cuida tu casa sin límites';
+
+  @override
+  String get paywallFeatureUnlimitedItems => 'Artículos ilimitados';
+
+  @override
+  String get paywallFeatureUnlimitedDocuments => 'Documentos ilimitados';
+
+  @override
+  String get paywallFeatureProTemplates =>
+      'Todas las plantillas de mantenimiento';
+
+  @override
+  String get paywallFeatureMultiNotifications =>
+      'Avisos múltiples (90/30/7 días)';
+
+  @override
+  String get paywallFeatureWidget => 'Widget de pantalla de inicio';
+
+  @override
+  String get paywallFeatureExportPdf => 'Exportar a PDF';
+
+  @override
+  String get paywallFreeColumn => 'Gratis';
+
+  @override
+  String get paywallProColumn => 'Pro';
+
+  @override
+  String get paywallFreeItemsValue => 'Hasta 5 artículos';
+
+  @override
+  String get paywallProItemsValue => 'Ilimitados';
+
+  @override
+  String get paywallFreeDocumentsValue => 'Hasta 3 documentos';
+
+  @override
+  String get paywallProDocumentsValue => 'Ilimitados';
+
+  @override
+  String get paywallFreeNotificationsValue => '1 aviso';
+
+  @override
+  String get paywallProNotificationsValue => '3 avisos';
+
+  @override
+  String paywallBuyCta(String price) {
+    return 'Comprar Pro por $price';
+  }
+
+  @override
+  String get paywallBuyCtaUnavailable => 'Compra no disponible';
+
+  @override
+  String get paywallRestore => 'Restaurar compras';
+
+  @override
+  String get paywallSuccessTitle => '¡Bienvenido a Pro!';
+
+  @override
+  String get paywallSuccessBody =>
+      'Todas las funciones desbloqueadas. Disfruta.';
+
+  @override
+  String get paywallSuccessContinue => 'Continuar';
+
+  @override
+  String get paywallErrorTitle => 'Algo ha fallado';
+
+  @override
+  String get paywallErrorRetry => 'Reintentar';
+
+  @override
+  String get paywallCancelled => 'Compra cancelada';
+
+  @override
+  String get paywallNothingToRestore => 'No se encontró ninguna compra previa';
+
+  @override
+  String get paywallOfferingUnavailable =>
+      'Productos no disponibles ahora mismo. Inténtalo más tarde.';
 }
