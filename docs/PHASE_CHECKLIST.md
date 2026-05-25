@@ -330,28 +330,28 @@ Marca cada tarea con [x] cuando esté completada.
 ## Fase 9: Widget de pantalla de inicio
 
 ### Diseño
-- [ ] Diseñar widget small (2x2): próximo evento + countdown
-- [ ] Diseñar widget medium (4x2): próximos 3 eventos
-- [ ] Colores coherentes con la app (semáforo)
+- [x] Diseñar widget small (2x2): próximo evento + countdown
+- [x] Diseñar widget medium (4x2): próximos 3 eventos
+- [x] Colores coherentes con la app (semáforo: success/warning/error)
 
-### iOS (WidgetKit via home_widget)
+### iOS (WidgetKit via home_widget) — pendiente Mac
 - [ ] Configurar Widget Extension en Xcode
 - [ ] Crear timeline provider
 - [ ] Crear vistas SwiftUI para small y medium
 - [ ] Deep link al tocar → abre item/documento correspondiente
 - [ ] Actualización periódica (cada 6 horas)
 
-### Android (Glance via home_widget)
-- [ ] Configurar AppWidgetProvider
-- [ ] Crear layouts para small y medium
-- [ ] Deep link al tocar
-- [ ] Actualización periódica
+### Android (AppWidgetProvider via home_widget)
+- [x] Configurar AppWidgetProvider (`HouseKeepWidgetProvider.kt`)
+- [x] Crear layouts para small y medium (selección dinámica por minHeight)
+- [x] Deep link al tocar (`housekeep://widget?route=...`)
+- [x] Actualización periódica (updatePeriodMillis = 6h en widget info)
 
 ### Datos
-- [ ] Servicio que prepara datos para el widget
-- [ ] Actualizar widget al marcar mantenimiento como realizado
-- [ ] Actualizar widget al añadir/editar/borrar items/docs
-- [ ] Solo disponible para usuarios PRO
+- [x] Servicio que prepara datos para el widget (`WidgetService` + `WidgetSnapshotBuilder`)
+- [x] Actualizar widget al marcar mantenimiento como realizado (vía `widgetSyncProvider` reactivo a streams)
+- [x] Actualizar widget al añadir/editar/borrar items/docs (mismo, vía streams Riverpod)
+- [x] Solo disponible para usuarios PRO (free ve CTA upgrade → abre paywall al tocar)
 
 ---
 

@@ -17,6 +17,7 @@ import 'features/onboarding/onboarding_screen.dart';
 import 'features/paywall/paywall_screen.dart';
 import 'features/settings/settings_provider.dart';
 import 'features/settings/settings_screen.dart';
+import 'features/widget/widget_deep_link.dart';
 
 class ShellDestination {
   const ShellDestination({
@@ -163,6 +164,12 @@ class _HouseKeepAppState extends ConsumerState<HouseKeepApp> {
   late final GoRouter _router = _createRouter(
     initialLocation: widget.initialLocation,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetDeepLinkHandler.instance.attachRouter(_router);
+  }
 
   @override
   void dispose() {

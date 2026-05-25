@@ -1,4 +1,5 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -77,6 +78,17 @@ class SettingsScreen extends ConsumerWidget {
               trailing: const Icon(Icons.refresh, size: 20),
               onTap: () => _restorePurchases(context, ref),
             ),
+            if (kDebugMode)
+              SwitchListTile(
+                title: const Text('DEBUG: Simular PRO'),
+                subtitle: const Text('Solo visible en debug builds'),
+                value: isProAsync.valueOrNull ?? false,
+                onChanged: (value) {
+                  ref
+                      .read(proDebugOverrideProvider.notifier)
+                      .set(value);
+                },
+              ),
             const Divider(height: 1),
             _SectionHeader(label: l10n.settingsSectionAbout),
             const _VersionTile(),

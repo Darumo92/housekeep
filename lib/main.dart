@@ -14,6 +14,8 @@ import 'data/repositories/repository_providers.dart';
 import 'data/repositories/revenuecat_purchase_repository.dart';
 import 'data/services/notification_providers.dart';
 import 'data/services/notification_service.dart';
+import 'features/widget/widget_deep_link.dart';
+import 'features/widget/widget_sync_provider.dart';
 import 'firebase_options.dart';
 
 bool firebaseInitialized = false;
@@ -32,6 +34,11 @@ void main() async {
     ],
   );
   await _initNotifications(container.read(notificationServiceProvider));
+
+  if (Platform.isAndroid || Platform.isIOS) {
+    container.listen(widgetSyncProvider, (_, __) {}, fireImmediately: true);
+    WidgetDeepLinkHandler.instance.init(container);
+  }
 
   final initialLocation = await _resolveInitialLocation();
 

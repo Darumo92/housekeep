@@ -72,7 +72,7 @@ final purchaseRepositoryProvider = Provider<PurchaseRepository>.internal(
 );
 
 typedef PurchaseRepositoryRef = ProviderRef<PurchaseRepository>;
-String _$isProHash() => r'bb1f432d7cc65056206f617b7472e3a83b108a1b';
+String _$isProHash() => r'aba244ae43da9d23d6402b9203a98fca498f9a8d';
 
 /// See also [isPro].
 @ProviderFor(isPro)
@@ -86,7 +86,7 @@ final isProProvider = AutoDisposeStreamProvider<bool>.internal(
 );
 
 typedef IsProRef = AutoDisposeStreamProviderRef<bool>;
-String _$canAddItemHash() => r'15a802eecdcbed0ca0483d9d45d9a4dbb87a03be';
+String _$canAddItemHash() => r'fb9028c5bee56677c54ea9bdab263a2d28d4f37b';
 
 /// See also [canAddItem].
 @ProviderFor(canAddItem)
@@ -100,7 +100,7 @@ final canAddItemProvider = AutoDisposeFutureProvider<bool>.internal(
 );
 
 typedef CanAddItemRef = AutoDisposeFutureProviderRef<bool>;
-String _$canAddDocumentHash() => r'0ffb2e629bb9a2a1fdf75d7e70e3ae95fcde7b16';
+String _$canAddDocumentHash() => r'605d17ad17ddc6dbf57392fcff98eb2929e7a471';
 
 /// See also [canAddDocument].
 @ProviderFor(canAddDocument)
@@ -115,5 +115,21 @@ final canAddDocumentProvider = AutoDisposeFutureProvider<bool>.internal(
 );
 
 typedef CanAddDocumentRef = AutoDisposeFutureProviderRef<bool>;
+String _$proDebugOverrideHash() => r'6fc24051be3d6df3848c7eb7cde582397dcebe65';
+
+/// See also [ProDebugOverride].
+@ProviderFor(ProDebugOverride)
+final proDebugOverrideProvider =
+    NotifierProvider<ProDebugOverride, bool?>.internal(
+  ProDebugOverride.new,
+  name: r'proDebugOverrideProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$proDebugOverrideHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ProDebugOverride = Notifier<bool?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

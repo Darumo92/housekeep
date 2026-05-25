@@ -437,7 +437,7 @@ class _UpcomingEventsProviderElement
   int get limit => (origin as UpcomingEventsProvider).limit;
 }
 
-String _$homeSummaryHash() => r'eadefd1a8f91ad30caf76d341ba2041aa8d6165a';
+String _$homeSummaryHash() => r'b0e8bea32f9807970da03f429a3bde42477e1cf8';
 
 /// See also [homeSummary].
 @ProviderFor(homeSummary)

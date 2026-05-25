@@ -29,8 +29,20 @@ PurchaseRepository purchaseRepository(PurchaseRepositoryRef ref) {
   return MockPurchaseRepository();
 }
 
+@Riverpod(keepAlive: true)
+class ProDebugOverride extends _$ProDebugOverride {
+  @override
+  bool? build() => null;
+
+  void set(bool? value) => state = value;
+}
+
 @riverpod
 Stream<bool> isPro(IsProRef ref) {
+  final override = ref.watch(proDebugOverrideProvider);
+  if (override != null) {
+    return Stream.value(override);
+  }
   return ref.watch(purchaseRepositoryProvider).watchIsPro();
 }
 
