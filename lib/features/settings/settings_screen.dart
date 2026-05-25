@@ -1,11 +1,11 @@
 import 'package:app_settings/app_settings.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/constants/app_constants.dart';
 import '../../core/l10n/generated/app_localizations.dart';
 import '../../data/repositories/purchase_repository.dart';
 import '../../data/repositories/repository_providers.dart';
@@ -78,10 +78,10 @@ class SettingsScreen extends ConsumerWidget {
               trailing: const Icon(Icons.refresh, size: 20),
               onTap: () => _restorePurchases(context, ref),
             ),
-            if (kDebugMode)
+            if (AppConstants.betaShowProToggle)
               SwitchListTile(
-                title: const Text('DEBUG: Simular PRO'),
-                subtitle: const Text('Solo visible en debug builds'),
+                title: const Text('BETA: Simular PRO'),
+                subtitle: const Text('Solo para testers — desaparece en lanzamiento'),
                 value: isProAsync.valueOrNull ?? false,
                 onChanged: (value) {
                   ref
