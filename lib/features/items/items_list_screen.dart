@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/generated/app_localizations.dart';
 import '../../domain/enums/item_category.dart';
 import '../../shared/widgets/empty_state.dart';
+import '../../shared/widgets/responsive_card_list.dart';
+import '../../shared/widgets/shimmer.dart';
 import 'items_provider.dart';
 import 'widgets/category_picker.dart';
 import 'widgets/item_card.dart';
@@ -91,11 +93,8 @@ class _ItemsListScreenState extends ConsumerState<ItemsListScreen> {
                   );
                 }
 
-                return ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 96),
+                return ResponsiveCardList(
                   itemCount: items.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 12),
                   itemBuilder: (context, index) => ItemCard(
                     item: items[index],
                     onTap: () =>
@@ -105,8 +104,7 @@ class _ItemsListScreenState extends ConsumerState<ItemsListScreen> {
               },
               error: (error, stackTrace) =>
                   Center(child: Text(error.toString())),
-              loading: () =>
-                  const Center(child: CircularProgressIndicator()),
+              loading: () => const ListSkeleton(),
             ),
           ),
         ],

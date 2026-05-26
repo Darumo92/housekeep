@@ -1,8 +1,27 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
+
+enum PhotoPickerError {
+  permissionDenied,
+  noCamera,
+  storageFull,
+  unknown,
+}
+
+class PhotoPickerException implements Exception {
+  const PhotoPickerException(this.reason, [this.cause]);
+
+  final PhotoPickerError reason;
+  final Object? cause;
+
+  @override
+  String toString() =>
+      'PhotoPickerException(reason: $reason${cause == null ? '' : ', cause: $cause'})';
+}
 
 abstract class PhotoService {
   Future<String?> pickFromCamera();
@@ -18,16 +37,32 @@ class LocalPhotoStorage {
   final String appDocumentsPath;
 
   Future<String> storePickedFile(String sourcePath) async {
-    final photosDirectory = Directory(_photosDirectoryPath);
-    await photosDirectory.create(recursive: true);
+    try {
+      final photosDirectory = Directory(_photosDirectoryPath);
+      await photosDirectory.create(recursive: true);
 
-    final extension = p.extension(sourcePath);
-    final entropy = Random().nextInt(1 << 32).toRadixString(16);
-    final fileName =
-        '${DateTime.now().microsecondsSinceEpoch}_$entropy$extension';
-    final destinationPath = p.join(photosDirectory.path, fileName);
+      final extension = p.extension(sourcePath);
+      final entropy = Random().nextInt(1 << 32).toRadixString(16);
+      final fileName =
+          '${DateTime.now().microsecondsSinceEpoch}_$entropy$extension';
+      final destinationPath = p.join(photosDirectory.path, fileName);
 
-    return File(sourcePath).copy(destinationPath).then((file) => file.path);
+      final file = await File(sourcePath).copy(destinationPath);
+      return file.path;
+    } on FileSystemException catch (e) {
+      if (_isOutOfSpace(e)) {
+        throw PhotoPickerException(PhotoPickerError.storageFull, e);
+      }
+      throw PhotoPickerException(PhotoPickerError.unknown, e);
+    }
+  }
+
+  bool _isOutOfSpace(FileSystemException e) {
+    final code = e.osError?.errorCode;
+    // ENOSPC=28 (linux/macos), ERROR_DISK_FULL=112 (windows).
+    if (code == 28 || code == 112) return true;
+    final message = '${e.message} ${e.osError?.message ?? ''}'.toLowerCase();
+    return message.contains('no space') || message.contains('disk full');
   }
 
   Future<void> deletePhoto(String path) async {
@@ -77,15 +112,30 @@ class LocalPhotoService implements PhotoService {
   }
 
   Future<String?> _pickAndStore(ImageSource source) async {
-    final pickedFile = await _imagePicker.pickImage(
-      source: source,
-      imageQuality: 85,
-      maxWidth: 1600,
-    );
+    final XFile? pickedFile;
+    try {
+      pickedFile = await _imagePicker.pickImage(
+        source: source,
+        imageQuality: 85,
+        maxWidth: 1600,
+      );
+    } on PlatformException catch (e) {
+      throw _mapPickerPlatformException(e);
+    }
     if (pickedFile == null) {
       return null;
     }
-
     return _storage.storePickedFile(pickedFile.path);
+  }
+
+  PhotoPickerException _mapPickerPlatformException(PlatformException e) {
+    final code = e.code;
+    if (code == 'camera_access_denied' || code == 'photo_access_denied') {
+      return PhotoPickerException(PhotoPickerError.permissionDenied, e);
+    }
+    if (code == 'no_available_camera') {
+      return PhotoPickerException(PhotoPickerError.noCamera, e);
+    }
+    return PhotoPickerException(PhotoPickerError.unknown, e);
   }
 }

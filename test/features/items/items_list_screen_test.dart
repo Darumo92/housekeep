@@ -293,6 +293,11 @@ class _FakeItemsRepository implements ItemsRepository {
   }
 
   @override
+  Stream<Item?> watchItem(String id) {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<void> saveItem(Item item) {
     throw UnimplementedError();
   }

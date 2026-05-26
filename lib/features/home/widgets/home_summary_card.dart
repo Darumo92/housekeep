@@ -23,7 +23,10 @@ class HomeSummaryCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                _StatusDot(color: color),
+                _StatusDot(
+                  color: color,
+                  semanticLabel: summary.overallUrgency.label(l10n),
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -101,16 +104,21 @@ class _SummaryRow extends StatelessWidget {
 }
 
 class _StatusDot extends StatelessWidget {
-  const _StatusDot({required this.color});
+  const _StatusDot({required this.color, required this.semanticLabel});
 
   final Color color;
+  final String semanticLabel;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 12,
-      height: 12,
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+    return Semantics(
+      label: semanticLabel,
+      container: true,
+      child: Container(
+        width: 12,
+        height: 12,
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+      ),
     );
   }
 }

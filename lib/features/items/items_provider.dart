@@ -37,8 +37,8 @@ Future<String> addItemDestination(AddItemDestinationRef ref) async {
 }
 
 @riverpod
-Future<Item?> itemById(ItemByIdRef ref, String id) {
-  return ref.watch(itemsRepositoryProvider).getItem(id);
+Stream<Item?> itemById(ItemByIdRef ref, String id) {
+  return ref.watch(itemsRepositoryProvider).watchItem(id);
 }
 
 @riverpod

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,8 @@ bool firebaseInitialized = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  _configureSystemUi();
 
   await _initFirebase();
 
@@ -105,6 +108,23 @@ Future<String> _resolveInitialLocation() async {
     debugPrint('[HouseKeep] Onboarding state read failed: $e');
     return '/';
   }
+}
+
+void _configureSystemUi() {
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Color(0x00000000),
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
+      systemNavigationBarColor: Color(0xFFFAFAF8),
+      systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarDividerColor: Color(0x00000000),
+    ),
+  );
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+    overlays: SystemUiOverlay.values,
+  );
 }
 
 Future<void> _initFirebase() async {

@@ -14,6 +14,7 @@ import '../../data/services/photo_service.dart';
 import '../../data/services/photo_service_providers.dart';
 import '../../domain/enums/document_type.dart';
 import '../../domain/models/document.dart';
+import '../../shared/widgets/photo_error_snackbar.dart';
 import '../../shared/widgets/photo_picker_sheet.dart';
 import 'documents_provider.dart';
 
@@ -209,19 +210,24 @@ class _AddEditDocumentScreenState
 
     final photoService = await ref.read(photoServiceProvider.future);
 
-    switch (action) {
-      case PhotoPickerAction.camera:
-        if (!_supportsCameraCapture) return;
-        final next = await photoService.pickFromCamera();
-        await _replacePhoto(next, photoService);
-        break;
-      case PhotoPickerAction.gallery:
-        final next = await photoService.pickFromGallery();
-        await _replacePhoto(next, photoService);
-        break;
-      case PhotoPickerAction.remove:
-        await _removePhoto(photoService);
-        break;
+    try {
+      switch (action) {
+        case PhotoPickerAction.camera:
+          if (!_supportsCameraCapture) return;
+          final next = await photoService.pickFromCamera();
+          await _replacePhoto(next, photoService);
+          break;
+        case PhotoPickerAction.gallery:
+          final next = await photoService.pickFromGallery();
+          await _replacePhoto(next, photoService);
+          break;
+        case PhotoPickerAction.remove:
+          await _removePhoto(photoService);
+          break;
+      }
+    } on PhotoPickerException catch (e) {
+      if (!mounted) return;
+      showPhotoPickerError(context, e);
     }
   }
 

@@ -315,6 +315,11 @@ class _FakeItemsRepository implements ItemsRepository {
   Future<Item?> getItem(String id) async => id == item.id ? item : null;
 
   @override
+  Stream<Item?> watchItem(String id) {
+    return Stream.value(id == item.id ? item : null);
+  }
+
+  @override
   Future<void> saveItem(Item item) {
     throw UnimplementedError();
   }

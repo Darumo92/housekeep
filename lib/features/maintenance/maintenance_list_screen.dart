@@ -3,12 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/repositories/repository_providers.dart';
 import '../../data/services/notification_providers.dart';
 import '../../data/services/notification_strings.dart';
 import '../../domain/models/maintenance.dart';
 import '../../shared/widgets/confirm_dialog.dart';
 import '../../shared/widgets/empty_state.dart';
+import '../../shared/widgets/responsive_card_list.dart';
+import '../../shared/widgets/shimmer.dart';
 import '../items/items_provider.dart';
 import 'maintenances_provider.dart';
 import 'widgets/maintenance_card.dart';
@@ -64,26 +67,23 @@ class MaintenanceListView extends ConsumerWidget {
           );
         }
 
-        return ListView.builder(
+        return ResponsiveCardList(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
           itemCount: maintenances.length,
           itemBuilder: (context, index) {
             final maintenance = maintenances[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: MaintenanceCard(
-                maintenance: maintenance,
-                onTap: () => context.push(
-                  '/items/$itemId/maintenance/${maintenance.id}/edit',
-                ),
-                onMarkDone: () => _markDone(context, ref, maintenance),
-                onDelete: () => _delete(context, ref, maintenance),
+            return MaintenanceCard(
+              maintenance: maintenance,
+              onTap: () => context.push(
+                '/items/$itemId/maintenance/${maintenance.id}/edit',
               ),
+              onMarkDone: () => _markDone(context, ref, maintenance),
+              onDelete: () => _delete(context, ref, maintenance),
             );
           },
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const ListSkeleton(),
       error: (error, _) => Center(child: Text(error.toString())),
     );
   }
@@ -101,11 +101,13 @@ class MaintenanceListView extends ConsumerWidget {
           .read(maintenancesRepositoryProvider)
           .markAsDone(maintenance.id);
     } catch (_) {
+      AppHaptics.error();
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.maintenanceMarkDoneFailed)),
       );
       return;
     }
+    AppHaptics.success();
     messenger.showSnackBar(
       SnackBar(content: Text(l10n.maintenanceMarkDoneSuccess)),
     );
@@ -126,6 +128,7 @@ class MaintenanceListView extends ConsumerWidget {
       confirmLabel: l10n.maintenanceDeleteConfirm,
     );
     if (!confirmed) return;
+    AppHaptics.destructive();
 
     await ref
         .read(notificationSchedulerProvider)

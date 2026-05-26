@@ -6,6 +6,7 @@ abstract class ItemsRepository {
   Future<void> saveItem(Item item);
   Future<int> deleteItem(String id);
   Future<Item?> getItem(String id);
+  Stream<Item?> watchItem(String id);
   Stream<List<Item>> watchItems();
   Stream<List<Item>> watchItemsByCategory(ItemCategory category);
   Future<int> countItems();
@@ -30,6 +31,11 @@ class DriftItemsRepository implements ItemsRepository {
   Future<Item?> getItem(String id) async {
     final row = await _dao.getItem(id);
     return row == null ? null : Item.fromDb(row);
+  }
+
+  @override
+  Stream<Item?> watchItem(String id) {
+    return _dao.watchItem(id).map((row) => row == null ? null : Item.fromDb(row));
   }
 
   @override

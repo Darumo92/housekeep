@@ -30,7 +30,13 @@ class ItemCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ItemPhoto(photoPath: item.photoPath, icon: item.category.icon),
+              Hero(
+                tag: 'item-photo-${item.id}',
+                child: ItemPhoto(
+                  photoPath: item.photoPath,
+                  icon: item.category.icon,
+                ),
+              ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(

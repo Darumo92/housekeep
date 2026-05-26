@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/utils/haptics.dart';
 import '../../domain/enums/home_type.dart';
 import 'onboarding_provider.dart';
 
@@ -44,6 +45,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       await ref
           .read(onboardingControllerProvider.notifier)
           .complete(homeType: _selectedHomeType);
+      AppHaptics.success();
       if (!mounted) return;
       context.go('/');
     } finally {

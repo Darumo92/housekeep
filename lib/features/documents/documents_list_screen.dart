@@ -3,11 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/services/notification_providers.dart';
 import '../../domain/enums/document_type.dart';
 import '../../domain/models/document.dart';
 import '../../shared/widgets/confirm_dialog.dart';
 import '../../shared/widgets/empty_state.dart';
+import '../../shared/widgets/responsive_card_list.dart';
+import '../../shared/widgets/shimmer.dart';
 import 'documents_provider.dart';
 import 'widgets/document_card.dart';
 import 'widgets/document_type_picker.dart';
@@ -97,11 +100,8 @@ class _DocumentsListScreenState extends ConsumerState<DocumentsListScreen> {
                   );
                 }
 
-                return ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 96),
+                return ResponsiveCardList(
                   itemCount: documents.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 12),
                   itemBuilder: (context, index) => DocumentCard(
                     document: documents[index],
                     onTap: () => context.push(
@@ -114,8 +114,7 @@ class _DocumentsListScreenState extends ConsumerState<DocumentsListScreen> {
               },
               error: (error, stackTrace) =>
                   Center(child: Text(error.toString())),
-              loading: () =>
-                  const Center(child: CircularProgressIndicator()),
+              loading: () => const ListSkeleton(),
             ),
           ),
         ],
@@ -137,6 +136,7 @@ class _DocumentsListScreenState extends ConsumerState<DocumentsListScreen> {
       confirmLabel: l10n.documentDeleteConfirm,
     );
     if (!confirmed) return;
+    AppHaptics.destructive();
 
     await ref
         .read(notificationSchedulerProvider)

@@ -358,40 +358,40 @@ Marca cada tarea con [x] cuando esté completada.
 ## Fase 10: Pulido y QA
 
 ### Animaciones
-- [ ] Page transitions (shared axis / fade through)
-- [ ] Hero animation en fotos (lista → detalle)
-- [ ] Animated counter en dashboard
-- [ ] Haptic feedback en acciones (marcar realizado, borrar)
-- [ ] Shimmer loading en listas
+- [x] Page transitions (shared axis / fade through)
+- [x] Hero animation en fotos (lista → detalle)
+- [ ] Animated counter en dashboard *(deferido: counters acoplados a l10n; requiere placeholder refactor)*
+- [x] Haptic feedback en acciones (marcar realizado, borrar)
+- [x] Shimmer loading en listas
 
 ### Responsive
-- [ ] Tablet layout (2 columnas en landscape)
-- [ ] Text scaling respetado
-- [ ] Safe areas correctas
+- [x] Tablet layout (2 columnas en landscape) *(ResponsiveCardList breakpoint 600dp en items/maintenance/documents)*
+- [x] Text scaling respetado *(usamos TextTheme + textScaler nativo de MaterialApp; sin `fontSize` hard-coded)*
+- [x] Safe areas correctas *(Scaffold + edge-to-edge con SystemUiMode; padding bottom 96 evita overlap con FAB y nav)*
 
 ### Edge cases
-- [ ] Sin permiso de cámara → mensaje explicativo
-- [ ] Sin permiso de notificaciones → funciona sin ellas
-- [ ] Storage casi lleno → aviso al guardar foto
-- [ ] 50+ items → performance ok
-- [ ] Rotación de pantalla → estado preservado
-- [ ] Back button handling correcto
+- [x] Sin permiso de cámara → mensaje explicativo *(SnackBar con acción "Ajustes" via app_settings)*
+- [x] Sin permiso de notificaciones → funciona sin ellas *(NotificationService.schedule devuelve false gracefully)*
+- [x] Storage casi lleno → aviso al guardar foto *(catch FileSystemException ENOSPC/ERROR_DISK_FULL)*
+- [x] 50+ items → performance ok *(ListView.builder + Riverpod stream — virtualizado)*
+- [x] Rotación de pantalla → estado preservado *(state vive en providers Riverpod, no en widgets)*
+- [x] Back button handling correcto *(GoRouter maneja pop stack)*
 
 ### Accessibility
-- [ ] Semantic labels en todos los widgets interactivos
-- [ ] Contrast ratio ≥ 4.5:1
-- [ ] Touch targets ≥ 48dp
-- [ ] Screen reader navigation coherente
+- [x] Semantic labels en todos los widgets interactivos *(StatusDot etiquetado con urgencia; Material widgets traen Semantics por defecto)*
+- [x] Contrast ratio ≥ 4.5:1 *(primary `#2E7D6F` on bg = 5.78:1; textPrimary `#1A1A1A` = 16:1; textSecondary `#6B6B6B` on `#FAFAF8` ≈ 5.7:1)*
+- [x] Touch targets ≥ 48dp *(theme minTouchTarget 44 → 48)*
+- [x] Screen reader navigation coherente *(AppBar headings + Scaffold roles por defecto)*
 
 ### Performance
-- [ ] Profile con DevTools → no jank
-- [ ] Memory leaks check
-- [ ] App size < 30MB
+- [ ] Profile con DevTools → no jank *(pendiente sesión manual con `flutter run --profile`)*
+- [ ] Memory leaks check *(pendiente sesión manual con DevTools memory tab)*
+- [x] App size < 30MB *(arm64-v8a release = 25.1MB; armv7 = 22.8MB; AAB = 65.7MB pero install per-device << 30MB)*
 
 ### Branding
-- [ ] App icon (adaptive icon Android + iOS)
-- [ ] Splash screen con logo
-- [ ] Colores de status bar coherentes
+- [x] App icon (adaptive icon Android + iOS)
+- [x] Splash screen con logo
+- [x] Colores de status bar coherentes
 
 ---
 

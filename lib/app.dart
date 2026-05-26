@@ -67,6 +67,37 @@ bool _matchesBranch(String location, String branch) {
   return location == branch || location.startsWith('$branch/');
 }
 
+CustomTransitionPage<T> _sharedAxisPage<T>(
+  LocalKey key,
+  Widget child,
+) {
+  return CustomTransitionPage<T>(
+    key: key,
+    transitionDuration: const Duration(milliseconds: 280),
+    reverseTransitionDuration: const Duration(milliseconds: 240),
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final fade = CurvedAnimation(parent: animation, curve: Curves.easeOut);
+      final slide = Tween<Offset>(
+        begin: const Offset(0.06, 0),
+        end: Offset.zero,
+      ).animate(
+        CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
+      );
+      final secondaryFade = Tween<double>(begin: 1, end: 0.7).animate(
+        CurvedAnimation(parent: secondaryAnimation, curve: Curves.easeIn),
+      );
+      return FadeTransition(
+        opacity: secondaryFade,
+        child: FadeTransition(
+          opacity: fade,
+          child: SlideTransition(position: slide, child: child),
+        ),
+      );
+    },
+  );
+}
+
 GoRouter _createRouter({String initialLocation = '/'}) {
   return GoRouter(
     initialLocation: initialLocation,
@@ -83,35 +114,47 @@ GoRouter _createRouter({String initialLocation = '/'}) {
           ),
           GoRoute(
             path: '/items/add',
-            builder: (context, state) => const AddEditItemScreen(),
+            pageBuilder: (context, state) => _sharedAxisPage(
+              state.pageKey,
+              const AddEditItemScreen(),
+            ),
           ),
           GoRoute(
             path: '/items/:id/edit',
-            builder: (context, state) =>
-                AddEditItemScreen(itemId: state.pathParameters['id']),
+            pageBuilder: (context, state) => _sharedAxisPage(
+              state.pageKey,
+              AddEditItemScreen(itemId: state.pathParameters['id']),
+            ),
           ),
           GoRoute(
             path: '/items/:id',
-            builder: (context, state) =>
-                ItemDetailScreen(itemId: state.pathParameters['id']!),
+            pageBuilder: (context, state) => _sharedAxisPage(
+              state.pageKey,
+              ItemDetailScreen(itemId: state.pathParameters['id']!),
+            ),
           ),
           GoRoute(
             path: '/items/:id/maintenance',
-            builder: (context, state) => MaintenanceListScreen(
-              itemId: state.pathParameters['id']!,
+            pageBuilder: (context, state) => _sharedAxisPage(
+              state.pageKey,
+              MaintenanceListScreen(itemId: state.pathParameters['id']!),
             ),
           ),
           GoRoute(
             path: '/items/:id/maintenance/add',
-            builder: (context, state) => AddEditMaintenanceScreen(
-              itemId: state.pathParameters['id']!,
+            pageBuilder: (context, state) => _sharedAxisPage(
+              state.pageKey,
+              AddEditMaintenanceScreen(itemId: state.pathParameters['id']!),
             ),
           ),
           GoRoute(
             path: '/items/:id/maintenance/:maintenanceId/edit',
-            builder: (context, state) => AddEditMaintenanceScreen(
-              itemId: state.pathParameters['id']!,
-              maintenanceId: state.pathParameters['maintenanceId'],
+            pageBuilder: (context, state) => _sharedAxisPage(
+              state.pageKey,
+              AddEditMaintenanceScreen(
+                itemId: state.pathParameters['id']!,
+                maintenanceId: state.pathParameters['maintenanceId'],
+              ),
             ),
           ),
           GoRoute(
@@ -120,12 +163,16 @@ GoRouter _createRouter({String initialLocation = '/'}) {
           ),
           GoRoute(
             path: '/documents/add',
-            builder: (context, state) => const AddEditDocumentScreen(),
+            pageBuilder: (context, state) => _sharedAxisPage(
+              state.pageKey,
+              const AddEditDocumentScreen(),
+            ),
           ),
           GoRoute(
             path: '/documents/:id/edit',
-            builder: (context, state) => AddEditDocumentScreen(
-              documentId: state.pathParameters['id'],
+            pageBuilder: (context, state) => _sharedAxisPage(
+              state.pageKey,
+              AddEditDocumentScreen(documentId: state.pathParameters['id']),
             ),
           ),
           GoRoute(
@@ -136,7 +183,10 @@ GoRouter _createRouter({String initialLocation = '/'}) {
       ),
       GoRoute(
         path: '/paywall',
-        builder: (context, state) => const PaywallScreen(),
+        pageBuilder: (context, state) => _sharedAxisPage(
+          state.pageKey,
+          const PaywallScreen(),
+        ),
       ),
       GoRoute(
         path: '/onboarding',

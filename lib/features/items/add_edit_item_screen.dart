@@ -13,6 +13,7 @@ import '../../data/services/photo_service.dart';
 import '../../data/services/photo_service_providers.dart';
 import '../../domain/enums/item_category.dart';
 import '../../domain/models/item.dart';
+import '../../shared/widgets/photo_error_snackbar.dart';
 import '../../shared/widgets/photo_picker_sheet.dart';
 import 'items_provider.dart';
 
@@ -139,19 +140,24 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
 
     final photoService = await ref.read(photoServiceProvider.future);
 
-    switch (action) {
-      case PhotoPickerAction.camera:
-        if (!_supportsCameraCapture) return;
-        final nextPhotoPath = await photoService.pickFromCamera();
-        await _replacePhoto(nextPhotoPath, photoService);
-        break;
-      case PhotoPickerAction.gallery:
-        final nextPhotoPath = await photoService.pickFromGallery();
-        await _replacePhoto(nextPhotoPath, photoService);
-        break;
-      case PhotoPickerAction.remove:
-        await _removePhoto(photoService);
-        break;
+    try {
+      switch (action) {
+        case PhotoPickerAction.camera:
+          if (!_supportsCameraCapture) return;
+          final nextPhotoPath = await photoService.pickFromCamera();
+          await _replacePhoto(nextPhotoPath, photoService);
+          break;
+        case PhotoPickerAction.gallery:
+          final nextPhotoPath = await photoService.pickFromGallery();
+          await _replacePhoto(nextPhotoPath, photoService);
+          break;
+        case PhotoPickerAction.remove:
+          await _removePhoto(photoService);
+          break;
+      }
+    } on PhotoPickerException catch (e) {
+      if (!mounted) return;
+      showPhotoPickerError(context, e);
     }
   }
 

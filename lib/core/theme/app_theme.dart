@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'app_colors.dart';
 import 'app_typography.dart';
@@ -12,7 +13,7 @@ class AppTheme {
     const double buttonRadius = 14;
     const double inputBorderWidth = 1;
     const double focusedBorderWidth = 1.5;
-    const double minTouchTarget = 44;
+    const double minTouchTarget = 48;
     const double buttonHeight = 52;
     const double navigationHeight = 76;
     const EdgeInsets inputContentPadding = EdgeInsets.symmetric(
@@ -67,6 +68,14 @@ class AppTheme {
         elevation: 0,
         scrolledUnderElevation: 0,
         titleTextStyle: textTheme.titleLarge,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+          systemNavigationBarColor: AppColors.background,
+          systemNavigationBarIconBrightness: Brightness.dark,
+          systemNavigationBarDividerColor: Colors.transparent,
+        ),
       ),
       cardTheme: const CardThemeData(
         elevation: 1,

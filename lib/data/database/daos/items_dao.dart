@@ -23,6 +23,12 @@ class ItemsDao extends DatabaseAccessor<AppDatabase> with _$ItemsDaoMixin {
     )..where((item) => item.id.equals(id))).getSingleOrNull();
   }
 
+  Stream<ItemRow?> watchItem(String id) {
+    return (select(
+      itemsTable,
+    )..where((item) => item.id.equals(id))).watchSingleOrNull();
+  }
+
   Stream<List<ItemRow>> watchItems() {
     return (select(
       itemsTable,

@@ -37,7 +37,7 @@ final addItemDestinationProvider = AutoDisposeFutureProvider<String>.internal(
 );
 
 typedef AddItemDestinationRef = AutoDisposeFutureProviderRef<String>;
-String _$itemByIdHash() => r'4d0bbdc02b19820db066827f3544114bdd66a080';
+String _$itemByIdHash() => r'61adea7d57bb5a14440b918d993326b78625bffe';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -103,7 +103,7 @@ class ItemByIdFamily extends Family<AsyncValue<Item?>> {
 }
 
 /// See also [itemById].
-class ItemByIdProvider extends AutoDisposeFutureProvider<Item?> {
+class ItemByIdProvider extends AutoDisposeStreamProvider<Item?> {
   /// See also [itemById].
   ItemByIdProvider(
     String id,
@@ -137,7 +137,7 @@ class ItemByIdProvider extends AutoDisposeFutureProvider<Item?> {
 
   @override
   Override overrideWith(
-    FutureOr<Item?> Function(ItemByIdRef provider) create,
+    Stream<Item?> Function(ItemByIdRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -154,7 +154,7 @@ class ItemByIdProvider extends AutoDisposeFutureProvider<Item?> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<Item?> createElement() {
+  AutoDisposeStreamProviderElement<Item?> createElement() {
     return _ItemByIdProviderElement(this);
   }
 
@@ -172,12 +172,12 @@ class ItemByIdProvider extends AutoDisposeFutureProvider<Item?> {
   }
 }
 
-mixin ItemByIdRef on AutoDisposeFutureProviderRef<Item?> {
+mixin ItemByIdRef on AutoDisposeStreamProviderRef<Item?> {
   /// The parameter `id` of this provider.
   String get id;
 }
 
-class _ItemByIdProviderElement extends AutoDisposeFutureProviderElement<Item?>
+class _ItemByIdProviderElement extends AutoDisposeStreamProviderElement<Item?>
     with ItemByIdRef {
   _ItemByIdProviderElement(super.provider);
 

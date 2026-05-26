@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../core/utils/haptics.dart';
 import '../../data/repositories/repository_providers.dart';
 import '../../data/services/notification_providers.dart';
 import '../../data/services/notification_strings.dart';
@@ -38,7 +39,10 @@ class ItemDetailScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _ItemPhoto(photoPath: item.photoPath),
+              Hero(
+                tag: 'item-photo-${item.id}',
+                child: _ItemPhoto(photoPath: item.photoPath),
+              ),
               const SizedBox(height: 16),
               Text(item.name, style: Theme.of(context).textTheme.headlineSmall),
               const SizedBox(height: 12),
@@ -110,6 +114,7 @@ class ItemDetailScreen extends ConsumerWidget {
     if (!confirmed || ref.read(deleteItemProvider).isLoading) return;
     if (!context.mounted) return;
 
+    AppHaptics.destructive();
     final messenger = ScaffoldMessenger.of(context);
     final maintenancesRepo = ref.read(maintenancesRepositoryProvider);
     final maintenances = await maintenancesRepo

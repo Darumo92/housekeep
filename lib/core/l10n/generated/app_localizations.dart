@@ -500,6 +500,42 @@ abstract class AppLocalizations {
   /// **'Choose from gallery'**
   String get itemPhotoGallery;
 
+  /// No description provided for @photoPickerErrorPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera or gallery permission denied. Grant access in Settings.'**
+  String get photoPickerErrorPermission;
+
+  /// No description provided for @photoPickerErrorStorageFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough storage to save the photo. Free up space and try again.'**
+  String get photoPickerErrorStorageFull;
+
+  /// No description provided for @photoPickerErrorNoCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'No camera available on this device.'**
+  String get photoPickerErrorNoCamera;
+
+  /// No description provided for @photoPickerErrorUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t add the photo.'**
+  String get photoPickerErrorUnknown;
+
+  /// No description provided for @photoPickerOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get photoPickerOpenSettings;
+
+  /// No description provided for @homeAddMaintenancePickItemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which item is this maintenance for?'**
+  String get homeAddMaintenancePickItemTitle;
+
   /// No description provided for @itemValidationName.
   ///
   /// In en, this message translates to:

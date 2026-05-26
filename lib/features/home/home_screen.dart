@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/generated/app_localizations.dart';
 import '../../domain/models/upcoming_event.dart';
 import '../../shared/widgets/empty_state.dart';
+import '../../shared/widgets/item_picker_sheet.dart';
 import '../documents/documents_provider.dart';
 import '../items/items_provider.dart';
 import 'home_provider.dart';
@@ -40,7 +41,19 @@ class HomeScreen extends ConsumerWidget {
       final items = await ref.read(homeItemsProvider.future);
       if (!context.mounted) return;
       if (items.isEmpty) return;
-      context.push('/items/${items.first.id}/maintenance/add');
+      String itemId;
+      if (items.length == 1) {
+        itemId = items.first.id;
+      } else {
+        final picked = await showItemPickerSheet(
+          context,
+          items: items,
+          title: l10n.homeAddMaintenancePickItemTitle,
+        );
+        if (picked == null || !context.mounted) return;
+        itemId = picked;
+      }
+      context.push('/items/$itemId/maintenance/add');
     }
 
     void openEvent(UpcomingEvent event) {

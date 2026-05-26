@@ -165,6 +165,14 @@ class _FakeItemsRepository implements ItemsRepository {
   }
 
   @override
+  Stream<Item?> watchItem(String id) {
+    for (final item in allItems) {
+      if (item.id == id) return Stream.value(item);
+    }
+    return Stream.value(null);
+  }
+
+  @override
   Future<void> saveItem(Item item) {
     throw UnimplementedError();
   }

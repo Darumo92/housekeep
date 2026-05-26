@@ -324,6 +324,9 @@ class _FakeItemsRepository implements ItemsRepository {
   Future<Item?> getItem(String id) async => itemsById[id];
 
   @override
+  Stream<Item?> watchItem(String id) => Stream.value(itemsById[id]);
+
+  @override
   Future<void> saveItem(Item item) async {}
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/l10n/generated/app_localizations.dart';
+import '../../../core/utils/haptics.dart';
 
 class HomeExpandableFab extends StatefulWidget {
   const HomeExpandableFab({
@@ -33,6 +34,7 @@ class _HomeExpandableFabState extends State<HomeExpandableFab>
   }
 
   void _toggle() {
+    AppHaptics.tap();
     setState(() {
       _open = !_open;
       if (_open) {

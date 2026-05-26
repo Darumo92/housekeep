@@ -307,6 +307,14 @@ class _FakeItemsRepository implements ItemsRepository {
   }
 
   @override
+  Stream<Item?> watchItem(String id) {
+    for (final item in _items) {
+      if (item.id == id) return Stream.value(item);
+    }
+    return Stream.value(null);
+  }
+
+  @override
   Future<void> saveItem(Item item) async {
     if (failOnSave) throw Exception('save failed');
 

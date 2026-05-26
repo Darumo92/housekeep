@@ -214,6 +214,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemPhotoGallery => 'Choose from gallery';
 
   @override
+  String get photoPickerErrorPermission =>
+      'Camera or gallery permission denied. Grant access in Settings.';
+
+  @override
+  String get photoPickerErrorStorageFull =>
+      'Not enough storage to save the photo. Free up space and try again.';
+
+  @override
+  String get photoPickerErrorNoCamera => 'No camera available on this device.';
+
+  @override
+  String get photoPickerErrorUnknown => 'Couldn\'t add the photo.';
+
+  @override
+  String get photoPickerOpenSettings => 'Settings';
+
+  @override
+  String get homeAddMaintenancePickItemTitle =>
+      'Which item is this maintenance for?';
+
+  @override
   String get itemValidationName => 'Enter a name';
 
   @override
