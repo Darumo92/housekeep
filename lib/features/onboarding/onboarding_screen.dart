@@ -15,15 +15,28 @@ class OnboardingScreen extends ConsumerStatefulWidget {
   ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
+    with SingleTickerProviderStateMixin {
   final PageController _controller = PageController();
   int _currentPage = 0;
   HomeType? _selectedHomeType;
   bool _saving = false;
+  bool _completing = false;
+  late final AnimationController _completionController;
+
+  @override
+  void initState() {
+    super.initState();
+    _completionController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    );
+  }
 
   @override
   void dispose() {
     _controller.dispose();
+    _completionController.dispose();
     super.dispose();
   }
 
@@ -46,6 +59,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           .read(onboardingControllerProvider.notifier)
           .complete(homeType: _selectedHomeType);
       AppHaptics.success();
+      if (!mounted) return;
+      setState(() => _completing = true);
+      _completionController.forward();
+      await Future<void>.delayed(const Duration(milliseconds: 650));
       if (!mounted) return;
       context.go('/');
     } finally {
@@ -80,7 +97,32 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: Stack(
+          children: [
+            AnimatedOpacity(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+              opacity: _completing ? 0 : 1,
+              child: _buildOnboardingBody(context, theme, l10n, pages, isLast),
+            ),
+            if (_completing)
+              Positioned.fill(
+                child: _CompletionOverlay(controller: _completionController),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOnboardingBody(
+    BuildContext context,
+    ThemeData theme,
+    AppLocalizations l10n,
+    List<_OnboardingPageData> pages,
+    bool isLast,
+  ) {
+    return Column(
           children: [
             Align(
               alignment: Alignment.centerRight,
@@ -148,6 +190,49 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
             ),
           ],
+        );
+  }
+}
+
+class _CompletionOverlay extends StatelessWidget {
+  const _CompletionOverlay({required this.controller});
+
+  final AnimationController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scale = Tween<double>(begin: 0.4, end: 1.0).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: const Interval(0, 0.6, curve: Curves.elasticOut),
+      ),
+    );
+    final fade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: const Interval(0, 0.35, curve: Curves.easeOut),
+      ),
+    );
+    return Container(
+      color: theme.scaffoldBackgroundColor,
+      alignment: Alignment.center,
+      child: FadeTransition(
+        opacity: fade,
+        child: ScaleTransition(
+          scale: scale,
+          child: Container(
+            padding: const EdgeInsets.all(36),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.check_circle_outline,
+              size: 96,
+              color: theme.colorScheme.primary,
+            ),
+          ),
         ),
       ),
     );

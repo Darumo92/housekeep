@@ -862,6 +862,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsNotificationsOpenSystem => 'System permissions';
 
   @override
+  String get settingsNotificationsDeniedTitle => 'Notifications are blocked';
+
+  @override
+  String get settingsNotificationsDeniedBody =>
+      'Without notification permission HouseKeep cannot remind you about maintenance or document expiry. Reopen this app after enabling the permission.';
+
+  @override
+  String get settingsNotificationsDeniedCta => 'Open settings';
+
+  @override
   String get settingsPremiumStatusFree => 'Free plan';
 
   @override

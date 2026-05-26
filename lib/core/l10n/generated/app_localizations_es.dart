@@ -872,6 +872,17 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsNotificationsOpenSystem => 'Permisos del sistema';
 
   @override
+  String get settingsNotificationsDeniedTitle =>
+      'Las notificaciones están bloqueadas';
+
+  @override
+  String get settingsNotificationsDeniedBody =>
+      'Sin permiso de notificaciones HouseKeep no podrá avisarte de mantenimientos ni caducidades. Vuelve a abrir esta app después de activar el permiso.';
+
+  @override
+  String get settingsNotificationsDeniedCta => 'Abrir ajustes';
+
+  @override
   String get settingsPremiumStatusFree => 'Plan gratuito';
 
   @override

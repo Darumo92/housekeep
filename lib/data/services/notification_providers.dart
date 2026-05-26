@@ -14,3 +14,9 @@ NotificationService notificationService(NotificationServiceRef ref) {
 NotificationScheduler notificationScheduler(NotificationSchedulerRef ref) {
   return NotificationScheduler(service: ref.watch(notificationServiceProvider));
 }
+
+@riverpod
+Future<bool> notificationsGranted(NotificationsGrantedRef ref) async {
+  final service = ref.watch(notificationServiceProvider);
+  return service.areNotificationsEnabled();
+}

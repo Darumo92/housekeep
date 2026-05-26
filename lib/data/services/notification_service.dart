@@ -97,6 +97,25 @@ class NotificationService {
     );
   }
 
+  Future<bool> areNotificationsEnabled() async {
+    final androidImpl = _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
+    if (androidImpl != null) {
+      return await androidImpl.areNotificationsEnabled() ?? false;
+    }
+    final iosImpl = _plugin
+        .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin
+        >();
+    if (iosImpl != null) {
+      final opts = await iosImpl.checkPermissions();
+      return opts?.isAlertEnabled ?? false;
+    }
+    return true;
+  }
+
   Future<bool> schedule({
     required int id,
     required String title,

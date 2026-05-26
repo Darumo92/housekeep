@@ -398,23 +398,23 @@ Marca cada tarea con [x] cuando esté completada.
 ## Fase 11: Store Prep
 
 ### Assets visuales
-- [ ] 6 screenshots iPhone 6.7" (ES + EN)
+- [ ] 6 screenshots iPhone 6.7" (ES + EN) *(plan en `docs/SCREENSHOT_PLAN.md`, captura pendiente)*
 - [ ] 6 screenshots iPhone 6.5" (ES + EN)
 - [ ] 6 screenshots Android phone (ES + EN)
 - [ ] 6 screenshots Android 10" tablet (ES + EN)
-- [ ] Feature graphic 1024x500 (Google Play)
-- [ ] App icon 1024x1024 (stores)
+- [x] Feature graphic 1024x500 (Google Play) — `store/feature_graphic_1024x500.png` (gen: `python3 tools/gen_store_assets.py`)
+- [x] App icon 1024x1024 (stores) — `store/icon_1024.png`
 - [ ] Preview video 30s (opcional, recomendado para iOS)
 
 ### Metadata
-- [ ] Descripción larga EN (Google Play)
-- [ ] Descripción larga ES (Google Play)
-- [ ] Descripción larga EN (App Store)
-- [ ] Descripción larga ES (App Store)
-- [ ] What's New / Release Notes
-- [ ] Privacy policy URL (hosted)
-- [ ] Support URL
-- [ ] Marketing URL (landing page)
+- [x] Descripción larga EN (Google Play) — `docs/STORE_METADATA.md`
+- [x] Descripción larga ES (Google Play) — `docs/STORE_METADATA.md`
+- [x] Descripción larga EN (App Store) — `docs/STORE_METADATA.md`
+- [x] Descripción larga ES (App Store) — `docs/STORE_METADATA.md`
+- [x] What's New / Release Notes — `docs/STORE_METADATA.md`
+- [x] Privacy policy URL (hosted) — https://darumo92.github.io/housekeep-legal/privacy_en.html (+ `_es`)
+- [x] Support URL — mailto:darumo092@gmail.com
+- [x] Marketing URL (landing page) — https://darumo92.github.io/housekeep-site/ (ES + EN; repo `Darumo92/housekeep-site`)
 
 ### App Store Connect
 - [ ] Crear app "HouseKeep"
@@ -444,9 +444,9 @@ Marca cada tarea con [x] cuando esté completada.
 - [ ] Cambiar de mock a real en `main.dart`
 
 ### Legal
-- [ ] Privacy policy (qué datos se recogen: ninguno en v1, todo local)
-- [ ] Terms of use
-- [ ] Hostear en web (GitHub Pages o similar)
+- [x] Privacy policy (qué datos se recogen: ninguno en v1, todo local) — `docs/legal/privacy_es.md` + `privacy_en.md`
+- [x] Terms of use — `docs/legal/terms_es.md` + `terms_en.md`
+- [x] Hostear en web — GitHub Pages: https://darumo92.github.io/housekeep-legal/ (repo `Darumo92/housekeep-legal`)
 
 ---
 

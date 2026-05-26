@@ -1520,6 +1520,24 @@ abstract class AppLocalizations {
   /// **'System permissions'**
   String get settingsNotificationsOpenSystem;
 
+  /// No description provided for @settingsNotificationsDeniedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are blocked'**
+  String get settingsNotificationsDeniedTitle;
+
+  /// No description provided for @settingsNotificationsDeniedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Without notification permission HouseKeep cannot remind you about maintenance or document expiry. Reopen this app after enabling the permission.'**
+  String get settingsNotificationsDeniedBody;
+
+  /// No description provided for @settingsNotificationsDeniedCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get settingsNotificationsDeniedCta;
+
   /// No description provided for @settingsPremiumStatusFree.
   ///
   /// In en, this message translates to:

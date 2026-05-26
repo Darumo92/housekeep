@@ -9,12 +9,19 @@ import '../../core/constants/app_constants.dart';
 import '../../core/l10n/generated/app_localizations.dart';
 import '../../data/repositories/purchase_repository.dart';
 import '../../data/repositories/repository_providers.dart';
+import '../../data/services/notification_providers.dart';
 import 'settings_provider.dart';
 
-const _kPrivacyUrl = 'https://housekeep.app/privacy';
-const _kTermsUrl = 'https://housekeep.app/terms';
-const _kSupportEmail = 'support@housekeep.app';
-const _kFeedbackEmail = 'feedback@housekeep.app';
+const _kPrivacyUrlEn =
+    'https://darumo92.github.io/housekeep-legal/privacy_en.html';
+const _kPrivacyUrlEs =
+    'https://darumo92.github.io/housekeep-legal/privacy_es.html';
+const _kTermsUrlEn =
+    'https://darumo92.github.io/housekeep-legal/terms_en.html';
+const _kTermsUrlEs =
+    'https://darumo92.github.io/housekeep-legal/terms_es.html';
+const _kSupportEmail = 'darumo092@gmail.com';
+const _kFeedbackEmail = 'darumo092@gmail.com';
 const _kStoreUrlAndroid =
     'https://play.google.com/store/apps/details?id=com.housekeep.app';
 const _kStoreUrlIos = 'https://apps.apple.com/app/housekeep/id000000000';
@@ -51,6 +58,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
             const Divider(height: 1),
             _SectionHeader(label: l10n.settingsSectionNotifications),
+            const _NotificationsPermissionBanner(),
             SwitchListTile(
               title: Text(l10n.settingsNotificationsEnabled),
               subtitle: Text(l10n.settingsNotificationsEnabledBody),
@@ -105,12 +113,18 @@ class SettingsScreen extends ConsumerWidget {
             ListTile(
               title: Text(l10n.settingsAboutPrivacy),
               trailing: const Icon(Icons.open_in_new, size: 18),
-              onTap: () => _launchUrl(context, _kPrivacyUrl),
+              onTap: () => _launchUrl(
+                context,
+                _localizedPrivacyUrl(context),
+              ),
             ),
             ListTile(
               title: Text(l10n.settingsAboutTerms),
               trailing: const Icon(Icons.open_in_new, size: 18),
-              onTap: () => _launchUrl(context, _kTermsUrl),
+              onTap: () => _launchUrl(
+                context,
+                _localizedTermsUrl(context),
+              ),
             ),
             ListTile(
               title: Text(l10n.settingsAboutRate),
@@ -304,6 +318,116 @@ class _VersionTileState extends State<_VersionTile> {
     return ListTile(
       title: Text(l10n.settingsAboutVersion(_version ?? '…')),
       leading: const Icon(Icons.info_outline),
+    );
+  }
+}
+
+String _localizedPrivacyUrl(BuildContext context) {
+  return Localizations.localeOf(context).languageCode == 'es'
+      ? _kPrivacyUrlEs
+      : _kPrivacyUrlEn;
+}
+
+String _localizedTermsUrl(BuildContext context) {
+  return Localizations.localeOf(context).languageCode == 'es'
+      ? _kTermsUrlEs
+      : _kTermsUrlEn;
+}
+
+class _NotificationsPermissionBanner extends ConsumerStatefulWidget {
+  const _NotificationsPermissionBanner();
+
+  @override
+  ConsumerState<_NotificationsPermissionBanner> createState() =>
+      _NotificationsPermissionBannerState();
+}
+
+class _NotificationsPermissionBannerState
+    extends ConsumerState<_NotificationsPermissionBanner>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      ref.invalidate(notificationsGrantedProvider);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final grantedAsync = ref.watch(notificationsGrantedProvider);
+    final granted = grantedAsync.maybeWhen(
+      data: (v) => v,
+      orElse: () => true,
+    );
+    if (granted) return const SizedBox.shrink();
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.errorContainer.withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: theme.colorScheme.error.withValues(alpha: 0.4),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.notifications_off_outlined,
+                color: theme.colorScheme.error,
+                size: 20,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  l10n.settingsNotificationsDeniedTitle,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: theme.colorScheme.onErrorContainer,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            l10n.settingsNotificationsDeniedBody,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onErrorContainer,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Align(
+            alignment: Alignment.centerRight,
+            child: FilledButton.tonal(
+              onPressed: () async {
+                await AppSettings.openAppSettings(
+                  type: AppSettingsType.notification,
+                );
+              },
+              child: Text(l10n.settingsNotificationsDeniedCta),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
