@@ -1885,6 +1885,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Marked as done'**
   String get maintenanceMarkDoneSuccess;
+
+  /// No description provided for @commonErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get commonErrorTitle;
+
+  /// No description provided for @commonErrorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t load the information. Check your connection and try again.'**
+  String get commonErrorBody;
+
+  /// No description provided for @commonRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get commonRetry;
+
+  /// No description provided for @commonGoBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back'**
+  String get commonGoBack;
 }
 
 class _AppLocalizationsDelegate

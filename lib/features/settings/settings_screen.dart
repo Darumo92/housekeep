@@ -7,6 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/constants/app_constants.dart';
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../core/theme/app_dimens.dart';
+import '../../shared/widgets/status_banner.dart';
 import '../../data/repositories/purchase_repository.dart';
 import '../../data/repositories/repository_providers.dart';
 import '../../data/services/notification_providers.dart';
@@ -497,7 +499,6 @@ class _NotificationsPermissionBannerState
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     final grantedAsync = ref.watch(notificationsGrantedProvider);
     final granted = grantedAsync.maybeWhen(
       data: (v) => v,
@@ -505,58 +506,24 @@ class _NotificationsPermissionBannerState
     );
     if (granted) return const SizedBox.shrink();
 
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.errorContainer.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: theme.colorScheme.error.withValues(alpha: 0.4),
-        ),
+    return StatusBanner(
+      variant: StatusBannerVariant.warning,
+      icon: Icons.notifications_off_outlined,
+      title: l10n.settingsNotificationsDeniedTitle,
+      body: l10n.settingsNotificationsDeniedBody,
+      margin: const EdgeInsets.fromLTRB(
+        Spacing.l,
+        Spacing.xs,
+        Spacing.l,
+        Spacing.s,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                Icons.notifications_off_outlined,
-                color: theme.colorScheme.error,
-                size: 20,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  l10n.settingsNotificationsDeniedTitle,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    color: theme.colorScheme.onErrorContainer,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.settingsNotificationsDeniedBody,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onErrorContainer,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Align(
-            alignment: Alignment.centerRight,
-            child: FilledButton.tonal(
-              onPressed: () async {
-                await AppSettings.openAppSettings(
-                  type: AppSettingsType.notification,
-                );
-              },
-              child: Text(l10n.settingsNotificationsDeniedCta),
-            ),
-          ),
-        ],
+      action: FilledButton.tonal(
+        onPressed: () async {
+          await AppSettings.openAppSettings(
+            type: AppSettingsType.notification,
+          );
+        },
+        child: Text(l10n.settingsNotificationsDeniedCta),
       ),
     );
   }

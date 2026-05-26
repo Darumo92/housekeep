@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../core/theme/app_dimens.dart';
 import '../../domain/enums/item_category.dart';
 import '../../shared/widgets/empty_state.dart';
+import '../../shared/widgets/error_state.dart';
 import '../../shared/widgets/responsive_card_list.dart';
 import '../../shared/widgets/shimmer.dart';
 import 'items_provider.dart';
@@ -65,13 +67,13 @@ class _ItemsListScreenState extends ConsumerState<ItemsListScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.l),
           CategoryPicker(
             selectedCategory: selectedCategory,
             onCategorySelected: selectCategory,
             onClear: clearCategory,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.l),
           Expanded(
             child: itemsAsync.when(
               data: (items) {
@@ -102,8 +104,9 @@ class _ItemsListScreenState extends ConsumerState<ItemsListScreen> {
                   ),
                 );
               },
-              error: (error, stackTrace) =>
-                  Center(child: Text(error.toString())),
+              error: (error, stackTrace) => ErrorState(
+                onRetry: () => ref.invalidate(filteredItemsProvider),
+              ),
               loading: () => const ListSkeleton(),
             ),
           ),

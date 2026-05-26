@@ -450,6 +450,77 @@ Marca cada tarea con [x] cuando esté completada.
 
 ---
 
+## Sprint design polish — audit visual (en progreso)
+
+> Auditoría visual completa en sesión 2026-05-26. 6 pasos ejecutados:
+> tema actual, inventario, diagnóstico, sistema de diseño nuevo, plan, paquetes.
+> Decisiones del usuario:
+> - Tipografía: Plus Jakarta Sans (assets locales)
+> - Paleta: terracota `#C47A4A` confirmada como secondary
+> - Dark mode: deferido a sprint siguiente
+> - Iconografía: migrar a `material_symbols_icons` (rounded)
+
+### Bloque A — Quick wins (completado 2026-05-26) ✅
+- [x] `lib/core/theme/app_dimens.dart` — tokens `Spacing` (xxs..xxxl) + `Radii` (xs..xl + pill)
+- [x] `lib/core/theme/app_colors.dart` — `AppColorsLight` + `AppColorsDark` + `AppStatusColors` (success/warning fuera de ColorScheme); legacy `AppColors.*` conservado
+- [x] `lib/core/theme/app_typography.dart` — escala M3 completa (displayLarge..labelSmall) + `fontFamily = 'PlusJakartaSans'`
+- [x] `lib/core/theme/app_theme.dart` — reescritura completa con `light()` + `dark()`, ColorScheme const, themes para Card/Input/Buttons/Chip/NavigationBar/SnackBar/Dialog/BottomSheet/ProgressIndicator/FAB/ListTile/Switch
+- [x] Plus Jakarta Sans Variable + Italic en `assets/fonts/`
+- [x] `material_symbols_icons ^4.2719.3` añadido a `pubspec.yaml`
+- [x] `paywall_screen.dart:165` — `Colors.green` → `theme.colorScheme.primary`
+- [x] `warranty_badge.dart` — uso de `colorScheme` + `AppStatusColors`
+- [x] `onboarding_screen.dart` — `AppColors.outline` → `theme.colorScheme.outlineVariant`
+
+### Bloque B — Pantallas críticas (completado 2026-05-26) ✅
+- [x] `shared/widgets/error_state.dart` — `ErrorState` con retry, variante compacta
+- [x] `shared/widgets/status_banner.dart` — `StatusBanner` con 4 variantes (success/info/warning/danger)
+- [x] `features/home/widgets/home_skeleton.dart` — skeleton shimmer para Home loading
+- [x] L10n nuevos keys: `commonErrorTitle`, `commonErrorBody`, `commonRetry`, `commonGoBack` (ES + EN)
+- [x] `home_screen.dart` — loading → `HomeSkeleton`; error → `ErrorState`; `_AllClearBanner` → `StatusBanner.success`
+- [x] `home_summary_card.dart` — `labelLarge`/`bodyMedium` del theme, sin `FontWeight` hardcoded
+- [x] `items_list_screen.dart` — error → `ErrorState(onRetry)`
+- [x] `documents_list_screen.dart` — error → `ErrorState(onRetry)`
+- [x] `maintenance_list_screen.dart` — error → `ErrorState(onRetry)`
+- [x] `item_detail_screen.dart` — `Scaffold + AppBar` con título dinámico; foto en `LayoutBuilder` 16:9 capped 240px; usa `WarrantyBadge` compartido; `_MaintenanceSection` error → `ErrorState`
+- [x] `settings_screen.dart` `_NotificationsPermissionBanner` → `StatusBanner.warning`
+- [x] Tests: 101/101 passing
+- [x] Verificación visual en emulador Android
+
+### Bloque C — Componentes secundarios (pendiente)
+- [ ] **C1** `maintenance_card.dart:54` — padding `fromLTRB(16,12,8,8)` → `EdgeInsets.all(Spacing.l)` + reubicar `PopupMenuButton` con `Stack`/`Align`
+- [ ] **C2** `document_card.dart:47` — mismo fix de padding
+- [ ] **C3** Cards (maintenance, document, upcoming_event) — usar `textTheme.labelLarge` en lugar de `bodyMedium.copyWith(w600)` (líneas 108, 76, 88 respectivamente)
+- [ ] **C4** `empty_state.dart` — añadir variantes (`primary`/`tertiary`/`warning`) con prop enum
+- [ ] **C5** Evaluar reemplazo de `shared/widgets/shimmer.dart` por paquete `shimmer` (decisión usuario)
+- [ ] **C6** Migrar iconografía a `material_symbols_icons` rounded (paquete ya añadido). Estrategia: empezar por NavigationBar destinations + AppBar leading; resto incremental.
+- [ ] **C7** ~~Settings notifications banner → StatusBanner~~ ✅ (completado en Bloque B)
+- [ ] **C8** Localizar string del beta toggle (`settings_screen.dart:92-93` — strings en ES hardcoded "BETA: Simular PRO" / "Solo para testers — desaparece en lanzamiento"). Añadir keys ARB `settingsBetaSimulateProTitle` + `settingsBetaSimulateProBody`.
+- [ ] **C9** Extraer dots indicator de `onboarding_screen.dart` a `PageDotsIndicator` reutilizable en `shared/widgets/`
+- [ ] **C10** Paywall: `_ComparisonTable` como `Card` con outline-variant border; "Restore" como `FilledButton.tonal`
+- [ ] **C11** `item_card.dart` — cachear `Theme.of(context)` en variable local (invocado 4 veces en build)
+- [ ] **C12** Eliminar overrides locales de `CircularProgressIndicator(strokeWidth:2)` en `onboarding_screen.dart:184` y `paywall_screen.dart:107` — el `ProgressIndicatorTheme` ya cubre el estilo
+
+### Bloque A pendiente (deferido por riesgo)
+- [ ] **A5+A6** Cablear `themeMode` + setting toggle → bloqueado hasta sprint dark mode (ver sección dark mode más abajo)
+- [ ] **A10** Codemod global de EdgeInsets literales (`16/12/8/24`) → tokens `Spacing.l/m/s/xl`. Sprint posterior con grep + revisión por archivo.
+
+### Dark mode (sprint próximo)
+- [ ] Cablear `MaterialApp(darkTheme: AppTheme.dark(), themeMode: ...)` en `lib/app.dart`
+- [ ] Provider `themeModeProvider` con persistencia en SharedPreferences (system/light/dark)
+- [ ] Tile en `SettingsScreen` con `RadioListTile` o segmented control
+- [ ] Smoke test forzando `Brightness.dark` que recorre Home + Items + Documents + Paywall
+- [ ] Auditar widgets que asuman colores light (gradients hardcoded, asset PNGs blancos sobre claro)
+- [ ] Verificar splash + status/nav bar overlays en dark
+- [x] Paleta dark definida en `lib/core/theme/app_colors.dart` (`AppColorsDark`)
+- [x] `AppTheme.dark()` implementado (no cableado en `MaterialApp`)
+
+### Notas / referencias
+- Audit completo en transcripción de sesión 2026-05-26
+- Paquetes evaluados: `shimmer` (Sí, futuro reemplazo), `flutter_animate` (Sí), `google_fonts` (No — preferidos assets locales), `skeletonizer` (No — duplica shimmer), `gap` (Sí, quick win)
+- Decisión: assets locales de fuentes (no Google Fonts API) por offline-safe y privacidad
+
+---
+
 ## Post-lanzamiento (semana 1-2)
 
 - [ ] Monitorizar crash reports (Crashlytics)

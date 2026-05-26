@@ -1065,4 +1065,17 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get maintenanceMarkDoneSuccess => 'Marcado como realizado';
+
+  @override
+  String get commonErrorTitle => 'Algo salió mal';
+
+  @override
+  String get commonErrorBody =>
+      'No se pudo cargar la información. Comprueba tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get commonRetry => 'Reintentar';
+
+  @override
+  String get commonGoBack => 'Volver';
 }

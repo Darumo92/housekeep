@@ -162,7 +162,10 @@ class _FeatureList extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
-                const Icon(Icons.check_circle, color: Colors.green),
+                Icon(
+                  Icons.check_circle,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ],
             ),
           ),

@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../core/theme/app_dimens.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/services/notification_providers.dart';
 import '../../domain/enums/document_type.dart';
 import '../../domain/models/document.dart';
 import '../../shared/widgets/confirm_dialog.dart';
 import '../../shared/widgets/empty_state.dart';
+import '../../shared/widgets/error_state.dart';
 import '../../shared/widgets/responsive_card_list.dart';
 import '../../shared/widgets/shimmer.dart';
 import 'documents_provider.dart';
@@ -72,13 +74,13 @@ class _DocumentsListScreenState extends ConsumerState<DocumentsListScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.l),
           DocumentTypePicker(
             selectedType: selectedType,
             onTypeSelected: selectType,
             onClear: clearType,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: Spacing.l),
           Expanded(
             child: documentsAsync.when(
               data: (documents) {
@@ -112,8 +114,9 @@ class _DocumentsListScreenState extends ConsumerState<DocumentsListScreen> {
                   ),
                 );
               },
-              error: (error, stackTrace) =>
-                  Center(child: Text(error.toString())),
+              error: (error, stackTrace) => ErrorState(
+                onRetry: () => ref.invalidate(filteredDocumentsProvider),
+              ),
               loading: () => const ListSkeleton(),
             ),
           ),

@@ -85,12 +85,12 @@ class _SummaryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = accentColor ?? Theme.of(context).colorScheme.onSurface;
-    final style = Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: color,
-          fontWeight:
-              accentColor == null ? FontWeight.normal : FontWeight.w600,
-        );
+    final theme = Theme.of(context);
+    final color = accentColor ?? theme.colorScheme.onSurface;
+    final style = (accentColor == null
+            ? theme.textTheme.bodyMedium
+            : theme.textTheme.labelLarge)
+        ?.copyWith(color: color);
     return Row(
       children: [
         Icon(icon, size: 20, color: color),

@@ -1053,4 +1053,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get maintenanceMarkDoneSuccess => 'Marked as done';
+
+  @override
+  String get commonErrorTitle => 'Something went wrong';
+
+  @override
+  String get commonErrorBody =>
+      'We couldn\'t load the information. Check your connection and try again.';
+
+  @override
+  String get commonRetry => 'Retry';
+
+  @override
+  String get commonGoBack => 'Go back';
 }

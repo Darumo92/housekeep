@@ -3,13 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../core/theme/app_dimens.dart';
 import '../../domain/models/upcoming_event.dart';
 import '../../shared/widgets/empty_state.dart';
+import '../../shared/widgets/error_state.dart';
 import '../../shared/widgets/item_picker_sheet.dart';
+import '../../shared/widgets/status_banner.dart';
 import '../documents/documents_provider.dart';
 import '../items/items_provider.dart';
 import 'home_provider.dart';
 import 'widgets/home_expandable_fab.dart';
+import 'widgets/home_skeleton.dart';
 import 'widgets/home_summary_card.dart';
 import 'widgets/upcoming_event_card.dart';
 
@@ -97,8 +101,10 @@ class HomeScreen extends ConsumerWidget {
           await Future<void>.delayed(const Duration(milliseconds: 250));
         },
         child: summaryAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => Center(child: Text(error.toString())),
+          loading: () => const HomeSkeleton(),
+          error: (error, _) => ErrorState(
+            onRetry: () => ref.invalidate(homeSummaryProvider),
+          ),
           data: (summary) {
             if (hasNoData) {
               return ListView(
@@ -117,19 +123,28 @@ class HomeScreen extends ConsumerWidget {
             }
 
             return ListView(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+              padding: const EdgeInsets.fromLTRB(
+                Spacing.l,
+                Spacing.l,
+                Spacing.l,
+                96,
+              ),
               children: [
                 HomeSummaryCard(summary: summary),
-                const SizedBox(height: 24),
+                const SizedBox(height: Spacing.xl),
                 if (summary.isAllClear) ...[
-                  _AllClearBanner(),
-                  const SizedBox(height: 16),
+                  StatusBanner(
+                    variant: StatusBannerVariant.success,
+                    title: l10n.homeAllClearTitle,
+                    body: l10n.homeAllClearBody,
+                  ),
+                  const SizedBox(height: Spacing.l),
                 ],
                 Text(
                   l10n.homeTimelineTitle,
                   style: theme.textTheme.titleMedium,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: Spacing.m),
                 _EventsList(eventsAsync: eventsAsync, onTap: openEvent),
               ],
             );
@@ -150,13 +165,10 @@ class _EventsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return eventsAsync.when(
       loading: () => const Padding(
-        padding: EdgeInsets.symmetric(vertical: 24),
+        padding: EdgeInsets.symmetric(vertical: Spacing.xl),
         child: Center(child: CircularProgressIndicator()),
       ),
-      error: (error, _) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Text(error.toString()),
-      ),
+      error: (error, _) => const ErrorState(compact: true),
       data: (events) {
         if (events.isEmpty) {
           return const SizedBox.shrink();
@@ -178,45 +190,3 @@ class _EventsList extends StatelessWidget {
   }
 }
 
-class _AllClearBanner extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
-    return Card(
-      color: theme.colorScheme.primaryContainer,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Icon(
-              Icons.check_circle_outline,
-              color: theme.colorScheme.onPrimaryContainer,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.homeAllClearTitle,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      color: theme.colorScheme.onPrimaryContainer,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    l10n.homeAllClearBody,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onPrimaryContainer,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

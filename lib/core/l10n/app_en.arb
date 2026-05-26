@@ -373,5 +373,9 @@
   "itemDeletedSuccess": "Item deleted",
   "maintenanceDeletedSuccess": "Maintenance deleted",
   "documentDeletedSuccess": "Document deleted",
-  "maintenanceMarkDoneSuccess": "Marked as done"
+  "maintenanceMarkDoneSuccess": "Marked as done",
+  "commonErrorTitle": "Something went wrong",
+  "commonErrorBody": "We couldn't load the information. Check your connection and try again.",
+  "commonRetry": "Retry",
+  "commonGoBack": "Go back"
 }

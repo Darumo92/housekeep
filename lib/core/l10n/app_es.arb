@@ -373,5 +373,9 @@
   "itemDeletedSuccess": "Artículo borrado",
   "maintenanceDeletedSuccess": "Mantenimiento borrado",
   "documentDeletedSuccess": "Documento borrado",
-  "maintenanceMarkDoneSuccess": "Marcado como realizado"
+  "maintenanceMarkDoneSuccess": "Marcado como realizado",
+  "commonErrorTitle": "Algo salió mal",
+  "commonErrorBody": "No se pudo cargar la información. Comprueba tu conexión e inténtalo de nuevo.",
+  "commonRetry": "Reintentar",
+  "commonGoBack": "Volver"
 }

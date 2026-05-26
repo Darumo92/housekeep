@@ -10,6 +10,7 @@ import '../../data/services/notification_strings.dart';
 import '../../domain/models/maintenance.dart';
 import '../../shared/widgets/confirm_dialog.dart';
 import '../../shared/widgets/empty_state.dart';
+import '../../shared/widgets/error_state.dart';
 import '../../shared/widgets/responsive_card_list.dart';
 import '../../shared/widgets/shimmer.dart';
 import '../items/items_provider.dart';
@@ -84,7 +85,9 @@ class MaintenanceListView extends ConsumerWidget {
         );
       },
       loading: () => const ListSkeleton(),
-      error: (error, _) => Center(child: Text(error.toString())),
+      error: (error, _) => ErrorState(
+        onRetry: () => ref.invalidate(maintenancesForItemProvider(itemId)),
+      ),
     );
   }
 

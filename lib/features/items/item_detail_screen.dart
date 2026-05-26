@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../core/theme/app_dimens.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/repositories/repository_providers.dart';
 import '../../data/services/notification_providers.dart';
@@ -12,9 +13,11 @@ import '../../data/services/notification_strings.dart';
 import '../../domain/models/item.dart';
 import '../../domain/models/maintenance.dart';
 import '../../shared/widgets/confirm_dialog.dart';
+import '../../shared/widgets/error_state.dart';
 import '../maintenance/maintenances_provider.dart';
 import '../maintenance/widgets/maintenance_card.dart';
 import 'items_provider.dart';
+import 'widgets/warranty_badge.dart';
 
 class ItemDetailScreen extends ConsumerWidget {
   const ItemDetailScreen({super.key, required this.itemId});
@@ -24,6 +27,7 @@ class ItemDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     final itemAsync = ref.watch(itemByIdProvider(itemId));
     final deleteState = ref.watch(deleteItemProvider);
     final isDeleting = deleteState.isLoading;
@@ -31,71 +35,86 @@ class ItemDetailScreen extends ConsumerWidget {
     return itemAsync.when(
       data: (item) {
         if (item == null) {
-          return Center(child: Text(l10n.itemDetailTitle));
+          return Scaffold(
+            appBar: AppBar(title: Text(l10n.itemDetailTitle)),
+            body: const ErrorState(),
+          );
         }
 
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Hero(
-                tag: 'item-photo-${item.id}',
-                child: _ItemPhoto(photoPath: item.photoPath),
-              ),
-              const SizedBox(height: 16),
-              Text(item.name, style: Theme.of(context).textTheme.headlineSmall),
-              const SizedBox(height: 12),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [_WarrantyBadge(item: item)],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: FilledButton(
-                      onPressed: () => context.push('/items/${item.id}/edit'),
-                      child: Text(l10n.itemEdit),
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(item.name),
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(Spacing.l),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Hero(
+                  tag: 'item-photo-${item.id}',
+                  child: _ItemHeroPhoto(photoPath: item.photoPath),
+                ),
+                const SizedBox(height: Spacing.l),
+                Wrap(
+                  spacing: Spacing.s,
+                  runSpacing: Spacing.s,
+                  children: [WarrantyBadge(item: item)],
+                ),
+                const SizedBox(height: Spacing.l),
+                Row(
+                  children: [
+                    Expanded(
+                      child: FilledButton(
+                        onPressed: () =>
+                            context.push('/items/${item.id}/edit'),
+                        child: Text(l10n.itemEdit),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: isDeleting
-                          ? null
-                          : () => _deleteItem(context, ref, item),
-                      child: Text(l10n.itemDelete),
+                    const SizedBox(width: Spacing.m),
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: isDeleting
+                            ? null
+                            : () => _deleteItem(context, ref, item),
+                        child: Text(l10n.itemDelete),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      l10n.itemMaintenanceSectionTitle,
-                      style: Theme.of(context).textTheme.titleMedium,
+                  ],
+                ),
+                const SizedBox(height: Spacing.xl),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        l10n.itemMaintenanceSectionTitle,
+                        style: theme.textTheme.titleMedium,
+                      ),
                     ),
-                  ),
-                  TextButton.icon(
-                    onPressed: () =>
-                        context.push('/items/${item.id}/maintenance/add'),
-                    icon: const Icon(Icons.add),
-                    label: Text(l10n.itemMaintenanceAdd),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              _MaintenanceSection(itemId: item.id),
-            ],
+                    TextButton.icon(
+                      onPressed: () =>
+                          context.push('/items/${item.id}/maintenance/add'),
+                      icon: const Icon(Icons.add),
+                      label: Text(l10n.itemMaintenanceAdd),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: Spacing.s),
+                _MaintenanceSection(itemId: item.id),
+              ],
+            ),
           ),
         );
       },
-      error: (error, stackTrace) => Center(child: Text(error.toString())),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) => Scaffold(
+        appBar: AppBar(title: Text(l10n.itemDetailTitle)),
+        body: ErrorState(
+          onRetry: () => ref.invalidate(itemByIdProvider(itemId)),
+        ),
+      ),
+      loading: () => Scaffold(
+        appBar: AppBar(title: Text(l10n.itemDetailTitle)),
+        body: const Center(child: CircularProgressIndicator()),
+      ),
     );
   }
 
@@ -146,28 +165,38 @@ class ItemDetailScreen extends ConsumerWidget {
   }
 }
 
-class _ItemPhoto extends StatelessWidget {
-  const _ItemPhoto({required this.photoPath});
+class _ItemHeroPhoto extends StatelessWidget {
+  const _ItemHeroPhoto({required this.photoPath});
 
   final String? photoPath;
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.circular(20);
+    final theme = Theme.of(context);
     final image = photoPath == null
-        ? const Icon(Icons.photo_outlined, size: 64)
+        ? Icon(
+            Icons.image_outlined,
+            size: 64,
+            color: theme.colorScheme.onSurfaceVariant,
+          )
         : Image.file(File(photoPath!), fit: BoxFit.cover);
 
-    return SizedBox(
-      height: 220,
-      width: double.infinity,
-      child: ClipRRect(
-        borderRadius: borderRadius,
-        child: ColoredBox(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          child: Center(child: image),
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        final height = (width * 9 / 16).clamp(160.0, 240.0);
+        return SizedBox(
+          width: width,
+          height: height,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(Radii.lg),
+            child: ColoredBox(
+              color: theme.colorScheme.surfaceContainerHigh,
+              child: Center(child: image),
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -208,13 +237,10 @@ class _MaintenanceSection extends ConsumerWidget {
         );
       },
       loading: () => const Padding(
-        padding: EdgeInsets.symmetric(vertical: 12),
+        padding: EdgeInsets.symmetric(vertical: Spacing.m),
         child: Center(child: CircularProgressIndicator()),
       ),
-      error: (error, _) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Text(error.toString()),
-      ),
+      error: (error, _) => const ErrorState(compact: true),
     );
   }
 
@@ -300,20 +326,3 @@ Future<void> _rescheduleAfterMarkDone(
       );
 }
 
-class _WarrantyBadge extends StatelessWidget {
-  const _WarrantyBadge({required this.item});
-
-  final Item item;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final label = switch (item.warrantyExpiryDate) {
-      null => l10n.itemNoWarranty,
-      _ when item.isWarrantyActive() => l10n.itemWarrantyActive,
-      _ => l10n.itemWarrantyExpired,
-    };
-
-    return Chip(label: Text(label));
-  }
-}
