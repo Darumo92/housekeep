@@ -10,6 +10,7 @@ import '../../core/l10n/generated/app_localizations.dart';
 import '../../data/repositories/purchase_repository.dart';
 import '../../data/repositories/repository_providers.dart';
 import '../../data/services/notification_providers.dart';
+import '../export/export_controller.dart';
 import 'settings_provider.dart';
 
 const _kPrivacyUrlEn =
@@ -97,6 +98,12 @@ class SettingsScreen extends ConsumerWidget {
                       .set(value);
                 },
               ),
+            const Divider(height: 1),
+            _SectionHeader(label: l10n.settingsSectionWidget),
+            _WidgetTile(isProAsync: isProAsync),
+            const Divider(height: 1),
+            _SectionHeader(label: l10n.settingsSectionData),
+            _ExportPdfTile(isProAsync: isProAsync),
             const Divider(height: 1),
             _SectionHeader(label: l10n.settingsSectionAbout),
             const _VersionTile(),
@@ -332,6 +339,129 @@ String _localizedTermsUrl(BuildContext context) {
   return Localizations.localeOf(context).languageCode == 'es'
       ? _kTermsUrlEs
       : _kTermsUrlEn;
+}
+
+class _WidgetTile extends StatelessWidget {
+  const _WidgetTile({required this.isProAsync});
+
+  final AsyncValue<bool> isProAsync;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final isPro = isProAsync.maybeWhen(data: (v) => v, orElse: () => false);
+    return ListTile(
+      leading: const Icon(Icons.widgets_outlined),
+      title: Text(l10n.settingsWidgetTitle),
+      subtitle: Text(
+        isPro ? l10n.settingsWidgetBodyPro : l10n.settingsWidgetBodyFree,
+      ),
+      trailing: TextButton(
+        onPressed: () {
+          if (!isPro) {
+            context.push('/paywall');
+            return;
+          }
+          showDialog<void>(
+            context: context,
+            builder: (dialogContext) {
+              return AlertDialog(
+                title: Text(l10n.settingsWidgetHowToTitle),
+                content: Text(l10n.settingsWidgetHowToBody),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(dialogContext).pop(),
+                    child: Text(l10n.settingsWidgetHowToClose),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: Text(
+          isPro ? l10n.settingsWidgetCta : l10n.settingsWidgetUpgrade,
+        ),
+      ),
+    );
+  }
+}
+
+class _ExportPdfTile extends ConsumerStatefulWidget {
+  const _ExportPdfTile({required this.isProAsync});
+
+  final AsyncValue<bool> isProAsync;
+
+  @override
+  ConsumerState<_ExportPdfTile> createState() => _ExportPdfTileState();
+}
+
+class _ExportPdfTileState extends ConsumerState<_ExportPdfTile> {
+  bool _busy = false;
+
+  Future<void> _onPressed() async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final isPro =
+        widget.isProAsync.maybeWhen(data: (v) => v, orElse: () => false);
+    if (!isPro) {
+      context.push('/paywall');
+      return;
+    }
+    if (_busy) return;
+    setState(() => _busy = true);
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.settingsDataExportProgress)),
+    );
+    try {
+      final localeTag = Localizations.localeOf(context).toLanguageTag();
+      final ok = await ref
+          .read(exportControllerProvider)
+          .exportAndShare(l10n, localeTag: localeTag);
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            ok ? l10n.settingsDataExportSuccess : l10n.settingsDataExportEmpty,
+          ),
+        ),
+      );
+    } catch (_) {
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.settingsDataExportFailed)),
+      );
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final isPro =
+        widget.isProAsync.maybeWhen(data: (v) => v, orElse: () => false);
+    return ListTile(
+      leading: const Icon(Icons.picture_as_pdf_outlined),
+      title: Text(l10n.settingsDataExportTitle),
+      subtitle: Text(
+        isPro
+            ? l10n.settingsDataExportBodyPro
+            : l10n.settingsDataExportBodyFree,
+      ),
+      trailing: _busy
+          ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : TextButton(
+              onPressed: _onPressed,
+              child: Text(
+                isPro
+                    ? l10n.settingsDataExportCta
+                    : l10n.settingsDataExportUpgrade,
+              ),
+            ),
+    );
+  }
 }
 
 class _NotificationsPermissionBanner extends ConsumerStatefulWidget {

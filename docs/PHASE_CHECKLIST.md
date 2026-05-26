@@ -230,7 +230,7 @@ Marca cada tarea con [x] cuando esté completada.
 - [x] FAB expandible (+Item, +Mantenimiento, +Documento)
 - [x] Pull-to-refresh
 - [x] Empty state para primer uso (call to action)
-- [ ] Transición suave desde onboarding
+- [x] Transición suave desde onboarding *(scale + fade celebration overlay antes de navegar)*
 
 ---
 
@@ -259,7 +259,7 @@ Marca cada tarea con [x] cuando esté completada.
 
 ### Edge cases
 - [x] Dispositivo reiniciado → reboot receiver (Android, RECEIVE_BOOT_COMPLETED + manifest del plugin)
-- [ ] Permisos denegados → mostrar explicación y link a settings
+- [x] Permisos denegados → mostrar explicación y link a settings *(banner en Settings con CTA "Abrir ajustes" + auto-refresh en resume vía `notificationsGrantedProvider`)*
 - [x] Fecha pasada → no programar, mostrar como "vencido"
 
 ---
@@ -293,8 +293,8 @@ Marca cada tarea con [x] cuando esté completada.
 - [x] Check al añadir 4to documento → mostrar paywall
 - [x] Check al intentar usar plantilla PRO → mostrar paywall
 - [x] Check al intentar configurar múltiples notificaciones → paywall (cubierto vía isPro en NotificationScheduler)
-- [ ] Widget solo disponible en pro → mostrar paywall desde settings (depende fase 9)
-- [ ] Exportar PDF → solo pro (no implementado aún)
+- [x] Widget solo disponible en pro → mostrar paywall desde settings *(tile en Settings → free abre `/paywall`, pro muestra diálogo "Cómo añadir")*
+- [x] Exportar PDF → solo pro *(tile Settings/Datos; free → paywall, pro genera PDF con items+mantenimientos+docs y share via `share_plus`)*
 
 ### Provider
 - [x] `isProProvider` → bool stream
@@ -360,7 +360,7 @@ Marca cada tarea con [x] cuando esté completada.
 ### Animaciones
 - [x] Page transitions (shared axis / fade through)
 - [x] Hero animation en fotos (lista → detalle)
-- [ ] Animated counter en dashboard *(deferido: counters acoplados a l10n; requiere placeholder refactor)*
+- [x] Animated counter en dashboard *(TweenAnimationBuilder 600ms easeOutCubic para items / mantenimientos pendientes / docs urgentes)*
 - [x] Haptic feedback en acciones (marcar realizado, borrar)
 - [x] Shimmer loading en listas
 
@@ -384,8 +384,8 @@ Marca cada tarea con [x] cuando esté completada.
 - [x] Screen reader navigation coherente *(AppBar headings + Scaffold roles por defecto)*
 
 ### Performance
-- [ ] Profile con DevTools → no jank *(pendiente sesión manual con `flutter run --profile`)*
-- [ ] Memory leaks check *(pendiente sesión manual con DevTools memory tab)*
+- [x] Profile con DevTools → no jank *(sesión 2026-05-26 emulator-5554 profile build, ver `docs/PERFORMANCE_REPORT.md`)*
+- [x] Memory leaks check *(heap estable tras ciclos completos navegación, providers autoDispose OK — `docs/PERFORMANCE_REPORT.md`)*
 - [x] App size < 30MB *(arm64-v8a release = 25.1MB; armv7 = 22.8MB; AAB = 65.7MB pero install per-device << 30MB)*
 
 ### Branding

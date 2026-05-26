@@ -6,7 +6,7 @@ App móvil freemium (iOS + Android) para gestión del mantenimiento del hogar, c
 
 **Qué es:** App de utilidad del hogar con modelo de pago único (€5.99 lifetime unlock).
 
-**Estado actual:** Fase 2 completada. Siguiente paso: Fase 3 (Mantenimiento).
+**Estado actual:** Fases 0-10 completadas. Fase 11 (Store prep) en curso: legales, metadata, assets y landing listos; screenshots reales + submit a stores pendientes.
 
 **Documentación completa en `/docs/`:**
 - `docs/PLAN.md` — Plan de desarrollo, fases, stack, costes, roadmap
@@ -46,15 +46,15 @@ App móvil freemium (iOS + Android) para gestión del mantenimiento del hogar, c
 | 0 | Setup Flutter, dependencias, tema, i18n, drift, Firebase | Completada |
 | 1 | Data layer (tablas, DAOs, repos, providers) | Completada |
 | 2 | Items/Electrodomésticos (CRUD + fotos) | Completada |
-| 3 | Mantenimiento (CRUD + plantillas) | Pendiente |
-| 4 | Documentos (CRUD + semáforo) | Pendiente |
-| 5 | Home Dashboard (timeline + resumen) | Pendiente |
-| 6 | Notificaciones locales | Pendiente |
-| 7 | Paywall + Premium | Pendiente |
-| 8 | Onboarding + Settings | Pendiente |
-| 9 | Widget pantalla inicio | Pendiente |
-| 10 | Pulido + QA | Pendiente |
-| 11 | Store prep + submit | Pendiente |
+| 3 | Mantenimiento (CRUD + plantillas) | Completada |
+| 4 | Documentos (CRUD + semáforo) | Completada |
+| 5 | Home Dashboard (timeline + resumen) | Completada |
+| 6 | Notificaciones locales | Completada |
+| 7 | Paywall + Premium (gates items/docs/widget/export PDF) | Completada |
+| 8 | Onboarding + Settings | Completada |
+| 9 | Widget pantalla inicio (Android; iOS pendiente Mac) | Completada (Android) |
+| 10 | Pulido + QA (animaciones, accesibilidad, profile, memory) | Completada |
+| 11 | Store prep + submit | En curso (legales + metadata listos; screenshots + submit pendientes) |
 
 ## Cómo continuar
 

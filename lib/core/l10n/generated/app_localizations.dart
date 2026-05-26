@@ -1478,6 +1478,228 @@ abstract class AppLocalizations {
   /// **'About'**
   String get settingsSectionAbout;
 
+  /// No description provided for @settingsSectionWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Home screen widget'**
+  String get settingsSectionWidget;
+
+  /// No description provided for @settingsWidgetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home screen widget'**
+  String get settingsWidgetTitle;
+
+  /// No description provided for @settingsWidgetBodyPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-press on your home screen to add the HouseKeep widget.'**
+  String get settingsWidgetBodyPro;
+
+  /// No description provided for @settingsWidgetBodyFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Available with HouseKeep Pro: add a widget showing your next events.'**
+  String get settingsWidgetBodyFree;
+
+  /// No description provided for @settingsWidgetCta.
+  ///
+  /// In en, this message translates to:
+  /// **'How to add'**
+  String get settingsWidgetCta;
+
+  /// No description provided for @settingsWidgetUpgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with Pro'**
+  String get settingsWidgetUpgrade;
+
+  /// No description provided for @settingsWidgetHowToTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to add the widget'**
+  String get settingsWidgetHowToTitle;
+
+  /// No description provided for @settingsWidgetHowToBody.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Long-press an empty space on your home screen.\n2. Tap “Widgets” and find HouseKeep.\n3. Drag the widget where you want.'**
+  String get settingsWidgetHowToBody;
+
+  /// No description provided for @settingsWidgetHowToClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get settingsWidgetHowToClose;
+
+  /// No description provided for @settingsSectionData.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get settingsSectionData;
+
+  /// No description provided for @settingsDataExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export PDF'**
+  String get settingsDataExportTitle;
+
+  /// No description provided for @settingsDataExportBodyPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate a PDF with all your appliances, maintenance and documents.'**
+  String get settingsDataExportBodyPro;
+
+  /// No description provided for @settingsDataExportBodyFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Available with HouseKeep Pro: export your inventory to PDF.'**
+  String get settingsDataExportBodyFree;
+
+  /// No description provided for @settingsDataExportCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate PDF'**
+  String get settingsDataExportCta;
+
+  /// No description provided for @settingsDataExportUpgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with Pro'**
+  String get settingsDataExportUpgrade;
+
+  /// No description provided for @settingsDataExportProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating PDF…'**
+  String get settingsDataExportProgress;
+
+  /// No description provided for @settingsDataExportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF generated'**
+  String get settingsDataExportSuccess;
+
+  /// No description provided for @settingsDataExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not generate PDF'**
+  String get settingsDataExportFailed;
+
+  /// No description provided for @settingsDataExportEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to export yet'**
+  String get settingsDataExportEmpty;
+
+  /// No description provided for @exportPdfTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'HouseKeep — Inventory'**
+  String get exportPdfTitle;
+
+  /// No description provided for @exportPdfSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Generated on {date}'**
+  String exportPdfSubtitle(String date);
+
+  /// No description provided for @exportPdfSectionItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Appliances'**
+  String get exportPdfSectionItems;
+
+  /// No description provided for @exportPdfSectionMaintenances.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance'**
+  String get exportPdfSectionMaintenances;
+
+  /// No description provided for @exportPdfSectionDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get exportPdfSectionDocuments;
+
+  /// No description provided for @exportPdfColName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get exportPdfColName;
+
+  /// No description provided for @exportPdfColCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get exportPdfColCategory;
+
+  /// No description provided for @exportPdfColBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand'**
+  String get exportPdfColBrand;
+
+  /// No description provided for @exportPdfColPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase'**
+  String get exportPdfColPurchase;
+
+  /// No description provided for @exportPdfColWarrantyUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Warranty'**
+  String get exportPdfColWarrantyUntil;
+
+  /// No description provided for @exportPdfColItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Item'**
+  String get exportPdfColItem;
+
+  /// No description provided for @exportPdfColIntervalMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval (months)'**
+  String get exportPdfColIntervalMonths;
+
+  /// No description provided for @exportPdfColLastDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Last done'**
+  String get exportPdfColLastDone;
+
+  /// No description provided for @exportPdfColNextDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Next due'**
+  String get exportPdfColNextDue;
+
+  /// No description provided for @exportPdfColType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get exportPdfColType;
+
+  /// No description provided for @exportPdfColExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires'**
+  String get exportPdfColExpiry;
+
+  /// No description provided for @exportPdfNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No data'**
+  String get exportPdfNone;
+
+  /// No description provided for @exportPdfFileName.
+  ///
+  /// In en, this message translates to:
+  /// **'housekeep-inventory.pdf'**
+  String get exportPdfFileName;
+
   /// No description provided for @settingsLanguageLabel.
   ///
   /// In en, this message translates to:

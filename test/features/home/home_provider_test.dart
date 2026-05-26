@@ -206,6 +206,8 @@ class _FakeMaintenances implements MaintenancesRepository {
   @override
   Stream<List<Maintenance>> watchUpcomingMaintenances({int limit = 15}) =>
       Stream.value(list);
+  @override
+  Stream<List<Maintenance>> watchAllMaintenances() => Stream.value(list);
 }
 
 class _FakeDocuments implements DocumentsRepository {

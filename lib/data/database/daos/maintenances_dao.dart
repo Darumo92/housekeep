@@ -40,6 +40,12 @@ class MaintenancesDao extends DatabaseAccessor<AppDatabase>
         .watch();
   }
 
+  Stream<List<MaintenanceRow>> watchAllMaintenances() {
+    return (select(maintenancesTable)
+          ..orderBy([(maintenance) => OrderingTerm.asc(maintenance.nextDueAt)]))
+        .watch();
+  }
+
   Stream<List<MaintenanceRow>> watchUpcomingMaintenances({int limit = 15}) {
     return (select(maintenancesTable)
           ..orderBy([(maintenance) => OrderingTerm.asc(maintenance.nextDueAt)])

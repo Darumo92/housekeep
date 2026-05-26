@@ -850,6 +850,124 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsSectionAbout => 'Sobre';
 
   @override
+  String get settingsSectionWidget => 'Widget de pantalla de inicio';
+
+  @override
+  String get settingsWidgetTitle => 'Widget en pantalla de inicio';
+
+  @override
+  String get settingsWidgetBodyPro =>
+      'Mantén pulsado en tu pantalla de inicio para añadir el widget de HouseKeep.';
+
+  @override
+  String get settingsWidgetBodyFree =>
+      'Disponible con HouseKeep Pro: añade un widget con tus próximos eventos.';
+
+  @override
+  String get settingsWidgetCta => 'Cómo añadirlo';
+
+  @override
+  String get settingsWidgetUpgrade => 'Desbloquear con Pro';
+
+  @override
+  String get settingsWidgetHowToTitle => 'Cómo añadir el widget';
+
+  @override
+  String get settingsWidgetHowToBody =>
+      '1. Mantén pulsado un espacio vacío en tu pantalla de inicio.\n2. Pulsa “Widgets” y busca HouseKeep.\n3. Arrastra el widget al lugar que prefieras.';
+
+  @override
+  String get settingsWidgetHowToClose => 'Entendido';
+
+  @override
+  String get settingsSectionData => 'Datos';
+
+  @override
+  String get settingsDataExportTitle => 'Exportar PDF';
+
+  @override
+  String get settingsDataExportBodyPro =>
+      'Genera un PDF con todos tus electrodomésticos, mantenimientos y documentos.';
+
+  @override
+  String get settingsDataExportBodyFree =>
+      'Disponible con HouseKeep Pro: exporta un PDF con tu inventario.';
+
+  @override
+  String get settingsDataExportCta => 'Generar PDF';
+
+  @override
+  String get settingsDataExportUpgrade => 'Desbloquear con Pro';
+
+  @override
+  String get settingsDataExportProgress => 'Generando PDF…';
+
+  @override
+  String get settingsDataExportSuccess => 'PDF generado';
+
+  @override
+  String get settingsDataExportFailed => 'No se pudo generar el PDF';
+
+  @override
+  String get settingsDataExportEmpty => 'Aún no tienes datos para exportar';
+
+  @override
+  String get exportPdfTitle => 'HouseKeep — Inventario';
+
+  @override
+  String exportPdfSubtitle(String date) {
+    return 'Generado el $date';
+  }
+
+  @override
+  String get exportPdfSectionItems => 'Electrodomésticos';
+
+  @override
+  String get exportPdfSectionMaintenances => 'Mantenimientos';
+
+  @override
+  String get exportPdfSectionDocuments => 'Documentos';
+
+  @override
+  String get exportPdfColName => 'Nombre';
+
+  @override
+  String get exportPdfColCategory => 'Categoría';
+
+  @override
+  String get exportPdfColBrand => 'Marca';
+
+  @override
+  String get exportPdfColPurchase => 'Compra';
+
+  @override
+  String get exportPdfColWarrantyUntil => 'Garantía';
+
+  @override
+  String get exportPdfColItem => 'Artículo';
+
+  @override
+  String get exportPdfColIntervalMonths => 'Intervalo (meses)';
+
+  @override
+  String get exportPdfColLastDone => 'Última realización';
+
+  @override
+  String get exportPdfColNextDue => 'Próximo';
+
+  @override
+  String get exportPdfColType => 'Tipo';
+
+  @override
+  String get exportPdfColExpiry => 'Caduca';
+
+  @override
+  String get exportPdfNone => 'Sin datos';
+
+  @override
+  String get exportPdfFileName => 'housekeep-inventario.pdf';
+
+  @override
   String get settingsLanguageLabel => 'Idioma';
 
   @override

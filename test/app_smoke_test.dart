@@ -278,6 +278,11 @@ class _FakeMaintenancesRepository implements MaintenancesRepository {
   Stream<List<Maintenance>> watchUpcomingMaintenances({int limit = 15}) {
     return Stream.value(const <Maintenance>[]);
   }
+
+  @override
+  Stream<List<Maintenance>> watchAllMaintenances() {
+    return Stream.value(const <Maintenance>[]);
+  }
 }
 
 class _FakeDocumentsRepository implements DocumentsRepository {

@@ -7,6 +7,7 @@ abstract class MaintenancesRepository {
   Future<int> deleteMaintenancesForItem(String itemId);
   Future<Maintenance?> getMaintenance(String id);
   Stream<List<Maintenance>> watchMaintenancesForItem(String itemId);
+  Stream<List<Maintenance>> watchAllMaintenances();
   Stream<List<Maintenance>> watchUpcomingMaintenances({int limit});
   Future<void> markAsDone(String id, {DateTime? doneAt});
 }
@@ -41,6 +42,13 @@ class DriftMaintenancesRepository implements MaintenancesRepository {
   Stream<List<Maintenance>> watchMaintenancesForItem(String itemId) {
     return _dao
         .watchMaintenancesForItem(itemId)
+        .map((rows) => rows.map(Maintenance.fromDb).toList());
+  }
+
+  @override
+  Stream<List<Maintenance>> watchAllMaintenances() {
+    return _dao
+        .watchAllMaintenances()
         .map((rows) => rows.map(Maintenance.fromDb).toList());
   }
 

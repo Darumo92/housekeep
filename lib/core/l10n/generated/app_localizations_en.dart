@@ -840,6 +840,124 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsSectionAbout => 'About';
 
   @override
+  String get settingsSectionWidget => 'Home screen widget';
+
+  @override
+  String get settingsWidgetTitle => 'Home screen widget';
+
+  @override
+  String get settingsWidgetBodyPro =>
+      'Long-press on your home screen to add the HouseKeep widget.';
+
+  @override
+  String get settingsWidgetBodyFree =>
+      'Available with HouseKeep Pro: add a widget showing your next events.';
+
+  @override
+  String get settingsWidgetCta => 'How to add';
+
+  @override
+  String get settingsWidgetUpgrade => 'Unlock with Pro';
+
+  @override
+  String get settingsWidgetHowToTitle => 'How to add the widget';
+
+  @override
+  String get settingsWidgetHowToBody =>
+      '1. Long-press an empty space on your home screen.\n2. Tap “Widgets” and find HouseKeep.\n3. Drag the widget where you want.';
+
+  @override
+  String get settingsWidgetHowToClose => 'Got it';
+
+  @override
+  String get settingsSectionData => 'Data';
+
+  @override
+  String get settingsDataExportTitle => 'Export PDF';
+
+  @override
+  String get settingsDataExportBodyPro =>
+      'Generate a PDF with all your appliances, maintenance and documents.';
+
+  @override
+  String get settingsDataExportBodyFree =>
+      'Available with HouseKeep Pro: export your inventory to PDF.';
+
+  @override
+  String get settingsDataExportCta => 'Generate PDF';
+
+  @override
+  String get settingsDataExportUpgrade => 'Unlock with Pro';
+
+  @override
+  String get settingsDataExportProgress => 'Generating PDF…';
+
+  @override
+  String get settingsDataExportSuccess => 'PDF generated';
+
+  @override
+  String get settingsDataExportFailed => 'Could not generate PDF';
+
+  @override
+  String get settingsDataExportEmpty => 'Nothing to export yet';
+
+  @override
+  String get exportPdfTitle => 'HouseKeep — Inventory';
+
+  @override
+  String exportPdfSubtitle(String date) {
+    return 'Generated on $date';
+  }
+
+  @override
+  String get exportPdfSectionItems => 'Appliances';
+
+  @override
+  String get exportPdfSectionMaintenances => 'Maintenance';
+
+  @override
+  String get exportPdfSectionDocuments => 'Documents';
+
+  @override
+  String get exportPdfColName => 'Name';
+
+  @override
+  String get exportPdfColCategory => 'Category';
+
+  @override
+  String get exportPdfColBrand => 'Brand';
+
+  @override
+  String get exportPdfColPurchase => 'Purchase';
+
+  @override
+  String get exportPdfColWarrantyUntil => 'Warranty';
+
+  @override
+  String get exportPdfColItem => 'Item';
+
+  @override
+  String get exportPdfColIntervalMonths => 'Interval (months)';
+
+  @override
+  String get exportPdfColLastDone => 'Last done';
+
+  @override
+  String get exportPdfColNextDue => 'Next due';
+
+  @override
+  String get exportPdfColType => 'Type';
+
+  @override
+  String get exportPdfColExpiry => 'Expires';
+
+  @override
+  String get exportPdfNone => 'No data';
+
+  @override
+  String get exportPdfFileName => 'housekeep-inventory.pdf';
+
+  @override
   String get settingsLanguageLabel => 'Language';
 
   @override
