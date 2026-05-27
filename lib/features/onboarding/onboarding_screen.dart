@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_radii.dart';
 import '../../core/utils/haptics.dart';
-import '../../domain/enums/home_type.dart';
+import '../../shared/widgets/hk_button.dart';
 import 'onboarding_provider.dart';
+import 'widgets/onboarding_art.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -18,10 +22,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     with SingleTickerProviderStateMixin {
   final PageController _controller = PageController();
   int _currentPage = 0;
-  HomeType? _selectedHomeType;
   bool _saving = false;
   bool _completing = false;
   late final AnimationController _completionController;
+
+  static const _pageCount = 3;
 
   @override
   void initState() {
@@ -40,7 +45,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
   }
 
   Future<void> _next() async {
-    if (_currentPage < 2) {
+    if (_currentPage < _pageCount - 1) {
       await _controller.nextPage(
         duration: const Duration(milliseconds: 280),
         curve: Curves.easeOut,
@@ -50,13 +55,19 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     await _finish();
   }
 
+  Future<void> _back() async {
+    if (_currentPage == 0) return;
+    await _controller.previousPage(
+      duration: const Duration(milliseconds: 240),
+      curve: Curves.easeOut,
+    );
+  }
+
   Future<void> _finish() async {
     if (_saving) return;
     setState(() => _saving = true);
     try {
-      await ref
-          .read(onboardingControllerProvider.notifier)
-          .complete(homeType: _selectedHomeType);
+      await ref.read(onboardingControllerProvider.notifier).complete();
       AppHaptics.success();
       if (!mounted) return;
       setState(() => _completing = true);
@@ -72,29 +83,26 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     final pages = <_OnboardingPageData>[
       _OnboardingPageData(
-        icon: Icons.home_work_outlined,
         title: l10n.onboardingPage1Title,
         body: l10n.onboardingPage1Body,
+        art: const OnboardingArtHomeCluster(),
       ),
       _OnboardingPageData(
-        icon: Icons.notifications_active_outlined,
         title: l10n.onboardingPage2Title,
         body: l10n.onboardingPage2Body,
+        art: const OnboardingArtBellStack(),
       ),
       _OnboardingPageData(
-        icon: Icons.celebration_outlined,
         title: l10n.onboardingPage3Title,
         body: l10n.onboardingPage3Body,
-        showHomeTypeSelector: true,
+        art: const OnboardingArtSparkleItem(),
       ),
     ];
 
-    final isLast = _currentPage == pages.length - 1;
-
     return Scaffold(
+      backgroundColor: AppColors.bg,
       body: SafeArea(
         child: Stack(
           children: [
@@ -102,7 +110,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOut,
               opacity: _completing ? 0 : 1,
-              child: _buildOnboardingBody(context, theme, l10n, pages, isLast),
+              child: _buildBody(l10n, pages),
             ),
             if (_completing)
               Positioned.fill(
@@ -114,82 +122,170 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     );
   }
 
-  Widget _buildOnboardingBody(
-    BuildContext context,
-    ThemeData theme,
-    AppLocalizations l10n,
-    List<_OnboardingPageData> pages,
-    bool isLast,
-  ) {
-    return Column(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: _saving ? null : _finish,
-                child: Text(l10n.onboardingSkip),
-              ),
-            ),
-            Expanded(
-              child: PageView.builder(
-                controller: _controller,
-                itemCount: pages.length,
-                onPageChanged: (i) => setState(() => _currentPage = i),
-                itemBuilder: (context, index) {
-                  return _OnboardingPage(
-                    data: pages[index],
-                    selectedHomeType: _selectedHomeType,
-                    onHomeTypeSelected: (type) {
-                      setState(() => _selectedHomeType = type);
-                    },
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 16,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(pages.length, (i) {
-                  final selected = i == _currentPage;
-                  return AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    height: 8,
-                    width: selected ? 24 : 8,
-                    decoration: BoxDecoration(
-                      color: selected
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.outlineVariant,
-                      borderRadius: BorderRadius.circular(4),
+  Widget _buildBody(AppLocalizations l10n, List<_OnboardingPageData> pages) {
+    final isLast = _currentPage == _pageCount - 1;
+    final showSkip = !isLast;
+    final showBack = _currentPage > 0;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 36),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 32,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (showSkip)
+                  TextButton(
+                    onPressed: _saving ? null : _finish,
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppColors.textMuted,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                     ),
-                  );
-                }),
-              ),
+                    child: Text(
+                      l10n.onboardingSkip,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textMuted,
+                      ),
+                    ),
+                  ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-              child: SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: _saving ? null : _next,
-                  child: _saving
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Text(
-                          isLast ? l10n.onboardingStart : l10n.onboardingNext,
-                        ),
+          ),
+          Expanded(
+            child: PageView.builder(
+              controller: _controller,
+              itemCount: pages.length,
+              onPageChanged: (i) => setState(() => _currentPage = i),
+              itemBuilder: (context, index) =>
+                  _OnboardingPage(data: pages[index]),
+            ),
+          ),
+          const SizedBox(height: 12),
+          _Dots(current: _currentPage, count: _pageCount),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              if (showBack) ...[
+                HkButton(
+                  label: '',
+                  icon: Symbols.arrow_back_rounded,
+                  variant: HkButtonVariant.outline,
+                  size: HkButtonSize.lg,
+                  onPressed: _saving ? null : _back,
                 ),
+                const SizedBox(width: 12),
+              ],
+              Expanded(
+                child: _saving
+                    ? const Center(
+                        child: SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(strokeWidth: 2.4),
+                        ),
+                      )
+                    : HkButton(
+                        label: isLast
+                            ? l10n.onboardingStart
+                            : l10n.onboardingNext,
+                        icon: isLast
+                            ? Symbols.auto_awesome_rounded
+                            : Symbols.arrow_forward_rounded,
+                        size: HkButtonSize.lg,
+                        full: true,
+                        onPressed: _saving ? null : _next,
+                      ),
               ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _OnboardingPageData {
+  const _OnboardingPageData({
+    required this.title,
+    required this.body,
+    required this.art,
+  });
+
+  final String title;
+  final String body;
+  final Widget art;
+}
+
+class _OnboardingPage extends StatelessWidget {
+  const _OnboardingPage({required this.data});
+
+  final _OnboardingPageData data;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(child: data.art),
+          const SizedBox(height: 28),
+          Text(
+            data.title,
+            style: theme.textTheme.displaySmall?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppColors.text,
             ),
-          ],
-        );
+          ),
+          const SizedBox(height: 12),
+          Text(
+            data.body,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              fontSize: 16,
+              height: 1.5,
+              color: AppColors.textMuted,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Dots extends StatelessWidget {
+  const _Dots({required this.current, required this.count});
+
+  final int current;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (var i = 0; i < count; i++)
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOut,
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            height: 6,
+            width: i == current ? 24 : 6,
+            decoration: BoxDecoration(
+              color: i == current ? AppColors.primary : AppColors.border,
+              borderRadius: BorderRadius.circular(3),
+            ),
+          ),
+      ],
+    );
   }
 }
 
@@ -200,7 +296,6 @@ class _CompletionOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final scale = Tween<double>(begin: 0.4, end: 1.0).animate(
       CurvedAnimation(
         parent: controller,
@@ -214,7 +309,7 @@ class _CompletionOverlay extends StatelessWidget {
       ),
     );
     return Container(
-      color: theme.scaffoldBackgroundColor,
+      color: AppColors.bg,
       alignment: Alignment.center,
       child: FadeTransition(
         opacity: fade,
@@ -223,103 +318,17 @@ class _CompletionOverlay extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(36),
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.12),
-              shape: BoxShape.circle,
+              color: AppColors.primarySoft,
+              borderRadius: BorderRadius.circular(AppRadii.card * 2),
             ),
-            child: Icon(
-              Icons.check_circle_outline,
+            child: const Icon(
+              Symbols.check_circle_rounded,
               size: 96,
-              color: theme.colorScheme.primary,
+              color: AppColors.primary,
+              fill: 1,
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _OnboardingPageData {
-  const _OnboardingPageData({
-    required this.icon,
-    required this.title,
-    required this.body,
-    this.showHomeTypeSelector = false,
-  });
-
-  final IconData icon;
-  final String title;
-  final String body;
-  final bool showHomeTypeSelector;
-}
-
-class _OnboardingPage extends StatelessWidget {
-  const _OnboardingPage({
-    required this.data,
-    required this.selectedHomeType,
-    required this.onHomeTypeSelected,
-  });
-
-  final _OnboardingPageData data;
-  final HomeType? selectedHomeType;
-  final ValueChanged<HomeType> onHomeTypeSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(28),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.12),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              data.icon,
-              size: 64,
-              color: theme.colorScheme.primary,
-            ),
-          ),
-          const SizedBox(height: 32),
-          Text(
-            data.title,
-            style: theme.textTheme.headlineSmall,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            data.body,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          if (data.showHomeTypeSelector) ...[
-            const SizedBox(height: 32),
-            Text(
-              l10n.onboardingHomeTypeLabel,
-              style: theme.textTheme.labelLarge,
-            ),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              alignment: WrapAlignment.center,
-              children: HomeType.values.map((type) {
-                final selected = selectedHomeType == type;
-                return ChoiceChip(
-                  label: Text(type.label(l10n)),
-                  selected: selected,
-                  onSelected: (_) => onHomeTypeSelected(type),
-                );
-              }).toList(),
-            ),
-          ],
-        ],
       ),
     );
   }

@@ -143,7 +143,7 @@ abstract class AppLocalizations {
   /// No description provided for @itemsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Items'**
+  /// **'My things'**
   String get itemsTitle;
 
   /// No description provided for @documentsTitle.
@@ -305,20 +305,98 @@ abstract class AppLocalizations {
   /// No description provided for @itemsEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'Start with your first item'**
+  /// **'Nothing here yet'**
   String get itemsEmptyTitle;
 
   /// No description provided for @itemsEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'Add an appliance, device, or home system to track its warranty and maintenance.'**
+  /// **'Your boiler, the washing machine, the car… anything with maintenance or a warranty.'**
   String get itemsEmptyBody;
 
   /// No description provided for @itemsEmptyCta.
   ///
   /// In en, this message translates to:
-  /// **'Add item'**
+  /// **'Add thing'**
   String get itemsEmptyCta;
+
+  /// No description provided for @itemsCountFree.
+  ///
+  /// In en, this message translates to:
+  /// **'{n}/5'**
+  String itemsCountFree(int n);
+
+  /// No description provided for @itemsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} items'**
+  String itemsCount(int n);
+
+  /// No description provided for @itemsWarrantyActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active warranty'**
+  String get itemsWarrantyActive;
+
+  /// No description provided for @itemDetailWarranty.
+  ///
+  /// In en, this message translates to:
+  /// **'Warranty'**
+  String get itemDetailWarranty;
+
+  /// No description provided for @itemDetailPurchasedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchased {date}'**
+  String itemDetailPurchasedOn(String date);
+
+  /// No description provided for @itemDetailUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'until {date}'**
+  String itemDetailUntil(String date);
+
+  /// No description provided for @itemDetailHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get itemDetailHistory;
+
+  /// No description provided for @itemDetailMonthsWarranty.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} months'**
+  String itemDetailMonthsWarranty(int n);
+
+  /// No description provided for @addFieldPurchased.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase date'**
+  String get addFieldPurchased;
+
+  /// No description provided for @addSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get addSave;
+
+  /// No description provided for @addCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get addCancel;
+
+  /// No description provided for @addPhotoCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get addPhotoCamera;
+
+  /// No description provided for @addPhotoGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get addPhotoGallery;
 
   /// No description provided for @itemsFilteredEmptyTitle.
   ///
@@ -1103,20 +1181,122 @@ abstract class AppLocalizations {
   /// No description provided for @homeEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'Start taking care of your home'**
+  /// **'Start with what matters most'**
   String get homeEmptyTitle;
 
   /// No description provided for @homeEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'Add an item, maintenance task or document to see it in your timeline.'**
+  /// **'Add your first appliance or document and HouseKeep will warn you before it\'s too late.'**
   String get homeEmptyBody;
 
   /// No description provided for @homeEmptyCta.
   ///
   /// In en, this message translates to:
-  /// **'Add item'**
+  /// **'Add my first thing'**
   String get homeEmptyCta;
+
+  /// No description provided for @homeGreetingMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get homeGreetingMorning;
+
+  /// No description provided for @homeGreetingAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get homeGreetingAfternoon;
+
+  /// No description provided for @homeGreetingEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get homeGreetingEvening;
+
+  /// No description provided for @homeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Here\'s what needs attention'**
+  String get homeSubtitle;
+
+  /// No description provided for @homeSummaryDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get homeSummaryDue;
+
+  /// No description provided for @homeSummarySoon.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get homeSummarySoon;
+
+  /// No description provided for @homeSummaryOk.
+  ///
+  /// In en, this message translates to:
+  /// **'On track'**
+  String get homeSummaryOk;
+
+  /// No description provided for @homeSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get homeSeeAll;
+
+  /// No description provided for @homeProUpsellTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Pro for €5.99'**
+  String get homeProUpsellTitle;
+
+  /// No description provided for @homeProUpsellSub.
+  ///
+  /// In en, this message translates to:
+  /// **'No limits · one-time payment · forever'**
+  String get homeProUpsellSub;
+
+  /// No description provided for @homeProUpsellCta.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get homeProUpsellCta;
+
+  /// No description provided for @homeShortDayToday.
+  ///
+  /// In en, this message translates to:
+  /// **'today'**
+  String get homeShortDayToday;
+
+  /// No description provided for @homeShortDayTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'tomorrow'**
+  String get homeShortDayTomorrow;
+
+  /// No description provided for @homeShortDayIn.
+  ///
+  /// In en, this message translates to:
+  /// **'in {days}d'**
+  String homeShortDayIn(int days);
+
+  /// No description provided for @homeShortDayYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'yesterday'**
+  String get homeShortDayYesterday;
+
+  /// No description provided for @homeShortDayAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{days}d ago'**
+  String homeShortDayAgo(int days);
+
+  /// No description provided for @homeFallbackName.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello'**
+  String get homeFallbackName;
 
   /// No description provided for @homeEventMaintenance.
   ///
@@ -1397,37 +1577,37 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingPage1Title.
   ///
   /// In en, this message translates to:
-  /// **'Your home has many things to take care of'**
+  /// **'Your house has memory.'**
   String get onboardingPage1Title;
 
   /// No description provided for @onboardingPage1Body.
   ///
   /// In en, this message translates to:
-  /// **'Warranties, maintenance, expiring documents… it\'s easy to forget something important.'**
+  /// **'When to change the filter, when insurance expires, when checkups are due. Too much to remember.'**
   String get onboardingPage1Body;
 
   /// No description provided for @onboardingPage2Title.
   ///
   /// In en, this message translates to:
-  /// **'HouseKeep warns you before it\'s too late'**
+  /// **'HouseKeep remembers for you.'**
   String get onboardingPage2Title;
 
   /// No description provided for @onboardingPage2Body.
   ///
   /// In en, this message translates to:
-  /// **'Save your appliances and documents. We\'ll remind you when it\'s time to act.'**
+  /// **'On-time alerts, ready-made templates, and a log of everything you\'ve done.'**
   String get onboardingPage2Body;
 
   /// No description provided for @onboardingPage3Title.
   ///
   /// In en, this message translates to:
-  /// **'Start by adding your first appliance'**
+  /// **'Start with one thing.'**
   String get onboardingPage3Title;
 
   /// No description provided for @onboardingPage3Body.
   ///
   /// In en, this message translates to:
-  /// **'Tell us about your home so we can suggest tailored templates.'**
+  /// **'The boiler, the washing machine, the car insurance. Whatever worries you most.'**
   String get onboardingPage3Body;
 
   /// No description provided for @onboardingNext.

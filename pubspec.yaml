@@ -39,6 +39,7 @@ dependencies:
   printing: ^5.13.0
   share_plus: ^10.0.0
   material_symbols_icons: ^4.2719.3
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

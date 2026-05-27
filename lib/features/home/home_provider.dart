@@ -100,6 +100,7 @@ AsyncValue<List<UpcomingEvent>> upcomingEvents(
         urgency: maintenance.urgencyLevel(now: now),
         type: UpcomingEventType.maintenance,
         relatedItemId: maintenance.itemId,
+        category: item?.category,
       ),
     );
   }
@@ -132,6 +133,7 @@ AsyncValue<List<UpcomingEvent>> upcomingEvents(
         urgency: urgency,
         type: UpcomingEventType.warranty,
         relatedItemId: item.id,
+        category: item.category,
       ),
     );
   }

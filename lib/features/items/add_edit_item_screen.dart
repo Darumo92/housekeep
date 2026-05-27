@@ -1,11 +1,17 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_radii.dart';
 import '../../data/repositories/repository_providers.dart';
 import '../../data/services/notification_providers.dart';
 import '../../data/services/notification_strings.dart';
@@ -13,6 +19,9 @@ import '../../data/services/photo_service.dart';
 import '../../data/services/photo_service_providers.dart';
 import '../../domain/enums/item_category.dart';
 import '../../domain/models/item.dart';
+import '../../shared/widgets/hk_button.dart';
+import '../../shared/widgets/hk_form_field.dart';
+import '../../shared/widgets/hk_photo_slot.dart';
 import '../../shared/widgets/photo_error_snackbar.dart';
 import '../../shared/widgets/photo_picker_sheet.dart';
 import 'items_provider.dart';
@@ -34,11 +43,11 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _brandController = TextEditingController();
-  final _modelController = TextEditingController();
   final _warrantyMonthsController = TextEditingController();
   final _notesController = TextEditingController();
 
   ItemCategory _selectedCategory = ItemCategory.general;
+  DateTime? _purchaseDate;
   String? _loadedItemId;
   String? _photoPath;
 
@@ -48,7 +57,6 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
   void dispose() {
     _nameController.dispose();
     _brandController.dispose();
-    _modelController.dispose();
     _warrantyMonthsController.dispose();
     _notesController.dispose();
     super.dispose();
@@ -57,77 +65,245 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final title = widget.itemId == null ? l10n.itemAddTitle : l10n.itemEditTitle;
+    final isEdit = widget.itemId != null;
+    final title = isEdit ? l10n.itemEditTitle : l10n.itemAddTitle;
 
-    if (widget.itemId == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text(title)),
-        body: _ItemForm(
-          formKey: _formKey,
-          nameController: _nameController,
-          brandController: _brandController,
-          modelController: _modelController,
-          warrantyMonthsController: _warrantyMonthsController,
-          notesController: _notesController,
-          selectedCategory: _selectedCategory,
-          photoPath: _photoPath,
-          onCategoryChanged: _onCategoryChanged,
-          onPhotoPressed: _onPhotoPressed,
-          onSave: () => _saveItem(),
-        ),
-      );
+    if (!isEdit) {
+      return _buildScaffold(title);
     }
 
     final itemAsync = ref.watch(itemByIdProvider(widget.itemId!));
-
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: itemAsync.when(
-        data: (item) {
-          if (item == null) {
-            return const SizedBox.shrink();
-          }
-
-          _populateFromItem(item);
-
-          return _ItemForm(
-            formKey: _formKey,
-            nameController: _nameController,
-            brandController: _brandController,
-            modelController: _modelController,
-            warrantyMonthsController: _warrantyMonthsController,
-            notesController: _notesController,
-            selectedCategory: _selectedCategory,
-            photoPath: _photoPath,
-            onCategoryChanged: _onCategoryChanged,
-            onPhotoPressed: _onPhotoPressed,
-            onSave: () => _saveItem(existingItem: item),
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => Center(child: Text(error.toString())),
+    return itemAsync.when(
+      data: (item) {
+        if (item == null) return const SizedBox.shrink();
+        _populateFromItem(item);
+        return _buildScaffold(title, existingItem: item);
+      },
+      loading: () => const Scaffold(
+        backgroundColor: AppColors.bg,
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      error: (e, _) => Scaffold(
+        backgroundColor: AppColors.bg,
+        body: Center(child: Text(e.toString())),
       ),
     );
   }
 
-  void _onCategoryChanged(ItemCategory? category) {
-    if (category == null) return;
-    setState(() {
-      _selectedCategory = category;
-    });
+  Widget _buildScaffold(String title, {Item? existingItem}) {
+    return Scaffold(
+      backgroundColor: AppColors.bg,
+      body: SafeArea(
+        bottom: false,
+        child: Stack(
+          children: [
+            Form(
+              key: _formKey,
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(22, 12, 22, 120),
+                children: [
+                  _Header(title: title, onBack: () => context.pop()),
+                  const SizedBox(height: 18),
+                  _PhotoBlock(
+                    photoPath: _photoPath,
+                    onPickPhoto: _onPhotoPressed,
+                  ),
+                  const SizedBox(height: 22),
+                  _buildNameField(),
+                  const SizedBox(height: 14),
+                  _buildBrandField(),
+                  const SizedBox(height: 14),
+                  _buildCategoryPicker(),
+                  const SizedBox(height: 14),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(child: _buildPurchaseDateField()),
+                      const SizedBox(width: 10),
+                      Expanded(child: _buildWarrantyMonthsField()),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  _buildNotesField(),
+                ],
+              ),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: _SaveBar(
+                onCancel: () => context.pop(),
+                onSave: () => _saveItem(existingItem: existingItem),
+                isSaving: ref.watch(saveItemProvider).isLoading,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNameField() {
+    final l10n = AppLocalizations.of(context);
+    return HkFormField(
+      label: l10n.itemNameLabel,
+      child: TextFormField(
+        key: _nameFieldKey,
+        controller: _nameController,
+        textInputAction: TextInputAction.next,
+        decoration: const InputDecoration(hintText: 'Caldera, lavadora…'),
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return l10n.itemValidationName;
+          }
+          return null;
+        },
+      ),
+    );
+  }
+
+  Widget _buildBrandField() {
+    final l10n = AppLocalizations.of(context);
+    return HkFormField(
+      label: l10n.itemBrandLabel,
+      child: TextFormField(
+        key: _brandFieldKey,
+        controller: _brandController,
+        textInputAction: TextInputAction.next,
+        decoration: const InputDecoration(hintText: 'Vaillant ecoTEC plus'),
+      ),
+    );
+  }
+
+  Widget _buildCategoryPicker() {
+    final l10n = AppLocalizations.of(context);
+    return HkFormField(
+      label: l10n.itemCategoryLabel,
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: [
+          for (final cat in ItemCategory.values)
+            _CategoryChip(
+              category: cat,
+              active: _selectedCategory == cat,
+              onTap: () => setState(() => _selectedCategory = cat),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPurchaseDateField() {
+    final l10n = AppLocalizations.of(context);
+    final fmt = DateFormat('yyyy-MM-dd');
+    final text = _purchaseDate == null ? 'YYYY-MM-DD' : fmt.format(_purchaseDate!);
+    return HkFormField(
+      label: l10n.addFieldPurchased,
+      child: InkWell(
+        onTap: _pickPurchaseDate,
+        borderRadius: BorderRadius.circular(AppRadii.btn),
+        child: Container(
+          height: 48,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(AppRadii.btn),
+            border: Border.all(color: AppColors.border, width: 1),
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Symbols.calendar_today_rounded,
+                size: 16,
+                color: AppColors.textMuted,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  text,
+                  style: GoogleFonts.jetBrainsMono(
+                    fontSize: 13,
+                    color: _purchaseDate == null
+                        ? AppColors.textFaint
+                        : AppColors.text,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWarrantyMonthsField() {
+    final l10n = AppLocalizations.of(context);
+    return HkFormField(
+      label: l10n.itemWarrantyMonthsLabel,
+      child: TextFormField(
+        controller: _warrantyMonthsController,
+        textInputAction: TextInputAction.next,
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        style: GoogleFonts.jetBrainsMono(
+          fontSize: 15,
+          color: AppColors.text,
+          fontWeight: FontWeight.w600,
+        ),
+        decoration: const InputDecoration(hintText: '24'),
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        validator: (value) {
+          final trimmed = value?.trim() ?? '';
+          if (trimmed.isEmpty) return null;
+          return int.tryParse(trimmed) == null
+              ? l10n.itemValidationWarrantyMonths
+              : null;
+        },
+      ),
+    );
+  }
+
+  Widget _buildNotesField() {
+    final l10n = AppLocalizations.of(context);
+    return HkFormField(
+      label: l10n.itemNotesLabel,
+      child: TextFormField(
+        controller: _notesController,
+        minLines: 2,
+        maxLines: 5,
+        decoration: const InputDecoration(hintText: '…'),
+      ),
+    );
+  }
+
+  Future<void> _pickPurchaseDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _purchaseDate ?? now,
+      firstDate: DateTime(now.year - 30),
+      lastDate: now,
+    );
+    if (picked == null) return;
+    setState(() => _purchaseDate = picked);
   }
 
   void _populateFromItem(Item item) {
     if (_loadedItemId == item.id) return;
-
     _loadedItemId = item.id;
     _nameController.text = item.name;
-    _brandController.text = item.brand ?? '';
-    _modelController.text = item.model ?? '';
+    final brandModel = [
+      if (item.brand != null) item.brand!,
+      if (item.model != null) item.model!,
+    ].join(' ');
+    _brandController.text = brandModel;
     _warrantyMonthsController.text = item.warrantyMonths?.toString() ?? '';
     _notesController.text = item.notes ?? '';
     _selectedCategory = item.category;
     _photoPath = item.photoPath;
+    _purchaseDate = item.purchaseDate;
   }
 
   Future<void> _onPhotoPressed() async {
@@ -144,12 +320,12 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
       switch (action) {
         case PhotoPickerAction.camera:
           if (!_supportsCameraCapture) return;
-          final nextPhotoPath = await photoService.pickFromCamera();
-          await _replacePhoto(nextPhotoPath, photoService);
+          final next = await photoService.pickFromCamera();
+          await _replacePhoto(next, photoService);
           break;
         case PhotoPickerAction.gallery:
-          final nextPhotoPath = await photoService.pickFromGallery();
-          await _replacePhoto(nextPhotoPath, photoService);
+          final next = await photoService.pickFromGallery();
+          await _replacePhoto(next, photoService);
           break;
         case PhotoPickerAction.remove:
           await _removePhoto(photoService);
@@ -162,32 +338,24 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
   }
 
   Future<void> _replacePhoto(
-    String? nextPhotoPath,
+    String? next,
     PhotoService photoService,
   ) async {
-    if (nextPhotoPath == null) return;
-
-    final previousPhotoPath = _photoPath;
-    if (previousPhotoPath != null && previousPhotoPath != nextPhotoPath) {
-      await photoService.deletePhoto(previousPhotoPath);
+    if (next == null) return;
+    final prev = _photoPath;
+    if (prev != null && prev != next) {
+      await photoService.deletePhoto(prev);
     }
-
     if (!mounted) return;
-    setState(() {
-      _photoPath = nextPhotoPath;
-    });
+    setState(() => _photoPath = next);
   }
 
   Future<void> _removePhoto(PhotoService photoService) async {
-    final previousPhotoPath = _photoPath;
-    if (previousPhotoPath == null) return;
-
-    await photoService.deletePhoto(previousPhotoPath);
-
+    final prev = _photoPath;
+    if (prev == null) return;
+    await photoService.deletePhoto(prev);
     if (!mounted) return;
-    setState(() {
-      _photoPath = null;
-    });
+    setState(() => _photoPath = null);
   }
 
   Future<void> _saveItem({Item? existingItem}) async {
@@ -196,16 +364,16 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     final texts = NotificationTexts.fromL10n(AppLocalizations.of(context));
     final now = DateTime.now();
     final warrantyMonthsText = _warrantyMonthsController.text.trim();
+    final brandText = _brandController.text.trim();
     final item = Item(
       id: existingItem?.id ?? _uuid.v4(),
       name: _nameController.text.trim(),
       category: _selectedCategory,
-      brand: _trimmedOrNull(_brandController.text),
-      model: _trimmedOrNull(_modelController.text),
-      purchaseDate: existingItem?.purchaseDate,
-      warrantyMonths: warrantyMonthsText.isEmpty
-          ? null
-          : int.parse(warrantyMonthsText),
+      brand: brandText.isEmpty ? null : brandText,
+      model: existingItem?.model,
+      purchaseDate: _purchaseDate ?? existingItem?.purchaseDate,
+      warrantyMonths:
+          warrantyMonthsText.isEmpty ? null : int.parse(warrantyMonthsText),
       photoPath: _photoPath,
       notes: _trimmedOrNull(_notesController.text),
       createdAt: existingItem?.createdAt ?? now,
@@ -231,7 +399,6 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     }
 
     if (!mounted) return;
-
     messenger.showSnackBar(
       SnackBar(content: Text(l10n.itemSavedSuccess)),
     );
@@ -244,159 +411,198 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
   }
 }
 
-class _ItemForm extends ConsumerWidget {
-  const _ItemForm({
-    required this.formKey,
-    required this.nameController,
-    required this.brandController,
-    required this.modelController,
-    required this.warrantyMonthsController,
-    required this.notesController,
-    required this.selectedCategory,
-    required this.photoPath,
-    required this.onCategoryChanged,
-    required this.onPhotoPressed,
-    required this.onSave,
-  });
+class _Header extends StatelessWidget {
+  const _Header({required this.title, required this.onBack});
 
-  final GlobalKey<FormState> formKey;
-  final TextEditingController nameController;
-  final TextEditingController brandController;
-  final TextEditingController modelController;
-  final TextEditingController warrantyMonthsController;
-  final TextEditingController notesController;
-  final ItemCategory selectedCategory;
-  final String? photoPath;
-  final ValueChanged<ItemCategory?> onCategoryChanged;
-  final Future<void> Function() onPhotoPressed;
-  final VoidCallback onSave;
+  final String title;
+  final VoidCallback onBack;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final isSaving = ref.watch(saveItemProvider).isLoading;
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Row(
+      children: [
+        IconButton(
+          onPressed: onBack,
+          icon: const Icon(Symbols.arrow_back_rounded, color: AppColors.text),
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
+        ),
+        const SizedBox(width: 6),
+        Expanded(
+          child: Text(
+            title,
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontSize: 21,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
-    return SafeArea(
-      child: Form(
-        key: formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            TextFormField(
-              key: _AddEditItemScreenState._nameFieldKey,
-              controller: nameController,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(labelText: l10n.itemNameLabel),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return l10n.itemValidationName;
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<ItemCategory>(
-              initialValue: selectedCategory,
-              decoration: InputDecoration(labelText: l10n.itemCategoryLabel),
-              items: [
-                for (final category in ItemCategory.values)
-                  DropdownMenuItem<ItemCategory>(
-                    value: category,
-                    child: Text(category.label(l10n)),
+class _PhotoBlock extends StatelessWidget {
+  const _PhotoBlock({required this.photoPath, required this.onPickPhoto});
+
+  final String? photoPath;
+  final Future<void> Function() onPickPhoto;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: onPickPhoto,
+          borderRadius: BorderRadius.circular(AppRadii.tile),
+          child: photoPath == null
+              ? const SizedBox(
+                  width: 86,
+                  height: 86,
+                  child: HkPhotoSlot(label: 'photo', height: 86),
+                )
+              : SizedBox(
+                  width: 86,
+                  height: 86,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(AppRadii.tile),
+                    child: Image.file(File(photoPath!), fit: BoxFit.cover),
                   ),
-              ],
-              onChanged: onCategoryChanged,
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              key: _AddEditItemScreenState._brandFieldKey,
-              controller: brandController,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(labelText: l10n.itemBrandLabel),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: modelController,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(labelText: l10n.itemModelLabel),
-            ),
-            const SizedBox(height: 16),
-            _PhotoSection(photoPath: photoPath, onPressed: onPhotoPressed),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: warrantyMonthsController,
-              textInputAction: TextInputAction.next,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: l10n.itemWarrantyMonthsLabel,
+                ),
+        ),
+        const SizedBox(width: 14),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              HkButton(
+                label: l10n.addPhotoCamera,
+                icon: Symbols.photo_camera_rounded,
+                variant: HkButtonVariant.outline,
+                size: HkButtonSize.sm,
+                onPressed: onPickPhoto,
+                full: true,
               ),
-              validator: (value) {
-                final trimmed = value?.trim() ?? '';
-                if (trimmed.isEmpty) return null;
-                return int.tryParse(trimmed) == null
-                    ? l10n.itemValidationWarrantyMonths
-                    : null;
-              },
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: notesController,
-              minLines: 3,
-              maxLines: 5,
-              decoration: InputDecoration(labelText: l10n.itemNotesLabel),
-            ),
-            const SizedBox(height: 24),
-            FilledButton(
-              onPressed: isSaving ? null : onSave,
-              child: Text(l10n.itemSave),
-            ),
-          ],
+              const SizedBox(height: 8),
+              HkButton(
+                label: l10n.addPhotoGallery,
+                icon: Symbols.image_rounded,
+                variant: HkButtonVariant.outline,
+                size: HkButtonSize.sm,
+                onPressed: onPickPhoto,
+                full: true,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CategoryChip extends StatelessWidget {
+  const _CategoryChip({
+    required this.category,
+    required this.active,
+    required this.onTap,
+  });
+
+  final ItemCategory category;
+  final bool active;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final bg = active ? AppColors.primary : AppColors.surfaceAlt;
+    final fg = active ? AppColors.onPrimary : AppColors.text;
+    return Material(
+      color: bg,
+      borderRadius: BorderRadius.circular(AppRadii.chip),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppRadii.chip),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(category.icon, size: 16, color: fg),
+              const SizedBox(width: 6),
+              Text(
+                category.label(l10n),
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: fg,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _PhotoSection extends StatelessWidget {
-  const _PhotoSection({required this.photoPath, required this.onPressed});
+class _SaveBar extends StatelessWidget {
+  const _SaveBar({
+    required this.onCancel,
+    required this.onSave,
+    required this.isSaving,
+  });
 
-  final String? photoPath;
-  final Future<void> Function() onPressed;
+  final VoidCallback onCancel;
+  final VoidCallback onSave;
+  final bool isSaving;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final hasPhoto = photoPath != null;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(l10n.itemPhotoLabel, style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: onPressed,
-          child: Ink(
-            height: 160,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: hasPhoto
-                  ? Image.file(File(photoPath!), fit: BoxFit.cover)
-                  : const Icon(Icons.photo_outlined, size: 48),
-            ),
-          ),
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(22, 14, 22, 22),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            AppColors.bg.withValues(alpha: 0),
+            AppColors.bg,
+          ],
+          stops: const [0, 0.6],
         ),
-        const SizedBox(height: 8),
-        TextButton(
-          onPressed: onPressed,
-          child: Text(hasPhoto ? l10n.itemPhotoReplace : l10n.itemPhotoAdd),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Row(
+          children: [
+            Expanded(
+              child: HkButton(
+                label: l10n.addCancel,
+                variant: HkButtonVariant.ghost,
+                size: HkButtonSize.md,
+                onPressed: isSaving ? null : onCancel,
+                full: true,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: HkButton(
+                label: l10n.addSave,
+                icon: Symbols.check_rounded,
+                size: HkButtonSize.md,
+                onPressed: isSaving ? null : onSave,
+                full: true,
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

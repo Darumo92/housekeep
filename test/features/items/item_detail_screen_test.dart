@@ -13,6 +13,7 @@ import 'package:housekeep/domain/enums/item_category.dart';
 import 'package:housekeep/domain/models/item.dart';
 import 'package:housekeep/domain/models/maintenance.dart';
 import 'package:housekeep/features/items/item_detail_screen.dart';
+import 'package:housekeep/shared/widgets/hk_button.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
@@ -43,7 +44,10 @@ void main() {
     final l10n = _l10n(tester);
 
     expect(find.text('Fridge'), findsOneWidget);
-    expect(find.text(l10n.itemWarrantyActive), findsOneWidget);
+    expect(
+      find.text(l10n.itemsWarrantyActive.toUpperCase()),
+      findsOneWidget,
+    );
     expect(find.text(l10n.itemMaintenanceSectionTitle), findsOneWidget);
     expect(find.text(l10n.itemMaintenanceSectionEmpty), findsOneWidget);
   });
@@ -245,7 +249,9 @@ void main() {
 
     expect(repository.deletedItemIds, ['item-1']);
     expect(
-      tester.widget<OutlinedButton>(find.byType(OutlinedButton)).onPressed,
+      tester
+          .widget<HkButton>(find.widgetWithText(HkButton, l10n.itemDelete))
+          .onPressed,
       isNull,
     );
 

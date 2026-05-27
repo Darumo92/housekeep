@@ -13,6 +13,9 @@ import 'package:housekeep/domain/models/item.dart';
 import 'package:housekeep/features/items/item_detail_screen.dart';
 import 'package:housekeep/features/items/items_provider.dart';
 import 'package:housekeep/features/paywall/paywall_screen.dart';
+import 'package:housekeep/shared/widgets/hk_card.dart';
+import 'package:housekeep/shared/widgets/hk_chip.dart';
+import 'package:housekeep/shared/widgets/hk_fab.dart';
 
 void main() {
   testWidgets('shows first-use empty state when there are no items', (
@@ -38,7 +41,7 @@ void main() {
       find.widgetWithText(FilledButton, l10n.itemsEmptyCta),
       findsNothing,
     );
-    expect(find.byType(FloatingActionButton), findsOneWidget);
+    expect(find.byType(HkFab), findsOneWidget);
   });
 
   testWidgets('shows item rows and category chips when items exist', (
@@ -83,10 +86,10 @@ void main() {
     expect(find.text('Fridge'), findsOneWidget);
     expect(find.text('Heater'), findsOneWidget);
     expect(
-      find.byType(ChoiceChip),
-      findsNWidgets(ItemCategory.values.length + 1),
+      find.byType(HkChip),
+      findsNWidgets(7),
     );
-    expect(find.byType(Card), findsNWidgets(2));
+    expect(find.byType(HkCard), findsNWidgets(2));
   });
 
   testWidgets('opens item detail when an item card is tapped', (tester) async {
@@ -175,7 +178,7 @@ void main() {
 
       final l10n = _l10n(tester);
 
-      await tester.tap(find.byType(FloatingActionButton));
+      await tester.tap(find.byType(HkFab));
       await tester.pumpAndSettle();
 
       expect(find.byType(PaywallScreen), findsOneWidget);
@@ -227,12 +230,12 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byType(FloatingActionButton));
+    await tester.tap(find.byType(HkFab));
     await tester.pump();
 
     expect(
       tester
-          .widget<FloatingActionButton>(find.byType(FloatingActionButton))
+          .widget<HkFab>(find.byType(HkFab))
           .onPressed,
       isNull,
     );

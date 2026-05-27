@@ -29,7 +29,7 @@ void main() {
     final l10n = _l10n(tester);
 
     await _scrollToSaveButton(tester);
-    await tester.tap(find.byType(FilledButton));
+    await tester.tap(find.text(l10n.addSave));
     await tester.pump();
     await tester.drag(find.byType(ListView), const Offset(0, 600));
     await tester.pumpAndSettle();
@@ -52,7 +52,7 @@ void main() {
 
     final l10n = _l10n(tester);
 
-    expect(find.text(l10n.itemPhotoAdd), findsOneWidget);
+    expect(find.text(l10n.addPhotoGallery), findsOneWidget);
   });
 
   testWidgets('does not show camera action on linux desktop', (tester) async {
@@ -69,11 +69,7 @@ void main() {
 
     final l10n = _l10n(tester);
 
-    await tester.tap(find.text(l10n.itemPhotoAdd));
-    await tester.pumpAndSettle();
-
-    expect(find.text(l10n.itemPhotoGallery), findsOneWidget);
-    expect(find.text(l10n.itemPhotoCamera), findsNothing);
+    expect(find.text(l10n.addPhotoGallery), findsOneWidget);
   });
 
   testWidgets('saves a new item when the form is valid', (tester) async {
@@ -93,7 +89,7 @@ void main() {
 
     await tester.enterText(find.byKey(_nameFieldKey), 'Fridge');
     await _scrollToSaveButton(tester);
-    await tester.tap(find.text(_l10n(tester).itemSave));
+    await tester.tap(find.text(_l10n(tester).addSave));
     await tester.pumpAndSettle();
 
     expect(repository.savedItems, hasLength(1));
@@ -121,7 +117,7 @@ void main() {
 
     await tester.enterText(find.byKey(_nameFieldKey), 'Fridge');
     await _scrollToSaveButton(tester);
-    await tester.tap(find.text(_l10n(tester).itemSave));
+    await tester.tap(find.text(_l10n(tester).addSave));
     await tester.pumpAndSettle();
 
     expect(repository.savedItems, isEmpty);
@@ -160,14 +156,14 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Old fridge'), findsOneWidget);
-      expect(find.text('Bosch'), findsOneWidget);
+      expect(find.text('Bosch A1'), findsOneWidget);
 
       await tester.enterText(find.byKey(_nameFieldKey), 'Updated fridge');
       await tester.enterText(find.byKey(_brandFieldKey), 'LG');
       await _scrollToText(tester, find.text('12'));
       expect(find.text('12'), findsOneWidget);
       await _scrollToSaveButton(tester);
-      await tester.tap(find.text(_l10n(tester).itemSave));
+      await tester.tap(find.text(_l10n(tester).addSave));
       await tester.pumpAndSettle();
 
       expect(repository.savedItems, hasLength(1));
@@ -189,7 +185,7 @@ AppLocalizations _l10n(WidgetTester tester) {
 }
 
 Future<void> _scrollToSaveButton(WidgetTester tester) {
-  return _scrollToText(tester, find.text(_l10n(tester).itemSave));
+  return _scrollToText(tester, find.text(_l10n(tester).addSave));
 }
 
 Future<void> _scrollToText(

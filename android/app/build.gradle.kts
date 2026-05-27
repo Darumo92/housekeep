@@ -33,9 +33,11 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             configure<com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension> {
                 mappingFileUploadEnabled = false
             }
@@ -55,4 +57,13 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    implementation("androidx.work:work-runtime-ktx:2.9.1")
+}
+
+configurations.all {
+    resolutionStrategy {
+        force("androidx.work:work-runtime:2.9.1")
+        force("androidx.work:work-runtime-ktx:2.9.1")
+        force("androidx.work:work-gcm:2.9.1")
+    }
 }

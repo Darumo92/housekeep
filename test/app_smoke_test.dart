@@ -19,6 +19,7 @@ import 'package:housekeep/features/items/item_detail_screen.dart';
 import 'package:housekeep/features/items/items_list_screen.dart';
 import 'package:housekeep/features/onboarding/onboarding_screen.dart';
 import 'package:housekeep/features/paywall/paywall_screen.dart';
+import 'package:housekeep/shared/widgets/hk_tab_bar.dart';
 import 'package:housekeep/features/settings/settings_screen.dart';
 
 void main() {
@@ -70,8 +71,8 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.byType(AddEditItemScreen), findsOneWidget);
-    expect(find.byType(NavigationBar), findsOneWidget);
-    expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 1);
+    expect(find.byType(HkTabBar), findsOneWidget);
+    expect(tester.widget<HkTabBar>(find.byType(HkTabBar)).current, HkTab.items);
   });
 
   testWidgets('supports the item detail route inside the shell', (tester) async {
@@ -92,8 +93,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(ItemDetailScreen), findsOneWidget);
     expect(find.text(_testItem.name), findsOneWidget);
-    expect(find.byType(NavigationBar), findsOneWidget);
-    expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 1);
+    expect(find.byType(HkTabBar), findsOneWidget);
+    expect(tester.widget<HkTabBar>(find.byType(HkTabBar)).current, HkTab.items);
   });
 
   testWidgets('supports the item edit route inside the shell', (tester) async {
@@ -114,8 +115,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(AddEditItemScreen), findsOneWidget);
     expect(find.text(_testItem.name), findsOneWidget);
-    expect(find.byType(NavigationBar), findsOneWidget);
-    expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 1);
+    expect(find.byType(HkTabBar), findsOneWidget);
+    expect(tester.widget<HkTabBar>(find.byType(HkTabBar)).current, HkTab.items);
   });
 
   testWidgets('shows the home screen shell on launch', (tester) async {
@@ -140,8 +141,8 @@ void main() {
     expect(find.byType(ItemsListScreen), findsNothing);
     expect(find.byType(DocumentsListScreen), findsNothing);
     expect(find.byType(SettingsScreen), findsNothing);
-    expect(find.byType(NavigationBar), findsOneWidget);
-    expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 0);
+    expect(find.byType(HkTabBar), findsOneWidget);
+    expect(tester.widget<HkTabBar>(find.byType(HkTabBar)).current, HkTab.home);
   });
 
   testWidgets('switches between the four shell tabs', (tester) async {
@@ -160,34 +161,34 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    Finder navIcon(IconData icon) => find.descendant(
-          of: find.byType(NavigationBar),
-          matching: find.byIcon(icon),
+    Finder tabLabel(String label) => find.descendant(
+          of: find.byType(HkTabBar),
+          matching: find.text(label),
         );
 
-    await tester.tap(navIcon(Icons.kitchen_outlined));
+    await tester.tap(tabLabel('Items'));
     await tester.pumpAndSettle();
     expect(find.byType(ItemsListScreen), findsOneWidget);
     expect(find.byType(HomeScreen), findsNothing);
-    expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 1);
+    expect(tester.widget<HkTabBar>(find.byType(HkTabBar)).current, HkTab.items);
 
-    await tester.tap(navIcon(Icons.description_outlined));
+    await tester.tap(tabLabel('Documents'));
     await tester.pumpAndSettle();
     expect(find.byType(DocumentsListScreen), findsOneWidget);
     expect(find.byType(ItemsListScreen), findsNothing);
-    expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 2);
+    expect(tester.widget<HkTabBar>(find.byType(HkTabBar)).current, HkTab.docs);
 
-    await tester.tap(navIcon(Icons.settings_outlined));
+    await tester.tap(tabLabel('Settings'));
     await tester.pumpAndSettle();
     expect(find.byType(SettingsScreen), findsOneWidget);
     expect(find.byType(DocumentsListScreen), findsNothing);
-    expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 3);
+    expect(tester.widget<HkTabBar>(find.byType(HkTabBar)).current, HkTab.settings);
 
-    await tester.tap(navIcon(Icons.home_outlined));
+    await tester.tap(tabLabel('Home'));
     await tester.pumpAndSettle();
     expect(find.byType(HomeScreen), findsOneWidget);
     expect(find.byType(SettingsScreen), findsNothing);
-    expect(tester.widget<NavigationBar>(find.byType(NavigationBar)).selectedIndex, 0);
+    expect(tester.widget<HkTabBar>(find.byType(HkTabBar)).current, HkTab.home);
   });
 
   testWidgets('renders the onboarding route outside the shell', (tester) async {
@@ -201,7 +202,7 @@ void main() {
 
     expect(find.byType(OnboardingScreen), findsOneWidget);
     expect(find.byType(PageView), findsOneWidget);
-    expect(find.byType(NavigationBar), findsNothing);
+    expect(find.byType(HkTabBar), findsNothing);
   });
 
   testWidgets('supports a Spanish locale override', (tester) async {
@@ -222,7 +223,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(HomeScreen), findsOneWidget);
-    expect(find.text('Tu casa'), findsOneWidget);
+    expect(find.text('Hola'), findsOneWidget);
     expect(find.text('Inicio'), findsOneWidget);
   });
 }

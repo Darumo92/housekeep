@@ -18,6 +18,7 @@ import 'features/paywall/paywall_screen.dart';
 import 'features/settings/settings_provider.dart';
 import 'features/settings/settings_screen.dart';
 import 'features/widget/widget_deep_link.dart';
+import 'shared/widgets/hk_tab_bar.dart';
 
 class ShellDestination {
   const ShellDestination({
@@ -257,41 +258,37 @@ class _AppShell extends StatelessWidget {
   final String location;
   final Widget child;
 
+  static const _destinations = <HkTab, String>{
+    HkTab.home: '/',
+    HkTab.items: '/items',
+    HkTab.docs: '/documents',
+    HkTab.settings: '/settings',
+  };
+
+  HkTab _currentTab() {
+    final destination = resolveShellDestination(location);
+    switch (destination.index) {
+      case 1:
+        return HkTab.items;
+      case 2:
+        return HkTab.docs;
+      case 3:
+        return HkTab.settings;
+      default:
+        return HkTab.home;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    const destinations = ['/', '/items', '/documents', '/settings'];
-    final destination = resolveShellDestination(location);
-    final title = destination.title(l10n);
-
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: SafeArea(child: child),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: destination.index,
-        onDestinationSelected: (index) => context.go(destinations[index]),
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.home_outlined),
-            selectedIcon: const Icon(Icons.home),
-            label: l10n.homeTab,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.kitchen_outlined),
-            selectedIcon: const Icon(Icons.kitchen),
-            label: l10n.itemsTab,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.description_outlined),
-            selectedIcon: const Icon(Icons.description),
-            label: l10n.documentsTab,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.settings_outlined),
-            selectedIcon: const Icon(Icons.settings),
-            label: l10n.settingsTab,
-          ),
-        ],
+      body: SafeArea(bottom: false, child: child),
+      bottomNavigationBar: HkTabBar(
+        current: _currentTab(),
+        onChanged: (tab) {
+          final dest = _destinations[tab]!;
+          context.go(dest);
+        },
       ),
     );
   }

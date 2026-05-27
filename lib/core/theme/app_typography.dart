@@ -1,110 +1,118 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-/// Plus Jakarta Sans typography scale (full Material 3 set).
-/// Font family is wired globally via `ThemeData.fontFamily`,
-/// so individual styles intentionally omit `fontFamily`.
+/// Typography scale for the Cozy redesign (Phase 1).
+/// Inter for everything; JetBrains Mono for technical numerals.
+/// See `design_handoff_redesign/DESIGN_TOKENS.md` §2.
 class AppTypography {
   const AppTypography._();
 
-  static const String fontFamily = 'PlusJakartaSans';
-
-  static TextTheme textTheme(Color textColor) {
-    return TextTheme(
-      displayLarge: TextStyle(
+  /// Build a complete [TextTheme] tinted by the active [ColorScheme].
+  static TextTheme build(ColorScheme cs) {
+    final base = GoogleFonts.interTextTheme();
+    return base.copyWith(
+      displayLarge: base.displayLarge?.copyWith(
         fontSize: 40,
         fontWeight: FontWeight.w700,
-        color: textColor,
+        height: 1.05,
         letterSpacing: -0.6,
-        height: 1.1,
+        color: cs.onSurface,
       ),
-      displayMedium: TextStyle(
+      displayMedium: base.displayMedium?.copyWith(
         fontSize: 34,
         fontWeight: FontWeight.w700,
-        color: textColor,
+        height: 1.05,
         letterSpacing: -0.5,
-        height: 1.1,
+        color: cs.onSurface,
       ),
-      displaySmall: TextStyle(
+      displaySmall: base.displaySmall?.copyWith(
         fontSize: 28,
-        fontWeight: FontWeight.w700,
-        color: textColor,
+        fontWeight: FontWeight.w600,
+        height: 1.05,
         letterSpacing: -0.4,
+        color: cs.onSurface,
+      ),
+      headlineLarge: base.headlineLarge?.copyWith(
+        fontSize: 24,
+        fontWeight: FontWeight.w600,
         height: 1.15,
-      ),
-      headlineLarge: TextStyle(
-        fontSize: 26,
-        fontWeight: FontWeight.w700,
-        color: textColor,
         letterSpacing: -0.3,
-        height: 1.2,
+        color: cs.onSurface,
       ),
-      headlineMedium: TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.w700,
-        color: textColor,
-        letterSpacing: -0.2,
-        height: 1.25,
-      ),
-      headlineSmall: TextStyle(
+      headlineMedium: base.headlineMedium?.copyWith(
         fontSize: 20,
         fontWeight: FontWeight.w600,
-        color: textColor,
-        height: 1.3,
+        height: 1.2,
+        letterSpacing: -0.2,
+        color: cs.onSurface,
       ),
-      titleLarge: TextStyle(
+      headlineSmall: base.headlineSmall?.copyWith(
         fontSize: 18,
         fontWeight: FontWeight.w600,
-        color: textColor,
-        height: 1.3,
+        height: 1.2,
+        letterSpacing: -0.2,
+        color: cs.onSurface,
       ),
-      titleMedium: TextStyle(
-        fontSize: 16,
+      titleLarge: base.titleLarge?.copyWith(
+        fontSize: 17,
         fontWeight: FontWeight.w600,
-        color: textColor,
-        height: 1.3,
+        height: 1.25,
+        color: cs.onSurface,
       ),
-      titleSmall: TextStyle(
+      titleMedium: base.titleMedium?.copyWith(
+        fontSize: 15.5,
+        fontWeight: FontWeight.w600,
+        height: 1.3,
+        color: cs.onSurface,
+      ),
+      titleSmall: base.titleSmall?.copyWith(
         fontSize: 14,
         fontWeight: FontWeight.w600,
-        color: textColor,
-        height: 1.3,
+        height: 1.35,
+        color: cs.onSurface,
       ),
-      bodyLarge: TextStyle(
-        fontSize: 16,
+      bodyLarge: base.bodyLarge?.copyWith(
+        fontSize: 15,
         fontWeight: FontWeight.w400,
-        color: textColor,
         height: 1.5,
+        color: cs.onSurface,
       ),
-      bodyMedium: TextStyle(
+      bodyMedium: base.bodyMedium?.copyWith(
         fontSize: 14,
         fontWeight: FontWeight.w400,
-        color: textColor,
-        height: 1.5,
+        height: 1.45,
+        color: cs.onSurface,
       ),
-      bodySmall: TextStyle(
-        fontSize: 12,
+      bodySmall: base.bodySmall?.copyWith(
+        fontSize: 12.5,
         fontWeight: FontWeight.w400,
-        color: textColor,
         height: 1.4,
+        color: cs.onSurface,
       ),
-      labelLarge: TextStyle(
-        fontSize: 14,
+      labelLarge: base.labelLarge?.copyWith(
+        fontSize: 13,
         fontWeight: FontWeight.w600,
-        color: textColor,
-        letterSpacing: 0.1,
+        height: 1.2,
+        color: cs.onSurface,
       ),
-      labelMedium: TextStyle(
+      labelMedium: base.labelMedium?.copyWith(
         fontSize: 12,
         fontWeight: FontWeight.w600,
-        color: textColor,
+        height: 1.2,
         letterSpacing: 0.2,
+        color: cs.onSurface,
       ),
-      labelSmall: TextStyle(
-        fontSize: 11,
-        fontWeight: FontWeight.w600,
-        color: textColor,
-        letterSpacing: 0.4,
+      labelSmall: base.labelSmall?.copyWith(
+        fontSize: 11.5,
+        fontWeight: FontWeight.w700,
+        height: 1.2,
+        letterSpacing: 0.3,
+        color: cs.onSurface,
       ),
     );
   }
+
+  /// JetBrains Mono for dates, technical numerals, and counters ("3 / 5").
+  static TextStyle mono(double size, Color color) =>
+      GoogleFonts.jetBrainsMono(fontSize: size, color: color, height: 1.3);
 }

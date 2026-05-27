@@ -30,7 +30,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeTitle => 'Your home at a glance';
 
   @override
-  String get itemsTitle => 'Items';
+  String get itemsTitle => 'My things';
 
   @override
   String get documentsTitle => 'Documents';
@@ -112,14 +112,63 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentTypeOther => 'Other';
 
   @override
-  String get itemsEmptyTitle => 'Start with your first item';
+  String get itemsEmptyTitle => 'Nothing here yet';
 
   @override
   String get itemsEmptyBody =>
-      'Add an appliance, device, or home system to track its warranty and maintenance.';
+      'Your boiler, the washing machine, the car… anything with maintenance or a warranty.';
 
   @override
-  String get itemsEmptyCta => 'Add item';
+  String get itemsEmptyCta => 'Add thing';
+
+  @override
+  String itemsCountFree(int n) {
+    return '$n/5';
+  }
+
+  @override
+  String itemsCount(int n) {
+    return '$n items';
+  }
+
+  @override
+  String get itemsWarrantyActive => 'Active warranty';
+
+  @override
+  String get itemDetailWarranty => 'Warranty';
+
+  @override
+  String itemDetailPurchasedOn(String date) {
+    return 'Purchased $date';
+  }
+
+  @override
+  String itemDetailUntil(String date) {
+    return 'until $date';
+  }
+
+  @override
+  String get itemDetailHistory => 'History';
+
+  @override
+  String itemDetailMonthsWarranty(int n) {
+    return '$n months';
+  }
+
+  @override
+  String get addFieldPurchased => 'Purchase date';
+
+  @override
+  String get addSave => 'Save';
+
+  @override
+  String get addCancel => 'Cancel';
+
+  @override
+  String get addPhotoCamera => 'Camera';
+
+  @override
+  String get addPhotoGallery => 'Gallery';
 
   @override
   String get itemsFilteredEmptyTitle => 'No items in this category';
@@ -596,14 +645,69 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeTimelineTitle => 'Upcoming events';
 
   @override
-  String get homeEmptyTitle => 'Start taking care of your home';
+  String get homeEmptyTitle => 'Start with what matters most';
 
   @override
   String get homeEmptyBody =>
-      'Add an item, maintenance task or document to see it in your timeline.';
+      'Add your first appliance or document and HouseKeep will warn you before it\'s too late.';
 
   @override
-  String get homeEmptyCta => 'Add item';
+  String get homeEmptyCta => 'Add my first thing';
+
+  @override
+  String get homeGreetingMorning => 'Good morning';
+
+  @override
+  String get homeGreetingAfternoon => 'Good afternoon';
+
+  @override
+  String get homeGreetingEvening => 'Good evening';
+
+  @override
+  String get homeSubtitle => 'Here\'s what needs attention';
+
+  @override
+  String get homeSummaryDue => 'Due';
+
+  @override
+  String get homeSummarySoon => 'This week';
+
+  @override
+  String get homeSummaryOk => 'On track';
+
+  @override
+  String get homeSeeAll => 'See all';
+
+  @override
+  String get homeProUpsellTitle => 'Go Pro for €5.99';
+
+  @override
+  String get homeProUpsellSub => 'No limits · one-time payment · forever';
+
+  @override
+  String get homeProUpsellCta => 'View';
+
+  @override
+  String get homeShortDayToday => 'today';
+
+  @override
+  String get homeShortDayTomorrow => 'tomorrow';
+
+  @override
+  String homeShortDayIn(int days) {
+    return 'in ${days}d';
+  }
+
+  @override
+  String get homeShortDayYesterday => 'yesterday';
+
+  @override
+  String homeShortDayAgo(int days) {
+    return '${days}d ago';
+  }
+
+  @override
+  String get homeFallbackName => 'Hello';
 
   @override
   String get homeEventMaintenance => 'Maintenance';
@@ -793,27 +897,25 @@ class AppLocalizationsEn extends AppLocalizations {
       'Products not available right now. Try again later.';
 
   @override
-  String get onboardingPage1Title =>
-      'Your home has many things to take care of';
+  String get onboardingPage1Title => 'Your house has memory.';
 
   @override
   String get onboardingPage1Body =>
-      'Warranties, maintenance, expiring documents… it\'s easy to forget something important.';
+      'When to change the filter, when insurance expires, when checkups are due. Too much to remember.';
 
   @override
-  String get onboardingPage2Title =>
-      'HouseKeep warns you before it\'s too late';
+  String get onboardingPage2Title => 'HouseKeep remembers for you.';
 
   @override
   String get onboardingPage2Body =>
-      'Save your appliances and documents. We\'ll remind you when it\'s time to act.';
+      'On-time alerts, ready-made templates, and a log of everything you\'ve done.';
 
   @override
-  String get onboardingPage3Title => 'Start by adding your first appliance';
+  String get onboardingPage3Title => 'Start with one thing.';
 
   @override
   String get onboardingPage3Body =>
-      'Tell us about your home so we can suggest tailored templates.';
+      'The boiler, the washing machine, the car insurance. Whatever worries you most.';
 
   @override
   String get onboardingNext => 'Next';
