@@ -14,7 +14,7 @@
 
 ---
 
-## Las 9 fases
+## Las 10 fases
 
 ### Bloque A — Cimientos (obligatorios primero, en orden)
 
@@ -30,12 +30,13 @@
 | 3 | Onboarding | `phases/phase_3_onboarding.md` | ~1d | `onboarding_screen.dart` |
 | 4 | Home dashboard | `phases/phase_4_home_dashboard.md` | ~2d | `home_screen.dart` + sus widgets |
 | 5 | Items (lista, detalle, formulario) | `phases/phase_5_items.md` | ~3d | `items_list_screen.dart`, `item_detail_screen.dart`, `add_edit_item_screen.dart` |
-| 6 | Documentos | `phases/phase_6_documents.md` | ~1d | `documents_list_screen.dart` |
+| 6 | Documentos (lista + formulario) | `phases/phase_6_documents.md` | ~1.5d | `documents_list_screen.dart`, `add_edit_document_screen.dart` |
 | 7 | Mark-done sheet | `phases/phase_7_maintenance_done.md` | ~1d | `maintenance/mark_done_sheet.dart` (nuevo) + integración en item detail |
 | 8 | Paywall | `phases/phase_8_paywall.md` | ~1d | `paywall_screen.dart` |
 | 9 | Settings | `phases/phase_9_settings.md` | ~1d | `settings_screen.dart` |
+| 10 | Widget de pantalla de inicio | `phases/phase_10_home_widget.md` | ~2-3d | `android/app/src/main/.../HouseKeepWidget.kt` + Flutter side |
 
-**Total estimado: ~13 días-persona.**
+**Total estimado: ~15-16 días-persona.**
 
 ---
 

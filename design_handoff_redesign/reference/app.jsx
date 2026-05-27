@@ -6,7 +6,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "plan": "free",
   "state": "populated",
   "dark": false,
-  "screen": "onboarding"
+  "screen": "widget"
 }/*EDITMODE-END*/;
 
 function App() {
@@ -47,8 +47,19 @@ function App() {
         setScreen('paywall');
         setTweak('screen', 'paywall');
       } else {
-        setScreen('add');
-        setTweak('screen', 'add');
+        // Context: if we are on docs screen, open AddDocument; otherwise AddItem
+        const target = screen === 'docs' ? 'add-doc' : 'add';
+        setScreen(target);
+        setTweak('screen', target);
+      }
+    } else if (s === 'add-doc') {
+      if (t.plan === 'free' && docs.length >= 3) {
+        setPaywallGate(true);
+        setScreen('paywall');
+        setTweak('screen', 'paywall');
+      } else {
+        setScreen('add-doc');
+        setTweak('screen', 'add-doc');
       }
     } else {
       setScreen(s);
@@ -61,7 +72,7 @@ function App() {
   const activeItem = items.find(i => i.id === openItem) || items[0];
 
   // Screens that DON'T show the tab bar
-  const hideTabs = ['onboarding', 'add', 'paywall', 'detail'].includes(screen);
+  const hideTabs = ['onboarding', 'add', 'add-doc', 'paywall', 'detail', 'widget'].includes(screen);
   const showFAB = ['home', 'items', 'docs'].includes(screen) && t.state !== 'empty';
 
   let body = null;
@@ -79,6 +90,10 @@ function App() {
       body = <AddItemScreen theme={theme} t={strings} lang={t.language} go={go}
               gateRequired={t.plan === 'free' && items.length >= 5}
               onSave={(it) => { setItems([...items, { id: 'new', name: { es: it.name || 'Sin nombre', en: it.name || 'Untitled' }, brand: it.brand, cat: it.cat, purchased: '2026-05-26', warrantyM: 24, nextMaint: 'Revisión', nextDays: 365, status: 'ok' }]); go('items'); }} />; break;
+    case 'add-doc':
+      body = <AddDocumentScreen theme={theme} t={strings} lang={t.language} go={go}
+              gateRequired={t.plan === 'free' && docs.length >= 3}
+              onSave={(d) => { setDocs([...docs, { id: 'new', name: { es: d.name || 'Sin nombre', en: d.name || 'Untitled' }, kind: d.kind, expires: '2027-01-01', days: 220, status: 'ok' }]); go('docs'); }} />; break;
     case 'docs':
       body = <DocumentsScreen theme={theme} t={strings} lang={t.language} docs={docs} plan={t.plan} go={go} />; break;
     case 'paywall':
@@ -88,6 +103,8 @@ function App() {
       body = <SettingsScreen theme={theme} t={strings} lang={t.language} plan={t.plan} go={go} dark={t.dark}
               onToggleLang={() => setTweak('language', t.language === 'es' ? 'en' : 'es')}
               onToggleDark={() => setTweak('dark', !t.dark)} />; break;
+    case 'widget':
+      body = <WidgetScreen theme={theme} t={strings} lang={t.language} items={items} docs={docs} dark={t.dark} />; break;
     default:
       body = <HomeScreen theme={theme} t={strings} lang={t.language} items={items} docs={docs} empty={false} plan={t.plan} go={go} onAdd={() => go('add')} />;
   }
@@ -127,9 +144,11 @@ function App() {
           { value: 'items', label: 'Items list' },
           { value: 'detail', label: 'Item detail' },
           { value: 'add', label: 'Add item form' },
+          { value: 'add-doc', label: 'Add document form' },
           { value: 'docs', label: 'Documents' },
           { value: 'paywall', label: 'Paywall' },
           { value: 'settings', label: 'Settings' },
+          { value: 'widget', label: 'Home-screen widget' },
         ]} onChange={(v) => setTweak('screen', v)} />
 
         <TweakSection label="Actions" />

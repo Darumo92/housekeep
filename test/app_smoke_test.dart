@@ -124,7 +124,7 @@ void main() {
       _buildApp(
         overrides: [
           itemsRepositoryProvider.overrideWithValue(
-            _FakeItemsRepository(items: const [], itemsById: const {}),
+            const _FakeItemsRepository(items: [], itemsById: {}),
           ),
           maintenancesRepositoryProvider.overrideWithValue(
             _FakeMaintenancesRepository(),

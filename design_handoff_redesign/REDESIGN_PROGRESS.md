@@ -58,10 +58,20 @@ Tests: `test/shared/widgets/hk_widgets_test.dart` — 13 widget tests (render + 
 - ARB ES+EN: `itemsTitle="Mis cosas/My things"`, `itemsEmpty*` updated, `itemsCount, itemsCountFree, itemsWarrantyActive, itemDetailWarranty, itemDetailPurchasedOn, itemDetailUntil, itemDetailHistory, itemDetailMonthsWarranty, addFieldPurchased, addSave, addCancel, addPhotoCamera, addPhotoGallery`.
 - Tests adapted: `items_list_screen_test.dart` (`FloatingActionButton → HkFab`, `ChoiceChip → HkChip`, `Card → HkCard`, item-card ValueKey), `item_detail_screen_test.dart` (`OutlinedButton → HkButton` finder, warranty-active expectation), `add_edit_item_screen_test.dart` (FilledButton → addSave, brand expectation merged "Bosch A1"). 114/114 tests pass.
 
+### Phase 6 — Documents (`lib/features/documents/`)
+
+- `documents_list_screen.dart` rewritten — H1 + Free/Pro counter, red overflow state over the free limit, `HkFab`, first-use `HkCard` empty state, and three chronological sections (expired / expiring soon / current). The screen now consumes an unfiltered `documentsProvider` stream so grouping always covers all saved documents.
+- `widgets/document_card.dart` rewritten — Cozy `HkCard` row with document icon tile, ISO expiry date in JetBrains Mono, compact `HkStatusPill`, tap-to-edit navigation, and retained edit/delete menu.
+- `add_edit_document_screen.dart` rewritten — custom header, scan/gallery photo block, `HkFormField` inputs, icon pills for the existing `DocumentType` values, ISO expiry picker, reminder chips, notes and sticky save bar. CRUD, photo replacement and notification rescheduling remain wired to the existing providers/services.
+- Reminder UI follows the current data contract: Free stores one configurable `notifyDaysBefore`; Pro displays and uses the scheduler's existing fixed `90/30/7` reminders. Configurable multi-select reminders would require a data-model migration.
+- Image attachment continues to use the existing `photoPath`/`PhotoService` contract (camera and image gallery). PDF attachment is not implemented because no persisted file/PDF service exists.
+- ARB ES+EN updated for document headings, counts, section labels, form hints/actions and reminder explanations; generated localization files regenerated.
+- Tests added: `documents_list_screen_test.dart` and `add_edit_document_screen_test.dart` cover grouping/order, card navigation, Free gate, redesigned form validation and edit persistence.
+
 ## Verification
 
-- `flutter analyze` clean (1 preexisting `prefer_const_constructors` info in `test/app_smoke_test.dart:127`).
-- `flutter test` — 114 tests pass.
+- `flutter analyze` clean.
+- `flutter test` — 119 tests pass.
 - `flutter build apk --debug` succeeds.
 - Manual emulator runs: Cozy palette applied, onboarding redesign renders (home-cluster + bell-stack + sparkle pages), home empty state renders with `HkTabBar` + `HkFab`, items list "Mis cosas" + chip filter + empty card render correctly.
 
@@ -73,7 +83,6 @@ Tests: `test/shared/widgets/hk_widgets_test.dart` — 13 widget tests (render + 
 
 | Phase | Spec file | Scope |
 |------|-----------|-------|
-| 6 | `phases/phase_6_documents.md` | Documents list redesign. |
 | 7 | `phases/phase_7_maintenance_done.md` | Mark-done bottom sheet (new) + integration in item detail. |
 | 8 | `phases/phase_8_paywall.md` | Paywall screen redesign. |
 | 9 | `phases/phase_9_settings.md` | Settings screen redesign. |
@@ -98,11 +107,16 @@ lib/features/home/widgets/home_redesign_widgets.dart (NEW)
 lib/features/items/add_edit_item_screen.dart       (M — rewritten Phase 5)
 lib/features/items/item_detail_screen.dart         (M — rewritten Phase 5)
 lib/features/items/items_list_screen.dart          (M — rewritten Phase 5)
+lib/features/documents/documents_provider.dart     (M — unfiltered list provider)
+lib/features/documents/documents_list_screen.dart  (M — rewritten Phase 6)
+lib/features/documents/add_edit_document_screen.dart (M — rewritten Phase 6)
+lib/features/documents/widgets/document_card.dart  (M — rewritten Phase 6)
 lib/features/onboarding/onboarding_screen.dart     (M — rewritten Phase 3)
 lib/features/onboarding/widgets/onboarding_art.dart (NEW)
 lib/shared/widgets/hk_*.dart                       (NEW × 11)
 pubspec.yaml + pubspec.lock                        (M — google_fonts)
 test/app_smoke_test.dart                           (M — adapted for HkTabBar + greeting)
 test/features/items/*.dart                         (M — adapted for Hk* widgets)
+test/features/documents/*_screen_test.dart         (NEW — Phase 6 UI coverage)
 test/shared/widgets/hk_widgets_test.dart           (NEW)
 ```

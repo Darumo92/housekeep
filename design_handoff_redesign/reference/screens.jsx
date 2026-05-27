@@ -778,6 +778,109 @@ function AddItemScreen({ theme, t, lang, go, gateRequired, onSave }) {
   );
 }
 
+// ─────────────────────────────────────────────────────────────
+// 5b) ADD DOCUMENT
+// ─────────────────────────────────────────────────────────────
+function AddDocumentScreen({ theme, t, lang, go, gateRequired, onSave }) {
+  const [kind, setKind] = React.useState('doc-id');
+  const [name, setName] = React.useState('');
+  const docTypes = [
+    { id: 'doc-id', icon: 'doc-id', label: { es: 'DNI / Pasaporte', en: 'ID / Passport' } },
+    { id: 'doc-car', icon: 'doc-car', label: { es: 'Coche / ITV', en: 'Car / MOT' } },
+    { id: 'doc-house', icon: 'doc-house', label: { es: 'Hogar', en: 'Home' } },
+    { id: 'doc-other', icon: 'file', label: { es: 'Otro', en: 'Other' } },
+  ];
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', padding: '8px 18px 12px', gap: 10 }}>
+        <button onClick={() => go('docs')} style={{
+          width: 40, height: 40, borderRadius: 99,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <Icon name="arrow-left" size={22} sw={2} />
+        </button>
+        <h1 style={{
+          fontFamily: theme.fontDisplay, fontWeight: theme.displayWeight,
+          fontSize: theme.name === 'Editorial' ? 28 : 21, margin: 0, flex: 1,
+        }}>{lang === 'es' ? 'Nuevo documento' : 'New document'}</h1>
+      </div>
+
+      <div style={{ padding: '0 22px 22px' }}>
+        <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
+          <PhotoSlot theme={theme} label={lang === 'es' ? 'escanear' : 'scan'} height={86} width={86} round={theme.radiusCard * 0.6} />
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6 }}>
+            <Btn theme={theme} variant="soft" icon="camera" size="sm">{lang === 'es' ? 'Escanear' : 'Scan'}</Btn>
+            <Btn theme={theme} variant="outline" size="sm">{lang === 'es' ? 'PDF / Galería' : 'PDF / Gallery'}</Btn>
+          </div>
+        </div>
+
+        <FormField theme={theme} label={lang === 'es' ? 'TIPO DE DOCUMENTO' : 'DOCUMENT TYPE'}>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {docTypes.map(d => (
+              <button key={d.id} onClick={() => setKind(d.id)} style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '8px 12px', borderRadius: theme.radiusChip,
+                background: kind === d.id ? theme.primary : theme.surfaceAlt,
+                color: kind === d.id ? theme.onPrimary : theme.text,
+                fontSize: 13, fontWeight: 500,
+              }}>
+                <Icon name={d.icon} size={16} sw={1.8} />
+                {d.label[lang]}
+              </button>
+            ))}
+          </div>
+        </FormField>
+
+        <FormField theme={theme} label={lang === 'es' ? 'NOMBRE' : 'NAME'}>
+          <input type="text" placeholder={lang === 'es' ? 'Seguro del coche, DNI…' : 'Car insurance, ID…'}
+            value={name} onChange={e => setName(e.target.value)}
+            style={inputStyle(theme)} />
+        </FormField>
+
+        <FormField theme={theme} label={lang === 'es' ? 'FECHA DE CADUCIDAD' : 'EXPIRY DATE'}>
+          <button style={{ ...inputStyle(theme), textAlign: 'left', display: 'flex', alignItems: 'center', gap: 8, color: theme.textMuted }}>
+            <Icon name="calendar" size={16} sw={1.8} />
+            <span style={{ fontFamily: theme.fontMono, fontSize: 13 }}>YYYY-MM-DD</span>
+          </button>
+        </FormField>
+
+        <FormField theme={theme} label={lang === 'es' ? 'AVISARME' : 'REMIND ME'}>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {['30', '15', '7', '1'].map((d, i) => (
+              <button key={d} style={{
+                padding: '6px 12px', borderRadius: theme.radiusChip,
+                background: i < 2 ? theme.primarySoft : theme.surfaceAlt,
+                color: i < 2 ? theme.primary : theme.textMuted,
+                fontSize: 12.5, fontWeight: 600,
+                border: i < 2 ? 'none' : `1px solid ${theme.border}`,
+              }}>
+                {d} {lang === 'es' ? 'd. antes' : 'd before'}
+              </button>
+            ))}
+          </div>
+        </FormField>
+
+        <FormField theme={theme} label={lang === 'es' ? 'NOTAS' : 'NOTES'}>
+          <textarea placeholder={lang === 'es' ? 'Número de póliza, contacto…' : 'Policy number, contact…'}
+            rows={2}
+            style={{ ...inputStyle(theme), resize: 'none', minHeight: 60, padding: 12 }} />
+        </FormField>
+      </div>
+
+      <div style={{
+        position: 'sticky', bottom: 0, padding: '14px 22px 22px',
+        background: `linear-gradient(to top, ${theme.bg} 60%, transparent)`,
+        display: 'flex', gap: 10,
+      }}>
+        <Btn theme={theme} variant="ghost" onClick={() => go('docs')} full>{t.add_cancel}</Btn>
+        <Btn theme={theme} onClick={() => gateRequired ? go('paywall') : onSave({ name, kind })} full icon="check">
+          {gateRequired ? 'Pro' : t.add_save}
+        </Btn>
+      </div>
+    </div>
+  );
+}
+
 function FormField({ theme, label, children }) {
   return (
     <div style={{ marginBottom: 14 }}>
@@ -838,14 +941,14 @@ function DocumentsScreen({ theme, t, lang, docs, plan, go }) {
           {plan === 'free' ? `${docs.length}/3` : `${docs.length}`}
         </div>
       </div>
-      {expired.length > 0 && <DocSection theme={theme} title={t.docs_section_expired} tone="danger" docs={expired} t={t} />}
-      {soon.length > 0 && <DocSection theme={theme} title={t.docs_section_soon} tone="warn" docs={soon} t={t} />}
-      {ok.length > 0 && <DocSection theme={theme} title={t.docs_section_ok} tone="ok" docs={ok} t={t} />}
+      {expired.length > 0 && <DocSection theme={theme} title={t.docs_section_expired} tone="danger" docs={expired} t={t} lang={lang} />}
+      {soon.length > 0 && <DocSection theme={theme} title={t.docs_section_soon} tone="warn" docs={soon} t={t} lang={lang} />}
+      {ok.length > 0 && <DocSection theme={theme} title={t.docs_section_ok} tone="ok" docs={ok} t={t} lang={lang} />}
     </div>
   );
 }
 
-function DocSection({ theme, title, tone, docs, t }) {
+function DocSection({ theme, title, tone, docs, t, lang }) {
   const pal = tone === 'danger' ? theme.danger : tone === 'warn' ? theme.warn : theme.ok;
   return (
     <div style={{ padding: '8px 0 18px' }}>
@@ -861,13 +964,13 @@ function DocSection({ theme, title, tone, docs, t }) {
         <span style={{ fontSize: 12, color: theme.textFaint, fontFamily: theme.fontMono }}>{docs.length}</span>
       </div>
       <div style={{ padding: '0 18px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {docs.map(d => <DocCard key={d.id} theme={theme} doc={d} t={t} />)}
+        {docs.map(d => <DocCard key={d.id} theme={theme} doc={d} t={t} lang={lang} />)}
       </div>
     </div>
   );
 }
 
-function DocCard({ theme, doc, t }) {
+function DocCard({ theme, doc, t, lang }) {
   return (
     <div style={{
       display: 'flex', gap: 14, padding: 14,
@@ -884,7 +987,7 @@ function DocCard({ theme, doc, t }) {
         <Icon name={doc.kind} size={24} sw={1.7} />
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 15, fontWeight: 600, color: theme.text, fontFamily: theme.fontDisplay }}>{doc.name}</div>
+        <div style={{ fontSize: 15, fontWeight: 600, color: theme.text, fontFamily: theme.fontDisplay }}>{doc.name[lang]}</div>
         <div style={{ fontSize: 12.5, color: theme.textMuted, marginTop: 2, fontFamily: theme.fontMono }}>{doc.expires}</div>
       </div>
       <StatusPill theme={theme} status={doc.status} label={daysLabel(doc.days, t)} />
@@ -1238,9 +1341,259 @@ function Toggle({ theme, on, onClick }) {
   );
 }
 
+// ─────────────────────────────────────────────────────────────
+// 10) WIDGET — Android home-screen widget prototype, 3 sizes
+// ─────────────────────────────────────────────────────────────
+function WidgetScreen({ theme, t, lang, items, docs, dark }) {
+  const upcoming = makeUpcoming(items, docs, t, lang);
+  const dueCount = upcoming.filter(u => u.status === 'overdue' || u.status === 'due').length;
+  const soonCount = upcoming.filter(u => u.status === 'soon').length;
+
+  // Stylized Android launcher background — soft mesh
+  const wallpaper = dark
+    ? 'radial-gradient(at 20% 20%, #1a3540 0%, #0a0e15 60%), radial-gradient(at 80% 80%, #2a1f3a 0%, transparent 60%)'
+    : 'linear-gradient(160deg, #cfd8d3 0%, #d8c9b4 50%, #e8c4a8 100%)';
+
+  return (
+    <div style={{
+      minHeight: '100%',
+      background: wallpaper,
+      padding: '20px 16px 110px',
+      display: 'flex', flexDirection: 'column', gap: 16,
+      position: 'relative',
+    }}>
+      {/* Clock / launcher widget cluster */}
+      <div style={{ paddingTop: 6, textAlign: 'center', color: dark ? '#fff' : '#1a1a1a' }}>
+        <div style={{
+          fontFamily: theme.fontDisplay, fontWeight: 200, fontSize: 64, lineHeight: 1,
+          letterSpacing: -2,
+        }}>9:41</div>
+        <div style={{ fontSize: 13, opacity: 0.75, marginTop: 4, fontWeight: 500 }}>
+          {lang === 'es' ? 'Martes, 27 de mayo' : 'Tuesday, May 27'}
+        </div>
+      </div>
+
+      {/* Picker label */}
+      <div style={{
+        fontSize: 10.5, fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase',
+        color: dark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.55)',
+        textAlign: 'center', marginTop: -4,
+      }}>{lang === 'es' ? 'Widgets de HouseKeep' : 'HouseKeep widgets'}</div>
+
+      {/* 4x2 — the recommended one */}
+      <Widget4x2 theme={theme} t={t} lang={lang} upcoming={upcoming} dueCount={dueCount} soonCount={soonCount} />
+
+      {/* Row with 2x2 + 2x2 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <Widget2x2Counts theme={theme} t={t} lang={lang} dueCount={dueCount} soonCount={soonCount} />
+        <Widget2x2Next theme={theme} t={t} lang={lang} upcoming={upcoming} />
+      </div>
+
+      {/* App row at bottom — sells the "tap to open" idea */}
+      <div style={{
+        marginTop: 'auto', padding: '0 14px',
+        display: 'flex', justifyContent: 'space-around',
+      }}>
+        {['Phone', 'HouseKeep', 'Camera', 'Messages'].map((name, i) => (
+          <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+            <div style={{
+              width: 48, height: 48, borderRadius: 14,
+              background: name === 'HouseKeep' ? theme.primary : 'rgba(0,0,0,0.18)',
+              backdropFilter: 'blur(8px)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: '#fff',
+              boxShadow: name === 'HouseKeep' ? '0 4px 12px rgba(0,0,0,0.18)' : 'none',
+            }}>
+              {name === 'HouseKeep' && <Icon name="home" size={26} sw={2} stroke="#fff" />}
+            </div>
+            <div style={{
+              fontSize: 10.5, color: dark ? '#fff' : '#1a1a1a',
+              fontWeight: 500, opacity: 0.85,
+            }}>{name}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// 4×2 — Hero widget: next item + 2 micro-rows
+function Widget4x2({ theme, t, lang, upcoming, dueCount, soonCount }) {
+  const next = upcoming[0];
+  const more = upcoming.slice(1, 3);
+  return (
+    <div style={{
+      borderRadius: 28,
+      background: theme.surface,
+      padding: 14,
+      boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
+      display: 'flex', flexDirection: 'column', gap: 10,
+    }}>
+      {/* Top row: branding + counts */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{
+          width: 22, height: 22, borderRadius: 7, background: theme.primary, color: '#fff',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <Icon name="home" size={13} sw={2.4} stroke="#fff" />
+        </div>
+        <div style={{
+          fontSize: 12.5, fontWeight: 700, color: theme.text, letterSpacing: -0.1,
+          fontFamily: theme.fontDisplay,
+        }}>HouseKeep</div>
+        <div style={{ flex: 1 }} />
+        {dueCount > 0 && (
+          <span style={{
+            background: theme.dangerSoft, color: theme.danger,
+            fontSize: 10.5, fontWeight: 700, padding: '2px 8px', borderRadius: 99,
+          }}>{dueCount} {lang === 'es' ? 'pendiente' + (dueCount === 1 ? '' : 's') : 'due'}</span>
+        )}
+        {soonCount > 0 && (
+          <span style={{
+            background: theme.warnSoft, color: theme.warn,
+            fontSize: 10.5, fontWeight: 700, padding: '2px 8px', borderRadius: 99,
+          }}>{soonCount} {lang === 'es' ? 'pronto' : 'soon'}</span>
+        )}
+      </div>
+
+      {/* Hero next item */}
+      {next && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 12,
+          padding: '8px 0',
+        }}>
+          {next.kind === 'maint'
+            ? <CategoryTile theme={theme} category={next.cat} size={44} />
+            : <div style={{
+                width: 44, height: 44, borderRadius: 12,
+                background: theme.primarySoft, color: theme.primary,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}><Icon name={next.docKind} size={22} sw={1.7} /></div>
+          }
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{
+              fontSize: 14, fontWeight: 600, color: theme.text,
+              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+              fontFamily: theme.fontDisplay,
+            }}>{next.title}</div>
+            <div style={{
+              fontSize: 11.5, color: theme.textMuted, marginTop: 1,
+              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            }}>{next.sub}</div>
+          </div>
+          <StatusPill theme={theme} status={next.status} label={daysLabel(next.days, t)} />
+        </div>
+      )}
+
+      {/* Two micro rows */}
+      {more.length > 0 && (
+        <div style={{
+          paddingTop: 8, borderTop: `1px solid ${theme.border}`,
+          display: 'flex', flexDirection: 'column', gap: 6,
+        }}>
+          {more.map(m => (
+            <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{
+                width: 6, height: 6, borderRadius: 99,
+                background: m.status === 'overdue' || m.status === 'due' ? theme.danger
+                  : m.status === 'soon' ? theme.warn : theme.ok,
+                flexShrink: 0,
+              }} />
+              <span style={{
+                fontSize: 12, color: theme.text, fontWeight: 500,
+                overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1,
+              }}>{m.title}</span>
+              <span style={{ fontSize: 11, color: theme.textMuted, fontFamily: theme.fontMono }}>
+                {daysLabel(m.days, t)}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// 2×2 — just the counts
+function Widget2x2Counts({ theme, t, lang, dueCount, soonCount }) {
+  return (
+    <div style={{
+      borderRadius: 24, background: theme.surface,
+      padding: 14, boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+      minHeight: 130,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <div style={{
+          width: 18, height: 18, borderRadius: 5, background: theme.primary, color: '#fff',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <Icon name="home" size={11} sw={2.4} stroke="#fff" />
+        </div>
+        <div style={{ fontSize: 10.5, fontWeight: 700, color: theme.textMuted, letterSpacing: 0.3 }}>HouseKeep</div>
+      </div>
+      <div>
+        <div style={{
+          fontFamily: theme.fontDisplay, fontWeight: theme.displayWeight,
+          fontSize: 44, lineHeight: 1, color: dueCount > 0 ? theme.danger : theme.ok,
+        }}>{dueCount}</div>
+        <div style={{ fontSize: 11.5, color: theme.textMuted, fontWeight: 600, marginTop: 4 }}>
+          {dueCount === 0 ? (lang === 'es' ? 'Todo al día' : 'All caught up') : (lang === 'es' ? (dueCount === 1 ? 'cosa pendiente' : 'cosas pendientes') : (dueCount === 1 ? 'thing due' : 'things due'))}
+        </div>
+        {soonCount > 0 && (
+          <div style={{
+            fontSize: 11, color: theme.warn, fontWeight: 600, marginTop: 6,
+            display: 'flex', alignItems: 'center', gap: 4,
+          }}>
+            <span style={{ width: 5, height: 5, borderRadius: 99, background: theme.warn }} />
+            {soonCount} {lang === 'es' ? 'esta semana' : 'this week'}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// 2×2 — next single event, image-forward
+function Widget2x2Next({ theme, t, lang, upcoming }) {
+  const next = upcoming[0];
+  if (!next) return null;
+  return (
+    <div style={{
+      borderRadius: 24, background: theme.surface,
+      padding: 14, boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
+      display: 'flex', flexDirection: 'column', minHeight: 130,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+        {next.kind === 'maint'
+          ? <CategoryTile theme={theme} category={next.cat} size={28} />
+          : <div style={{
+              width: 28, height: 28, borderRadius: 8,
+              background: theme.primarySoft, color: theme.primary,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}><Icon name={next.docKind} size={16} sw={1.7} /></div>
+        }
+        <div style={{ fontSize: 10, fontWeight: 700, color: theme.textMuted, letterSpacing: 0.4, textTransform: 'uppercase' }}>
+          {lang === 'es' ? 'Próximo' : 'Up next'}
+        </div>
+      </div>
+      <div style={{
+        fontFamily: theme.fontDisplay, fontWeight: theme.displayWeight,
+        fontSize: 16, lineHeight: 1.15, color: theme.text,
+        overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+      }}>{next.title}</div>
+      <div style={{ fontSize: 11, color: theme.textMuted, marginTop: 2,
+        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+      }}>{next.sub}</div>
+      <div style={{ flex: 1 }} />
+      <StatusPill theme={theme} status={next.status} label={daysLabel(next.days, t)} />
+    </div>
+  );
+}
+
 Object.assign(window, {
   makeItems, makeDocs, makeUpcoming, daysLabel,
   TabBar, FAB,
-  OnboardingScreen, HomeScreen, ItemsScreen, ItemDetail, AddItemScreen,
-  DocumentsScreen, MarkDoneSheet, PaywallScreen, SettingsScreen,
+  OnboardingScreen, HomeScreen, ItemsScreen, ItemDetail, AddItemScreen, AddDocumentScreen,
+  DocumentsScreen, MarkDoneSheet, PaywallScreen, SettingsScreen, WidgetScreen,
 });

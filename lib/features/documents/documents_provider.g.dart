@@ -6,6 +6,20 @@ part of 'documents_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$documentsHash() => r'0874ab9d37995a540244e019ce2dde324a0ef0a5';
+
+/// See also [documents].
+@ProviderFor(documents)
+final documentsProvider = AutoDisposeStreamProvider<List<Document>>.internal(
+  documents,
+  name: r'documentsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$documentsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef DocumentsRef = AutoDisposeStreamProviderRef<List<Document>>;
 String _$filteredDocumentsHash() => r'960fbdfb97023427257bb8b09f9c3123c376c04f';
 
 /// See also [filteredDocuments].

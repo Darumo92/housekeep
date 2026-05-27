@@ -475,14 +475,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeTypeVilla => 'Villa';
 
   @override
-  String get documentsEmptyTitle => 'No documents yet';
+  String get documentsEmptyTitle => 'No saved documents';
 
   @override
   String get documentsEmptyBody =>
-      'Add important documents (ID, insurance, vehicle inspection…) to get warnings before they expire.';
+      'ID, inspection, insurance… we\'ll remind you a month ahead.';
 
   @override
   String get documentsEmptyCta => 'Add document';
+
+  @override
+  String documentsCountFree(int n) {
+    return '$n/3';
+  }
+
+  @override
+  String documentsCount(int n) {
+    return '$n documents';
+  }
+
+  @override
+  String get documentsSectionExpired => 'Expired';
+
+  @override
+  String get documentsSectionSoon => 'Expiring soon';
+
+  @override
+  String get documentsSectionCurrent => 'Current';
 
   @override
   String get documentsFilteredEmptyTitle => 'No documents of this type';
@@ -498,7 +517,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentsFilterAll => 'All';
 
   @override
-  String get documentAddTitle => 'Add document';
+  String get documentAddTitle => 'New document';
 
   @override
   String get documentEditTitle => 'Edit document';
@@ -508,6 +527,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get documentNameLabel => 'Name';
+
+  @override
+  String get documentNameHint => 'Car insurance, ID…';
 
   @override
   String get documentTypeLabel => 'Document type';
@@ -522,10 +544,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentNotifyDaysLabel => 'Notify days before';
 
   @override
+  String documentReminderDaysBefore(int days) {
+    return '${days}d before';
+  }
+
+  @override
+  String get documentReminderFreeHint =>
+      'Up to 1 reminder · Upgrade to Pro for multiple';
+
+  @override
+  String get documentReminderProHint =>
+      'Pro includes automatic reminders at 90, 30, and 7 days.';
+
+  @override
   String get documentNotesLabel => 'Notes';
 
   @override
+  String get documentNotesHint => 'Policy number, contact…';
+
+  @override
   String get documentPhotoLabel => 'Photo / scan';
+
+  @override
+  String get documentScan => 'Scan';
+
+  @override
+  String get documentGallery => 'Gallery';
+
+  @override
+  String get documentScanPlaceholder => 'scan';
+
+  @override
+  String get documentCancel => 'Cancel';
 
   @override
   String get documentSave => 'Save';

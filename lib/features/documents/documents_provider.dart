@@ -7,6 +7,11 @@ import '../../domain/models/document.dart';
 part 'documents_provider.g.dart';
 
 @riverpod
+Stream<List<Document>> documents(DocumentsRef ref) {
+  return ref.watch(documentsRepositoryProvider).watchDocuments();
+}
+
+@riverpod
 class SelectedDocumentType extends _$SelectedDocumentType {
   @override
   DocumentType? build() => null;

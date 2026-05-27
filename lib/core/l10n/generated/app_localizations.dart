@@ -935,13 +935,13 @@ abstract class AppLocalizations {
   /// No description provided for @documentsEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'No documents yet'**
+  /// **'No saved documents'**
   String get documentsEmptyTitle;
 
   /// No description provided for @documentsEmptyBody.
   ///
   /// In en, this message translates to:
-  /// **'Add important documents (ID, insurance, vehicle inspection…) to get warnings before they expire.'**
+  /// **'ID, inspection, insurance… we\'ll remind you a month ahead.'**
   String get documentsEmptyBody;
 
   /// No description provided for @documentsEmptyCta.
@@ -949,6 +949,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add document'**
   String get documentsEmptyCta;
+
+  /// No description provided for @documentsCountFree.
+  ///
+  /// In en, this message translates to:
+  /// **'{n}/3'**
+  String documentsCountFree(int n);
+
+  /// No description provided for @documentsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} documents'**
+  String documentsCount(int n);
+
+  /// No description provided for @documentsSectionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get documentsSectionExpired;
+
+  /// No description provided for @documentsSectionSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiring soon'**
+  String get documentsSectionSoon;
+
+  /// No description provided for @documentsSectionCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get documentsSectionCurrent;
 
   /// No description provided for @documentsFilteredEmptyTitle.
   ///
@@ -977,7 +1007,7 @@ abstract class AppLocalizations {
   /// No description provided for @documentAddTitle.
   ///
   /// In en, this message translates to:
-  /// **'Add document'**
+  /// **'New document'**
   String get documentAddTitle;
 
   /// No description provided for @documentEditTitle.
@@ -997,6 +1027,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Name'**
   String get documentNameLabel;
+
+  /// No description provided for @documentNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Car insurance, ID…'**
+  String get documentNameHint;
 
   /// No description provided for @documentTypeLabel.
   ///
@@ -1022,17 +1058,65 @@ abstract class AppLocalizations {
   /// **'Notify days before'**
   String get documentNotifyDaysLabel;
 
+  /// No description provided for @documentReminderDaysBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'{days}d before'**
+  String documentReminderDaysBefore(int days);
+
+  /// No description provided for @documentReminderFreeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 1 reminder · Upgrade to Pro for multiple'**
+  String get documentReminderFreeHint;
+
+  /// No description provided for @documentReminderProHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro includes automatic reminders at 90, 30, and 7 days.'**
+  String get documentReminderProHint;
+
   /// No description provided for @documentNotesLabel.
   ///
   /// In en, this message translates to:
   /// **'Notes'**
   String get documentNotesLabel;
 
+  /// No description provided for @documentNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Policy number, contact…'**
+  String get documentNotesHint;
+
   /// No description provided for @documentPhotoLabel.
   ///
   /// In en, this message translates to:
   /// **'Photo / scan'**
   String get documentPhotoLabel;
+
+  /// No description provided for @documentScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get documentScan;
+
+  /// No description provided for @documentGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get documentGallery;
+
+  /// No description provided for @documentScanPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'scan'**
+  String get documentScanPlaceholder;
+
+  /// No description provided for @documentCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get documentCancel;
 
   /// No description provided for @documentSave.
   ///

@@ -8,7 +8,7 @@
 design_handoff_redesign/
 ├── README.md                  ← estás aquí
 ├── DESIGN_TOKENS.md           ← colores, tipografía, radios, sombras (con código Dart listo)
-├── PHASES.md                  ← roadmap resumido de las 9 fases
+├── PHASES.md                  ← roadmap resumido de las 10 fases
 ├── phases/
 │   ├── phase_1_tokens_and_theme.md
 │   ├── phase_2_shared_components.md
@@ -18,7 +18,8 @@ design_handoff_redesign/
 │   ├── phase_6_documents.md
 │   ├── phase_7_maintenance_done.md
 │   ├── phase_8_paywall.md
-│   └── phase_9_settings.md
+│   ├── phase_9_settings.md
+│   └── phase_10_home_widget.md
 └── reference/                 ← prototipo HTML interactivo (clicable en navegador)
     ├── Housekeep.html
     ├── app.jsx

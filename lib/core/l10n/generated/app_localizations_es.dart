@@ -481,14 +481,33 @@ class AppLocalizationsEs extends AppLocalizations {
   String get homeTypeVilla => 'Villa';
 
   @override
-  String get documentsEmptyTitle => 'Aún no hay documentos';
+  String get documentsEmptyTitle => 'Sin documentos guardados';
 
   @override
   String get documentsEmptyBody =>
-      'Añade documentos importantes (DNI, seguros, ITV…) para recibir avisos antes de que caduquen.';
+      'DNI, ITV, seguros… te avisamos un mes antes.';
 
   @override
   String get documentsEmptyCta => 'Añadir documento';
+
+  @override
+  String documentsCountFree(int n) {
+    return '$n/3';
+  }
+
+  @override
+  String documentsCount(int n) {
+    return '$n documentos';
+  }
+
+  @override
+  String get documentsSectionExpired => 'Caducados';
+
+  @override
+  String get documentsSectionSoon => 'Caducan pronto';
+
+  @override
+  String get documentsSectionCurrent => 'En vigor';
 
   @override
   String get documentsFilteredEmptyTitle => 'No hay documentos de este tipo';
@@ -504,7 +523,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get documentsFilterAll => 'Todos';
 
   @override
-  String get documentAddTitle => 'Añadir documento';
+  String get documentAddTitle => 'Nuevo documento';
 
   @override
   String get documentEditTitle => 'Editar documento';
@@ -514,6 +533,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get documentNameLabel => 'Nombre';
+
+  @override
+  String get documentNameHint => 'Seguro del coche, DNI…';
 
   @override
   String get documentTypeLabel => 'Tipo de documento';
@@ -528,10 +550,38 @@ class AppLocalizationsEs extends AppLocalizations {
   String get documentNotifyDaysLabel => 'Días de antelación para aviso';
 
   @override
+  String documentReminderDaysBefore(int days) {
+    return '$days d. antes';
+  }
+
+  @override
+  String get documentReminderFreeHint =>
+      'Hasta 1 aviso · Pásate a Pro para múltiples';
+
+  @override
+  String get documentReminderProHint =>
+      'Pro incluye avisos automáticos a 90, 30 y 7 días.';
+
+  @override
   String get documentNotesLabel => 'Notas';
 
   @override
+  String get documentNotesHint => 'Número de póliza, contacto…';
+
+  @override
   String get documentPhotoLabel => 'Foto / escaneo';
+
+  @override
+  String get documentScan => 'Escanear';
+
+  @override
+  String get documentGallery => 'Galería';
+
+  @override
+  String get documentScanPlaceholder => 'escanear';
+
+  @override
+  String get documentCancel => 'Cancelar';
 
   @override
   String get documentSave => 'Guardar';
