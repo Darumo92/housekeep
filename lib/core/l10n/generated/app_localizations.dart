@@ -338,11 +338,29 @@ abstract class AppLocalizations {
   /// **'Active warranty'**
   String get itemsWarrantyActive;
 
+  /// No description provided for @itemsWarrantyExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired warranty'**
+  String get itemsWarrantyExpired;
+
   /// No description provided for @itemDetailWarranty.
   ///
   /// In en, this message translates to:
   /// **'Warranty'**
   String get itemDetailWarranty;
+
+  /// No description provided for @itemDetailPhotoPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Appliance photo'**
+  String get itemDetailPhotoPlaceholder;
+
+  /// No description provided for @itemDetailMaintenanceInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'every {count, plural, one {{count} month} other {{count} months}}'**
+  String itemDetailMaintenanceInterval(int count);
 
   /// No description provided for @itemDetailPurchasedOn.
   ///
@@ -709,6 +727,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Mark as done'**
   String get maintenanceMarkDone;
+
+  /// No description provided for @maintenanceMarkDoneSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as done'**
+  String get maintenanceMarkDoneSheetTitle;
+
+  /// No description provided for @maintenanceMarkDoneWhenLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'When did you do it?'**
+  String get maintenanceMarkDoneWhenLabel;
+
+  /// No description provided for @maintenanceMarkDoneToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get maintenanceMarkDoneToday;
+
+  /// No description provided for @maintenanceMarkDoneYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get maintenanceMarkDoneYesterday;
+
+  /// No description provided for @maintenanceMarkDoneOtherDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Other date'**
+  String get maintenanceMarkDoneOtherDate;
+
+  /// No description provided for @maintenanceMarkDoneNextReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Next reminder'**
+  String get maintenanceMarkDoneNextReminder;
+
+  /// No description provided for @maintenanceMarkDoneNextInMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'in {count, plural, one {{count} month} other {{count} months}}'**
+  String maintenanceMarkDoneNextInMonths(int count);
+
+  /// No description provided for @maintenanceMarkDoneConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get maintenanceMarkDoneConfirm;
+
+  /// No description provided for @maintenanceMarkDoneCompletedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Done!'**
+  String get maintenanceMarkDoneCompletedTitle;
+
+  /// No description provided for @maintenanceMarkDoneCompletedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Next reminder in {days, plural, one {{days} day} other {{days} days}}'**
+  String maintenanceMarkDoneCompletedSubtitle(int days);
 
   /// No description provided for @maintenanceEdit.
   ///

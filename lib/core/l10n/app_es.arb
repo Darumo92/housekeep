@@ -46,7 +46,15 @@
     "placeholders": { "n": { "type": "int" } }
   },
   "itemsWarrantyActive": "Garantía activa",
+  "itemsWarrantyExpired": "Garantía vencida",
   "itemDetailWarranty": "Garantía",
+  "itemDetailPhotoPlaceholder": "Foto del electrodoméstico",
+  "itemDetailMaintenanceInterval": "cada {count, plural, one {{count} mes} other {{count} meses}}",
+  "@itemDetailMaintenanceInterval": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
   "itemDetailPurchasedOn": "Comprado el {date}",
   "@itemDetailPurchasedOn": {
     "placeholders": { "date": { "type": "String" } }
@@ -116,7 +124,27 @@
   "maintenanceNotifyDaysLabel": "Días de antelación para aviso",
   "maintenanceNextDueLabel": "Próxima vez",
   "maintenanceSave": "Guardar",
-  "maintenanceMarkDone": "Marcar como realizado",
+  "maintenanceMarkDone": "Marcar como hecho",
+  "maintenanceMarkDoneSheetTitle": "Marcar como hecho",
+  "maintenanceMarkDoneWhenLabel": "¿Cuándo lo hiciste?",
+  "maintenanceMarkDoneToday": "Hoy",
+  "maintenanceMarkDoneYesterday": "Ayer",
+  "maintenanceMarkDoneOtherDate": "Otra fecha",
+  "maintenanceMarkDoneNextReminder": "Próximo aviso",
+  "maintenanceMarkDoneNextInMonths": "en {count, plural, one {{count} mes} other {{count} meses}}",
+  "@maintenanceMarkDoneNextInMonths": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "maintenanceMarkDoneConfirm": "Confirmar",
+  "maintenanceMarkDoneCompletedTitle": "¡Hecho!",
+  "maintenanceMarkDoneCompletedSubtitle": "Próximo aviso en {days, plural, one {{days} día} other {{days} días}}",
+  "@maintenanceMarkDoneCompletedSubtitle": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
   "maintenanceEdit": "Editar",
   "maintenanceDelete": "Borrar",
   "maintenanceDeleteTitle": "¿Borrar mantenimiento?",

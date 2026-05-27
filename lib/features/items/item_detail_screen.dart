@@ -15,7 +15,6 @@ import '../../core/utils/date_calculations.dart';
 import '../../core/utils/haptics.dart';
 import '../../data/repositories/repository_providers.dart';
 import '../../data/services/notification_providers.dart';
-import '../../data/services/notification_strings.dart';
 import '../../domain/models/item.dart';
 import '../../domain/models/maintenance.dart';
 import '../../shared/widgets/confirm_dialog.dart';
@@ -26,6 +25,7 @@ import '../../shared/widgets/hk_category_tile.dart';
 import '../../shared/widgets/hk_photo_slot.dart';
 import '../../shared/widgets/hk_status_pill.dart';
 import '../maintenance/maintenances_provider.dart';
+import '../maintenance/widgets/mark_done_sheet.dart';
 import 'items_provider.dart';
 
 class ItemDetailScreen extends ConsumerWidget {
@@ -120,7 +120,7 @@ class _ItemDetailBody extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               _MaintenancesList(
-                itemId: item.id,
+                item: item,
                 maintenancesAsync: maintenancesAsync,
               ),
               const SizedBox(height: 28),
@@ -132,8 +132,7 @@ class _ItemDetailBody extends ConsumerWidget {
                       icon: Symbols.edit_rounded,
                       variant: HkButtonVariant.soft,
                       size: HkButtonSize.md,
-                      onPressed: () =>
-                          context.push('/items/${item.id}/edit'),
+                      onPressed: () => context.push('/items/${item.id}/edit'),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -158,9 +157,9 @@ class _ItemDetailBody extends ConsumerWidget {
   }
 
   static String _brandModel(Item item) => [
-        if (item.brand != null && item.brand!.isNotEmpty) item.brand!,
-        if (item.model != null && item.model!.isNotEmpty) item.model!,
-      ].join(' ');
+    if (item.brand != null && item.brand!.isNotEmpty) item.brand!,
+    if (item.model != null && item.model!.isNotEmpty) item.model!,
+  ].join(' ');
 
   Future<void> _deleteItem(
     BuildContext context,
@@ -180,9 +179,12 @@ class _ItemDetailBody extends ConsumerWidget {
     AppHaptics.destructive();
     final messenger = ScaffoldMessenger.of(context);
     final maintenancesRepo = ref.read(maintenancesRepositoryProvider);
-    final maintenances =
-        await maintenancesRepo.watchMaintenancesForItem(item.id).first;
-    await ref.read(notificationSchedulerProvider).cancelAllForItem(
+    final maintenances = await maintenancesRepo
+        .watchMaintenancesForItem(item.id)
+        .first;
+    await ref
+        .read(notificationSchedulerProvider)
+        .cancelAllForItem(
           itemId: item.id,
           maintenanceIds: maintenances.map((m) => m.id),
         );
@@ -191,13 +193,9 @@ class _ItemDetailBody extends ConsumerWidget {
       await maintenancesRepo.deleteMaintenancesForItem(item.id);
       await ref.read(deleteItemProvider.notifier).delete(item.id);
       if (context.mounted) context.pop();
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.itemDeletedSuccess)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.itemDeletedSuccess)));
     } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.itemDeleteFailed)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.itemDeleteFailed)));
     }
   }
 }
@@ -255,7 +253,11 @@ class _HeroPhoto extends StatelessWidget {
     if (photoPath != null) {
       return Image.file(File(photoPath!), fit: BoxFit.cover);
     }
-    return const HkPhotoSlot(label: 'appliance photo', height: 220, radius: 0);
+    return HkPhotoSlot(
+      label: AppLocalizations.of(context).itemDetailPhotoPlaceholder,
+      height: 220,
+      radius: 0,
+    );
   }
 }
 
@@ -304,9 +306,10 @@ class _WarrantyCard extends StatelessWidget {
 
     double progress = 0;
     if (purchase != null && months != null && months > 0) {
-      final total = DateCalculations.addMonths(purchase, months)
-          .difference(purchase)
-          .inDays;
+      final total = DateCalculations.addMonths(
+        purchase,
+        months,
+      ).difference(purchase).inDays;
       final elapsed = DateTime.now().difference(purchase).inDays;
       progress = total == 0 ? 1 : (elapsed / total).clamp(0.0, 1.0);
     }
@@ -357,7 +360,7 @@ class _WarrantyCard extends StatelessWidget {
                     status: active ? HkStatus.ok : HkStatus.overdue,
                     label: active
                         ? l10n.itemsWarrantyActive.toUpperCase()
-                        : 'EXPIRED',
+                        : l10n.itemsWarrantyExpired.toUpperCase(),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -449,11 +452,11 @@ class _SectionHeader extends StatelessWidget {
 
 class _MaintenancesList extends ConsumerWidget {
   const _MaintenancesList({
-    required this.itemId,
+    required this.item,
     required this.maintenancesAsync,
   });
 
-  final String itemId;
+  final Item item;
   final AsyncValue<List<Maintenance>> maintenancesAsync;
 
   @override
@@ -471,10 +474,7 @@ class _MaintenancesList extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: Text(
               l10n.itemMaintenanceSectionEmpty,
-              style: const TextStyle(
-                color: AppColors.textMuted,
-                fontSize: 13,
-              ),
+              style: const TextStyle(color: AppColors.textMuted, fontSize: 13),
             ),
           );
         }
@@ -486,9 +486,9 @@ class _MaintenancesList extends ConsumerWidget {
                 child: _MaintenanceRow(
                   maintenance: m,
                   onTap: () => context.push(
-                    '/items/$itemId/maintenance/${m.id}/edit',
+                    '/items/${item.id}/maintenance/${m.id}/edit',
                   ),
-                  onMarkDone: () => _markDone(context, ref, m),
+                  onMarkDone: () => _openMarkDone(context, m),
                 ),
               ),
           ],
@@ -497,42 +497,21 @@ class _MaintenancesList extends ConsumerWidget {
     );
   }
 
-  Future<void> _markDone(
+  Future<void> _openMarkDone(
     BuildContext context,
-    WidgetRef ref,
     Maintenance maintenance,
   ) async {
-    final l10n = AppLocalizations.of(context);
-    final messenger = ScaffoldMessenger.of(context);
-    final texts = NotificationTexts.fromL10n(l10n);
-    try {
-      await ref
-          .read(maintenancesRepositoryProvider)
-          .markAsDone(maintenance.id);
-    } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.maintenanceMarkDoneFailed)),
-      );
-      return;
-    }
-    messenger.showSnackBar(
-      SnackBar(content: Text(l10n.maintenanceMarkDoneSuccess)),
+    await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppRadii.sheet),
+        ),
+      ),
+      builder: (_) => MarkDoneSheet(maintenance: maintenance, item: item),
     );
-    final updated = await ref
-        .read(maintenancesRepositoryProvider)
-        .getMaintenance(maintenance.id);
-    if (updated == null) return;
-    final item = await ref
-        .read(itemsRepositoryProvider)
-        .getItem(updated.itemId);
-    if (item == null) return;
-    final isPro = await ref.read(isProProvider.future);
-    await ref.read(notificationSchedulerProvider).rescheduleMaintenance(
-          maintenance: updated,
-          item: item,
-          isPro: isPro,
-          texts: texts,
-        );
   }
 }
 
@@ -558,19 +537,19 @@ class _MaintenanceRow extends StatelessWidget {
     final pillStatus = days < 0
         ? HkStatus.overdue
         : days <= 3
-            ? HkStatus.due
-            : days <= 14
-                ? HkStatus.soon
-                : HkStatus.ok;
+        ? HkStatus.due
+        : days <= 14
+        ? HkStatus.soon
+        : HkStatus.ok;
     final daysLabel = days == 0
-        ? 'hoy'
+        ? l10n.homeShortDayToday
         : days == 1
-            ? 'mañana'
-            : days > 0
-                ? 'en ${days}d'
-                : days == -1
-                    ? 'ayer'
-                    : 'hace ${-days}d';
+        ? l10n.homeShortDayTomorrow
+        : days > 0
+        ? l10n.homeShortDayIn(days)
+        : days == -1
+        ? l10n.homeShortDayYesterday
+        : l10n.homeShortDayAgo(-days);
 
     return HkCard(
       onTap: onTap,
@@ -608,7 +587,9 @@ class _MaintenanceRow extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'cada ${maintenance.intervalMonths} meses',
+                      l10n.itemDetailMaintenanceInterval(
+                        maintenance.intervalMonths,
+                      ),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: AppColors.textMuted,
                       ),
@@ -649,15 +630,9 @@ class _HeaderBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(14, 14, 14, 0),
       child: Row(
         children: [
-          _CircleIconButton(
-            icon: Symbols.arrow_back_rounded,
-            onTap: onBack,
-          ),
+          _CircleIconButton(icon: Symbols.arrow_back_rounded, onTap: onBack),
           const Spacer(),
-          _CircleIconButton(
-            icon: Symbols.more_horiz_rounded,
-            onTap: onMore,
-          ),
+          _CircleIconButton(icon: Symbols.more_horiz_rounded, onTap: onMore),
         ],
       ),
     );

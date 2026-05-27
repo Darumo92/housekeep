@@ -13,6 +13,7 @@ import 'package:housekeep/domain/enums/item_category.dart';
 import 'package:housekeep/domain/models/item.dart';
 import 'package:housekeep/domain/models/maintenance.dart';
 import 'package:housekeep/features/items/item_detail_screen.dart';
+import 'package:housekeep/features/maintenance/widgets/mark_done_sheet.dart';
 import 'package:housekeep/shared/widgets/hk_button.dart';
 import 'package:go_router/go_router.dart';
 
@@ -44,12 +45,78 @@ void main() {
     final l10n = _l10n(tester);
 
     expect(find.text('Fridge'), findsOneWidget);
-    expect(
-      find.text(l10n.itemsWarrantyActive.toUpperCase()),
-      findsOneWidget,
-    );
+    expect(find.text(l10n.itemsWarrantyActive.toUpperCase()), findsOneWidget);
     expect(find.text(l10n.itemMaintenanceSectionTitle), findsOneWidget);
     expect(find.text(l10n.itemMaintenanceSectionEmpty), findsOneWidget);
+  });
+
+  testWidgets('opens mark-done sheet without completing immediately', (
+    tester,
+  ) async {
+    final item = _item(
+      id: 'item-1',
+      name: 'Fridge',
+      category: ItemCategory.kitchen,
+    );
+    final maintenanceRepository = _FakeMaintenancesRepository(
+      maintenances: [_maintenance()],
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          itemsRepositoryProvider.overrideWithValue(
+            _FakeItemsRepository(item: item),
+          ),
+          maintenancesRepositoryProvider.overrideWithValue(
+            maintenanceRepository,
+          ),
+        ],
+        child: const HouseKeepApp(initialLocation: '/items/item-1'),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final l10n = _l10n(tester);
+
+    await tester.tap(find.widgetWithText(HkButton, l10n.maintenanceMarkDone));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(MarkDoneSheet), findsOneWidget);
+    expect(find.text(l10n.maintenanceMarkDoneSheetTitle), findsWidgets);
+    expect(maintenanceRepository.markedDoneCalls, isEmpty);
+  });
+
+  testWidgets('renders redesigned item-detail copy in Spanish', (tester) async {
+    final item = _item(
+      id: 'item-1',
+      name: 'Caldera',
+      category: ItemCategory.plumbing,
+      purchaseDate: DateTime(2020, 1, 1),
+      warrantyMonths: 12,
+    );
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          itemsRepositoryProvider.overrideWithValue(
+            _FakeItemsRepository(item: item),
+          ),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(maintenances: [_maintenance()]),
+          ),
+        ],
+        child: const HouseKeepApp(
+          initialLocation: '/items/item-1',
+          localeOverride: Locale('es'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Marcar como hecho'), findsOneWidget);
+    expect(find.text('cada 12 meses'), findsOneWidget);
+    expect(find.text('GARANTÍA VENCIDA'), findsOneWidget);
+    expect(find.text('FOTO DEL ELECTRODOMÉSTICO'), findsOneWidget);
   });
 
   testWidgets('shows delete confirmation dialog when delete is tapped', (
@@ -289,6 +356,23 @@ Item _item({
   );
 }
 
+Maintenance _maintenance() {
+  final timestamp = DateTime(2026, 1, 1);
+  return Maintenance(
+    id: 'maintenance-1',
+    itemId: 'item-1',
+    name: 'Annual service',
+    description: null,
+    intervalMonths: 12,
+    lastDoneAt: null,
+    nextDueAt: DateTime(2026, 7, 1),
+    notifyDaysBefore: 7,
+    isFromTemplate: false,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  );
+}
+
 class _FakeItemsRepository implements ItemsRepository {
   _FakeItemsRepository({
     required this.item,
@@ -342,6 +426,11 @@ class _FakeItemsRepository implements ItemsRepository {
 }
 
 class _FakeMaintenancesRepository implements MaintenancesRepository {
+  _FakeMaintenancesRepository({this.maintenances = const []});
+
+  final List<Maintenance> maintenances;
+  final List<String> markedDoneCalls = [];
+
   @override
   Future<int> deleteMaintenance(String id) async => 0;
 
@@ -352,14 +441,16 @@ class _FakeMaintenancesRepository implements MaintenancesRepository {
   Future<Maintenance?> getMaintenance(String id) async => null;
 
   @override
-  Future<void> markAsDone(String id, {DateTime? doneAt}) async {}
+  Future<void> markAsDone(String id, {DateTime? doneAt}) async {
+    markedDoneCalls.add(id);
+  }
 
   @override
   Future<void> saveMaintenance(Maintenance maintenance) async {}
 
   @override
   Stream<List<Maintenance>> watchMaintenancesForItem(String itemId) {
-    return Stream.value(const <Maintenance>[]);
+    return Stream.value(maintenances);
   }
 
   @override

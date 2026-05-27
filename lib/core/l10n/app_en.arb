@@ -46,7 +46,15 @@
     "placeholders": { "n": { "type": "int" } }
   },
   "itemsWarrantyActive": "Active warranty",
+  "itemsWarrantyExpired": "Expired warranty",
   "itemDetailWarranty": "Warranty",
+  "itemDetailPhotoPlaceholder": "Appliance photo",
+  "itemDetailMaintenanceInterval": "every {count, plural, one {{count} month} other {{count} months}}",
+  "@itemDetailMaintenanceInterval": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
   "itemDetailPurchasedOn": "Purchased {date}",
   "@itemDetailPurchasedOn": {
     "placeholders": { "date": { "type": "String" } }
@@ -117,6 +125,26 @@
   "maintenanceNextDueLabel": "Next due",
   "maintenanceSave": "Save",
   "maintenanceMarkDone": "Mark as done",
+  "maintenanceMarkDoneSheetTitle": "Mark as done",
+  "maintenanceMarkDoneWhenLabel": "When did you do it?",
+  "maintenanceMarkDoneToday": "Today",
+  "maintenanceMarkDoneYesterday": "Yesterday",
+  "maintenanceMarkDoneOtherDate": "Other date",
+  "maintenanceMarkDoneNextReminder": "Next reminder",
+  "maintenanceMarkDoneNextInMonths": "in {count, plural, one {{count} month} other {{count} months}}",
+  "@maintenanceMarkDoneNextInMonths": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "maintenanceMarkDoneConfirm": "Confirm",
+  "maintenanceMarkDoneCompletedTitle": "Done!",
+  "maintenanceMarkDoneCompletedSubtitle": "Next reminder in {days, plural, one {{days} day} other {{days} days}}",
+  "@maintenanceMarkDoneCompletedSubtitle": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
   "maintenanceEdit": "Edit",
   "maintenanceDelete": "Delete",
   "maintenanceDeleteTitle": "Delete maintenance?",

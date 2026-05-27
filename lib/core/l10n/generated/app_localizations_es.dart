@@ -135,7 +135,24 @@ class AppLocalizationsEs extends AppLocalizations {
   String get itemsWarrantyActive => 'Garantía activa';
 
   @override
+  String get itemsWarrantyExpired => 'Garantía vencida';
+
+  @override
   String get itemDetailWarranty => 'Garantía';
+
+  @override
+  String get itemDetailPhotoPlaceholder => 'Foto del electrodoméstico';
+
+  @override
+  String itemDetailMaintenanceInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meses',
+      one: '$count mes',
+    );
+    return 'cada $_temp0';
+  }
 
   @override
   String itemDetailPurchasedOn(String date) {
@@ -333,7 +350,53 @@ class AppLocalizationsEs extends AppLocalizations {
   String get maintenanceSave => 'Guardar';
 
   @override
-  String get maintenanceMarkDone => 'Marcar como realizado';
+  String get maintenanceMarkDone => 'Marcar como hecho';
+
+  @override
+  String get maintenanceMarkDoneSheetTitle => 'Marcar como hecho';
+
+  @override
+  String get maintenanceMarkDoneWhenLabel => '¿Cuándo lo hiciste?';
+
+  @override
+  String get maintenanceMarkDoneToday => 'Hoy';
+
+  @override
+  String get maintenanceMarkDoneYesterday => 'Ayer';
+
+  @override
+  String get maintenanceMarkDoneOtherDate => 'Otra fecha';
+
+  @override
+  String get maintenanceMarkDoneNextReminder => 'Próximo aviso';
+
+  @override
+  String maintenanceMarkDoneNextInMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meses',
+      one: '$count mes',
+    );
+    return 'en $_temp0';
+  }
+
+  @override
+  String get maintenanceMarkDoneConfirm => 'Confirmar';
+
+  @override
+  String get maintenanceMarkDoneCompletedTitle => '¡Hecho!';
+
+  @override
+  String maintenanceMarkDoneCompletedSubtitle(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days días',
+      one: '$days día',
+    );
+    return 'Próximo aviso en $_temp0';
+  }
 
   @override
   String get maintenanceEdit => 'Editar';

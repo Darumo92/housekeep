@@ -68,10 +68,18 @@ Tests: `test/shared/widgets/hk_widgets_test.dart` — 13 widget tests (render + 
 - ARB ES+EN updated for document headings, counts, section labels, form hints/actions and reminder explanations; generated localization files regenerated.
 - Tests added: `documents_list_screen_test.dart` and `add_edit_document_screen_test.dart` cover grouping/order, card navigation, Free gate, redesigned form validation and edit persistence.
 
+### Phase 7 — Mark-done sheet (`lib/features/maintenance/widgets/`)
+
+- `mark_done_sheet.dart` (new) — Cozy modal launched from an item maintenance row, with drag handle, Hoy/Ayer/Otra fecha completion selector, localized next-reminder banner, haptic confirmation, animated success state and automatic close.
+- `item_detail_screen.dart` now opens the sheet instead of completing maintenance immediately; successful confirmation persists through the existing repository and reprograms notifications through `NotificationScheduler`.
+- Completion notes are intentionally deferred: the existing domain/Drift contract has no per-completion note or history entity, and this redesign phase does not introduce data migrations.
+- ARB ES+EN updated for the modal and the touched item-detail labels (`Marcar como hecho`, warranty/photo/interval/status copy); generated localization output regenerated.
+- Tests added: `mark_done_sheet_test.dart` covers cancellation, selected completion dates, rescheduling, success auto-close and errors; `item_detail_screen_test.dart` covers opening the sheet without an immediate write and Spanish redesign copy.
+
 ## Verification
 
 - `flutter analyze` clean.
-- `flutter test` — 119 tests pass.
+- `flutter test` — 125 tests pass.
 - `flutter build apk --debug` succeeds.
 - Manual emulator runs: Cozy palette applied, onboarding redesign renders (home-cluster + bell-stack + sparkle pages), home empty state renders with `HkTabBar` + `HkFab`, items list "Mis cosas" + chip filter + empty card render correctly.
 
@@ -83,7 +91,6 @@ Tests: `test/shared/widgets/hk_widgets_test.dart` — 13 widget tests (render + 
 
 | Phase | Spec file | Scope |
 |------|-----------|-------|
-| 7 | `phases/phase_7_maintenance_done.md` | Mark-done bottom sheet (new) + integration in item detail. |
 | 8 | `phases/phase_8_paywall.md` | Paywall screen redesign. |
 | 9 | `phases/phase_9_settings.md` | Settings screen redesign. |
 
@@ -111,6 +118,7 @@ lib/features/documents/documents_provider.dart     (M — unfiltered list provid
 lib/features/documents/documents_list_screen.dart  (M — rewritten Phase 6)
 lib/features/documents/add_edit_document_screen.dart (M — rewritten Phase 6)
 lib/features/documents/widgets/document_card.dart  (M — rewritten Phase 6)
+lib/features/maintenance/widgets/mark_done_sheet.dart (NEW — Phase 7 completion modal)
 lib/features/onboarding/onboarding_screen.dart     (M — rewritten Phase 3)
 lib/features/onboarding/widgets/onboarding_art.dart (NEW)
 lib/shared/widgets/hk_*.dart                       (NEW × 11)

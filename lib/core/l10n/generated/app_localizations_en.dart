@@ -135,7 +135,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemsWarrantyActive => 'Active warranty';
 
   @override
+  String get itemsWarrantyExpired => 'Expired warranty';
+
+  @override
   String get itemDetailWarranty => 'Warranty';
+
+  @override
+  String get itemDetailPhotoPlaceholder => 'Appliance photo';
+
+  @override
+  String itemDetailMaintenanceInterval(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count months',
+      one: '$count month',
+    );
+    return 'every $_temp0';
+  }
 
   @override
   String itemDetailPurchasedOn(String date) {
@@ -331,6 +348,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get maintenanceMarkDone => 'Mark as done';
+
+  @override
+  String get maintenanceMarkDoneSheetTitle => 'Mark as done';
+
+  @override
+  String get maintenanceMarkDoneWhenLabel => 'When did you do it?';
+
+  @override
+  String get maintenanceMarkDoneToday => 'Today';
+
+  @override
+  String get maintenanceMarkDoneYesterday => 'Yesterday';
+
+  @override
+  String get maintenanceMarkDoneOtherDate => 'Other date';
+
+  @override
+  String get maintenanceMarkDoneNextReminder => 'Next reminder';
+
+  @override
+  String maintenanceMarkDoneNextInMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count months',
+      one: '$count month',
+    );
+    return 'in $_temp0';
+  }
+
+  @override
+  String get maintenanceMarkDoneConfirm => 'Confirm';
+
+  @override
+  String get maintenanceMarkDoneCompletedTitle => 'Done!';
+
+  @override
+  String maintenanceMarkDoneCompletedSubtitle(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '$days day',
+    );
+    return 'Next reminder in $_temp0';
+  }
 
   @override
   String get maintenanceEdit => 'Edit';
