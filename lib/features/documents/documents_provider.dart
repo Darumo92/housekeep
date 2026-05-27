@@ -38,7 +38,7 @@ Stream<List<Document>> filteredDocuments(FilteredDocumentsRef ref) {
 @riverpod
 Future<String> addDocumentDestination(AddDocumentDestinationRef ref) async {
   final canAddDocument = await ref.watch(canAddDocumentProvider.future);
-  return canAddDocument ? '/documents/add' : '/paywall';
+  return canAddDocument ? '/documents/add' : '/paywall?gate=true';
 }
 
 @riverpod

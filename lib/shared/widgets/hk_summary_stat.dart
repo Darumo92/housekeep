@@ -39,14 +39,30 @@ class HkSummaryStat extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          Text(
-            '$count',
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w700,
-              color: AppColors.text,
-              height: 1.05,
-              letterSpacing: -0.4,
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 220),
+            transitionBuilder: (child, animation) {
+              final slide = Tween<Offset>(
+                begin: const Offset(0, 0.25),
+                end: Offset.zero,
+              ).animate(animation);
+              return ClipRect(
+                child: FadeTransition(
+                  opacity: animation,
+                  child: SlideTransition(position: slide, child: child),
+                ),
+              );
+            },
+            child: Text(
+              '$count',
+              key: ValueKey<int>(count),
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
+                height: 1.05,
+                letterSpacing: -0.4,
+              ),
             ),
           ),
           const SizedBox(height: 2),

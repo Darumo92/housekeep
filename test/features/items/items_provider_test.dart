@@ -97,7 +97,7 @@ void main() {
 
     final destination = await container.read(addItemDestinationProvider.future);
 
-    expect(destination, '/paywall');
+    expect(destination, '/paywall?gate=true');
   });
 
   test('itemByIdProvider forwards lookup to items repository', () async {

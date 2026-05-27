@@ -76,6 +76,43 @@ Tests: `test/shared/widgets/hk_widgets_test.dart` — 13 widget tests (render + 
 - ARB ES+EN updated for the modal and the touched item-detail labels (`Marcar como hecho`, warranty/photo/interval/status copy); generated localization output regenerated.
 - Tests added: `mark_done_sheet_test.dart` covers cancellation, selected completion dates, rescheduling, success auto-close and errors; `item_detail_screen_test.dart` covers opening the sheet without an immediate write and Spanish redesign copy.
 
+### Phase 8 — Paywall (`lib/features/paywall/`)
+
+- `paywall_screen.dart` rewritten — `Scaffold(bg)` + `AnnotatedRegion<SystemUiOverlayStyle>` for white status-bar icons over the hero band. Layout: scrollable hero (gradient `primary→primary→accent`) + benefits list + sticky CTA bar. `Wrap` for the price row so price+sub keep working at 2× text scale.
+- New constructor param `gate` (bool, default `false`). `/paywall` route in `lib/app.dart` reads `state.uri.queryParameters['gate']` to populate it. Banner with lock icon, gate title and copy renders only when `gate=true`.
+- Hero band: white circular back button (`Colors.white.withValues(alpha:.18)`), `PRO` chip, H1 32 w600 Inter `paywallHeroTitle`, subtitle 15 white .85, price 44 w600 with `· pago único` sub. Price uses `offering?.primaryPackage?.priceString` from RevenueCat with `€5,99` placeholder fallback.
+- Benefits list: 5 rows (Inventory/Notifications/AutoAwesome/Share/Florist) over `primarySoft` 36×36 tiles + check icon in `ok` green.
+- Sticky CTA bar: `HkButton(primary, lg, full)` `paywallUnlockCta`; loading state swaps in a teal-bg `CircularProgressIndicator`. Below: `Flexible` Restore / Skip text buttons in `textMuted` so they don't overflow at large text scale.
+- Purchase flow keeps `PurchaseControllerProvider`: tap → `HapticFeedback.lightImpact()` → `buy(package)` → state machine drives success view (`_SuccessView` redesigned with primarySoft check medallion + `HkButton`). Cancelled → existing SnackBar; new error path also surfaces SnackBar with `paywallPurchaseError` fallback. Offering errors render an `AppColors.dangerSoft` notice inside the scroll.
+- Gate routing: `items_provider.dart`, `documents_provider.dart`, `add_edit_document_screen.dart` reminder upsell, and `template_picker_sheet.dart` locked tap all switched to `/paywall?gate=true`. Home `ProUpsellCard` and Settings entries keep the gate-less `/paywall`.
+- ARB ES+EN: `paywallHeroTitle, paywallSubtitle, paywallOnce, paywallUnlockCta, paywallSkip, paywallGateTitle, paywallGateSub, paywallBenefitUnlimited, paywallBenefitMultiReminder, paywallBenefitWidget, paywallBenefitPdf, paywallBenefitTemplates, paywallPurchaseError`. Legacy strings (tagline, feature list, comparison table values) preserved for back-compat but no longer rendered.
+- Tests updated: `items_list_screen_test.dart`, `items_provider_test.dart`, `documents_provider_test.dart` switched to new gate URL + `paywallHeroTitle` matcher.
+
+### Phase 9 — Settings (`lib/features/settings/`)
+
+- `settings_screen.dart` rewritten as Cozy: H1 `Ajustes`, plan card (Free `HkCard` with accent `HkButton` to `/paywall` / Pro gradient card with white "Activo" chip), then `HkCard(padding:0)` groups containing `_SettingsRow` rows separated by indented dividers (`AppColors.border`).
+- Sections preserved: AVISOS (toggle + system permissions row + denied-permission banner using existing `StatusBanner` + soft `HkButton` "Abrir ajustes"), PREFERENCIAS (Idioma with inline `_LanguagePillSwitcher` SYS/ES/EN backed by `LocalePreference`), PRO (`Widget`, `Export PDF`, `Restaurar compras`, BETA Pro override toggle when `AppConstants.betaShowProToggle`), INFORMACIÓN (Version with mono trailing, Contact + Feedback `mailto:`, Privacy + Terms locale-aware URLs, Rate store URL per platform).
+- New `_SettingsRow`: 32×32 `primarySoft` icon tile + label + optional trailing + optional chevron. `_LanguagePillSwitcher` pill: surfaceAlt + border, `AnimatedContainer` highlights current selection in `primary`.
+- Pro-gated rows (Widget, Export PDF) route to `/paywall?gate=true` when Free; `Pasar a Pro` CTA in the plan card stays on `/paywall` (entry path, no gate).
+- Mono `JetBrainsMono` footer `HOUSEKEEP · MADE WITH CARE` in `textFaint`. `ListView` uses 100-px bottom padding so content clears `HkTabBar` and FABs in adjacent shells.
+- ARB ES+EN: `settingsPlanFreeSub`, `settingsPlanProSub`, `settingsProActive`, `settingsSectionPreferences`, `settingsFooter` added; existing settings keys reused unchanged.
+
+### Phase 10 — Home widget polish (`android/app/src/main/res/`)
+
+- Widget data + `HouseKeepWidgetProvider` already shipped earlier (see `lib/features/widget/widget_service.dart` + `widget_deep_link.dart`). This pass aligns the Android widget visuals with the Cozy palette and adds a dark-mode resource variant.
+- `values/widget_colors.xml` retoned to Cozy tokens: `widget_text_primary=#1F2624`, `widget_text_secondary=#6B7270`, `widget_text_faint=#A4A8A4`, `widget_accent=#2E7D6F`, new `widget_primary_soft=#DBEAE5`, `widget_border=#1A2E7D6F`, stripes use `ok=#3F9C5C / warn=#D4A017 / danger=#C8513C`. Added `widget_surface_alt=#FBF6EE` for future fills.
+- `values-night/widget_colors.xml` (new) mirrors the `AppColorsDark` overlay from `DESIGN_TOKENS.md`: dark surface `#1E1C17`, muted text `#A39E94`, teal accent lightened to `#6FB9A9`, soft variants drop to 20%, stripes brightened so they still pop on dark.
+- `drawable/widget_background.xml` corner radius bumped 20 → 28 dp per spec ("corner radius 28dp visible").
+- Pro/Free demo gating, deep links, sync triggers and `home_widget` SharedPreferences keys remain on the existing data layer — no changes required.
+
+### Microanimations
+
+- `lib/shared/widgets/hk_summary_stat.dart` count value wrapped in an `AnimatedSwitcher` (220 ms slide + fade, keyed by `count`) so the home summary triplet animates whenever due / soon / ok totals change. Label and dot stay static so the row keeps its layout footprint.
+
+### Dark mode
+
+- `AppTheme.dark()` still returns `light()`. The codebase reads `AppColors.*` as static constants (not via `ColorScheme`), so a real dark theme requires migrating all widgets through the scheme before enabling — out of scope for this phase. The widget variant above means the home-screen widget already adapts when the OS is in dark mode.
+
 ## Verification
 
 - `flutter analyze` clean.
@@ -89,10 +126,13 @@ Tests: `test/shared/widgets/hk_widgets_test.dart` — 13 widget tests (render + 
 
 ## Remaining phases
 
-| Phase | Spec file | Scope |
-|------|-----------|-------|
-| 8 | `phases/phase_8_paywall.md` | Paywall screen redesign. |
-| 9 | `phases/phase_9_settings.md` | Settings screen redesign. |
+_All numbered redesign phases (1–10) complete._
+
+## Optional follow-ups
+
+- **Full dark theme:** migrate `AppColors.*` reads to `Theme.of(context).colorScheme.*` (or pass `AppColors` through a Theme extension) so `AppTheme.dark()` can ship; widget already supports `values-night/widget_colors.xml`.
+- **More microanimations:** `Hero` on item thumbnails between `items_list_screen` and `item_detail_screen`; shared-axis transitions are already wired via `go_router` `_sharedAxisPage`.
+- **Regression goldens:** add `goldenFileComparator` and regenerate after Cozy redesign — defer until visual direction is locked.
 
 ## Files touched
 

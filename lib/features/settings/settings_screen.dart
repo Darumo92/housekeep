@@ -2,12 +2,17 @@ import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/constants/app_constants.dart';
 import '../../core/l10n/generated/app_localizations.dart';
-import '../../core/theme/app_dimens.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_radii.dart';
+import '../../shared/widgets/hk_button.dart';
+import '../../shared/widgets/hk_card.dart';
+import '../../shared/widgets/hk_toggle.dart';
 import '../../shared/widgets/status_banner.dart';
 import '../../data/repositories/purchase_repository.dart';
 import '../../data/repositories/repository_providers.dart';
@@ -37,6 +42,7 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final settingsAsync = ref.watch(settingsControllerProvider);
     final isProAsync = ref.watch(isProProvider);
+    final isPro = isProAsync.maybeWhen(data: (v) => v, orElse: () => false);
 
     return settingsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
@@ -48,104 +54,208 @@ class SettingsScreen extends ConsumerWidget {
       ),
       data: (settings) {
         return ListView(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.fromLTRB(
+            22,
+            MediaQuery.of(context).padding.top + 8,
+            22,
+            100,
+          ),
           children: [
-            _SectionHeader(label: l10n.settingsSectionGeneral),
-            _LanguageTile(
-              current: settings.localePreference,
-              onChanged: (pref) async {
-                await ref
-                    .read(settingsControllerProvider.notifier)
-                    .setLocalePreference(pref);
-              },
-            ),
-            const Divider(height: 1),
-            _SectionHeader(label: l10n.settingsSectionNotifications),
-            const _NotificationsPermissionBanner(),
-            SwitchListTile(
-              title: Text(l10n.settingsNotificationsEnabled),
-              subtitle: Text(l10n.settingsNotificationsEnabledBody),
-              value: settings.notificationsEnabled,
-              onChanged: (value) async {
-                await ref
-                    .read(settingsControllerProvider.notifier)
-                    .setNotificationsEnabled(value);
-              },
-            ),
-            ListTile(
-              title: Text(l10n.settingsNotificationsOpenSystem),
-              trailing: const Icon(Icons.open_in_new, size: 18),
-              onTap: () async {
-                await AppSettings.openAppSettings(
-                  type: AppSettingsType.notification,
-                );
-              },
-            ),
-            const Divider(height: 1),
-            _SectionHeader(label: l10n.settingsSectionPremium),
-            _PremiumTile(isProAsync: isProAsync),
-            ListTile(
-              title: Text(l10n.settingsPremiumRestore),
-              trailing: const Icon(Icons.refresh, size: 20),
-              onTap: () => _restorePurchases(context, ref),
-            ),
-            if (AppConstants.betaShowProToggle)
-              SwitchListTile(
-                title: const Text('BETA: Simular PRO'),
-                subtitle: const Text('Solo para testers — desaparece en lanzamiento'),
-                value: isProAsync.valueOrNull ?? false,
-                onChanged: (value) {
-                  ref
-                      .read(proDebugOverrideProvider.notifier)
-                      .set(value);
-                },
-              ),
-            const Divider(height: 1),
-            _SectionHeader(label: l10n.settingsSectionWidget),
-            _WidgetTile(isProAsync: isProAsync),
-            const Divider(height: 1),
-            _SectionHeader(label: l10n.settingsSectionData),
-            _ExportPdfTile(isProAsync: isProAsync),
-            const Divider(height: 1),
-            _SectionHeader(label: l10n.settingsSectionAbout),
-            const _VersionTile(),
-            ListTile(
-              title: Text(l10n.settingsAboutContact),
-              trailing: const Icon(Icons.mail_outline, size: 20),
-              onTap: () => _launchMail(context, _kSupportEmail),
-            ),
-            ListTile(
-              title: Text(l10n.settingsAboutFeedback),
-              trailing: const Icon(Icons.feedback_outlined, size: 20),
-              onTap: () => _launchMail(context, _kFeedbackEmail),
-            ),
-            ListTile(
-              title: Text(l10n.settingsAboutPrivacy),
-              trailing: const Icon(Icons.open_in_new, size: 18),
-              onTap: () => _launchUrl(
-                context,
-                _localizedPrivacyUrl(context),
+            Text(
+              l10n.settingsTitle,
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w700,
+                color: AppColors.text,
+                fontFamily: GoogleFonts.inter().fontFamily,
               ),
             ),
-            ListTile(
-              title: Text(l10n.settingsAboutTerms),
-              trailing: const Icon(Icons.open_in_new, size: 18),
-              onTap: () => _launchUrl(
-                context,
-                _localizedTermsUrl(context),
+            const SizedBox(height: 20),
+            _PlanCard(isPro: isPro),
+            const SizedBox(height: 12),
+            _NotificationsPermissionBanner(),
+            _Section(label: l10n.settingsSectionNotifications),
+            HkCard(
+              padding: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  _SettingsRow(
+                    icon: Icons.notifications_rounded,
+                    label: l10n.settingsNotificationsEnabled,
+                    trailing: HkToggle(
+                      value: settings.notificationsEnabled,
+                      onChanged: (value) async {
+                        await ref
+                            .read(settingsControllerProvider.notifier)
+                            .setNotificationsEnabled(value);
+                      },
+                    ),
+                  ),
+                  const _RowDivider(),
+                  _SettingsRow(
+                    icon: Icons.tune_rounded,
+                    label: l10n.settingsNotificationsOpenSystem,
+                    chevron: true,
+                    onTap: () async {
+                      await AppSettings.openAppSettings(
+                        type: AppSettingsType.notification,
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
-            ListTile(
-              title: Text(l10n.settingsAboutRate),
-              trailing: const Icon(Icons.star_border, size: 22),
-              onTap: () async {
-                final url = Theme.of(context).platform == TargetPlatform.iOS
-                    ? _kStoreUrlIos
-                    : _kStoreUrlAndroid;
-                await _launchUrl(context, url);
-              },
+            _Section(label: l10n.settingsSectionPreferences),
+            HkCard(
+              padding: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  _SettingsRow(
+                    icon: Icons.language_rounded,
+                    label: l10n.settingsLanguageLabel,
+                    trailing: _LanguagePillSwitcher(
+                      current: settings.localePreference,
+                      onChanged: (pref) async {
+                        await ref
+                            .read(settingsControllerProvider.notifier)
+                            .setLocalePreference(pref);
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 24),
+            _Section(label: l10n.settingsSectionPremium),
+            HkCard(
+              padding: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  _SettingsRow(
+                    icon: Icons.widgets_rounded,
+                    label: l10n.settingsWidgetTitle,
+                    trailing: _ProActionLabel(
+                      isPro: isPro,
+                      activeLabel: l10n.settingsWidgetCta,
+                      lockedLabel: l10n.settingsWidgetUpgrade,
+                    ),
+                    onTap: () {
+                      if (!isPro) {
+                        context.push('/paywall?gate=true');
+                        return;
+                      }
+                      showDialog<void>(
+                        context: context,
+                        builder: (dialogContext) {
+                          return AlertDialog(
+                            title: Text(l10n.settingsWidgetHowToTitle),
+                            content: Text(l10n.settingsWidgetHowToBody),
+                            actions: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(dialogContext).pop(),
+                                child: Text(l10n.settingsWidgetHowToClose),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  const _RowDivider(),
+                  _ExportPdfRow(isPro: isPro),
+                  const _RowDivider(),
+                  _SettingsRow(
+                    icon: Icons.refresh_rounded,
+                    label: l10n.settingsPremiumRestore,
+                    chevron: true,
+                    onTap: () => _restorePurchases(context, ref),
+                  ),
+                  if (AppConstants.betaShowProToggle) ...[
+                    const _RowDivider(),
+                    _SettingsRow(
+                      icon: Icons.science_rounded,
+                      label: 'BETA: Simular PRO',
+                      trailing: HkToggle(
+                        value: isPro,
+                        onChanged: (value) {
+                          ref
+                              .read(proDebugOverrideProvider.notifier)
+                              .set(value);
+                        },
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            _Section(label: l10n.settingsSectionAbout),
+            HkCard(
+              padding: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  const _VersionRow(),
+                  const _RowDivider(),
+                  _SettingsRow(
+                    icon: Icons.mail_outline_rounded,
+                    label: l10n.settingsAboutContact,
+                    chevron: true,
+                    onTap: () => _launchMail(context, _kSupportEmail),
+                  ),
+                  const _RowDivider(),
+                  _SettingsRow(
+                    icon: Icons.feedback_outlined,
+                    label: l10n.settingsAboutFeedback,
+                    chevron: true,
+                    onTap: () => _launchMail(context, _kFeedbackEmail),
+                  ),
+                  const _RowDivider(),
+                  _SettingsRow(
+                    icon: Icons.lock_outline_rounded,
+                    label: l10n.settingsAboutPrivacy,
+                    chevron: true,
+                    onTap: () => _launchUrl(
+                      context,
+                      _localizedPrivacyUrl(context),
+                    ),
+                  ),
+                  const _RowDivider(),
+                  _SettingsRow(
+                    icon: Icons.description_outlined,
+                    label: l10n.settingsAboutTerms,
+                    chevron: true,
+                    onTap: () => _launchUrl(
+                      context,
+                      _localizedTermsUrl(context),
+                    ),
+                  ),
+                  const _RowDivider(),
+                  _SettingsRow(
+                    icon: Icons.star_border_rounded,
+                    label: l10n.settingsAboutRate,
+                    chevron: true,
+                    onTap: () async {
+                      final url =
+                          Theme.of(context).platform == TargetPlatform.iOS
+                          ? _kStoreUrlIos
+                          : _kStoreUrlAndroid;
+                      await _launchUrl(context, url);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 28),
+            Center(
+              child: Text(
+                l10n.settingsFooter,
+                style: TextStyle(
+                  fontSize: 11,
+                  letterSpacing: 0.8,
+                  color: AppColors.textFaint,
+                  fontFamily: GoogleFonts.jetBrainsMono().fontFamily,
+                ),
+              ),
+            ),
           ],
         );
       },
@@ -195,113 +305,397 @@ class SettingsScreen extends ConsumerWidget {
   }
 }
 
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.label});
+class _PlanCard extends StatelessWidget {
+  const _PlanCard({required this.isPro});
+
+  final bool isPro;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    if (isPro) {
+      return Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppColors.primary, AppColors.accent],
+          ),
+          borderRadius: BorderRadius.circular(AppRadii.card),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.18),
+                borderRadius: BorderRadius.circular(AppRadii.card * 0.5),
+              ),
+              child: const Icon(
+                Icons.auto_awesome_rounded,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.settingsPremiumStatusPro,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    l10n.settingsPlanProSub,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.white.withValues(alpha: 0.85),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.25),
+                borderRadius: BorderRadius.circular(99),
+              ),
+              child: Text(
+                l10n.settingsProActive,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                  letterSpacing: 0.3,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return HkCard(
+      padding: const EdgeInsets.all(18),
+      child: Row(
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: AppColors.primarySoft,
+              borderRadius: BorderRadius.circular(AppRadii.card * 0.5),
+            ),
+            child: const Icon(
+              Icons.auto_awesome_rounded,
+              color: AppColors.primary,
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.settingsPremiumStatusFree,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.text,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  l10n.settingsPlanFreeSub,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textMuted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          HkButton(
+            label: l10n.settingsPremiumUpgrade,
+            variant: HkButtonVariant.accent,
+            size: HkButtonSize.sm,
+            onPressed: () => context.push('/paywall'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Section extends StatelessWidget {
+  const _Section({required this.label});
 
   final String label;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+      padding: const EdgeInsets.fromLTRB(4, 22, 4, 8),
       child: Text(
         label.toUpperCase(),
-        style: theme.textTheme.labelSmall?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-          letterSpacing: 0.8,
+        style: const TextStyle(
+          fontSize: 11.5,
+          fontWeight: FontWeight.w700,
+          color: AppColors.textMuted,
+          letterSpacing: 0.7,
         ),
       ),
     );
   }
 }
 
-class _LanguageTile extends StatelessWidget {
-  const _LanguageTile({required this.current, required this.onChanged});
+class _SettingsRow extends StatelessWidget {
+  const _SettingsRow({
+    required this.icon,
+    required this.label,
+    this.trailing,
+    this.chevron = false,
+    this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final Widget? trailing;
+  final bool chevron;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final row = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      child: Row(
+        children: [
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: AppColors.primarySoft,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, size: 16, color: AppColors.primary),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14.5,
+                fontWeight: FontWeight.w500,
+                color: AppColors.text,
+              ),
+            ),
+          ),
+          if (trailing != null) trailing!,
+          if (chevron) ...[
+            const SizedBox(width: 4),
+            const Icon(
+              Icons.chevron_right_rounded,
+              size: 20,
+              color: AppColors.textFaint,
+            ),
+          ],
+        ],
+      ),
+    );
+
+    if (onTap == null) return row;
+    return InkWell(onTap: onTap, child: row);
+  }
+}
+
+class _RowDivider extends StatelessWidget {
+  const _RowDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.only(left: 58),
+      child: Divider(height: 1, thickness: 1, color: AppColors.border),
+    );
+  }
+}
+
+class _LanguagePillSwitcher extends StatelessWidget {
+  const _LanguagePillSwitcher({
+    required this.current,
+    required this.onChanged,
+  });
 
   final LocalePreference current;
   final ValueChanged<LocalePreference> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    String labelFor(LocalePreference p) {
-      return switch (p) {
-        LocalePreference.system => l10n.settingsLanguageSystem,
-        LocalePreference.es => l10n.settingsLanguageEs,
-        LocalePreference.en => l10n.settingsLanguageEn,
-      };
-    }
+    final options = <(LocalePreference, String)>[
+      (LocalePreference.system, 'SYS'),
+      (LocalePreference.es, 'ES'),
+      (LocalePreference.en, 'EN'),
+    ];
 
-    return ListTile(
-      title: Text(l10n.settingsLanguageLabel),
-      subtitle: Text(labelFor(current)),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () async {
-        final picked = await showModalBottomSheet<LocalePreference>(
-          context: context,
-          builder: (context) {
-            return SafeArea(
-              child: RadioGroup<LocalePreference>(
-                groupValue: current,
-                onChanged: (val) => Navigator.of(context).pop(val),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: LocalePreference.values.map((p) {
-                    return RadioListTile<LocalePreference>(
-                      title: Text(labelFor(p)),
-                      value: p,
-                    );
-                  }).toList(),
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceAlt,
+        borderRadius: BorderRadius.circular(99),
+        border: Border.all(color: AppColors.border, width: 1),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final (pref, label) in options)
+            GestureDetector(
+              onTap: () => onChanged(pref),
+              behavior: HitTestBehavior.opaque,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: current == pref
+                      ? AppColors.primary
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(99),
+                ),
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    color: current == pref
+                        ? AppColors.onPrimary
+                        : AppColors.textMuted,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                    letterSpacing: 0.5,
+                  ),
                 ),
               ),
-            );
-          },
-        );
-        if (picked != null) onChanged(picked);
-      },
+            ),
+        ],
+      ),
     );
   }
 }
 
-class _PremiumTile extends StatelessWidget {
-  const _PremiumTile({required this.isProAsync});
+class _ProActionLabel extends StatelessWidget {
+  const _ProActionLabel({
+    required this.isPro,
+    required this.activeLabel,
+    required this.lockedLabel,
+  });
 
-  final AsyncValue<bool> isProAsync;
+  final bool isPro;
+  final String activeLabel;
+  final String lockedLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      isPro ? activeLabel : lockedLabel,
+      style: TextStyle(
+        fontSize: 13,
+        fontWeight: FontWeight.w600,
+        color: isPro ? AppColors.primary : AppColors.accent,
+      ),
+    );
+  }
+}
+
+class _ExportPdfRow extends ConsumerStatefulWidget {
+  const _ExportPdfRow({required this.isPro});
+
+  final bool isPro;
+
+  @override
+  ConsumerState<_ExportPdfRow> createState() => _ExportPdfRowState();
+}
+
+class _ExportPdfRowState extends ConsumerState<_ExportPdfRow> {
+  bool _busy = false;
+
+  Future<void> _onTap() async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    if (!widget.isPro) {
+      context.push('/paywall?gate=true');
+      return;
+    }
+    if (_busy) return;
+    setState(() => _busy = true);
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.settingsDataExportProgress)),
+    );
+    try {
+      final localeTag = Localizations.localeOf(context).toLanguageTag();
+      final ok = await ref
+          .read(exportControllerProvider)
+          .exportAndShare(l10n, localeTag: localeTag);
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            ok
+                ? l10n.settingsDataExportSuccess
+                : l10n.settingsDataExportEmpty,
+          ),
+        ),
+      );
+    } catch (_) {
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.settingsDataExportFailed)),
+      );
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final isPro = isProAsync.maybeWhen(data: (v) => v, orElse: () => false);
-
-    return ListTile(
-      leading: Icon(
-        isPro ? Icons.workspace_premium : Icons.lock_outline,
-        color: isPro ? Theme.of(context).colorScheme.primary : null,
-      ),
-      title: Text(
-        isPro ? l10n.settingsPremiumStatusPro : l10n.settingsPremiumStatusFree,
-      ),
-      subtitle: isPro ? null : Text(l10n.settingsPremiumUpgrade),
-      trailing: isPro
-          ? null
-          : FilledButton.tonal(
-              onPressed: () => context.push('/paywall'),
-              child: Text(l10n.settingsPremiumUpgrade),
-            ),
-      onTap: isPro ? null : () => context.push('/paywall'),
+    final trailing = _busy
+        ? const SizedBox(
+            width: 18,
+            height: 18,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          )
+        : _ProActionLabel(
+            isPro: widget.isPro,
+            activeLabel: l10n.settingsDataExportCta,
+            lockedLabel: l10n.settingsDataExportUpgrade,
+          );
+    return _SettingsRow(
+      icon: Icons.picture_as_pdf_outlined,
+      label: l10n.settingsDataExportTitle,
+      trailing: trailing,
+      onTap: _onTap,
     );
   }
 }
 
-class _VersionTile extends StatefulWidget {
-  const _VersionTile();
+class _VersionRow extends StatefulWidget {
+  const _VersionRow();
 
   @override
-  State<_VersionTile> createState() => _VersionTileState();
+  State<_VersionRow> createState() => _VersionRowState();
 }
 
-class _VersionTileState extends State<_VersionTile> {
+class _VersionRowState extends State<_VersionRow> {
   String? _version;
 
   @override
@@ -324,9 +718,17 @@ class _VersionTileState extends State<_VersionTile> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return ListTile(
-      title: Text(l10n.settingsAboutVersion(_version ?? '…')),
-      leading: const Icon(Icons.info_outline),
+    return _SettingsRow(
+      icon: Icons.info_outline_rounded,
+      label: l10n.settingsAboutVersion(_version ?? '…'),
+      trailing: Text(
+        _version ?? '…',
+        style: TextStyle(
+          fontSize: 12,
+          color: AppColors.textFaint,
+          fontFamily: GoogleFonts.jetBrainsMono().fontFamily,
+        ),
+      ),
     );
   }
 }
@@ -343,132 +745,7 @@ String _localizedTermsUrl(BuildContext context) {
       : _kTermsUrlEn;
 }
 
-class _WidgetTile extends StatelessWidget {
-  const _WidgetTile({required this.isProAsync});
-
-  final AsyncValue<bool> isProAsync;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final isPro = isProAsync.maybeWhen(data: (v) => v, orElse: () => false);
-    return ListTile(
-      leading: const Icon(Icons.widgets_outlined),
-      title: Text(l10n.settingsWidgetTitle),
-      subtitle: Text(
-        isPro ? l10n.settingsWidgetBodyPro : l10n.settingsWidgetBodyFree,
-      ),
-      trailing: TextButton(
-        onPressed: () {
-          if (!isPro) {
-            context.push('/paywall');
-            return;
-          }
-          showDialog<void>(
-            context: context,
-            builder: (dialogContext) {
-              return AlertDialog(
-                title: Text(l10n.settingsWidgetHowToTitle),
-                content: Text(l10n.settingsWidgetHowToBody),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(dialogContext).pop(),
-                    child: Text(l10n.settingsWidgetHowToClose),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        child: Text(
-          isPro ? l10n.settingsWidgetCta : l10n.settingsWidgetUpgrade,
-        ),
-      ),
-    );
-  }
-}
-
-class _ExportPdfTile extends ConsumerStatefulWidget {
-  const _ExportPdfTile({required this.isProAsync});
-
-  final AsyncValue<bool> isProAsync;
-
-  @override
-  ConsumerState<_ExportPdfTile> createState() => _ExportPdfTileState();
-}
-
-class _ExportPdfTileState extends ConsumerState<_ExportPdfTile> {
-  bool _busy = false;
-
-  Future<void> _onPressed() async {
-    final l10n = AppLocalizations.of(context);
-    final messenger = ScaffoldMessenger.of(context);
-    final isPro =
-        widget.isProAsync.maybeWhen(data: (v) => v, orElse: () => false);
-    if (!isPro) {
-      context.push('/paywall');
-      return;
-    }
-    if (_busy) return;
-    setState(() => _busy = true);
-    messenger.showSnackBar(
-      SnackBar(content: Text(l10n.settingsDataExportProgress)),
-    );
-    try {
-      final localeTag = Localizations.localeOf(context).toLanguageTag();
-      final ok = await ref
-          .read(exportControllerProvider)
-          .exportAndShare(l10n, localeTag: localeTag);
-      messenger.showSnackBar(
-        SnackBar(
-          content: Text(
-            ok ? l10n.settingsDataExportSuccess : l10n.settingsDataExportEmpty,
-          ),
-        ),
-      );
-    } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.settingsDataExportFailed)),
-      );
-    } finally {
-      if (mounted) setState(() => _busy = false);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final isPro =
-        widget.isProAsync.maybeWhen(data: (v) => v, orElse: () => false);
-    return ListTile(
-      leading: const Icon(Icons.picture_as_pdf_outlined),
-      title: Text(l10n.settingsDataExportTitle),
-      subtitle: Text(
-        isPro
-            ? l10n.settingsDataExportBodyPro
-            : l10n.settingsDataExportBodyFree,
-      ),
-      trailing: _busy
-          ? const SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-          : TextButton(
-              onPressed: _onPressed,
-              child: Text(
-                isPro
-                    ? l10n.settingsDataExportCta
-                    : l10n.settingsDataExportUpgrade,
-              ),
-            ),
-    );
-  }
-}
-
 class _NotificationsPermissionBanner extends ConsumerStatefulWidget {
-  const _NotificationsPermissionBanner();
-
   @override
   ConsumerState<_NotificationsPermissionBanner> createState() =>
       _NotificationsPermissionBannerState();
@@ -506,24 +783,24 @@ class _NotificationsPermissionBannerState
     );
     if (granted) return const SizedBox.shrink();
 
-    return StatusBanner(
-      variant: StatusBannerVariant.warning,
-      icon: Icons.notifications_off_outlined,
-      title: l10n.settingsNotificationsDeniedTitle,
-      body: l10n.settingsNotificationsDeniedBody,
-      margin: const EdgeInsets.fromLTRB(
-        Spacing.l,
-        Spacing.xs,
-        Spacing.l,
-        Spacing.s,
-      ),
-      action: FilledButton.tonal(
-        onPressed: () async {
-          await AppSettings.openAppSettings(
-            type: AppSettingsType.notification,
-          );
-        },
-        child: Text(l10n.settingsNotificationsDeniedCta),
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: StatusBanner(
+        variant: StatusBannerVariant.warning,
+        icon: Icons.notifications_off_outlined,
+        title: l10n.settingsNotificationsDeniedTitle,
+        body: l10n.settingsNotificationsDeniedBody,
+        margin: EdgeInsets.zero,
+        action: HkButton(
+          label: l10n.settingsNotificationsDeniedCta,
+          variant: HkButtonVariant.soft,
+          size: HkButtonSize.sm,
+          onPressed: () async {
+            await AppSettings.openAppSettings(
+              type: AppSettingsType.notification,
+            );
+          },
+        ),
       ),
     );
   }

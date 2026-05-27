@@ -1736,6 +1736,84 @@ abstract class AppLocalizations {
   /// **'Products not available right now. Try again later.'**
   String get paywallOfferingUnavailable;
 
+  /// No description provided for @paywallHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Go HouseKeep Pro'**
+  String get paywallHeroTitle;
+
+  /// No description provided for @paywallSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One payment. Forever.'**
+  String get paywallSubtitle;
+
+  /// No description provided for @paywallOnce.
+  ///
+  /// In en, this message translates to:
+  /// **'one-time payment'**
+  String get paywallOnce;
+
+  /// No description provided for @paywallUnlockCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Pro'**
+  String get paywallUnlockCta;
+
+  /// No description provided for @paywallSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get paywallSkip;
+
+  /// No description provided for @paywallGateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve reached the free limit'**
+  String get paywallGateTitle;
+
+  /// No description provided for @paywallGateSub.
+  ///
+  /// In en, this message translates to:
+  /// **'The free plan includes 5 things and 3 documents. Upgrade to Pro to remove all limits.'**
+  String get paywallGateSub;
+
+  /// No description provided for @paywallBenefitUnlimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited things and documents'**
+  String get paywallBenefitUnlimited;
+
+  /// No description provided for @paywallBenefitMultiReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Multiple reminders per item'**
+  String get paywallBenefitMultiReminder;
+
+  /// No description provided for @paywallBenefitWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Home screen widget'**
+  String get paywallBenefitWidget;
+
+  /// No description provided for @paywallBenefitPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Export to PDF and share with your partner'**
+  String get paywallBenefitPdf;
+
+  /// No description provided for @paywallBenefitTemplates.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro templates: pool, garden, solar panels'**
+  String get paywallBenefitTemplates;
+
+  /// No description provided for @paywallPurchaseError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t complete the purchase. Try again.'**
+  String get paywallPurchaseError;
+
   /// No description provided for @onboardingPage1Title.
   ///
   /// In en, this message translates to:
@@ -2185,6 +2263,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not open link'**
   String get settingsLinkOpenFailed;
+
+  /// No description provided for @settingsPlanFreeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'5 things · 3 documents'**
+  String get settingsPlanFreeSub;
+
+  /// No description provided for @settingsPlanProSub.
+  ///
+  /// In en, this message translates to:
+  /// **'All features unlocked'**
+  String get settingsPlanProSub;
+
+  /// No description provided for @settingsProActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get settingsProActive;
+
+  /// No description provided for @settingsSectionPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get settingsSectionPreferences;
+
+  /// No description provided for @settingsFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'HOUSEKEEP · MADE WITH CARE'**
+  String get settingsFooter;
 
   /// No description provided for @itemSavedSuccess.
   ///

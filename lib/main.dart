@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_api_availability/google_api_availability.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
@@ -127,8 +128,32 @@ void _configureSystemUi() {
   );
 }
 
+Future<bool> _isGooglePlayServicesAvailable() async {
+  if (!Platform.isAndroid) return true;
+  try {
+    final result = await GoogleApiAvailability.instance
+        .checkGooglePlayServicesAvailability();
+    if (result == GooglePlayServicesAvailability.success) {
+      return true;
+    }
+    debugPrint('[HouseKeep] Google Play Services unavailable: $result');
+    return false;
+  } catch (e) {
+    debugPrint('[HouseKeep] GMS availability check failed: $e');
+    return false;
+  }
+}
+
 Future<void> _initFirebase() async {
   try {
+    if (Platform.isAndroid) {
+      final gmsAvailable = await _isGooglePlayServicesAvailable();
+      if (!gmsAvailable) {
+        debugPrint('[HouseKeep] Skipping Firebase: Google Play Services unavailable');
+        return;
+      }
+    }
+
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -143,9 +168,6 @@ Future<void> _initFirebase() async {
 
     debugPrint('[HouseKeep] Firebase initialized successfully');
   } catch (e) {
-    // Firebase is not yet configured (flutterfire configure has not been run)
-    // or the current platform is unsupported. The app continues to work
-    // without Analytics/Crashlytics.
     debugPrint('[HouseKeep] Firebase initialization skipped: $e');
   }
 }

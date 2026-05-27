@@ -186,7 +186,9 @@ GoRouter _createRouter({String initialLocation = '/'}) {
         path: '/paywall',
         pageBuilder: (context, state) => _sharedAxisPage(
           state.pageKey,
-          const PaywallScreen(),
+          PaywallScreen(
+            gate: state.uri.queryParameters['gate'] == 'true',
+          ),
         ),
       ),
       GoRoute(

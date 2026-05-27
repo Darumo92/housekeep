@@ -72,7 +72,7 @@ void main() {
       final destination =
           await container.read(addDocumentDestinationProvider.future);
 
-      expect(destination, '/paywall');
+      expect(destination, '/paywall?gate=true');
     },
   );
 

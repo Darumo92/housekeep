@@ -275,7 +275,7 @@ class _AddEditDocumentScreenState extends ConsumerState<AddEditDocumentScreen> {
           ),
           const SizedBox(height: 8),
           InkWell(
-            onTap: () => context.push('/paywall'),
+            onTap: () => context.push('/paywall?gate=true'),
             child: Text(
               l10n.documentReminderFreeHint,
               style: const TextStyle(

@@ -33,7 +33,7 @@ Stream<List<Item>> filteredItems(FilteredItemsRef ref) {
 @riverpod
 Future<String> addItemDestination(AddItemDestinationRef ref) async {
   final canAddItem = await ref.watch(canAddItemProvider.future);
-  return canAddItem ? '/items/add' : '/paywall';
+  return canAddItem ? '/items/add' : '/paywall?gate=true';
 }
 
 @riverpod

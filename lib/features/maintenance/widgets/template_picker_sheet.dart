@@ -181,7 +181,7 @@ class _TemplateTile extends StatelessWidget {
       onTap: () {
         if (locked) {
           Navigator.of(context).pop();
-          context.push('/paywall');
+          context.push('/paywall?gate=true');
           return;
         }
         Navigator.of(context).pop(template);

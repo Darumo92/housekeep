@@ -182,7 +182,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(PaywallScreen), findsOneWidget);
-      expect(find.text(l10n.paywallTagline), findsOneWidget);
+      expect(find.text(l10n.paywallHeroTitle), findsOneWidget);
     },
   );
 
@@ -206,10 +206,10 @@ void main() {
 
     final l10n = _l10n(tester);
 
-    await tester.scrollUntilVisible(find.text(l10n.paywallTagline), 100);
+    await tester.scrollUntilVisible(find.text(l10n.paywallHeroTitle), 100);
 
     expect(find.byType(PaywallScreen), findsOneWidget);
-    expect(find.text(l10n.paywallTagline), findsOneWidget);
+    expect(find.text(l10n.paywallHeroTitle), findsOneWidget);
   });
 
   testWidgets('disables the fab while add navigation is in flight', (

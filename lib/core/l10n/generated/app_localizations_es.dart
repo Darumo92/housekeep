@@ -1020,6 +1020,48 @@ class AppLocalizationsEs extends AppLocalizations {
       'Productos no disponibles ahora mismo. Inténtalo más tarde.';
 
   @override
+  String get paywallHeroTitle => 'Pasa a HouseKeep Pro';
+
+  @override
+  String get paywallSubtitle => 'Un pago único. Para siempre.';
+
+  @override
+  String get paywallOnce => 'pago único';
+
+  @override
+  String get paywallUnlockCta => 'Desbloquear Pro';
+
+  @override
+  String get paywallSkip => 'Ahora no';
+
+  @override
+  String get paywallGateTitle => 'Has llegado al límite gratuito';
+
+  @override
+  String get paywallGateSub =>
+      'El plan gratuito incluye 5 cosas y 3 documentos. Pasa a Pro para no tener límites.';
+
+  @override
+  String get paywallBenefitUnlimited => 'Cosas y documentos ilimitados';
+
+  @override
+  String get paywallBenefitMultiReminder => 'Múltiples avisos por elemento';
+
+  @override
+  String get paywallBenefitWidget => 'Widget de pantalla de inicio';
+
+  @override
+  String get paywallBenefitPdf => 'Exporta a PDF y comparte con tu pareja';
+
+  @override
+  String get paywallBenefitTemplates =>
+      'Plantillas Pro: piscina, jardín, placas solares';
+
+  @override
+  String get paywallPurchaseError =>
+      'No se pudo completar la compra. Inténtalo de nuevo.';
+
+  @override
   String get onboardingPage1Title => 'Tu casa tiene memoria.';
 
   @override
@@ -1259,6 +1301,21 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsLinkOpenFailed => 'No se pudo abrir el enlace';
+
+  @override
+  String get settingsPlanFreeSub => '5 cosas · 3 documentos';
+
+  @override
+  String get settingsPlanProSub => 'Todas las funciones desbloqueadas';
+
+  @override
+  String get settingsProActive => 'Activo';
+
+  @override
+  String get settingsSectionPreferences => 'Preferencias';
+
+  @override
+  String get settingsFooter => 'HOUSEKEEP · MADE WITH CARE';
 
   @override
   String get itemSavedSuccess => 'Artículo guardado';
