@@ -19,6 +19,7 @@ import '../../domain/models/item.dart';
 import '../../domain/models/maintenance.dart';
 import '../../shared/widgets/confirm_dialog.dart';
 import '../../shared/widgets/error_state.dart';
+import '../../shared/widgets/hk_action_sheet.dart';
 import '../../shared/widgets/hk_button.dart';
 import '../../shared/widgets/hk_card.dart';
 import '../../shared/widgets/hk_category_tile.dart';
@@ -86,7 +87,12 @@ class _ItemDetailBody extends ConsumerWidget {
 
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(child: _HeroBlock(item: item)),
+        SliverToBoxAdapter(
+          child: _HeroBlock(
+            item: item,
+            onMore: () => _showItemActions(context, ref, item),
+          ),
+        ),
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(22, 32, 22, 100),
           sliver: SliverList(
@@ -161,6 +167,32 @@ class _ItemDetailBody extends ConsumerWidget {
     if (item.model != null && item.model!.isNotEmpty) item.model!,
   ].join(' ');
 
+  Future<void> _showItemActions(
+    BuildContext context,
+    WidgetRef ref,
+    Item item,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final selected = await showHkActionSheet(
+      context,
+      title: item.name,
+      actions: [
+        HkSheetAction(icon: Symbols.edit_rounded, label: l10n.itemEdit),
+        HkSheetAction(
+          icon: Symbols.delete_outline_rounded,
+          label: l10n.itemDelete,
+          destructive: true,
+        ),
+      ],
+    );
+    if (!context.mounted) return;
+    if (selected == 0) {
+      context.push('/items/${item.id}/edit');
+    } else if (selected == 1) {
+      await _deleteItem(context, ref, item);
+    }
+  }
+
   Future<void> _deleteItem(
     BuildContext context,
     WidgetRef ref,
@@ -201,9 +233,10 @@ class _ItemDetailBody extends ConsumerWidget {
 }
 
 class _HeroBlock extends StatelessWidget {
-  const _HeroBlock({required this.item});
+  const _HeroBlock({required this.item, this.onMore});
 
   final Item item;
+  final VoidCallback? onMore;
 
   @override
   Widget build(BuildContext context) {
@@ -224,9 +257,9 @@ class _HeroBlock extends StatelessWidget {
           Positioned(
             top: 14 + MediaQuery.paddingOf(context).top,
             right: 14,
-            child: const _CircleIconButton(
+            child: _CircleIconButton(
               icon: Symbols.more_horiz_rounded,
-              onTap: null,
+              onTap: onMore,
             ),
           ),
           Positioned(

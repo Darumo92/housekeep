@@ -8,6 +8,7 @@ class WidgetEvent {
     required this.dueText,
     required this.urgency,
     required this.route,
+    required this.iconKey,
   });
 
   final String title;
@@ -15,6 +16,17 @@ class WidgetEvent {
   final String dueText;
   final UrgencyLevel urgency;
   final String route;
+
+  /// "maintenance" | "warranty" | "document" — maps to the widget icon tile.
+  final String iconKey;
+}
+
+String iconKeyForEvent(UpcomingEvent event) {
+  return switch (event.type) {
+    UpcomingEventType.maintenance => 'maintenance',
+    UpcomingEventType.warranty => 'warranty',
+    UpcomingEventType.document => 'document',
+  };
 }
 
 class WidgetSnapshot {
@@ -24,6 +36,15 @@ class WidgetSnapshot {
     required this.allClearText,
     required this.upgradeTitle,
     required this.upgradeSubtitle,
+    required this.pendingCount,
+    required this.soonCount,
+    required this.weekCount,
+    required this.brand,
+    required this.pendingLabel,
+    required this.soonLabel,
+    required this.thingsPendingLabel,
+    required this.thisWeekLabel,
+    required this.nextLabel,
   });
 
   final bool isPro;
@@ -31,6 +52,22 @@ class WidgetSnapshot {
   final String allClearText;
   final String upgradeTitle;
   final String upgradeSubtitle;
+
+  /// Overdue + urgent events ("pendientes").
+  final int pendingCount;
+
+  /// Upcoming events ("pronto").
+  final int soonCount;
+
+  /// Events due within the next 7 days ("esta semana").
+  final int weekCount;
+
+  final String brand;
+  final String pendingLabel;
+  final String soonLabel;
+  final String thingsPendingLabel;
+  final String thisWeekLabel;
+  final String nextLabel;
 }
 
 String routeForEvent(UpcomingEvent event) {

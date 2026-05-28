@@ -18,6 +18,8 @@ class NotificationService {
   bool _initialized = false;
   bool get isInitialized => _initialized;
 
+  bool enabled = true;
+
   FlutterLocalNotificationsPlugin get plugin => _plugin;
 
   Future<void> init() async {
@@ -77,10 +79,14 @@ class NotificationService {
     bool exactAlarms = true;
 
     if (androidImpl != null) {
+      // requestNotificationsPermission returns null on Android < 13, where the
+      // runtime permission does not exist and notifications are on by default.
+      final notifResult = await androidImpl.requestNotificationsPermission();
       notifications =
-          await androidImpl.requestNotificationsPermission() ?? false;
-      exactAlarms =
-          await androidImpl.requestExactAlarmsPermission() ?? false;
+          notifResult ?? await androidImpl.areNotificationsEnabled() ?? true;
+      // requestExactAlarmsPermission returns null on Android < 12, where exact
+      // alarms are allowed without a permission.
+      exactAlarms = await androidImpl.requestExactAlarmsPermission() ?? true;
     }
     if (iosImpl != null) {
       notifications =
@@ -123,7 +129,7 @@ class NotificationService {
     required DateTime when,
     String? payload,
   }) async {
-    if (!_initialized) return false;
+    if (!_initialized || !enabled) return false;
     final now = DateTime.now();
     if (!when.isAfter(now)) return false;
 
@@ -152,6 +158,39 @@ class NotificationService {
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       payload: payload,
+    );
+    return true;
+  }
+
+  /// Schedules a one-off notification 10 seconds from now, bypassing the
+  /// enabled flag. Used by the debug action to verify the channel and exact
+  /// alarm path fire on the device.
+  Future<bool> scheduleTestNotification({
+    required String title,
+    required String body,
+  }) async {
+    if (!_initialized) return false;
+    final when = tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10));
+
+    const androidDetails = AndroidNotificationDetails(
+      channelId,
+      channelName,
+      channelDescription: channelDescription,
+      importance: Importance.high,
+      priority: Priority.high,
+    );
+    const iosDetails = DarwinNotificationDetails();
+    const details = NotificationDetails(android: androidDetails, iOS: iosDetails);
+
+    await _plugin.zonedSchedule(
+      2147483646,
+      title,
+      body,
+      when,
+      details,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
     );
     return true;
   }

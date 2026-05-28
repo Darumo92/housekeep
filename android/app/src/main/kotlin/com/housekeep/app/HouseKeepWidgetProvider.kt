@@ -53,6 +53,11 @@ class HouseKeepWidgetProvider : AppWidgetProvider() {
         }
         val views = RemoteViews(context.packageName, layoutId)
 
+        views.setTextViewText(
+            R.id.widget_brand,
+            data.getString("label_brand", "HouseKeep") ?: "HouseKeep",
+        )
+
         val isPro = data.getBoolean("is_pro", false)
         val eventCount = data.getInt("event_count", 0)
 
@@ -70,6 +75,30 @@ class HouseKeepWidgetProvider : AppWidgetProvider() {
         return views
     }
 
+    private fun renderBadges(views: RemoteViews, data: SharedPreferences) {
+        val pending = data.getInt("pending_count", 0)
+        val soon = data.getInt("soon_count", 0)
+        if (pending > 0) {
+            val label = data.getString("label_pending", "pendientes") ?: "pendientes"
+            views.setTextViewText(R.id.widget_badge_pending, "$pending $label")
+            views.setViewVisibility(R.id.widget_badge_pending, View.VISIBLE)
+        } else {
+            views.setViewVisibility(R.id.widget_badge_pending, View.GONE)
+        }
+        if (soon > 0) {
+            val label = data.getString("label_soon", "pronto") ?: "pronto"
+            views.setTextViewText(R.id.widget_badge_soon, "$soon $label")
+            views.setViewVisibility(R.id.widget_badge_soon, View.VISIBLE)
+        } else {
+            views.setViewVisibility(R.id.widget_badge_soon, View.GONE)
+        }
+    }
+
+    private fun hideBadges(views: RemoteViews) {
+        views.setViewVisibility(R.id.widget_badge_pending, View.GONE)
+        views.setViewVisibility(R.id.widget_badge_soon, View.GONE)
+    }
+
     private fun renderUpgrade(
         context: Context,
         views: RemoteViews,
@@ -77,6 +106,7 @@ class HouseKeepWidgetProvider : AppWidgetProvider() {
     ) {
         val title = data.getString("upgrade_title", "Hazte PRO") ?: "Hazte PRO"
         val subtitle = data.getString("upgrade_subtitle", "") ?: ""
+        hideBadges(views)
         views.setViewVisibility(R.id.widget_state_message, View.VISIBLE)
         views.setViewVisibility(R.id.widget_state_subtitle, View.VISIBLE)
         views.setViewVisibility(R.id.widget_events_container, View.GONE)
@@ -94,6 +124,7 @@ class HouseKeepWidgetProvider : AppWidgetProvider() {
         data: SharedPreferences,
     ) {
         val text = data.getString("all_clear_text", "Todo al día ✓") ?: "Todo al día ✓"
+        hideBadges(views)
         views.setViewVisibility(R.id.widget_state_message, View.VISIBLE)
         views.setViewVisibility(R.id.widget_state_subtitle, View.GONE)
         views.setViewVisibility(R.id.widget_events_container, View.GONE)
@@ -110,6 +141,7 @@ class HouseKeepWidgetProvider : AppWidgetProvider() {
         data: SharedPreferences,
         useMedium: Boolean,
     ) {
+        renderBadges(views, data)
         views.setViewVisibility(R.id.widget_state_message, View.GONE)
         views.setViewVisibility(R.id.widget_state_subtitle, View.GONE)
         views.setViewVisibility(R.id.widget_events_container, View.VISIBLE)
@@ -169,6 +201,13 @@ class HouseKeepWidgetProvider : AppWidgetProvider() {
             )
             val route = data.getString("event_${i}_route", "/") ?: "/"
             views.setOnClickPendingIntent(ids.container, launchIntent(context, route))
+
+            if (useMedium && i == 0) {
+                views.setImageViewResource(
+                    R.id.widget_event_0_icon,
+                    WidgetCommon.iconRes(data.getString("event_0_icon", "document")),
+                )
+            }
         }
     }
 

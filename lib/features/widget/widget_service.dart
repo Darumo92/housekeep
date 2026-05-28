@@ -18,6 +18,13 @@ class WidgetStrings {
     required this.inDaysPlural,
     required this.overdueSingular,
     required this.overduePlural,
+    required this.brand,
+    required this.pendingLabel,
+    required this.soonLabel,
+    required this.thingsPendingLabel,
+    required this.thisWeekLabel,
+    required this.nextLabel,
+    required this.untilDateTemplate,
   });
 
   final String allClear;
@@ -29,6 +36,15 @@ class WidgetStrings {
   final String inDaysPlural;
   final String overdueSingular;
   final String overduePlural;
+  final String brand;
+  final String pendingLabel;
+  final String soonLabel;
+  final String thingsPendingLabel;
+  final String thisWeekLabel;
+  final String nextLabel;
+  final String untilDateTemplate;
+
+  String untilDate(String date) => untilDateTemplate.replaceAll('{d}', date);
 
   String dueInDays(int days) {
     final template = days == 1 ? inDaysSingular : inDaysPlural;
@@ -53,6 +69,13 @@ WidgetStrings widgetStringsFor(String localeCode) {
       inDaysPlural: 'In {n} days',
       overdueSingular: 'Overdue by {n} day',
       overduePlural: 'Overdue by {n} days',
+      brand: 'HouseKeep',
+      pendingLabel: 'pending',
+      soonLabel: 'soon',
+      thingsPendingLabel: 'things to do',
+      thisWeekLabel: 'this week',
+      nextLabel: 'NEXT',
+      untilDateTemplate: 'until {d}',
     );
   }
   return const WidgetStrings(
@@ -65,6 +88,13 @@ WidgetStrings widgetStringsFor(String localeCode) {
     inDaysPlural: 'En {n} días',
     overdueSingular: 'Retrasado {n} día',
     overduePlural: 'Retrasado {n} días',
+    brand: 'HouseKeep',
+    pendingLabel: 'pendientes',
+    soonLabel: 'pronto',
+    thingsPendingLabel: 'cosas pendientes',
+    thisWeekLabel: 'esta semana',
+    nextLabel: 'PRÓXIMO',
+    untilDateTemplate: 'hasta el {d}',
   );
 }
 
@@ -81,15 +111,29 @@ class WidgetSnapshotBuilder {
     DateTime? now,
   }) {
     final reference = now ?? DateTime.now();
+    final pending = events
+        .where((e) =>
+            e.urgency == UrgencyLevel.overdue ||
+            e.urgency == UrgencyLevel.urgent)
+        .length;
+    final soon =
+        events.where((e) => e.urgency == UrgencyLevel.upcoming).length;
+    final week = events.where((e) {
+      final days = DateCalculations.calendarDaysUntil(e.dueDate, reference);
+      return days >= 0 && days <= 7;
+    }).length;
     final filtered = events
         .where((e) => e.urgency != UrgencyLevel.ok)
         .take(maxEvents)
         .map((e) => WidgetEvent(
               title: e.title,
-              subtitle: e.subtitle,
+              subtitle: e.subtitle.isNotEmpty
+                  ? e.subtitle
+                  : strings.untilDate(DateFormat('yyyy-MM-dd').format(e.dueDate)),
               dueText: _formatDue(e.dueDate, reference, localeCode, strings),
               urgency: e.urgency,
               route: routeForEvent(e),
+              iconKey: iconKeyForEvent(e),
             ))
         .toList(growable: false);
 
@@ -99,6 +143,15 @@ class WidgetSnapshotBuilder {
       allClearText: strings.allClear,
       upgradeTitle: strings.upgradeTitle,
       upgradeSubtitle: strings.upgradeSubtitle,
+      pendingCount: pending,
+      soonCount: soon,
+      weekCount: week,
+      brand: strings.brand,
+      pendingLabel: strings.pendingLabel,
+      soonLabel: strings.soonLabel,
+      thingsPendingLabel: strings.thingsPendingLabel,
+      thisWeekLabel: strings.thisWeekLabel,
+      nextLabel: strings.nextLabel,
     );
   }
 
@@ -121,6 +174,8 @@ class WidgetService {
   WidgetService({this.maxEvents = 3});
 
   static const androidProviderName = 'HouseKeepWidgetProvider';
+  static const androidCountProviderName = 'HouseKeepCountWidgetProvider';
+  static const androidNextProviderName = 'HouseKeepNextWidgetProvider';
   static const iosWidgetName = 'HouseKeepWidget';
   static const appGroupId = 'group.com.housekeep.app.widget';
 
@@ -157,6 +212,27 @@ class WidgetService {
         'upgrade_subtitle',
         snapshot.upgradeSubtitle,
       );
+      await HomeWidget.saveWidgetData<int>(
+        'pending_count',
+        snapshot.pendingCount,
+      );
+      await HomeWidget.saveWidgetData<int>('soon_count', snapshot.soonCount);
+      await HomeWidget.saveWidgetData<int>('week_count', snapshot.weekCount);
+      await HomeWidget.saveWidgetData<String>('label_brand', snapshot.brand);
+      await HomeWidget.saveWidgetData<String>(
+        'label_pending',
+        snapshot.pendingLabel,
+      );
+      await HomeWidget.saveWidgetData<String>('label_soon', snapshot.soonLabel);
+      await HomeWidget.saveWidgetData<String>(
+        'label_things',
+        snapshot.thingsPendingLabel,
+      );
+      await HomeWidget.saveWidgetData<String>(
+        'label_week',
+        snapshot.thisWeekLabel,
+      );
+      await HomeWidget.saveWidgetData<String>('label_next', snapshot.nextLabel);
 
       for (var i = 0; i < maxEvents; i++) {
         if (i < snapshot.events.length) {
@@ -182,6 +258,10 @@ class WidgetService {
             'event_${i}_route',
             event.route,
           );
+          await HomeWidget.saveWidgetData<String>(
+            'event_${i}_icon',
+            event.iconKey,
+          );
         } else {
           await HomeWidget.saveWidgetData<bool>('event_${i}_visible', false);
           await HomeWidget.saveWidgetData<String>('event_${i}_title', '');
@@ -189,6 +269,7 @@ class WidgetService {
           await HomeWidget.saveWidgetData<String>('event_${i}_due', '');
           await HomeWidget.saveWidgetData<String>('event_${i}_urgency', '');
           await HomeWidget.saveWidgetData<String>('event_${i}_route', '');
+          await HomeWidget.saveWidgetData<String>('event_${i}_icon', '');
         }
       }
 
@@ -196,6 +277,8 @@ class WidgetService {
         androidName: androidProviderName,
         iOSName: iosWidgetName,
       );
+      await HomeWidget.updateWidget(androidName: androidCountProviderName);
+      await HomeWidget.updateWidget(androidName: androidNextProviderName);
     } catch (e, st) {
       debugPrint('[WidgetService] publish failed: $e\n$st');
     }
@@ -205,6 +288,9 @@ class WidgetService {
     final prev = _lastSnapshot;
     if (prev == null) return false;
     if (prev.isPro != snapshot.isPro) return false;
+    if (prev.pendingCount != snapshot.pendingCount) return false;
+    if (prev.soonCount != snapshot.soonCount) return false;
+    if (prev.weekCount != snapshot.weekCount) return false;
     if (prev.events.length != snapshot.events.length) return false;
     for (var i = 0; i < snapshot.events.length; i++) {
       final a = prev.events[i];

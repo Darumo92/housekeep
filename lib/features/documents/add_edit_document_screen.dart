@@ -54,6 +54,24 @@ class _AddEditDocumentScreenState extends ConsumerState<AddEditDocumentScreen> {
   bool get _supportsCameraCapture => Platform.isAndroid || Platform.isIOS;
 
   @override
+  void initState() {
+    super.initState();
+    if (_supportsCameraCapture) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _recoverLostPhoto());
+    }
+  }
+
+  Future<void> _recoverLostPhoto() async {
+    try {
+      final photoService = await ref.read(photoServiceProvider.future);
+      final recovered = await photoService.recoverLostPhoto();
+      if (recovered != null) await _replacePhoto(recovered, photoService);
+    } on PhotoPickerException catch (e) {
+      if (mounted) showPhotoPickerError(context, e);
+    }
+  }
+
+  @override
   void dispose() {
     _nameController.dispose();
     _notesController.dispose();

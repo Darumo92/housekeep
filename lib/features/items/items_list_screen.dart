@@ -31,14 +31,7 @@ class ItemsListScreen extends ConsumerStatefulWidget {
 class _ItemsListScreenState extends ConsumerState<ItemsListScreen> {
   bool _navigatingToAdd = false;
 
-  static const _filterCategories = <ItemCategory>[
-    ItemCategory.kitchen,
-    ItemCategory.bathroom,
-    ItemCategory.laundry,
-    ItemCategory.living,
-    ItemCategory.garage,
-    ItemCategory.garden,
-  ];
+  static const _filterCategories = ItemCategory.values;
 
   Future<void> _navigateToAdd() async {
     if (_navigatingToAdd) return;

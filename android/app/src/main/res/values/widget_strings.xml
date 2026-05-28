@@ -2,4 +2,7 @@
 <resources>
     <string name="widget_description">Próximos mantenimientos y vencimientos de HouseKeep</string>
     <string name="widget_label">HouseKeep</string>
+    <string name="widget_label_list">HouseKeep · Lista</string>
+    <string name="widget_label_count">HouseKeep · Resumen</string>
+    <string name="widget_label_next">HouseKeep · Próximo</string>
 </resources>

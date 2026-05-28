@@ -8,6 +8,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../../../core/utils/date_calculations.dart';
 import '../../../domain/models/document.dart';
+import '../../../shared/widgets/hk_action_sheet.dart';
 import '../../../shared/widgets/hk_card.dart';
 import '../../../shared/widgets/hk_status_pill.dart';
 
@@ -85,7 +86,7 @@ class DocumentCard extends StatelessWidget {
             ),
           ),
           HkStatusPill(status: status, label: statusLabel),
-          PopupMenuButton<_CardAction>(
+          IconButton(
             icon: const Icon(
               Symbols.more_vert_rounded,
               color: AppColors.textFaint,
@@ -93,31 +94,36 @@ class DocumentCard extends StatelessWidget {
             iconSize: 20,
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 34, minHeight: 44),
-            onSelected: (action) {
-              switch (action) {
-                case _CardAction.edit:
-                  onTap();
-                  break;
-                case _CardAction.delete:
-                  onDelete();
-                  break;
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: _CardAction.edit,
-                child: Text(l10n.documentEdit),
-              ),
-              PopupMenuItem(
-                value: _CardAction.delete,
-                child: Text(l10n.documentDelete),
-              ),
-            ],
+            onPressed: () => _showActions(context, l10n),
           ),
         ],
       ),
     );
   }
-}
 
-enum _CardAction { edit, delete }
+  Future<void> _showActions(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) async {
+    final selected = await showHkActionSheet(
+      context,
+      title: document.name,
+      actions: [
+        HkSheetAction(icon: Symbols.edit_rounded, label: l10n.documentEdit),
+        HkSheetAction(
+          icon: Symbols.delete_outline_rounded,
+          label: l10n.documentDelete,
+          destructive: true,
+        ),
+      ],
+    );
+    switch (selected) {
+      case 0:
+        onTap();
+        break;
+      case 1:
+        onDelete();
+        break;
+    }
+  }
+}

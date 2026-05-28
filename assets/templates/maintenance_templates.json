@@ -99,6 +99,39 @@
     "is_pro": false
   },
   {
+    "id": "kettle_descale",
+    "name_en": "Kettle descaling",
+    "name_es": "Descalcificación del hervidor",
+    "category": "kitchen",
+    "interval_months": 3,
+    "description_en": "Boil a water and vinegar mix to remove limescale build-up.",
+    "description_es": "Hierve una mezcla de agua y vinagre para eliminar la cal.",
+    "notify_days_before": 3,
+    "is_pro": false
+  },
+  {
+    "id": "microwave_clean",
+    "name_en": "Microwave deep cleaning",
+    "name_es": "Limpieza profunda del microondas",
+    "category": "kitchen",
+    "interval_months": 2,
+    "description_en": "Steam-clean the interior and wipe down the turntable.",
+    "description_es": "Limpia el interior con vapor y repasa el plato giratorio.",
+    "notify_days_before": 3,
+    "is_pro": false
+  },
+  {
+    "id": "garbage_disposal_service",
+    "name_en": "Garbage disposal maintenance",
+    "name_es": "Mantenimiento del triturador de residuos",
+    "category": "kitchen",
+    "interval_months": 6,
+    "description_en": "Grind ice and citrus peel to clean and deodorise the unit.",
+    "description_es": "Tritura hielo y piel de cítricos para limpiar y desodorizar.",
+    "notify_days_before": 5,
+    "is_pro": true
+  },
+  {
     "id": "smoke_detector_test",
     "name_en": "Smoke detector test",
     "name_es": "Prueba del detector de humo",
@@ -119,6 +152,50 @@
     "description_es": "Sustituye la pila de 9V en cada detector de la casa.",
     "notify_days_before": 7,
     "is_pro": false
+  },
+  {
+    "id": "co_detector_test",
+    "name_en": "Carbon monoxide detector test",
+    "name_es": "Prueba del detector de monóxido de carbono",
+    "category": "security",
+    "interval_months": 6,
+    "description_en": "Test the CO alarm and check the sensor expiry date.",
+    "description_es": "Prueba la alarma de CO y revisa la caducidad del sensor.",
+    "notify_days_before": 5,
+    "is_pro": false
+  },
+  {
+    "id": "fire_extinguisher_check",
+    "name_en": "Fire extinguisher check",
+    "name_es": "Revisión del extintor",
+    "category": "security",
+    "interval_months": 12,
+    "description_en": "Check the pressure gauge, seal and accessibility of the extinguisher.",
+    "description_es": "Comprueba el manómetro, el precinto y el acceso al extintor.",
+    "notify_days_before": 14,
+    "is_pro": false
+  },
+  {
+    "id": "alarm_system_test",
+    "name_en": "Alarm system test",
+    "name_es": "Prueba del sistema de alarma",
+    "category": "security",
+    "interval_months": 3,
+    "description_en": "Test sensors, sirens and the backup battery of the alarm.",
+    "description_es": "Prueba sensores, sirenas y la batería de respaldo de la alarma.",
+    "notify_days_before": 5,
+    "is_pro": true
+  },
+  {
+    "id": "security_camera_service",
+    "name_en": "Security camera maintenance",
+    "name_es": "Mantenimiento de cámaras de seguridad",
+    "category": "security",
+    "interval_months": 6,
+    "description_en": "Clean lenses, check angles and update camera firmware.",
+    "description_es": "Limpia las lentes, revisa los ángulos y actualiza el firmware.",
+    "notify_days_before": 7,
+    "is_pro": true
   },
   {
     "id": "drain_treatment",
@@ -143,6 +220,28 @@
     "is_pro": false
   },
   {
+    "id": "grout_cleaning",
+    "name_en": "Tile grout cleaning",
+    "name_es": "Limpieza de juntas de azulejos",
+    "category": "bathroom",
+    "interval_months": 6,
+    "description_en": "Scrub grout lines and reseal them to prevent mould.",
+    "description_es": "Frota las juntas y séllalas de nuevo para evitar el moho.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "bathroom_fan_clean",
+    "name_en": "Bathroom extractor fan cleaning",
+    "name_es": "Limpieza del extractor del baño",
+    "category": "bathroom",
+    "interval_months": 12,
+    "description_en": "Remove the cover and clean dust from the extractor fan blades.",
+    "description_es": "Retira la tapa y limpia el polvo de las aspas del extractor.",
+    "notify_days_before": 7,
+    "is_pro": true
+  },
+  {
     "id": "water_heater_descaling",
     "name_en": "Water heater descaling",
     "name_es": "Descalcificación del termo eléctrico",
@@ -154,6 +253,39 @@
     "is_pro": false
   },
   {
+    "id": "water_softener_salt",
+    "name_en": "Water softener salt refill",
+    "name_es": "Recarga de sal del descalcificador",
+    "category": "plumbing",
+    "interval_months": 2,
+    "description_en": "Check the brine tank and top up with softener salt.",
+    "description_es": "Revisa el depósito de salmuera y rellena con sal.",
+    "notify_days_before": 5,
+    "is_pro": false
+  },
+  {
+    "id": "washing_machine_inlet_filter",
+    "name_en": "Washing machine inlet filter clean",
+    "name_es": "Limpieza del filtro de entrada de la lavadora",
+    "category": "plumbing",
+    "interval_months": 6,
+    "description_en": "Close the tap and rinse the inlet hose mesh filter.",
+    "description_es": "Cierra la llave y enjuaga la malla del filtro de entrada.",
+    "notify_days_before": 5,
+    "is_pro": false
+  },
+  {
+    "id": "stopcock_valve_test",
+    "name_en": "Main shut-off valve test",
+    "name_es": "Prueba de la llave de paso general",
+    "category": "plumbing",
+    "interval_months": 12,
+    "description_en": "Open and close the main valve to keep it from seizing.",
+    "description_es": "Abre y cierra la llave general para que no se agarrote.",
+    "notify_days_before": 7,
+    "is_pro": true
+  },
+  {
     "id": "electrical_panel_check",
     "name_en": "Electrical panel inspection",
     "name_es": "Revisión del cuadro eléctrico",
@@ -163,6 +295,39 @@
     "description_es": "Prueba el diferencial y revisa los magnetotérmicos.",
     "notify_days_before": 7,
     "is_pro": false
+  },
+  {
+    "id": "extension_cords_check",
+    "name_en": "Cables and power strips check",
+    "name_es": "Revisión de cables y regletas",
+    "category": "electrical",
+    "interval_months": 12,
+    "description_en": "Inspect cables and power strips for wear, heat or overload.",
+    "description_es": "Revisa cables y regletas por desgaste, calor o sobrecarga.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "solar_panel_clean",
+    "name_en": "Solar panel cleaning",
+    "name_es": "Limpieza de placas solares",
+    "category": "electrical",
+    "interval_months": 6,
+    "description_en": "Wash panels with soft water in early morning to maximise yield.",
+    "description_es": "Limpia las placas con agua suave a primera hora para optimizar.",
+    "notify_days_before": 7,
+    "is_pro": true
+  },
+  {
+    "id": "ups_battery_check",
+    "name_en": "UPS / backup battery check",
+    "name_es": "Revisión de la batería del SAI",
+    "category": "electrical",
+    "interval_months": 12,
+    "description_en": "Run a self-test and verify the backup battery holds charge.",
+    "description_es": "Lanza un autotest y verifica que la batería mantiene la carga.",
+    "notify_days_before": 7,
+    "is_pro": true
   },
   {
     "id": "garden_irrigation_check",
@@ -187,13 +352,35 @@
     "is_pro": true
   },
   {
-    "id": "solar_panel_clean",
-    "name_en": "Solar panel cleaning",
-    "name_es": "Limpieza de placas solares",
-    "category": "electrical",
+    "id": "lawn_fertilize",
+    "name_en": "Lawn fertilising",
+    "name_es": "Abonado del césped",
+    "category": "garden",
+    "interval_months": 4,
+    "description_en": "Apply seasonal fertiliser and water the lawn afterwards.",
+    "description_es": "Aplica abono de temporada y riega el césped después.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "hedge_trim",
+    "name_en": "Hedge trimming",
+    "name_es": "Poda de setos",
+    "category": "garden",
+    "interval_months": 3,
+    "description_en": "Trim hedges and shrubs to keep their shape and health.",
+    "description_es": "Recorta setos y arbustos para mantener forma y salud.",
+    "notify_days_before": 5,
+    "is_pro": false
+  },
+  {
+    "id": "gutter_clean",
+    "name_en": "Gutter cleaning",
+    "name_es": "Limpieza de canalones",
+    "category": "garden",
     "interval_months": 6,
-    "description_en": "Wash panels with soft water in early morning to maximise yield.",
-    "description_es": "Limpia las placas con agua suave a primera hora para optimizar.",
+    "description_en": "Clear leaves and debris from gutters and downpipes.",
+    "description_es": "Retira hojas y suciedad de canalones y bajantes.",
     "notify_days_before": 7,
     "is_pro": true
   },
@@ -209,6 +396,28 @@
     "is_pro": false
   },
   {
+    "id": "garage_door_motor_service",
+    "name_en": "Garage door motor service",
+    "name_es": "Mantenimiento del motor del garaje",
+    "category": "garage",
+    "interval_months": 12,
+    "description_en": "Test the auto-reverse safety and check the opener motor.",
+    "description_es": "Prueba el retroceso de seguridad y revisa el motor automático.",
+    "notify_days_before": 7,
+    "is_pro": true
+  },
+  {
+    "id": "tools_rust_check",
+    "name_en": "Tools and metal parts check",
+    "name_es": "Revisión de herramientas y piezas metálicas",
+    "category": "garage",
+    "interval_months": 6,
+    "description_en": "Wipe down tools and apply oil to prevent rust.",
+    "description_es": "Repasa las herramientas y aplica aceite para evitar óxido.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
     "id": "mattress_rotation",
     "name_en": "Mattress rotation",
     "name_es": "Rotación del colchón",
@@ -217,6 +426,105 @@
     "description_en": "Rotate or flip the mattress to extend its life.",
     "description_es": "Gira o voltea el colchón para prolongar su vida útil.",
     "notify_days_before": 5,
+    "is_pro": false
+  },
+  {
+    "id": "wardrobe_moth_prevention",
+    "name_en": "Wardrobe moth prevention",
+    "name_es": "Prevención de polillas en el armario",
+    "category": "bedroom",
+    "interval_months": 6,
+    "description_en": "Air the wardrobe and refresh anti-moth sachets.",
+    "description_es": "Ventila el armario y renueva las bolsitas antipolillas.",
+    "notify_days_before": 5,
+    "is_pro": false
+  },
+  {
+    "id": "pillows_replacement",
+    "name_en": "Pillows replacement",
+    "name_es": "Renovación de almohadas",
+    "category": "bedroom",
+    "interval_months": 24,
+    "description_en": "Replace pillows that have lost support for better sleep.",
+    "description_es": "Sustituye las almohadas que han perdido firmeza.",
+    "notify_days_before": 14,
+    "is_pro": true
+  },
+  {
+    "id": "dryer_lint_clean",
+    "name_en": "Dryer lint filter cleaning",
+    "name_es": "Limpieza del filtro de pelusa de la secadora",
+    "category": "laundry",
+    "interval_months": 1,
+    "description_en": "Empty the lint trap and check the exhaust for blockages.",
+    "description_es": "Vacía el filtro de pelusa y revisa la salida de aire.",
+    "notify_days_before": 3,
+    "is_pro": false
+  },
+  {
+    "id": "iron_descale",
+    "name_en": "Steam iron descaling",
+    "name_es": "Descalcificación de la plancha de vapor",
+    "category": "laundry",
+    "interval_months": 3,
+    "description_en": "Run the self-clean cycle to clear limescale from the iron.",
+    "description_es": "Lanza el ciclo de autolimpieza para eliminar la cal.",
+    "notify_days_before": 5,
+    "is_pro": false
+  },
+  {
+    "id": "washing_machine_hoses",
+    "name_en": "Washing machine hoses inspection",
+    "name_es": "Revisión de las mangueras de la lavadora",
+    "category": "laundry",
+    "interval_months": 12,
+    "description_en": "Check inlet and drain hoses for cracks or leaks.",
+    "description_es": "Revisa las mangueras de entrada y desagüe por grietas o fugas.",
+    "notify_days_before": 7,
+    "is_pro": true
+  },
+  {
+    "id": "windows_seals_check",
+    "name_en": "Windows and door seals check",
+    "name_es": "Revisión de juntas de ventanas y puertas",
+    "category": "living",
+    "interval_months": 12,
+    "description_en": "Inspect weather seals and replace worn strips to save energy.",
+    "description_es": "Revisa las juntas y cambia las gastadas para ahorrar energía.",
+    "notify_days_before": 7,
+    "is_pro": false
+  },
+  {
+    "id": "sofa_deep_clean",
+    "name_en": "Upholstery deep cleaning",
+    "name_es": "Limpieza profunda de tapicería",
+    "category": "living",
+    "interval_months": 12,
+    "description_en": "Vacuum and shampoo sofas and fabric chairs.",
+    "description_es": "Aspira y aplica champú a sofás y sillas de tela.",
+    "notify_days_before": 7,
+    "is_pro": true
+  },
+  {
+    "id": "home_seasonal_inspection",
+    "name_en": "Seasonal home inspection",
+    "name_es": "Inspección estacional de la vivienda",
+    "category": "general",
+    "interval_months": 6,
+    "description_en": "Walk through the home checking damp, cracks and wear.",
+    "description_es": "Recorre la casa revisando humedades, grietas y desgaste.",
+    "notify_days_before": 7,
+    "is_pro": true
+  },
+  {
+    "id": "first_aid_kit_check",
+    "name_en": "First aid kit check",
+    "name_es": "Revisión del botiquín",
+    "category": "general",
+    "interval_months": 12,
+    "description_en": "Check expiry dates and restock the first aid kit.",
+    "description_es": "Revisa caducidades y repón el botiquín.",
+    "notify_days_before": 14,
     "is_pro": false
   }
 ]

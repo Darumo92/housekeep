@@ -3,12 +3,15 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../data/repositories/repository_providers.dart';
+import '../../data/services/notification_providers.dart';
+import '../../data/services/notification_strings.dart';
 import '../onboarding/onboarding_provider.dart';
 
 part 'settings_provider.g.dart';
 
 const _kLocaleKey = 'settings.locale';
-const _kNotificationsEnabledKey = 'settings.notifications_enabled';
+const kNotificationsEnabledPrefKey = 'settings.notifications_enabled';
 
 enum LocalePreference {
   system(null),
@@ -58,7 +61,8 @@ class SettingsController extends _$SettingsController {
     final prefs = ref.watch(sharedPreferencesAsyncProvider);
     final localeCode = await prefs.getString(_kLocaleKey);
     final notificationsEnabled =
-        await prefs.getBool(_kNotificationsEnabledKey) ?? true;
+        await prefs.getBool(kNotificationsEnabledPrefKey) ?? true;
+    ref.read(notificationServiceProvider).enabled = notificationsEnabled;
     return SettingsState(
       localePreference: LocalePreference.fromCode(localeCode),
       notificationsEnabled: notificationsEnabled,
@@ -76,10 +80,43 @@ class SettingsController extends _$SettingsController {
     state = AsyncData(current.copyWith(localePreference: pref));
   }
 
-  Future<void> setNotificationsEnabled(bool enabled) async {
+  Future<void> setNotificationsEnabled(
+    bool enabled, {
+    NotificationTexts? texts,
+  }) async {
     final prefs = ref.read(sharedPreferencesAsyncProvider);
-    await prefs.setBool(_kNotificationsEnabledKey, enabled);
+    await prefs.setBool(kNotificationsEnabledPrefKey, enabled);
+
+    final service = ref.read(notificationServiceProvider);
+    service.enabled = enabled;
+    if (!enabled) {
+      await service.cancelAll();
+    } else if (texts != null) {
+      await _rescheduleAll(texts);
+    }
+
     final current = await future;
     state = AsyncData(current.copyWith(notificationsEnabled: enabled));
+  }
+
+  Future<void> _rescheduleAll(NotificationTexts texts) async {
+    final isPro = ref.read(isProProvider).valueOrNull ?? false;
+    final scheduler = ref.read(notificationSchedulerProvider);
+    final items = await ref.read(itemsRepositoryProvider).watchItems().first;
+    final maintenances = await ref
+        .read(maintenancesRepositoryProvider)
+        .watchAllMaintenances()
+        .first;
+    final documents = await ref
+        .read(documentsRepositoryProvider)
+        .watchDocuments()
+        .first;
+    await scheduler.rescheduleAll(
+      items: items,
+      maintenances: maintenances,
+      documents: documents,
+      isPro: isPro,
+      texts: texts,
+    );
   }
 }

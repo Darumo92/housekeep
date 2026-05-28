@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 import '../../data/repositories/repository_providers.dart' show isProProvider;
 import '../../domain/enums/urgency_level.dart';
+import '../../domain/models/item.dart';
 import '../../domain/models/upcoming_event.dart';
 import '../../shared/widgets/error_state.dart';
-import '../../shared/widgets/hk_fab.dart';
+import '../../shared/widgets/item_picker_sheet.dart';
+import '../documents/documents_provider.dart';
+import '../items/items_provider.dart';
 import 'home_provider.dart';
+import 'widgets/home_expandable_fab.dart';
 import 'widgets/home_redesign_widgets.dart';
 import 'widgets/home_skeleton.dart';
 
@@ -23,8 +26,29 @@ class HomeScreen extends ConsumerWidget {
     final summaryAsync = ref.watch(homeSummaryProvider);
     final eventsAsync = ref.watch(upcomingEventsProvider(limit: 6));
     final isPro = ref.watch(isProProvider).valueOrNull ?? false;
+    final items = ref.watch(homeItemsProvider).valueOrNull ?? const <Item>[];
 
-    Future<void> addItem() async => context.push('/items/add');
+    Future<void> addItem() async {
+      final destination = await ref.read(addItemDestinationProvider.future);
+      if (context.mounted) context.push(destination);
+    }
+
+    Future<void> addDocument() async {
+      final destination =
+          await ref.read(addDocumentDestinationProvider.future);
+      if (context.mounted) context.push(destination);
+    }
+
+    Future<void> addMaintenance() async {
+      final itemId = await showItemPickerSheet(
+        context,
+        items: items,
+        title: l10n.homeFabAddMaintenance,
+      );
+      if (itemId != null && context.mounted) {
+        context.push('/items/$itemId/maintenance/add');
+      }
+    }
 
     void openEvent(UpcomingEvent event) {
       switch (event.type) {
@@ -44,10 +68,10 @@ class HomeScreen extends ConsumerWidget {
       backgroundColor: AppColors.bg,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 24, right: 4),
-        child: HkFab(
-          icon: Symbols.add_rounded,
-          onPressed: addItem,
-          tooltip: l10n.homeEmptyCta,
+        child: HomeExpandableFab(
+          onAddItem: addItem,
+          onAddMaintenance: items.isEmpty ? null : addMaintenance,
+          onAddDocument: addDocument,
         ),
       ),
       body: RefreshIndicator(

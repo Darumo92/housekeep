@@ -131,6 +131,32 @@ class NotificationScheduler {
     return _service.cancelByPayloadPrefix(warrantyPayloadPrefix(itemId));
   }
 
+  Future<void> rescheduleAll({
+    required List<Item> items,
+    required List<Maintenance> maintenances,
+    required List<Document> documents,
+    required bool isPro,
+    required NotificationTexts texts,
+  }) async {
+    final itemsById = {for (final item in items) item.id: item};
+    for (final item in items) {
+      await rescheduleWarranty(item: item, isPro: isPro, texts: texts);
+    }
+    for (final maintenance in maintenances) {
+      final item = itemsById[maintenance.itemId];
+      if (item == null) continue;
+      await rescheduleMaintenance(
+        maintenance: maintenance,
+        item: item,
+        isPro: isPro,
+        texts: texts,
+      );
+    }
+    for (final document in documents) {
+      await rescheduleDocument(document: document, isPro: isPro, texts: texts);
+    }
+  }
+
   Future<void> cancelAllForItem({
     required String itemId,
     required Iterable<String> maintenanceIds,

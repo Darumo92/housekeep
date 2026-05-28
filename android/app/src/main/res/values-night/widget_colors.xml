@@ -11,4 +11,8 @@
     <color name="widget_stripe_ok">#FF7CC79A</color>
     <color name="widget_stripe_upcoming">#FFE8C04B</color>
     <color name="widget_stripe_urgent">#FFE38872</color>
+    <color name="widget_badge_pending_bg">#33E38872</color>
+    <color name="widget_badge_pending_text">#FFE38872</color>
+    <color name="widget_badge_soon_bg">#33E8C04B</color>
+    <color name="widget_badge_soon_text">#FFE8C04B</color>
 </resources>

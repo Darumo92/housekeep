@@ -17,6 +17,7 @@ import '../../shared/widgets/status_banner.dart';
 import '../../data/repositories/purchase_repository.dart';
 import '../../data/repositories/repository_providers.dart';
 import '../../data/services/notification_providers.dart';
+import '../../data/services/notification_strings.dart';
 import '../export/export_controller.dart';
 import 'settings_provider.dart';
 
@@ -87,7 +88,10 @@ class SettingsScreen extends ConsumerWidget {
                       onChanged: (value) async {
                         await ref
                             .read(settingsControllerProvider.notifier)
-                            .setNotificationsEnabled(value);
+                            .setNotificationsEnabled(
+                              value,
+                              texts: NotificationTexts.fromL10n(l10n),
+                            );
                       },
                     ),
                   ),
@@ -183,6 +187,30 @@ class SettingsScreen extends ConsumerWidget {
                               .set(value);
                         },
                       ),
+                    ),
+                    const _RowDivider(),
+                    _SettingsRow(
+                      icon: Icons.notifications_active_rounded,
+                      label: 'BETA: Probar notificación (+10s)',
+                      chevron: true,
+                      onTap: () async {
+                        final messenger = ScaffoldMessenger.of(context);
+                        final ok = await ref
+                            .read(notificationServiceProvider)
+                            .scheduleTestNotification(
+                              title: l10n.notificationDocumentTitle,
+                              body: 'Test HouseKeep ✓',
+                            );
+                        messenger.showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              ok
+                                  ? 'Notificación programada en 10s'
+                                  : 'No se pudo (¿sin permiso o init?)',
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ],

@@ -28,6 +28,11 @@ abstract class PhotoService {
 
   Future<String?> pickFromGallery();
 
+  /// Recovers a photo captured before Android destroyed the host activity
+  /// (low-memory kill while the camera app was in foreground). Returns the
+  /// stored path if a pending capture was found, otherwise null.
+  Future<String?> recoverLostPhoto();
+
   Future<void> deletePhoto(String path);
 }
 
@@ -104,6 +109,20 @@ class LocalPhotoService implements PhotoService {
   @override
   Future<String?> pickFromGallery() {
     return _pickAndStore(ImageSource.gallery);
+  }
+
+  @override
+  Future<String?> recoverLostPhoto() async {
+    final LostDataResponse response;
+    try {
+      response = await _imagePicker.retrieveLostData();
+    } on PlatformException catch (e) {
+      throw _mapPickerPlatformException(e);
+    }
+    if (response.isEmpty || response.file == null) {
+      return null;
+    }
+    return _storage.storePickedFile(response.file!.path);
   }
 
   @override

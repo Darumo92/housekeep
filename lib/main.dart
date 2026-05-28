@@ -16,6 +16,7 @@ import 'data/repositories/repository_providers.dart';
 import 'data/repositories/revenuecat_purchase_repository.dart';
 import 'data/services/notification_providers.dart';
 import 'data/services/notification_service.dart';
+import 'features/settings/settings_provider.dart';
 import 'features/widget/widget_deep_link.dart';
 import 'features/widget/widget_sync_provider.dart';
 import 'firebase_options.dart';
@@ -38,6 +39,9 @@ void main() async {
     ],
   );
   await _initNotifications(container.read(notificationServiceProvider));
+  await _applyNotificationPreference(
+    container.read(notificationServiceProvider),
+  );
 
   if (Platform.isAndroid || Platform.isIOS) {
     container.listen(widgetSyncProvider, (_, __) {}, fireImmediately: true);
@@ -97,6 +101,16 @@ Future<void> _initNotifications(NotificationService service) async {
     await service.init();
   } catch (e) {
     debugPrint('[HouseKeep] Notification init skipped: $e');
+  }
+}
+
+Future<void> _applyNotificationPreference(NotificationService service) async {
+  try {
+    final prefs = SharedPreferencesAsync();
+    service.enabled =
+        await prefs.getBool(kNotificationsEnabledPrefKey) ?? true;
+  } catch (e) {
+    debugPrint('[HouseKeep] Notification preference read failed: $e');
   }
 }
 
