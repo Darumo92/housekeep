@@ -38,11 +38,14 @@ void main() {
     expect(resolveShellDestination('/settings/profile').index, 3);
   });
 
-  test('maps item detail and paywall paths to the correct shell destination', () {
-    expect(resolveShellDestination('/items/abc').index, 1);
-    expect(resolveShellDestination('/items/abc/edit').index, 1);
-    expect(resolveShellDestination('/paywall').index, 0);
-  });
+  test(
+    'maps item detail and paywall paths to the correct shell destination',
+    () {
+      expect(resolveShellDestination('/items/abc').index, 1);
+      expect(resolveShellDestination('/items/abc/edit').index, 1);
+      expect(resolveShellDestination('/paywall').index, 0);
+    },
+  );
 
   testWidgets('renders the paywall route outside the shell', (tester) async {
     await tester.pumpWidget(
@@ -75,7 +78,9 @@ void main() {
     expect(tester.widget<HkTabBar>(find.byType(HkTabBar)).current, HkTab.items);
   });
 
-  testWidgets('supports the item detail route inside the shell', (tester) async {
+  testWidgets('supports the item detail route inside the shell', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       _buildApp(
         initialLocation: '/items/abc',
@@ -161,10 +166,8 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    Finder tabLabel(String label) => find.descendant(
-          of: find.byType(HkTabBar),
-          matching: find.text(label),
-        );
+    Finder tabLabel(String label) =>
+        find.descendant(of: find.byType(HkTabBar), matching: find.text(label));
 
     await tester.tap(tabLabel('Items'));
     await tester.pumpAndSettle();
@@ -182,7 +185,10 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(SettingsScreen), findsOneWidget);
     expect(find.byType(DocumentsListScreen), findsNothing);
-    expect(tester.widget<HkTabBar>(find.byType(HkTabBar)).current, HkTab.settings);
+    expect(
+      tester.widget<HkTabBar>(find.byType(HkTabBar)).current,
+      HkTab.settings,
+    );
 
     await tester.tap(tabLabel('Home'));
     await tester.pumpAndSettle();
@@ -193,9 +199,7 @@ void main() {
 
   testWidgets('renders the onboarding route outside the shell', (tester) async {
     await tester.pumpWidget(
-      const ProviderScope(
-        child: HouseKeepApp(initialLocation: '/onboarding'),
-      ),
+      const ProviderScope(child: HouseKeepApp(initialLocation: '/onboarding')),
     );
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
@@ -225,6 +229,29 @@ void main() {
     expect(find.byType(HomeScreen), findsOneWidget);
     expect(find.text('Hola'), findsOneWidget);
     expect(find.text('Inicio'), findsOneWidget);
+  });
+
+  testWidgets('enables state restoration for camera round-trips', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _buildApp(
+        initialLocation: '/items/add',
+        overrides: [
+          itemsRepositoryProvider.overrideWithValue(fakeItemsRepository),
+          maintenancesRepositoryProvider.overrideWithValue(
+            _FakeMaintenancesRepository(),
+          ),
+          documentsRepositoryProvider.overrideWithValue(
+            _FakeDocumentsRepository(),
+          ),
+        ],
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+    expect(materialApp.restorationScopeId, 'housekeep_app');
   });
 }
 
@@ -312,10 +339,7 @@ class _FakeDocumentsRepository implements DocumentsRepository {
 }
 
 class _FakeItemsRepository implements ItemsRepository {
-  const _FakeItemsRepository({
-    required this.items,
-    required this.itemsById,
-  });
+  const _FakeItemsRepository({required this.items, required this.itemsById});
 
   final List<Item> items;
   final Map<String, Item> itemsById;

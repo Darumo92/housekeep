@@ -119,6 +119,7 @@
   "maintenanceNameLabel": "Task name",
   "maintenanceDescriptionLabel": "Description",
   "maintenanceIntervalLabel": "Interval (months)",
+  "maintenanceItemContextLabel": "Maintenance for",
   "maintenanceLastDoneLabel": "Last done",
   "maintenanceLastDoneNever": "Not recorded",
   "maintenanceNotifyDaysLabel": "Notify days before",

@@ -121,6 +121,8 @@ class _AddEditMaintenanceScreenState
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            _ItemContextCard(item: item),
+            const SizedBox(height: 16),
             if (!_isEditing)
               OutlinedButton.icon(
                 onPressed: () => _pickTemplate(category),
@@ -131,9 +133,7 @@ class _AddEditMaintenanceScreenState
             TextFormField(
               controller: _nameController,
               textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                labelText: l10n.maintenanceNameLabel,
-              ),
+              decoration: InputDecoration(labelText: l10n.maintenanceNameLabel),
               validator: (value) => (value == null || value.trim().isEmpty)
                   ? l10n.maintenanceValidationName
                   : null,
@@ -223,8 +223,7 @@ class _AddEditMaintenanceScreenState
   }
 
   void _applyTemplate(MaintenanceTemplate template) {
-    final isSpanish =
-        Localizations.localeOf(context).languageCode == 'es';
+    final isSpanish = Localizations.localeOf(context).languageCode == 'es';
     setState(() {
       _nameController.text = isSpanish ? template.nameEs : template.nameEn;
       _descriptionController.text = isSpanish
@@ -260,8 +259,7 @@ class _AddEditMaintenanceScreenState
       lastDoneAt: _lastDoneAt,
       nextDueAt: nextDueAt,
       notifyDaysBefore: notifyDaysBefore,
-      isFromTemplate:
-          (existing?.isFromTemplate ?? false) || _isFromTemplate,
+      isFromTemplate: (existing?.isFromTemplate ?? false) || _isFromTemplate,
       createdAt: existing?.createdAt ?? now,
       updatedAt: now,
     );
@@ -300,6 +298,79 @@ class _AddEditMaintenanceScreenState
   }
 }
 
+class _ItemContextCard extends StatelessWidget {
+  const _ItemContextCard({required this.item});
+
+  final Item item;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final categoryLabel = item.category.label(l10n);
+    final subtitle = [
+      categoryLabel,
+      if (item.brand != null && item.brand!.trim().isNotEmpty) item.brand!,
+    ].join(' · ');
+
+    return Card(
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Row(
+          children: [
+            Container(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                color: colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                item.category.icon,
+                color: colorScheme.onPrimaryContainer,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.maintenanceItemContextLabel,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    item.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _LastDoneField extends StatelessWidget {
   const _LastDoneField({
     required this.value,
@@ -322,9 +393,7 @@ class _LastDoneField extends StatelessWidget {
         : formatter.format(value!);
 
     return InputDecorator(
-      decoration: InputDecoration(
-        labelText: l10n.maintenanceLastDoneLabel,
-      ),
+      decoration: InputDecoration(labelText: l10n.maintenanceLastDoneLabel),
       child: Row(
         children: [
           Expanded(child: Text(label)),

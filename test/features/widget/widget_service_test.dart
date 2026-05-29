@@ -3,8 +3,13 @@ import 'package:housekeep/domain/enums/urgency_level.dart';
 import 'package:housekeep/domain/models/upcoming_event.dart';
 import 'package:housekeep/features/widget/widget_data.dart';
 import 'package:housekeep/features/widget/widget_service.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
+  setUpAll(() async {
+    await initializeDateFormatting('es');
+  });
+
   group('WidgetSnapshotBuilder', () {
     const builder = WidgetSnapshotBuilder();
     final now = DateTime(2026, 5, 25, 10);
@@ -37,7 +42,7 @@ void main() {
       expect(snapshot.events.first.title, 'Filter 0');
     });
 
-    test('excludes ok urgency events', () {
+    test('keeps ok urgency events as upcoming widget rows', () {
       final events = [
         UpcomingEvent(
           id: 'm-1',
@@ -67,8 +72,11 @@ void main() {
         now: now,
       );
 
-      expect(snapshot.events, hasLength(1));
-      expect(snapshot.events.first.title, 'Urgent filter');
+      expect(snapshot.events, hasLength(2));
+      expect(snapshot.events.first.title, 'Distant filter');
+      expect(snapshot.events.last.title, 'Urgent filter');
+      expect(snapshot.pendingCount, 1);
+      expect(snapshot.soonCount, 0);
     });
 
     test('formats due dates in spanish', () {

@@ -6,6 +6,7 @@
     <color name="widget_text_secondary">#FF6B7270</color>
     <color name="widget_text_faint">#FFA4A8A4</color>
     <color name="widget_accent">#FF2E7D6F</color>
+    <color name="widget_on_primary">#FFFFFFFF</color>
     <color name="widget_primary_soft">#FFDBEAE5</color>
     <color name="widget_border">#1A2E7D6F</color>
     <color name="widget_stripe_ok">#FF3F9C5C</color>

@@ -1,5 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:housekeep/data/repositories/purchase_repository.dart';
+import 'package:housekeep/data/repositories/repository_providers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
+import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 
 void main() {
   group('MockPurchaseRepository', () {
@@ -74,6 +79,34 @@ void main() {
     test('PurchaseStatus.cancelled isSuccess false', () {
       const r = PurchaseResult(status: PurchaseStatus.cancelled);
       expect(r.isSuccess, isFalse);
+    });
+  });
+
+  group('ProDebugOverride', () {
+    setUp(() {
+      SharedPreferencesAsyncPlatform.instance =
+          InMemorySharedPreferencesAsync.empty();
+    });
+
+    test('persists simulated pro state for the next app launch', () async {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      await container.read(proDebugOverrideProvider.notifier).set(true);
+
+      final prefs = SharedPreferencesAsync();
+      expect(await prefs.getBool(kProDebugOverridePrefKey), isTrue);
+    });
+
+    test('loads simulated pro state from shared preferences', () async {
+      final prefs = SharedPreferencesAsync();
+      await prefs.setBool(kProDebugOverridePrefKey, true);
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      await container.read(proDebugOverrideProvider.notifier).load();
+
+      expect(container.read(proDebugOverrideProvider), isTrue);
     });
   });
 }

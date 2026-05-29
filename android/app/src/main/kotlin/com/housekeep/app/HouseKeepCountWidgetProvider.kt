@@ -72,7 +72,7 @@ class HouseKeepCountWidgetProvider : AppWidgetProvider() {
         if (week > 0) {
             val label = data.getString("label_week", "esta semana") ?: "esta semana"
             views.setViewVisibility(R.id.widget_count_week, View.VISIBLE)
-            views.setTextViewText(R.id.widget_count_week, "$week $label")
+            views.setTextViewText(R.id.widget_count_week, "• $week $label")
         } else {
             views.setViewVisibility(R.id.widget_count_week, View.GONE)
         }

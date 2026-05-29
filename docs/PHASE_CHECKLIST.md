@@ -352,6 +352,10 @@ Marca cada tarea con [x] cuando esté completada.
 - [x] Actualizar widget al marcar mantenimiento como realizado (vía `widgetSyncProvider` reactivo a streams)
 - [x] Actualizar widget al añadir/editar/borrar items/docs (mismo, vía streams Riverpod)
 - [x] Solo disponible para usuarios PRO (free ve CTA upgrade → abre paywall al tocar)
+- [x] Ajuste visual Android al handoff Fase 10: hero 4×2 con evento principal + micro-rows, widget próximo vertical y contador con marca compacta *(2026-05-28)*
+- [x] Compatibilidad RemoteViews Android: layouts sin `View`/`Space` no soportados para evitar "Problema al cargar el widget" *(2026-05-29)*
+- [x] Metadatos Android alineados al prototipo: widget principal 4×2, próximo 2×2, contador 2×2; divisor secundario ocultable si no hay más eventos *(2026-05-29)*
+- [x] Snapshot de widget mantiene próximos eventos aunque estén en estado `ok`, para llenar filas de prueba y no mostrar solo urgencias *(2026-05-29)*
 
 ---
 
@@ -376,6 +380,7 @@ Marca cada tarea con [x] cuando esté completada.
 - [x] 50+ items → performance ok *(ListView.builder + Riverpod stream — virtualizado)*
 - [x] Rotación de pantalla → estado preservado *(state vive en providers Riverpod, no en widgets)*
 - [x] Back button handling correcto *(GoRouter maneja pop stack)*
+- [x] Vuelta desde cámara mantiene ruta de formulario mediante restoration scope de `MaterialApp.router` + `GoRouter` *(2026-05-28)*
 
 ### Accessibility
 - [x] Semantic labels en todos los widgets interactivos *(StatusDot etiquetado con urgencia; Material widgets traen Semantics por defecto)*
@@ -392,6 +397,11 @@ Marca cada tarea con [x] cuando esté completada.
 - [x] App icon (adaptive icon Android + iOS)
 - [x] Splash screen con logo
 - [x] Colores de status bar coherentes
+
+### QA fixes post-pulido
+- [x] Toggle beta "Simular PRO" persiste en `SharedPreferencesAsync` entre cierres de app *(2026-05-28)*
+- [x] Formulario de añadir/editar mantenimiento muestra el artículo asociado con nombre, categoría y marca *(2026-05-28)*
+- [x] Home timeline muestra iconos de documentos según `DocumentType` en vez del icono genérico *(2026-05-28)*
 
 ---
 
@@ -416,32 +426,38 @@ Marca cada tarea con [x] cuando esté completada.
 - [x] Support URL — mailto:darumo092@gmail.com
 - [x] Marketing URL (landing page) — https://darumo92.github.io/housekeep-site/ (ES + EN; repo `Darumo92/housekeep-site`)
 
-### App Store Connect
-- [ ] Crear app "HouseKeep"
-- [ ] Configurar metadata ES + EN
-- [ ] Subir screenshots
-- [ ] Configurar precio: Free con IAP
-- [ ] Crear producto IAP: `com.housekeep.app.pro` (non-consumable, €5.99)
-- [ ] Configurar App Privacy (data collection disclosure)
-- [ ] Configurar age rating
-- [ ] Submit para review
+### App Store Connect — CANCELADO (no se publica en iOS)
 
-### Google Play Console
-- [ ] Crear app "HouseKeep"
-- [ ] Completar store listing ES + EN
-- [ ] Subir screenshots + feature graphic
-- [ ] Configurar contenido (rating, data safety)
-- [ ] Crear producto IAP: `housekeep_pro` (one-time, €5.99)
-- [ ] Internal testing track → testear
-- [ ] Production release → submit
+### Google Play Console — ver guía en `docs/STORE_SETUP_GUIDE.md`
+- [ ] A1. Crear app "HouseKeep" en Play Console
+- [ ] A2. Completar store listing ES + EN (metadata en `docs/STORE_METADATA.md`)
+- [ ] A3. Content rating (IARC — Everyone)
+- [ ] A4. Data Safety (sin recopilación de datos)
+- [ ] A5. Privacy policy URL
+- [ ] A6. Target audience
+- [ ] B1. Configurar cuenta de merchant en Play Console
+- [ ] B2. Crear IAP `housekeep_pro` (one-time, €5.99)
+- [ ] C1. Generar keystore release (`~/.keystores/housekeep-release.jks`)
+- [ ] C2. Crear `android/key.properties` con credenciales de signing
+- [ ] C3. ✅ build.gradle.kts configurado para release signing
+- [ ] C4. ✅ .gitignore actualizado (key.properties, *.jks)
+- [ ] C5. Generar AAB firmado (`flutter build appbundle --release`)
+- [ ] D1. App Signing by Google Play (aceptar)
+- [ ] D2. Subir AAB a Internal Testing
+- [ ] D3. Configurar testers internos
+- [ ] D4. Revisar y publicar en Internal Testing
+- [ ] F1-F4. Probar compra sandbox en Internal Testing
+- [ ] G1-G5. Checklist pre-producción y publicar en Production
 
-### RevenueCat producción
-- [ ] Conectar App Store Connect
-- [ ] Conectar Google Play Console
-- [ ] Crear Products apuntando a los IAP reales
-- [ ] Crear Offering "default"
-- [ ] Verificar sandbox purchases en ambas plataformas
-- [ ] Cambiar de mock a real en `main.dart`
+### RevenueCat producción — ver guía en `docs/STORE_SETUP_GUIDE.md`
+- [ ] E1. Crear Service Account en Google Cloud
+- [ ] E2. Dar permisos al Service Account en Play Console
+- [ ] E3. Conectar Google Play en RevenueCat Dashboard (subir JSON)
+- [ ] E4. Crear Product `housekeep_pro` en RevenueCat
+- [ ] E5. Crear Offering "default" con package "pro"
+- [ ] E6. Verificar conexión (compra sandbox)
+- [ ] G3. Cambiar API key de RevenueCat a producción (o pasar via --dart-define)
+- [ ] G2. Cambiar `betaShowProToggle = false` antes de publicar
 
 ### Legal
 - [x] Privacy policy (qué datos se recogen: ninguno en v1, todo local) — `docs/legal/privacy_es.md` + `privacy_en.md`

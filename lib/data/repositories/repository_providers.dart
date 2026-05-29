@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/constants/app_constants.dart';
 import '../database/database_providers.dart';
@@ -8,6 +9,8 @@ import 'maintenances_repository.dart';
 import 'purchase_repository.dart';
 
 part 'repository_providers.g.dart';
+
+const kProDebugOverridePrefKey = 'debug.simulate_pro';
 
 @riverpod
 ItemsRepository itemsRepository(ItemsRepositoryRef ref) {
@@ -34,7 +37,20 @@ class ProDebugOverride extends _$ProDebugOverride {
   @override
   bool? build() => null;
 
-  void set(bool? value) => state = value;
+  Future<void> load() async {
+    final prefs = SharedPreferencesAsync();
+    state = await prefs.getBool(kProDebugOverridePrefKey);
+  }
+
+  Future<void> set(bool? value) async {
+    state = value;
+    final prefs = SharedPreferencesAsync();
+    if (value == null) {
+      await prefs.remove(kProDebugOverridePrefKey);
+    } else {
+      await prefs.setBool(kProDebugOverridePrefKey, value);
+    }
+  }
 }
 
 @riverpod

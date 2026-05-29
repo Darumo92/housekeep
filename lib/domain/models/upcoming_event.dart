@@ -1,4 +1,5 @@
 import '../../core/utils/date_calculations.dart';
+import '../enums/document_type.dart';
 import '../enums/item_category.dart';
 import '../enums/urgency_level.dart';
 
@@ -14,6 +15,7 @@ class UpcomingEvent {
     required this.type,
     required this.relatedItemId,
     this.category,
+    this.documentType,
   });
 
   final String id;
@@ -26,6 +28,9 @@ class UpcomingEvent {
 
   /// Category of the related item (for maintenance/warranty). Null for documents.
   final ItemCategory? category;
+
+  /// Type of the related document. Null for maintenance and warranty events.
+  final DocumentType? documentType;
 
   int daysUntilDue({DateTime? now}) {
     return DateCalculations.calendarDaysUntil(dueDate, now ?? DateTime.now());

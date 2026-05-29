@@ -335,6 +335,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get maintenanceIntervalLabel => 'Intervalo (meses)';
 
   @override
+  String get maintenanceItemContextLabel => 'Mantenimiento para';
+
+  @override
   String get maintenanceLastDoneLabel => 'Última vez realizado';
 
   @override

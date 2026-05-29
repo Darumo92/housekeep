@@ -22,10 +22,12 @@ void main() {
     return ProviderContainer(
       overrides: [
         itemsRepositoryProvider.overrideWithValue(_FakeItems(items)),
-        maintenancesRepositoryProvider
-            .overrideWithValue(_FakeMaintenances(maintenances)),
-        documentsRepositoryProvider
-            .overrideWithValue(_FakeDocuments(documents)),
+        maintenancesRepositoryProvider.overrideWithValue(
+          _FakeMaintenances(maintenances),
+        ),
+        documentsRepositoryProvider.overrideWithValue(
+          _FakeDocuments(documents),
+        ),
       ],
     );
   }
@@ -79,12 +81,8 @@ void main() {
     final soon = DateTime.now().add(const Duration(days: 5));
     final container = buildContainer(
       items: const [],
-      maintenances: [
-        _maintenance(id: 'm1', itemId: 'i1', nextDueAt: later),
-      ],
-      documents: [
-        _document(id: 'd1', expiryDate: soon),
-      ],
+      maintenances: [_maintenance(id: 'm1', itemId: 'i1', nextDueAt: later)],
+      documents: [_document(id: 'd1', expiryDate: soon)],
     );
     addTearDown(container.dispose);
 
@@ -97,6 +95,26 @@ void main() {
     expect(events, hasLength(2));
     expect(events.first.type, UpcomingEventType.document);
     expect(events.last.type, UpcomingEventType.maintenance);
+  });
+
+  test('upcomingEventsProvider preserves document type for icons', () async {
+    final container = buildContainer(
+      documents: [
+        _document(
+          id: 'd1',
+          expiryDate: DateTime.now().add(const Duration(days: 5)),
+          type: DocumentType.insuranceHome,
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await container.read(homeItemsProvider.future);
+    await container.read(homeUpcomingMaintenancesProvider().future);
+    await container.read(homeExpiringDocumentsProvider().future);
+    final event = container.read(upcomingEventsProvider()).value!.single;
+
+    expect(event.documentType, DocumentType.insuranceHome);
   });
 }
 
@@ -138,12 +156,16 @@ Maintenance _maintenance({
   );
 }
 
-Document _document({required String id, required DateTime expiryDate}) {
+Document _document({
+  required String id,
+  required DateTime expiryDate,
+  DocumentType type = DocumentType.passport,
+}) {
   final timestamp = DateTime(2025, 1, 1);
   return Document(
     id: id,
     name: 'Document $id',
-    type: DocumentType.passport,
+    type: type,
     expiryDate: expiryDate,
     notifyDaysBefore: 30,
     photoPath: null,

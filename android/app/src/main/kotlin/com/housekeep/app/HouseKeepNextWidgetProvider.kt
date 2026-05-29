@@ -82,6 +82,15 @@ class HouseKeepNextWidgetProvider : AppWidgetProvider() {
             "setBackgroundResource",
             WidgetCommon.stripeColor(urgency),
         )
+        views.setInt(
+            R.id.widget_next_due,
+            "setBackgroundResource",
+            WidgetCommon.statusBackground(urgency),
+        )
+        views.setTextColor(
+            R.id.widget_next_due,
+            context.getColor(WidgetCommon.statusTextColor(urgency)),
+        )
         views.setImageViewResource(
             R.id.widget_next_icon,
             WidgetCommon.iconRes(data.getString("event_0_icon", "document")),

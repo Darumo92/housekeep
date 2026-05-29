@@ -692,6 +692,12 @@ abstract class AppLocalizations {
   /// **'Interval (months)'**
   String get maintenanceIntervalLabel;
 
+  /// No description provided for @maintenanceItemContextLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance for'**
+  String get maintenanceItemContextLabel;
+
   /// No description provided for @maintenanceLastDoneLabel.
   ///
   /// In en, this message translates to:

@@ -68,10 +68,7 @@ bool _matchesBranch(String location, String branch) {
   return location == branch || location.startsWith('$branch/');
 }
 
-CustomTransitionPage<T> _sharedAxisPage<T>(
-  LocalKey key,
-  Widget child,
-) {
+CustomTransitionPage<T> _sharedAxisPage<T>(LocalKey key, Widget child) {
   return CustomTransitionPage<T>(
     key: key,
     transitionDuration: const Duration(milliseconds: 280),
@@ -82,9 +79,7 @@ CustomTransitionPage<T> _sharedAxisPage<T>(
       final slide = Tween<Offset>(
         begin: const Offset(0.06, 0),
         end: Offset.zero,
-      ).animate(
-        CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
-      );
+      ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic));
       final secondaryFade = Tween<double>(begin: 1, end: 0.7).animate(
         CurvedAnimation(parent: secondaryAnimation, curve: Curves.easeIn),
       );
@@ -102,6 +97,7 @@ CustomTransitionPage<T> _sharedAxisPage<T>(
 GoRouter _createRouter({String initialLocation = '/'}) {
   return GoRouter(
     initialLocation: initialLocation,
+    restorationScopeId: 'housekeep_router',
     routes: [
       ShellRoute(
         builder: (context, state, child) {
@@ -115,10 +111,8 @@ GoRouter _createRouter({String initialLocation = '/'}) {
           ),
           GoRoute(
             path: '/items/add',
-            pageBuilder: (context, state) => _sharedAxisPage(
-              state.pageKey,
-              const AddEditItemScreen(),
-            ),
+            pageBuilder: (context, state) =>
+                _sharedAxisPage(state.pageKey, const AddEditItemScreen()),
           ),
           GoRoute(
             path: '/items/:id/edit',
@@ -164,10 +158,8 @@ GoRouter _createRouter({String initialLocation = '/'}) {
           ),
           GoRoute(
             path: '/documents/add',
-            pageBuilder: (context, state) => _sharedAxisPage(
-              state.pageKey,
-              const AddEditDocumentScreen(),
-            ),
+            pageBuilder: (context, state) =>
+                _sharedAxisPage(state.pageKey, const AddEditDocumentScreen()),
           ),
           GoRoute(
             path: '/documents/:id/edit',
@@ -186,9 +178,7 @@ GoRouter _createRouter({String initialLocation = '/'}) {
         path: '/paywall',
         pageBuilder: (context, state) => _sharedAxisPage(
           state.pageKey,
-          PaywallScreen(
-            gate: state.uri.queryParameters['gate'] == 'true',
-          ),
+          PaywallScreen(gate: state.uri.queryParameters['gate'] == 'true'),
         ),
       ),
       GoRoute(
@@ -242,6 +232,7 @@ class _HouseKeepAppState extends ConsumerState<HouseKeepApp> {
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       locale: widget.localeOverride ?? localeFromSettings,
       theme: AppTheme.light(),
+      restorationScopeId: 'housekeep_app',
       routerConfig: _router,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [

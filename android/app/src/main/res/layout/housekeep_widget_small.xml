@@ -18,7 +18,10 @@
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
+            android:padding="3dp"
+            android:background="@drawable/widget_logo_tile"
             android:src="@drawable/widget_ic_home"
+            android:tint="@color/widget_on_primary"
             android:contentDescription="@null" />
 
         <TextView

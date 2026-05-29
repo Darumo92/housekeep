@@ -25,10 +25,8 @@ const _kPrivacyUrlEn =
     'https://darumo92.github.io/housekeep-legal/privacy_en.html';
 const _kPrivacyUrlEs =
     'https://darumo92.github.io/housekeep-legal/privacy_es.html';
-const _kTermsUrlEn =
-    'https://darumo92.github.io/housekeep-legal/terms_en.html';
-const _kTermsUrlEs =
-    'https://darumo92.github.io/housekeep-legal/terms_es.html';
+const _kTermsUrlEn = 'https://darumo92.github.io/housekeep-legal/terms_en.html';
+const _kTermsUrlEs = 'https://darumo92.github.io/housekeep-legal/terms_es.html';
 const _kSupportEmail = 'darumo092@gmail.com';
 const _kFeedbackEmail = 'darumo092@gmail.com';
 const _kStoreUrlAndroid =
@@ -181,8 +179,8 @@ class SettingsScreen extends ConsumerWidget {
                       label: 'BETA: Simular PRO',
                       trailing: HkToggle(
                         value: isPro,
-                        onChanged: (value) {
-                          ref
+                        onChanged: (value) async {
+                          await ref
                               .read(proDebugOverrideProvider.notifier)
                               .set(value);
                         },
@@ -241,20 +239,16 @@ class SettingsScreen extends ConsumerWidget {
                     icon: Icons.lock_outline_rounded,
                     label: l10n.settingsAboutPrivacy,
                     chevron: true,
-                    onTap: () => _launchUrl(
-                      context,
-                      _localizedPrivacyUrl(context),
-                    ),
+                    onTap: () =>
+                        _launchUrl(context, _localizedPrivacyUrl(context)),
                   ),
                   const _RowDivider(),
                   _SettingsRow(
                     icon: Icons.description_outlined,
                     label: l10n.settingsAboutTerms,
                     chevron: true,
-                    onTap: () => _launchUrl(
-                      context,
-                      _localizedTermsUrl(context),
-                    ),
+                    onTap: () =>
+                        _launchUrl(context, _localizedTermsUrl(context)),
                   ),
                   const _RowDivider(),
                   _SettingsRow(
@@ -392,10 +386,7 @@ class _PlanCard extends StatelessWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 5,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.25),
                 borderRadius: BorderRadius.circular(99),
@@ -561,10 +552,7 @@ class _RowDivider extends StatelessWidget {
 }
 
 class _LanguagePillSwitcher extends StatelessWidget {
-  const _LanguagePillSwitcher({
-    required this.current,
-    required this.onChanged,
-  });
+  const _LanguagePillSwitcher({required this.current, required this.onChanged});
 
   final LocalePreference current;
   final ValueChanged<LocalePreference> onChanged;
@@ -678,9 +666,7 @@ class _ExportPdfRowState extends ConsumerState<_ExportPdfRow> {
       messenger.showSnackBar(
         SnackBar(
           content: Text(
-            ok
-                ? l10n.settingsDataExportSuccess
-                : l10n.settingsDataExportEmpty,
+            ok ? l10n.settingsDataExportSuccess : l10n.settingsDataExportEmpty,
           ),
         ),
       );
@@ -805,10 +791,7 @@ class _NotificationsPermissionBannerState
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final grantedAsync = ref.watch(notificationsGrantedProvider);
-    final granted = grantedAsync.maybeWhen(
-      data: (v) => v,
-      orElse: () => true,
-    );
+    final granted = grantedAsync.maybeWhen(data: (v) => v, orElse: () => true);
     if (granted) return const SizedBox.shrink();
 
     return Padding(

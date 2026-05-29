@@ -14,9 +14,12 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:padding="3dp"
+            android:background="@drawable/widget_logo_tile"
             android:src="@drawable/widget_ic_home"
+            android:tint="@color/widget_on_primary"
             android:contentDescription="@null" />
 
         <TextView
@@ -25,9 +28,9 @@
             android:layout_height="wrap_content"
             android:paddingStart="6dp"
             android:text="HouseKeep"
-            android:textSize="12sp"
+            android:textSize="10.5sp"
             android:textStyle="bold"
-            android:textColor="@color/widget_text_primary" />
+            android:textColor="@color/widget_text_secondary" />
     </LinearLayout>
 
     <LinearLayout
@@ -36,7 +39,7 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="start|top"
-        android:paddingTop="6dp">
+        android:paddingTop="8dp">
 
         <TextView
             android:id="@+id/widget_state_message"

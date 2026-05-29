@@ -112,29 +112,31 @@ class WidgetSnapshotBuilder {
   }) {
     final reference = now ?? DateTime.now();
     final pending = events
-        .where((e) =>
-            e.urgency == UrgencyLevel.overdue ||
-            e.urgency == UrgencyLevel.urgent)
+        .where(
+          (e) =>
+              e.urgency == UrgencyLevel.overdue ||
+              e.urgency == UrgencyLevel.urgent,
+        )
         .length;
-    final soon =
-        events.where((e) => e.urgency == UrgencyLevel.upcoming).length;
+    final soon = events.where((e) => e.urgency == UrgencyLevel.upcoming).length;
     final week = events.where((e) {
       final days = DateCalculations.calendarDaysUntil(e.dueDate, reference);
       return days >= 0 && days <= 7;
     }).length;
     final filtered = events
-        .where((e) => e.urgency != UrgencyLevel.ok)
         .take(maxEvents)
-        .map((e) => WidgetEvent(
-              title: e.title,
-              subtitle: e.subtitle.isNotEmpty
-                  ? e.subtitle
-                  : strings.untilDate(DateFormat('yyyy-MM-dd').format(e.dueDate)),
-              dueText: _formatDue(e.dueDate, reference, localeCode, strings),
-              urgency: e.urgency,
-              route: routeForEvent(e),
-              iconKey: iconKeyForEvent(e),
-            ))
+        .map(
+          (e) => WidgetEvent(
+            title: e.title,
+            subtitle: e.subtitle.isNotEmpty
+                ? e.subtitle
+                : strings.untilDate(DateFormat('yyyy-MM-dd').format(e.dueDate)),
+            dueText: _formatDue(e.dueDate, reference, localeCode, strings),
+            urgency: e.urgency,
+            route: routeForEvent(e),
+            iconKey: iconKeyForEvent(e),
+          ),
+        )
         .toList(growable: false);
 
     return WidgetSnapshot(

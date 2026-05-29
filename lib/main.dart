@@ -42,6 +42,7 @@ void main() async {
   await _applyNotificationPreference(
     container.read(notificationServiceProvider),
   );
+  await container.read(proDebugOverrideProvider.notifier).load();
 
   if (Platform.isAndroid || Platform.isIOS) {
     container.listen(widgetSyncProvider, (_, __) {}, fireImmediately: true);
@@ -107,8 +108,7 @@ Future<void> _initNotifications(NotificationService service) async {
 Future<void> _applyNotificationPreference(NotificationService service) async {
   try {
     final prefs = SharedPreferencesAsync();
-    service.enabled =
-        await prefs.getBool(kNotificationsEnabledPrefKey) ?? true;
+    service.enabled = await prefs.getBool(kNotificationsEnabledPrefKey) ?? true;
   } catch (e) {
     debugPrint('[HouseKeep] Notification preference read failed: $e');
   }
@@ -163,7 +163,9 @@ Future<void> _initFirebase() async {
     if (Platform.isAndroid) {
       final gmsAvailable = await _isGooglePlayServicesAvailable();
       if (!gmsAvailable) {
-        debugPrint('[HouseKeep] Skipping Firebase: Google Play Services unavailable');
+        debugPrint(
+          '[HouseKeep] Skipping Firebase: Google Play Services unavailable',
+        );
         return;
       }
     }
@@ -173,8 +175,7 @@ Future<void> _initFirebase() async {
     );
     firebaseInitialized = true;
 
-    FlutterError.onError =
-        FirebaseCrashlytics.instance.recordFlutterFatalError;
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;

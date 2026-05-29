@@ -145,6 +145,12 @@ class HouseKeepWidgetProvider : AppWidgetProvider() {
         views.setViewVisibility(R.id.widget_state_message, View.GONE)
         views.setViewVisibility(R.id.widget_state_subtitle, View.GONE)
         views.setViewVisibility(R.id.widget_events_container, View.VISIBLE)
+        if (useMedium) {
+            views.setViewVisibility(
+                R.id.widget_event_divider,
+                if (data.getBoolean("event_1_visible", false)) View.VISIBLE else View.GONE,
+            )
+        }
 
         val slots = if (useMedium) 3 else 1
         val slotIds = listOf(
@@ -199,6 +205,19 @@ class HouseKeepWidgetProvider : AppWidgetProvider() {
                 "setBackgroundResource",
                 stripeColor(urgency),
             )
+            if (!useMedium || i == 0) {
+                views.setInt(
+                    ids.due,
+                    "setBackgroundResource",
+                    WidgetCommon.statusBackground(urgency),
+                )
+                views.setTextColor(
+                    ids.due,
+                    context.getColor(WidgetCommon.statusTextColor(urgency)),
+                )
+            } else {
+                views.setTextColor(ids.due, context.getColor(R.color.widget_text_secondary))
+            }
             val route = data.getString("event_${i}_route", "/") ?: "/"
             views.setOnClickPendingIntent(ids.container, launchIntent(context, route))
 

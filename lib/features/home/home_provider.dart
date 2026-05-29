@@ -26,8 +26,7 @@ class HomeSummary {
   final int urgentDocuments;
   final UrgencyLevel overallUrgency;
 
-  bool get isAllClear =>
-      pendingMaintenances == 0 && urgentDocuments == 0;
+  bool get isAllClear => pendingMaintenances == 0 && urgentDocuments == 0;
 }
 
 @riverpod
@@ -70,11 +69,11 @@ AsyncValue<List<UpcomingEvent>> upcomingEvents(
     return const AsyncValue.loading();
   }
 
-  final error = maintenancesAsync.error ??
-      documentsAsync.error ??
-      itemsAsync.error;
+  final error =
+      maintenancesAsync.error ?? documentsAsync.error ?? itemsAsync.error;
   if (error != null) {
-    final stackTrace = maintenancesAsync.stackTrace ??
+    final stackTrace =
+        maintenancesAsync.stackTrace ??
         documentsAsync.stackTrace ??
         itemsAsync.stackTrace ??
         StackTrace.current;
@@ -115,6 +114,7 @@ AsyncValue<List<UpcomingEvent>> upcomingEvents(
         urgency: document.urgencyLevel(now: now),
         type: UpcomingEventType.document,
         relatedItemId: document.id,
+        documentType: document.type,
       ),
     );
   }
@@ -154,11 +154,11 @@ AsyncValue<HomeSummary> homeSummary(HomeSummaryRef ref) {
     return const AsyncValue.loading();
   }
 
-  final error = maintenancesAsync.error ??
-      documentsAsync.error ??
-      itemsAsync.error;
+  final error =
+      maintenancesAsync.error ?? documentsAsync.error ?? itemsAsync.error;
   if (error != null) {
-    final stackTrace = maintenancesAsync.stackTrace ??
+    final stackTrace =
+        maintenancesAsync.stackTrace ??
         documentsAsync.stackTrace ??
         itemsAsync.stackTrace ??
         StackTrace.current;
@@ -176,8 +176,7 @@ AsyncValue<HomeSummary> homeSummary(HomeSummaryRef ref) {
   }).length;
   final urgentDocuments = documents.where((document) {
     final urgency = document.urgencyLevel(now: now);
-    return urgency == UrgencyLevel.urgent ||
-        urgency == UrgencyLevel.overdue;
+    return urgency == UrgencyLevel.urgent || urgency == UrgencyLevel.overdue;
   }).length;
 
   final urgencies = <UrgencyLevel>[

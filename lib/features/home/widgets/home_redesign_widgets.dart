@@ -159,8 +159,10 @@ class TimelineSectionHeader extends StatelessWidget {
               onPressed: onSeeAll,
               style: TextButton.styleFrom(
                 foregroundColor: AppColors.primary,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 minimumSize: const Size(0, 36),
               ),
               child: Row(
@@ -244,6 +246,7 @@ class TimelineRow extends StatelessWidget {
   Widget _leading() {
     final category = event.category;
     if (event.type == UpcomingEventType.document) {
+      final icon = event.documentType?.icon ?? Symbols.description_rounded;
       return Container(
         width: 44,
         height: 44,
@@ -252,11 +255,7 @@ class TimelineRow extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadii.tile),
         ),
         alignment: Alignment.center,
-        child: const Icon(
-          Symbols.description_rounded,
-          size: 22,
-          color: AppColors.primary,
-        ),
+        child: Icon(icon, size: 22, color: AppColors.primary),
       );
     }
     if (category == null) {
