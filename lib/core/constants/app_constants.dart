@@ -9,7 +9,7 @@ class AppConstants {
   /// Pre-launch beta flag: exposes the debug PRO toggle in release builds so
   /// testers can preview gated features without a real purchase. Set to
   /// `false` before the public release.
-  static const bool betaShowProToggle = true;
+  static const bool betaShowProToggle = false;
 
   static const String revenueCatAndroidKey = String.fromEnvironment(
     'REVENUECAT_ANDROID_KEY',
