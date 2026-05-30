@@ -1,4 +1,5 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -172,7 +173,7 @@ class SettingsScreen extends ConsumerWidget {
                     chevron: true,
                     onTap: () => _restorePurchases(context, ref),
                   ),
-                  if (AppConstants.betaShowProToggle) ...[
+                  if (kDebugMode || AppConstants.betaShowProToggle) ...[
                     const _RowDivider(),
                     _SettingsRow(
                       icon: Icons.science_rounded,

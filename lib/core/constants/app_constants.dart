@@ -6,9 +6,9 @@ class AppConstants {
   static const String bundleId = 'com.housekeep.app';
   static const String entitlementId = 'housekeep_pro';
 
-  /// Pre-launch beta flag: exposes the debug PRO toggle in release builds so
-  /// testers can preview gated features without a real purchase. Set to
-  /// `false` before the public release.
+  /// Pre-launch beta flag: exposes the debug PRO toggle and test-notification
+  /// action in release builds so testers can preview gated features without a
+  /// real purchase. Disabled for the public release.
   static const bool betaShowProToggle = false;
 
   static const String revenueCatAndroidKey = String.fromEnvironment(

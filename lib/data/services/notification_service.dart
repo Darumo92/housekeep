@@ -84,9 +84,9 @@ class NotificationService {
       final notifResult = await androidImpl.requestNotificationsPermission();
       notifications =
           notifResult ?? await androidImpl.areNotificationsEnabled() ?? true;
-      // requestExactAlarmsPermission returns null on Android < 12, where exact
-      // alarms are allowed without a permission.
-      exactAlarms = await androidImpl.requestExactAlarmsPermission() ?? true;
+      // Notifications are scheduled with inexact alarms, so no exact-alarm
+      // permission is required.
+      exactAlarms = true;
     }
     if (iosImpl != null) {
       notifications =
@@ -154,7 +154,7 @@ class NotificationService {
       body,
       scheduled,
       details,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       payload: payload,
@@ -188,7 +188,7 @@ class NotificationService {
       body,
       when,
       details,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
     );

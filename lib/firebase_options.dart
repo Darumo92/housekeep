@@ -1,6 +1,6 @@
-// PLACEHOLDER — This file will be replaced by `flutterfire configure`.
-// Until then, any access to DefaultFirebaseOptions.currentPlatform throws,
-// which main.dart catches so the app still runs without Firebase.
+// Firebase options for the `housekeep-8715e` project. Android and iOS return
+// real credentials; other platforms throw (unsupported). main.dart guards
+// Firebase.initializeApp in a try/catch so the app still runs if init fails.
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
