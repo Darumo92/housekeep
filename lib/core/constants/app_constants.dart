@@ -13,7 +13,7 @@ class AppConstants {
 
   static const String revenueCatAndroidKey = String.fromEnvironment(
     'REVENUECAT_ANDROID_KEY',
-    defaultValue: 'test_PtrKyhyjSKLUXMVyUsbGpCxVGfd',
+    defaultValue: 'goog_fSYOYIdMiSfvUxoBshzkzGqWvAX',
   );
   static const String revenueCatIosKey = String.fromEnvironment(
     'REVENUECAT_IOS_KEY',
