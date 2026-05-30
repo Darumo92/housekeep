@@ -95,7 +95,7 @@ class _PaywallBody extends ConsumerWidget {
     }
 
     final package = offering?.primaryPackage;
-    final priceString = package?.priceString ?? '€5,99';
+    final priceString = package?.priceString ?? '4,99 €';
 
     return Column(
       children: [
