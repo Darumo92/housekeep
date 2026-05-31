@@ -304,7 +304,10 @@ class _WarrantyRow extends StatelessWidget {
       UrgencyLevel.upcoming => HkStatus.soon,
       UrgencyLevel.ok => HkStatus.ok,
     };
-    final daysLabel = days >= 0 ? 'en ${days}d' : 'hace ${-days}d';
+    final l10n = AppLocalizations.of(context);
+    final daysLabel = days >= 0
+        ? l10n.itemsWarrantyExpiryInDays(days)
+        : l10n.itemsWarrantyExpiryDaysAgo(-days);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [

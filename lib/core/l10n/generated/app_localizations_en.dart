@@ -138,6 +138,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get itemsWarrantyExpired => 'Expired warranty';
 
   @override
+  String itemsWarrantyExpiryInDays(int days) {
+    return 'in ${days}d';
+  }
+
+  @override
+  String itemsWarrantyExpiryDaysAgo(int days) {
+    return '${days}d ago';
+  }
+
+  @override
   String get itemDetailWarranty => 'Warranty';
 
   @override

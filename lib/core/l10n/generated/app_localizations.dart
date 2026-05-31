@@ -344,6 +344,18 @@ abstract class AppLocalizations {
   /// **'Expired warranty'**
   String get itemsWarrantyExpired;
 
+  /// No description provided for @itemsWarrantyExpiryInDays.
+  ///
+  /// In en, this message translates to:
+  /// **'in {days}d'**
+  String itemsWarrantyExpiryInDays(int days);
+
+  /// No description provided for @itemsWarrantyExpiryDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{days}d ago'**
+  String itemsWarrantyExpiryDaysAgo(int days);
+
   /// No description provided for @itemDetailWarranty.
   ///
   /// In en, this message translates to:

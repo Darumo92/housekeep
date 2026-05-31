@@ -47,6 +47,14 @@
   },
   "itemsWarrantyActive": "Garantía activa",
   "itemsWarrantyExpired": "Garantía vencida",
+  "itemsWarrantyExpiryInDays": "en {days}d",
+  "@itemsWarrantyExpiryInDays": {
+    "placeholders": { "days": { "type": "int" } }
+  },
+  "itemsWarrantyExpiryDaysAgo": "hace {days}d",
+  "@itemsWarrantyExpiryDaysAgo": {
+    "placeholders": { "days": { "type": "int" } }
+  },
   "itemDetailWarranty": "Garantía",
   "itemDetailPhotoPlaceholder": "Foto del electrodoméstico",
   "itemDetailMaintenanceInterval": "cada {count, plural, one {{count} mes} other {{count} meses}}",

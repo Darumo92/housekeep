@@ -62,6 +62,7 @@ flutter:
   assets:
     - assets/templates/
     - assets/images/
+    - assets/images/demo/
     - assets/branding/
   fonts:
     - family: PlusJakartaSans

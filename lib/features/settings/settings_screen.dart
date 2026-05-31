@@ -17,6 +17,7 @@ import '../../shared/widgets/hk_toggle.dart';
 import '../../shared/widgets/status_banner.dart';
 import '../../data/repositories/purchase_repository.dart';
 import '../../data/repositories/repository_providers.dart';
+import '../../data/services/demo_seed_service.dart';
 import '../../data/services/notification_providers.dart';
 import '../../data/services/notification_strings.dart';
 import '../export/export_controller.dart';
@@ -215,6 +216,29 @@ class SettingsScreen extends ConsumerWidget {
                 ],
               ),
             ),
+            if (kDebugMode) ...[
+              const _Section(label: 'DEBUG: Datos demo (screenshots)'),
+              HkCard(
+                padding: EdgeInsets.zero,
+                child: Column(
+                  children: [
+                    _SettingsRow(
+                      icon: Icons.auto_fix_high_rounded,
+                      label: 'Cargar datos demo (idioma actual)',
+                      chevron: true,
+                      onTap: () => _seedDemoData(context, ref),
+                    ),
+                    const _RowDivider(),
+                    _SettingsRow(
+                      icon: Icons.delete_sweep_rounded,
+                      label: 'Borrar datos demo',
+                      chevron: true,
+                      onTap: () => _clearDemoData(context, ref),
+                    ),
+                  ],
+                ),
+              ),
+            ],
             _Section(label: l10n.settingsSectionAbout),
             HkCard(
               padding: EdgeInsets.zero,
@@ -300,6 +324,41 @@ class SettingsScreen extends ConsumerWidget {
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.settingsPremiumRestoreFailed)),
       );
+    }
+  }
+
+  Future<void> _seedDemoData(BuildContext context, WidgetRef ref) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final languageCode = Localizations.localeOf(context).languageCode;
+    final service = DemoSeedService(
+      items: ref.read(itemsRepositoryProvider),
+      maintenances: ref.read(maintenancesRepositoryProvider),
+      documents: ref.read(documentsRepositoryProvider),
+    );
+    try {
+      await service.seed(DemoSeedStrings.forLanguageCode(languageCode));
+      messenger.showSnackBar(
+        SnackBar(content: Text('Datos demo cargados ($languageCode)')),
+      );
+    } catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text('Error: $e')));
+    }
+  }
+
+  Future<void> _clearDemoData(BuildContext context, WidgetRef ref) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final service = DemoSeedService(
+      items: ref.read(itemsRepositoryProvider),
+      maintenances: ref.read(maintenancesRepositoryProvider),
+      documents: ref.read(documentsRepositoryProvider),
+    );
+    try {
+      await service.clear();
+      messenger.showSnackBar(
+        const SnackBar(content: Text('Datos demo borrados')),
+      );
+    } catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text('Error: $e')));
     }
   }
 

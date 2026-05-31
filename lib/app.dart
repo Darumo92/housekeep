@@ -229,6 +229,7 @@ class _HouseKeepAppState extends ConsumerState<HouseKeepApp> {
     );
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       locale: widget.localeOverride ?? localeFromSettings,
       theme: AppTheme.light(),

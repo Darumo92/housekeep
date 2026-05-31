@@ -47,6 +47,14 @@
   },
   "itemsWarrantyActive": "Active warranty",
   "itemsWarrantyExpired": "Expired warranty",
+  "itemsWarrantyExpiryInDays": "in {days}d",
+  "@itemsWarrantyExpiryInDays": {
+    "placeholders": { "days": { "type": "int" } }
+  },
+  "itemsWarrantyExpiryDaysAgo": "{days}d ago",
+  "@itemsWarrantyExpiryDaysAgo": {
+    "placeholders": { "days": { "type": "int" } }
+  },
   "itemDetailWarranty": "Warranty",
   "itemDetailPhotoPlaceholder": "Appliance photo",
   "itemDetailMaintenanceInterval": "every {count, plural, one {{count} month} other {{count} months}}",

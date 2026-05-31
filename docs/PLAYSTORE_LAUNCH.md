@@ -85,13 +85,39 @@ Docs relacionados: `STORE_METADATA.md`, `SCREENSHOT_PLAN.md`, `ASO_STRATEGY.md`,
 
 ---
 
+## Avances 2026-05-31 (screenshots)
+
+- **Toolchain Android instalado desde cero** (el Mac no tenía SDK): JDK17 +
+  command-line-tools + platform-tools + emulator + system-image android-34 +
+  NDK 28.2.13676358 + cmake + build-tools 36. AVD `hk_pixel` (Pixel, 1080×2400).
+  Rutas en memoria del proyecto (`android-toolchain-setup`).
+- **Seed de datos demo** (`lib/data/services/demo_seed_service.dart`): 5 items,
+  4 mantenimientos, 3 docs con patrón verde/ámbar/rojo relativo a *hoy*, nombres
+  ES/EN. UI en Ajustes → "DEBUG: Datos demo" (solo `kDebugMode`).
+- **8 fotos royalty-free** (Unsplash) en `assets/images/demo/`, copiadas al dir
+  de fotos de la app al sembrar. Se ven en el hero del detalle de item.
+- **`tools/capture_screenshot.sh`**: status bar demo limpia (9:41, batería/wifi
+  full) + `screencap`. Salidas en `store/screenshots/android_phone/<es|en>/`.
+- **Fix l10n**: etiqueta de días en lista de items estaba hardcodeada en español
+  (`'en Xd'`/`'hace Xd'`) → ahora `itemsWarrantyExpiryInDays/DaysAgo` en arb.
+- **`debugShowCheckedModeBanner: false`** en `app.dart` (quita el ribbon DEBUG).
+- **Capturas EN hechas** (emulador): 01_home, 02_items, 03_item_detail (con foto),
+  04_documents. Limpias.
+- **Pendiente de screenshots**:
+  - Set **ES** (mecánico: cambiar idioma en Ajustes → recargar demo → mismos
+    comandos de captura).
+  - **06_paywall**: el emulador muestra banner rojo "Products not available"
+    (RevenueCat sin billing). Capturar en **dispositivo real** con cuenta testing.
+  - **05_notification** (lock screen): Figma o dispositivo real.
+
 ## PENDIENTE (para publicar en producción)
 
 1. **Ficha Play Store** (Store listing) — ver `STORE_METADATA.md`:
    - Descripción corta (máx 80 chars)
    - Descripción larga (máx 4000 chars)
    - Feature graphic 1024×500
-   - Mínimo 2 screenshots de teléfono (ver `SCREENSHOT_PLAN.md`)
+   - Mínimo 2 screenshots de teléfono (ver `SCREENSHOT_PLAN.md`) — **EN en
+     progreso** (4 listas); faltan ES + paywall/notif en dispositivo real
    - Icono 512×512
    - (ES + EN)
 2. **Data safety** (formulario datos): declarar fotos (image_picker),
