@@ -110,14 +110,59 @@ Docs relacionados: `STORE_METADATA.md`, `SCREENSHOT_PLAN.md`, `ASO_STRATEGY.md`,
     (RevenueCat sin billing). Capturar en **dispositivo real** con cuenta testing.
   - **05_notification** (lock screen): Figma o dispositivo real.
 
+## Avances 2026-05-31 (parte 2): set final de screenshots + 3 fixes
+
+> Sesión QA/ASO. Todo commiteado en la rama **`feat/store-screenshots-and-fixes`**
+> (2 commits: `0d9c824` fixes de código, `c6edb9e` assets). **Aún NO mergeado a
+> master.** Para integrar: `git checkout master && git merge feat/store-screenshots-and-fixes`.
+
+**HECHO**
+- **Set final de screenshots completo, listo para subir** (1080×1920, PNG24 sin
+  alfa, 9:16): **7 EN** en `store/screenshots/android/final/en-US/` + **7 ES** en
+  `final/es-ES/`. Raw en `raw/en/` y `raw/es/`. Orden de venta:
+  `01_dashboard_hero, 02_maintenance, 03_items, 04_documents, 05_templates,
+  06_widget, 07_pro_unlock`.
+- **Informe de auditoría**: `store/screenshots/android/report.md` (pantallas,
+  bugs, riesgos Play, checklist, recomendaciones).
+- **Compositor reproducible**: `tools/build_store_compositions.sh <en|es>` —
+  lienzo de marca + UI real + titular. (Nota: las salidas viejas del script
+  `capture_screenshot.sh` iban a `store/screenshots/android_phone/`; el set bueno
+  es `store/screenshots/android/`.)
+- **Paywall capturado** (emulador) y el banner rojo "Products not available" se
+  quitó quirúrgicamente — es artefacto de dev sin billing, no existe en prod.
+  Ya no hace falta dispositivo real solo para el paywall.
+- **Widget capturado** (EN y ES) con "Simular PRO" (debug) activado para mostrar
+  contenido; toggle dejado **OFF** al terminar.
+- **3 bugs reales corregidos** (detalle en `report.md` §3):
+  1. `date_calculations.addMonths` — año mal con offsets negativos (`floor`).
+  2. Saludo home "Buenos días, Hola" / "Good morning, Hello" duplicado (visible a
+     todo usuario) → titular = solo saludo + avatar de marca.
+  3. Widget siempre en español con preferencia "Sistema" (`?? 'es'`) → resuelve
+     locale real del dispositivo.
+  - Test ES (`app_smoke_test.dart`) actualizado. `flutter analyze` limpio,
+    **133/133 tests OK**.
+
+**PRÓXIMOS PASOS (retomar aquí en la siguiente sesión)**
+1. **Mergear la rama** a master (comando arriba) si no se ha hecho.
+2. **Subir screenshots al listing** (NO requiere build nuevo): Play Console →
+   Ficha de Play Store → gráficos de teléfono → subir `final/en-US/` (idioma EN) y
+   `final/es-ES/` (idioma ES). Mínimo cumplido (7 > 2).
+3. **Para que los fixes lleguen a usuarios SÍ hace falta build nuevo (AAB):**
+   - Subir `versionCode` 2 → 3 en `pubspec.yaml` (`version: 1.0.0+3`).
+   - `flutter build appbundle --release`.
+   - Subir el `.aab` al track de **prueba cerrada** en Play Console.
+   - Recomendado: los bugs del saludo y del widget se ven en cada uso.
+4. Pendientes menores del widget (no bloquean, ver `report.md` §3.3): `P-1`
+   primer evento truncado en el widget; `P-2` falta `values-en/widget_strings.xml`.
+
 ## PENDIENTE (para publicar en producción)
 
 1. **Ficha Play Store** (Store listing) — ver `STORE_METADATA.md`:
    - Descripción corta (máx 80 chars)
    - Descripción larga (máx 4000 chars)
    - Feature graphic 1024×500
-   - Mínimo 2 screenshots de teléfono (ver `SCREENSHOT_PLAN.md`) — **EN en
-     progreso** (4 listas); faltan ES + paywall/notif en dispositivo real
+   - Screenshots de teléfono — ✅ **HECHO** (7 EN + 7 ES en
+     `store/screenshots/android/final/`; ver sección "Avances 2026-05-31 (parte 2)")
    - Icono 512×512
    - (ES + EN)
 2. **Data safety** (formulario datos): declarar fotos (image_picker),
