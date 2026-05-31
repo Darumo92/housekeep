@@ -39,12 +39,16 @@ Object? widgetSync(WidgetSyncRef ref) {
   if (events == null) return null;
 
   final isPro = isProAsync.valueOrNull ?? false;
-  final localeCode = settingsAsync
-          .maybeWhen(
-            data: (s) => s.localePreference.code,
-            orElse: () => null,
-          ) ??
-      'es';
+  // When the language preference is "System" its code is null. Resolve the
+  // actual device locale instead of hard-coding Spanish, so the native widget
+  // matches the app's UI language (e.g. an English device gets an English
+  // widget) rather than always falling back to 'es'.
+  final prefCode = settingsAsync.maybeWhen(
+    data: (s) => s.localePreference.code,
+    orElse: () => null,
+  );
+  final localeCode =
+      prefCode ?? PlatformDispatcher.instance.locale.languageCode;
 
   final strings = widgetStringsFor(localeCode);
   final snapshot = builder.build(

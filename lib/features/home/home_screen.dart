@@ -107,7 +107,9 @@ class HomeScreen extends ConsumerWidget {
             final ok = (total - due - soon).clamp(0, total);
 
             final greeting = _greeting(l10n);
-            final userName = l10n.homeFallbackName;
+            // No name-capture flow yet: leave the name blank so the header
+            // shows just the greeting instead of "Good morning, <fallback>".
+            const userName = '';
 
             return ListView(
               physics: const AlwaysScrollableScrollPhysics(),

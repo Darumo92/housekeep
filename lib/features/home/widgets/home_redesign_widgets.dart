@@ -30,7 +30,11 @@ class GreetingHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final initial = userName.isEmpty ? '?' : userName.characters.first;
+    // The app has no name-capture flow, so `userName` is usually blank. In that
+    // case the greeting itself is the headline ("Good morning") instead of a
+    // redundant "Good morning, / <fallback>" pair, and the avatar shows the
+    // brand home glyph rather than a stray initial.
+    final hasName = userName.trim().isNotEmpty;
     return Padding(
       padding: const EdgeInsets.fromLTRB(22, 12, 22, 18),
       child: Row(
@@ -40,19 +44,27 @@ class GreetingHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  '$greeting,',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.textMuted,
+                if (hasName) ...[
+                  Text(
+                    '$greeting,',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: AppColors.textMuted,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  userName,
-                  style: theme.textTheme.displaySmall?.copyWith(
-                    color: AppColors.text,
+                  const SizedBox(height: 2),
+                  Text(
+                    userName,
+                    style: theme.textTheme.displaySmall?.copyWith(
+                      color: AppColors.text,
+                    ),
                   ),
-                ),
+                ] else
+                  Text(
+                    greeting,
+                    style: theme.textTheme.displaySmall?.copyWith(
+                      color: AppColors.text,
+                    ),
+                  ),
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
@@ -72,13 +84,19 @@ class GreetingHeader extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
-            child: Text(
-              initial.toUpperCase(),
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+            child: hasName
+                ? Text(
+                    userName.characters.first.toUpperCase(),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )
+                : const Icon(
+                    Icons.home_rounded,
+                    color: AppColors.primary,
+                    size: 22,
+                  ),
           ),
         ],
       ),

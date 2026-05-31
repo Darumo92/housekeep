@@ -227,7 +227,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(HomeScreen), findsOneWidget);
-    expect(find.text('Hola'), findsOneWidget);
+    // The greeting header no longer prints a fallback name; assert a stable
+    // Spanish string that is always rendered on the home screen instead.
+    expect(find.text('Esto es lo que pide atención'), findsOneWidget);
     expect(find.text('Inicio'), findsOneWidget);
   });
 

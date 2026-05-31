@@ -90,7 +90,7 @@ class DemoSeedService {
         category: ItemCategory.kitchen,
         brand: 'Bosch',
         model: 'SMV4HVX33E',
-        purchaseMonthsAgo: 38, // warranty 24m → expired
+        purchaseMonthsAgo: 26, // warranty 24m → expired ~2 months ago
         warrantyMonths: 24,
         photoPath: dishwasherPhoto,
         now: now,
@@ -123,7 +123,7 @@ class DemoSeedService {
         category: ItemCategory.kitchen,
         brand: 'Balay',
         model: '3HFE743XD',
-        purchaseMonthsAgo: 47, // warranty 24m → expired
+        purchaseMonthsAgo: 25, // warranty 24m → expired ~1 month ago
         warrantyMonths: 24,
         photoPath: fridgePhoto,
         now: now,
