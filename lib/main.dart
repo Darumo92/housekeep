@@ -14,6 +14,7 @@ import 'core/constants/app_constants.dart';
 import 'data/repositories/purchase_repository.dart';
 import 'data/repositories/repository_providers.dart';
 import 'data/repositories/revenuecat_purchase_repository.dart';
+import 'data/services/demo_seed_service.dart';
 import 'data/services/notification_providers.dart';
 import 'data/services/notification_service.dart';
 import 'features/settings/settings_provider.dart';
@@ -22,6 +23,12 @@ import 'features/widget/widget_sync_provider.dart';
 import 'firebase_options.dart';
 
 bool firebaseInitialized = false;
+
+const _kScreenshotDemo = bool.fromEnvironment('SCREENSHOT_DEMO');
+const _kScreenshotLocale = String.fromEnvironment(
+  'SCREENSHOT_LOCALE',
+  defaultValue: 'es',
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +50,9 @@ void main() async {
     container.read(notificationServiceProvider),
   );
   await container.read(proDebugOverrideProvider.notifier).load();
+  if (_kScreenshotDemo) {
+    await _prepareScreenshotDemo(container, _kScreenshotLocale);
+  }
 
   if (Platform.isAndroid || Platform.isIOS) {
     container.listen(widgetSyncProvider, (_, __) {}, fireImmediately: true);
@@ -63,6 +73,33 @@ void main() async {
       container.read(notificationServiceProvider),
     );
   });
+}
+
+Future<void> _prepareScreenshotDemo(
+  ProviderContainer container,
+  String languageCode,
+) async {
+  try {
+    final normalizedLanguage = languageCode.startsWith('en') ? 'en' : 'es';
+    final prefs = SharedPreferencesAsync();
+    await prefs.setBool('onboarding.completed', true);
+    await prefs.setString('settings.locale', normalizedLanguage);
+    await prefs.setBool(kNotificationsEnabledPrefKey, false);
+
+    final service = DemoSeedService(
+      items: container.read(itemsRepositoryProvider),
+      maintenances: container.read(maintenancesRepositoryProvider),
+      documents: container.read(documentsRepositoryProvider),
+    );
+    await service.clear();
+    await service.seed(DemoSeedStrings.forLanguageCode(normalizedLanguage));
+
+    await container.read(proDebugOverrideProvider.notifier).set(true);
+    container.read(notificationServiceProvider).enabled = false;
+    debugPrint('[HouseKeep] Screenshot demo ready ($normalizedLanguage)');
+  } catch (e) {
+    debugPrint('[HouseKeep] Screenshot demo setup failed: $e');
+  }
 }
 
 Future<PurchaseRepository?> _initPurchases() async {

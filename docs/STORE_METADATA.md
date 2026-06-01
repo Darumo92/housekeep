@@ -19,9 +19,9 @@ Copy listo para pegar en App Store Connect y Google Play Console. ES + EN.
 | Bundle ID iOS | `com.housekeep.app` |
 | Application ID Android | `com.housekeep.app` |
 | IAP iOS | `com.housekeep.app.pro` |
-| IAP Android | `housekeep_pro` |
-| Precio Pro | €5.99 one-time (non-consumable) |
-| Versión | 1.0.0 (build 1) |
+| IAP Android | `housekeep_pro_lifetime` |
+| Precio Pro | 4,99 € one-time (non-consumable) |
+| Versión | 1.0.0 (build 3) |
 | Category iOS | Lifestyle (primary) — House & Home no existe en iOS; usar Lifestyle |
 | Category Android | House & Home (primary), Productivity (secondary) |
 

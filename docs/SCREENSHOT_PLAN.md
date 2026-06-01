@@ -10,11 +10,15 @@ Plan operacional para capturar las 6 screenshots de stores en ES + EN, por devic
 | App Store | iPhone 6.5" (XS Max / 11 Pro Max) | 1242×2688 | 6 (ES) + 6 (EN) |
 | App Store | iPad Pro 13" (M4) — opcional | 2064×2752 | 6 (ES) + 6 (EN) |
 | Play | Android phone | 1080×1920 mínimo (recomendado 1440×3200) | 6 (ES) + 6 (EN) |
-| Play | Android 10" tablet | 1080×1920 mínimo (recomendado 1600×2560) | 6 (ES) + 6 (EN) |
+| Play | Android 7" tablet | 1280×720 real emulator | 4 (ES) + 4 (EN) en `store/screenshots/android/tablet_7_real/` |
+| Play | Android 10" tablet | 1920×1080 real emulator | 4 (ES) + 4 (EN) en `store/screenshots/android/tablet_10_real/` |
 
 **Total mínimo:** 48 capturas (4 devices × 6 × 2 idiomas). Si solo soportas iPhone 6.7" + Android phone: 24.
 
 > Apple desde iOS 17 ya solo exige el set de **iPhone 6.7"** y **iPad 13"** — el resto se escala. Empieza por esos dos.
+> Para Google Play, las tablet 7"/10" se han cubierto con 4 capturas reales por idioma
+> (dashboard, items, detail, documents). Si Play Console acepta el formulario, no hace
+> falta generar 6 composiciones por tablet.
 
 ## Las 6 capturas
 
@@ -25,7 +29,7 @@ Plan operacional para capturar las 6 screenshots de stores en ES + EN, por devic
 | 3 | Item detail + maintenance | Caldera con 2 mantenimientos (uno próximo, uno hecho) | Never forget a service again | No olvides ningún mantenimiento |
 | 4 | Documents list | DNI verde, ITV ámbar, seguro rojo | Document expiry alerts | Avisos de caducidad |
 | 5 | Notification mockup | Lock screen con notificación "Caldera: revisión en 7 días" | Smart reminders, perfectly timed | Recordatorios en el momento justo |
-| 6 | Paywall Free vs Pro | Comparativa + precio €5.99 | Unlock everything. Once. Forever. | Desbloquéalo todo. Una vez. Para siempre. |
+| 6 | Paywall Free vs Pro | Comparativa + precio 4,99 € | Unlock everything. Once. Forever. | Desbloquéalo todo. Una vez. Para siempre. |
 
 ## Estilo visual (todas las capturas)
 

@@ -410,10 +410,12 @@ Marca cada tarea con [x] cuando esté completada.
 ### Assets visuales
 - [ ] 6 screenshots iPhone 6.7" (ES + EN) *(plan en `docs/SCREENSHOT_PLAN.md`, captura pendiente)*
 - [ ] 6 screenshots iPhone 6.5" (ES + EN)
-- [ ] 6 screenshots Android phone (ES + EN)
-- [ ] 6 screenshots Android 10" tablet (ES + EN)
-- [x] Feature graphic 1024x500 (Google Play) — `store/feature_graphic_1024x500.png` (gen: `python3 tools/gen_store_assets.py`)
-- [x] App icon 1024x1024 (stores) — `store/icon_1024.png`
+- [x] 6 screenshots Android phone (ES + EN) — 7 finales por idioma en `store/screenshots/android/final/`
+- [x] Screenshots Android 7" tablet (ES + EN) — 4 reales por idioma en `store/screenshots/android/tablet_7_real/`
+- [x] Screenshots Android 10" tablet (ES + EN) — 4 reales por idioma en `store/screenshots/android/tablet_10_real/`
+- [x] Feature graphic 1024x500 (Google Play) — ES `store/feature_graphic_1024x500_es.png`, EN `store/feature_graphic_1024x500_en.png` (gen: `python3 tools/gen_store_assets.py`)
+- [x] App icon 512x512 (Google Play) — `store/icon_512.png`
+- [x] App icon 1024x1024 (master stores) — `store/icon_1024.png`
 - [ ] Preview video 30s (opcional, recomendado para iOS)
 
 ### Metadata
@@ -429,35 +431,36 @@ Marca cada tarea con [x] cuando esté completada.
 ### App Store Connect — CANCELADO (no se publica en iOS)
 
 ### Google Play Console — ver guía en `docs/STORE_SETUP_GUIDE.md`
-- [ ] A1. Crear app "HouseKeep" en Play Console
+- [x] A1. Crear app "HouseKeep" en Play Console
 - [ ] A2. Completar store listing ES + EN (metadata en `docs/STORE_METADATA.md`)
 - [ ] A3. Content rating (IARC — Everyone)
 - [ ] A4. Data Safety (sin recopilación de datos)
 - [ ] A5. Privacy policy URL
 - [ ] A6. Target audience
-- [ ] B1. Configurar cuenta de merchant en Play Console
-- [ ] B2. Crear IAP `housekeep_pro` (one-time, €5.99)
-- [ ] C1. Generar keystore release (`~/.keystores/housekeep-release.jks`)
-- [ ] C2. Crear `android/key.properties` con credenciales de signing
-- [ ] C3. ✅ build.gradle.kts configurado para release signing
-- [ ] C4. ✅ .gitignore actualizado (key.properties, *.jks)
-- [ ] C5. Generar AAB firmado (`flutter build appbundle --release`)
-- [ ] D1. App Signing by Google Play (aceptar)
-- [ ] D2. Subir AAB a Internal Testing
-- [ ] D3. Configurar testers internos
+- [x] B1. Configurar cuenta de merchant en Play Console
+- [x] B2. Crear IAP `housekeep_pro_lifetime` (one-time, 4,99 €)
+- [x] C1. Generar keystore release (`/home/darumo/housekeep-upload-keystore.jks`, fuera del repo)
+- [x] C2. Crear `android/key.properties` con credenciales de signing
+- [x] C3. build.gradle.kts configurado para release signing
+- [x] C4. .gitignore actualizado (key.properties, *.jks)
+- [x] C5. Generar AAB firmado (`flutter build appbundle --release`) — v1.0.0+3 generado en `build/app/outputs/bundle/release/app-release.aab`, pendiente de subir a producción
+- [x] D1. App Signing by Google Play (aceptar)
+- [x] D2. Subir AAB a Internal Testing
+- [x] D3. Configurar testers internos
 - [ ] D4. Revisar y publicar en Internal Testing
-- [ ] F1-F4. Probar compra sandbox en Internal Testing
+- [x] F1-F4. Probar compra sandbox en Internal Testing
+- [ ] Confirmar si Play exige prueba cerrada 12 testers/14 días (cuenta antigua; revisar al crear release de producción)
 - [ ] G1-G5. Checklist pre-producción y publicar en Production
 
 ### RevenueCat producción — ver guía en `docs/STORE_SETUP_GUIDE.md`
-- [ ] E1. Crear Service Account en Google Cloud
-- [ ] E2. Dar permisos al Service Account en Play Console
-- [ ] E3. Conectar Google Play en RevenueCat Dashboard (subir JSON)
-- [ ] E4. Crear Product `housekeep_pro` en RevenueCat
-- [ ] E5. Crear Offering "default" con package "pro"
-- [ ] E6. Verificar conexión (compra sandbox)
-- [ ] G3. Cambiar API key de RevenueCat a producción (o pasar via --dart-define)
-- [ ] G2. Cambiar `betaShowProToggle = false` antes de publicar
+- [x] E1. Crear Service Account en Google Cloud
+- [x] E2. Dar permisos al Service Account en Play Console
+- [x] E3. Conectar Google Play en RevenueCat Dashboard (subir JSON)
+- [x] E4. Crear Product `housekeep_pro_lifetime` en RevenueCat
+- [x] E5. Crear Offering "default" con package `$rc_lifetime`
+- [x] E6. Verificar conexión (compra sandbox)
+- [x] G3. Cambiar API key de RevenueCat a producción (o pasar via --dart-define)
+- [x] G2. Cambiar `betaShowProToggle = false` antes de publicar
 
 ### Legal
 - [x] Privacy policy (qué datos se recogen: ninguno en v1, todo local) — `docs/legal/privacy_es.md` + `privacy_en.md`

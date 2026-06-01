@@ -16,7 +16,7 @@ Docs relacionados: `STORE_METADATA.md`, `SCREENSHOT_PLAN.md`, `ASO_STRATEGY.md`,
 | Dato | Valor |
 |------|-------|
 | Package / applicationId | `com.housekeep.app` |
-| Versión actual | `1.0.0+2` (versionName 1.0.0, versionCode 2) |
+| Versión actual | `1.0.0+4` (versionName 1.0.0, versionCode 4) — versionCode 3 ya consumido por Prueba interna; +4 es el AAB de la Prueba cerrada |
 | Cuenta desarrollador Play | David Rubio Mota (cuenta personal, ID 6648310945366824901) |
 | Email soporte | darumo092@gmail.com |
 | Proyecto Firebase / Google Cloud | `housekeep-8715e` |
@@ -112,9 +112,9 @@ Docs relacionados: `STORE_METADATA.md`, `SCREENSHOT_PLAN.md`, `ASO_STRATEGY.md`,
 
 ## Avances 2026-05-31 (parte 2): set final de screenshots + 3 fixes
 
-> Sesión QA/ASO. Todo commiteado en la rama **`feat/store-screenshots-and-fixes`**
-> (2 commits: `0d9c824` fixes de código, `c6edb9e` assets). **Aún NO mergeado a
-> master.** Para integrar: `git checkout master && git merge feat/store-screenshots-and-fixes`.
+> Sesión QA/ASO. Trabajo integrado en **`master`**. Commits relevantes:
+> `0d9c824` fixes de código, `c6edb9e` assets, `7bb822a` tracker y `6513571`
+> bump de `versionCode` a 3.
 
 **HECHO**
 - **Set final de screenshots completo, listo para subir** (1080×1920, PNG24 sin
@@ -143,40 +143,71 @@ Docs relacionados: `STORE_METADATA.md`, `SCREENSHOT_PLAN.md`, `ASO_STRATEGY.md`,
     **133/133 tests OK**.
 
 **PRÓXIMOS PASOS (retomar aquí en la siguiente sesión)**
-1. **Mergear la rama** a master (comando arriba) si no se ha hecho.
-2. **Subir screenshots al listing** (NO requiere build nuevo): Play Console →
+1. **Subir screenshots al listing** (NO requiere build nuevo): Play Console →
    Ficha de Play Store → gráficos de teléfono → subir `final/en-US/` (idioma EN) y
    `final/es-ES/` (idioma ES). Mínimo cumplido (7 > 2).
-3. **Para que los fixes lleguen a usuarios SÍ hace falta build nuevo (AAB):**
-   - Subir `versionCode` 2 → 3 en `pubspec.yaml` (`version: 1.0.0+3`).
-   - `flutter build appbundle --release`.
-   - Subir el `.aab` al track de **prueba cerrada** en Play Console.
-   - Recomendado: los bugs del saludo y del widget se ven en cada uso.
+2. **Completar formularios obligatorios de Play Console**: Data Safety, Content
+   Rating, Target audience/App content y Privacy policy.
+3. **Crear release de producción** con el AAB v1.0.0+3:
+   `build/app/outputs/bundle/release/app-release.aab`.
 4. Pendientes menores del widget (no bloquean, ver `report.md` §3.3): `P-1`
    primer evento truncado en el widget; `P-2` falta `values-en/widget_strings.xml`.
+
+## Avances 2026-05-31 (parte 3): build release v3
+
+- **AAB release generado localmente** con `flutter build appbundle --release`.
+- Artefacto: `build/app/outputs/bundle/release/app-release.aab`
+- Versión: `1.0.0+3`
+- Tamaño local: **67 MB** (`flutter` reportó 69.6 MB)
+- SHA-256:
+  `d530264f2d03fc6c88deb0fb63ed442469956903fc7068874293281ba9579469`
+- Warning no bloqueante del build: varios plugins todavía aplican Kotlin Gradle
+  Plugin directamente; Flutter avisa que futuras versiones exigirán migrar a
+  Built-in Kotlin. No bloquea el AAB actual.
+
+## Avances 2026-05-31 (parte 4): screenshots tablet reales
+
+- **Tablet 7" real desde emulador**: 4 capturas ES + 4 EN, 1280×720, 16:9.
+  - ES: `store/screenshots/android/tablet_7_real/es-ES/`
+  - EN: `store/screenshots/android/tablet_7_real/en-US/`
+- **Tablet 10" real desde emulador**: 4 capturas ES + 4 EN, 1920×1080, 16:9.
+  - ES: `store/screenshots/android/tablet_10_real/es-ES/`
+  - EN: `store/screenshots/android/tablet_10_real/en-US/`
+- Pantallas incluidas por set: `01_dashboard`, `02_items`, `03_item_detail`,
+  `04_documents`.
+- Nota: las carpetas `tablet_7/` y `tablet_10/` previas contienen composiciones
+  derivadas del set móvil. Para Play Console, usar las carpetas `_real`.
 
 ## PENDIENTE (para publicar en producción)
 
 1. **Ficha Play Store** (Store listing) — ver `STORE_METADATA.md`:
    - Descripción corta (máx 80 chars)
    - Descripción larga (máx 4000 chars)
-   - Feature graphic 1024×500
+   - Feature graphic 1024×500 — ES `store/feature_graphic_1024x500_es.png`,
+     EN `store/feature_graphic_1024x500_en.png`
    - Screenshots de teléfono — ✅ **HECHO** (7 EN + 7 ES en
      `store/screenshots/android/final/`; ver sección "Avances 2026-05-31 (parte 2)")
-   - Icono 512×512
+   - Screenshots tablet 7" — ✅ **HECHO** (4 EN + 4 ES en
+     `store/screenshots/android/tablet_7_real/`)
+   - Screenshots tablet 10" — ✅ **HECHO** (4 EN + 4 ES en
+     `store/screenshots/android/tablet_10_real/`)
+   - Icono 512×512 — `store/icon_512.png`
    - (ES + EN)
 2. **Data safety** (formulario datos): declarar fotos (image_picker),
    notificaciones, Firebase Analytics/Crashlytics, y **AD_ID** (firebase_analytics
    inyecta permiso de publicidad). Valorar quitar analytics si no se quiere.
 3. **Content rating** (cuestionario IARC).
 4. **App content / Target audience** (apartados obligatorios).
-5. **Prueba cerrada**: 12 testers que acepten + 14 días mínimo (obligatorio para
-   cuentas personales nuevas antes de poder solicitar producción).
-6. **Solicitar acceso a producción** → revisión → publicar.
+5. **Crear release de producción** con el AAB v1.0.0+3:
+   `build/app/outputs/bundle/release/app-release.aab`.
+6. **Enviar a revisión de producción**.
 
 ### Notas / decisiones tomadas
 - Monetización: **pago único Lifetime 4,99 €** (no suscripción), por ser app
   local-first sin coste recurrente y mejor para reviews/primera app.
+- Cuenta Play parece antigua: **confirmar en Play Console** si exige prueba
+  cerrada 12 testers/14 días. Si no aparece bloqueo al crear Production release,
+  seguir directo a revisión; Internal Testing queda como canal de QA/sandbox.
 - iOS no configurado (solo Android). `revenueCatIosKey` vacío, `_kStoreUrlIos`
   placeholder.
 - Privacy + terms publicados: `https://darumo92.github.io/housekeep-legal/`

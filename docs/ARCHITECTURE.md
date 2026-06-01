@@ -336,8 +336,8 @@ dev_dependencies:
 4. Conectar Google Play (Service Account JSON)
 5. Crear Entitlement: `housekeep_pro`
 6. Crear Product:
-   - iOS: `com.housekeep.app.pro` (non-consumable, €5.99)
-   - Android: `housekeep_pro` (one-time purchase, €5.99)
+   - iOS: pendiente/no configurado para v1 Android-only
+   - Android: `housekeep_pro_lifetime` (one-time purchase, 4,99 €)
 7. Crear Offering "default" con el producto
 8. API Keys en `purchase_service_rc.dart` (por platform)
 

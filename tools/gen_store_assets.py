@@ -2,7 +2,10 @@
 
 Outputs:
   store/icon_1024.png           — App Store / Play store master icon (1024x1024)
-  store/feature_graphic_1024x500.png — Google Play feature graphic
+  store/icon_512.png            — Google Play listing icon (512x512)
+  store/feature_graphic_1024x500.png    — Google Play feature graphic (legacy EN)
+  store/feature_graphic_1024x500_en.png — Google Play feature graphic (EN)
+  store/feature_graphic_1024x500_es.png — Google Play feature graphic (ES)
 
 Run: python3 tools/gen_store_assets.py
 """
@@ -37,6 +40,17 @@ def make_icon_master() -> Path:
     return out
 
 
+def make_icon_play() -> Path:
+    out = OUT_DIR / "icon_512.png"
+    img = Image.open(SRC_ICON).convert("RGBA")
+    if img.size != (512, 512):
+        img = img.resize((512, 512), Image.LANCZOS)
+    bg = Image.new("RGB", (512, 512), CREAM)
+    bg.paste(img, (0, 0), img)
+    bg.save(out, "PNG", optimize=True)
+    return out
+
+
 def linear_gradient(size: tuple[int, int], c1: tuple[int, int, int], c2: tuple[int, int, int]) -> Image.Image:
     w, h = size
     base = Image.new("RGB", size, c1)
@@ -51,8 +65,14 @@ def linear_gradient(size: tuple[int, int], c1: tuple[int, int, int], c2: tuple[i
     return base
 
 
-def make_feature_graphic() -> Path:
-    out = OUT_DIR / "feature_graphic_1024x500.png"
+def make_feature_graphic(
+    *,
+    out_name: str,
+    tagline: str,
+    tagline2: str,
+    badge_text: str,
+) -> Path:
+    out = OUT_DIR / out_name
     W, H = 1024, 500
     img = linear_gradient((W, H), CREAM, CREAM_DARK)
     draw = ImageDraw.Draw(img)
@@ -85,9 +105,6 @@ def make_feature_graphic() -> Path:
 
     text_x = 450
     title = "HouseKeep"
-    tagline = "Home maintenance,"
-    tagline2 = "simplified."
-
     t_bbox = draw.textbbox((0, 0), title, font=title_font)
     title_h = t_bbox[3] - t_bbox[1]
     total_h = title_h + 16 + 50 + 50
@@ -97,7 +114,6 @@ def make_feature_graphic() -> Path:
     draw.text((text_x, y0 + title_h + 24), tagline, font=sub_font, fill=TEXT_PRIMARY)
     draw.text((text_x, y0 + title_h + 24 + 48), tagline2, font=sub_font, fill=TEXT_PRIMARY)
 
-    badge_text = "WARRANTIES  ·  MAINTENANCE  ·  DOCUMENTS"
     b_bbox = draw.textbbox((0, 0), badge_text, font=badge_font)
     b_w = b_bbox[2] - b_bbox[0]
     bx = text_x
@@ -122,8 +138,30 @@ def main() -> int:
     icon = make_icon_master()
     print(f"wrote {icon} ({icon.stat().st_size // 1024} KB)")
 
-    feature = make_feature_graphic()
-    print(f"wrote {feature} ({feature.stat().st_size // 1024} KB)")
+    play_icon = make_icon_play()
+    print(f"wrote {play_icon} ({play_icon.stat().st_size // 1024} KB)")
+
+    feature_en = make_feature_graphic(
+        out_name="feature_graphic_1024x500_en.png",
+        tagline="Home maintenance,",
+        tagline2="simplified.",
+        badge_text="WARRANTIES  ·  MAINTENANCE  ·  DOCUMENTS",
+    )
+    print(f"wrote {feature_en} ({feature_en.stat().st_size // 1024} KB)")
+
+    feature_es = make_feature_graphic(
+        out_name="feature_graphic_1024x500_es.png",
+        tagline="Mantenimiento del hogar,",
+        tagline2="sin complicaciones.",
+        badge_text="GARANTÍAS  ·  MANTENIMIENTO  ·  DOCUMENTOS",
+    )
+    print(f"wrote {feature_es} ({feature_es.stat().st_size // 1024} KB)")
+
+    legacy_feature = OUT_DIR / "feature_graphic_1024x500.png"
+    legacy_feature.write_bytes(feature_en.read_bytes())
+    print(
+        f"wrote {legacy_feature} ({legacy_feature.stat().st_size // 1024} KB)"
+    )
 
     return 0
 

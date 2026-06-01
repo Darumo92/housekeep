@@ -4,9 +4,9 @@ App móvil freemium (iOS + Android) para gestión del mantenimiento del hogar, c
 
 ## Quick Context para nuevas sesiones
 
-**Qué es:** App de utilidad del hogar con modelo de pago único (€5.99 lifetime unlock).
+**Qué es:** App de utilidad del hogar con modelo de pago único (4,99 € lifetime unlock).
 
-**Estado actual:** Fases 0-10 completadas. Fase 11 (Store prep) en curso: legales, metadata, assets y landing listos; screenshots reales + submit a stores pendientes.
+**Estado actual:** Fases 0-10 completadas. Fase 11 (Store prep) en curso: legales, metadata, assets, landing y screenshots Android listos; listing, formularios Play y release de producción pendientes. La cuenta Play parece antigua; confirmar en Play Console si exige prueba cerrada 12 testers/14 días.
 
 **Documentación completa en `/docs/`:**
 - `docs/PLAN.md` — Plan de desarrollo, fases, stack, costes, roadmap
@@ -54,7 +54,7 @@ App móvil freemium (iOS + Android) para gestión del mantenimiento del hogar, c
 | 8 | Onboarding + Settings | Completada |
 | 9 | Widget pantalla inicio (Android; iOS pendiente Mac) | Completada (Android) |
 | 10 | Pulido + QA (animaciones, accesibilidad, profile, memory) | Completada |
-| 11 | Store prep + submit | En curso (legales + metadata listos; screenshots + submit pendientes) |
+| 11 | Store prep + submit | En curso (legales + metadata + screenshots Android listos; submit pendiente) |
 
 ## Cómo continuar
 

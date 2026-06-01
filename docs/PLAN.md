@@ -8,7 +8,7 @@
 "La app que cuida tu casa para que tú no tengas que recordar nada."
 
 ### Modelo de negocio
-- **Freemium** con pago único de €5.99 para desbloqueo completo (lifetime).
+- **Freemium** con pago único de 4,99 € para desbloqueo completo (lifetime).
 - Sin suscripciones.
 - Entitlement único: `housekeep_pro` (non-consumable IAP).
 
@@ -50,7 +50,7 @@
 - 1 hogar
 - Plantillas estándar (caldera, AC, filtro agua)
 
-## Funciones premium (€5.99 lifetime)
+## Funciones premium (4,99 € lifetime)
 - Items ilimitados
 - Documentos ilimitados con fotos adjuntas
 - Múltiples hogares
@@ -200,7 +200,7 @@ No usar modelos baratos para Drift/migrations, RevenueCat, notificaciones, widge
 - Privacy policy page (hosted)
 - Crear app en App Store Connect
 - Crear app en Google Play Console
-- Crear productos IAP (non-consumable "housekeep_pro" €5.99)
+- Crear productos IAP (non-consumable `housekeep_pro_lifetime`, 4,99 €)
 - Conectar RevenueCat con ambas tiendas
 - Configurar TestFlight (iOS beta)
 - Configurar Internal Testing track (Android beta)
