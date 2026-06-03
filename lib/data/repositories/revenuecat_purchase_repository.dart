@@ -36,6 +36,17 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
     Purchases.addCustomerInfoUpdateListener(_listener!);
 
     try {
+      // Force a fresh server fetch on startup. After a reinstall+restore the
+      // purchase is transferred to a new anonymous App User ID; the locally
+      // cached CustomerInfo can still reflect the pre-transfer (Free) state,
+      // which would leave a genuinely entitled user stuck on Free until the
+      // next cache refresh. Invalidating guarantees the entitlement shows.
+      await Purchases.invalidateCustomerInfoCache();
+    } catch (e) {
+      debugPrint('[RevenueCat] invalidateCustomerInfoCache failed: $e');
+    }
+
+    try {
       final info = await Purchases.getCustomerInfo();
       _updateFromCustomerInfo(info);
     } catch (e) {
