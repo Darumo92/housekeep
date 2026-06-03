@@ -163,7 +163,7 @@ Future<void> _rescheduleAfterMarkDone(
   if (updated == null) return;
   final item = await itemsRepo.getItem(updated.itemId);
   if (item == null) return;
-  final isPro = await ref.read(isProProvider.future);
+  final isPro = ref.read(isProProvider).valueOrNull ?? false;
   await ref
       .read(notificationSchedulerProvider)
       .rescheduleMaintenance(
