@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -10,6 +12,7 @@ import '../../../core/utils/haptics.dart';
 import '../../../data/repositories/repository_providers.dart';
 import '../../../data/services/notification_providers.dart';
 import '../../../data/services/notification_strings.dart';
+import '../../../data/services/review_service.dart';
 import '../../../domain/models/item.dart';
 import '../../../domain/models/maintenance.dart';
 import '../../../shared/widgets/hk_button.dart';
@@ -242,6 +245,9 @@ class _MarkDoneSheetState extends ConsumerState<MarkDoneSheet> {
       }
       if (!mounted) return;
       setState(() => _isComplete = true);
+      // Completing a maintenance is a genuine positive moment: a good time to
+      // (occasionally, throttled) ask for a Play review. Fire-and-forget.
+      unawaited(ref.read(reviewServiceProvider).registerPositiveAction());
       await Future<void>.delayed(const Duration(milliseconds: 1200));
       if (mounted) Navigator.of(context).pop(true);
     } catch (_) {
