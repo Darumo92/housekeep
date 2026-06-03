@@ -25,8 +25,6 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
       throw StateError('RevenueCat apiKey is empty');
     }
 
-    _isProController.onListen = () => _isProController.add(_isProValue);
-
     await Purchases.setLogLevel(LogLevel.warn);
     await Purchases.configure(PurchasesConfiguration(apiKey));
 
@@ -34,6 +32,17 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
       _updateFromCustomerInfo(info);
     };
     Purchases.addCustomerInfoUpdateListener(_listener!);
+
+    try {
+      // Force a fresh server fetch on startup. After a reinstall+restore the
+      // purchase is transferred to a new anonymous App User ID; the locally
+      // cached CustomerInfo can still reflect the pre-transfer (Free) state,
+      // which would leave a genuinely entitled user stuck on Free until the
+      // next cache refresh. Invalidating guarantees the entitlement shows.
+      await Purchases.invalidateCustomerInfoCache();
+    } catch (e) {
+      debugPrint('[RevenueCat] invalidateCustomerInfoCache failed: $e');
+    }
 
     try {
       final info = await Purchases.getCustomerInfo();
@@ -45,21 +54,37 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
     _initialized = true;
   }
 
-  void _updateFromCustomerInfo(CustomerInfo info) {
+  /// Maps a [CustomerInfo] to our Pro flag, pushes the value to listeners and
+  /// returns the freshly-computed entitlement state. Returning the value (and
+  /// always re-emitting it) avoids relying on the cached field, which could be
+  /// mutated concurrently by the SDK's CustomerInfo listener.
+  bool _updateFromCustomerInfo(CustomerInfo info) {
     final active = info.entitlements.active.containsKey(
       AppConstants.entitlementId,
     );
-    if (active != _isProValue) {
-      _isProValue = active;
-      _isProController.add(active);
-    }
+    debugPrint(
+      '[RevenueCat] customerInfo update -> active=$active '
+      'appUserId=${info.originalAppUserId} '
+      'allEntitlements=${info.entitlements.all.keys.toList()} '
+      'activeEntitlements=${info.entitlements.active.keys.toList()}',
+    );
+    _isProValue = active;
+    _isProController.add(active);
+    return active;
   }
 
   @override
   Future<bool> get isPro async => _isProValue;
 
   @override
-  Stream<bool> watchIsPro() => _isProController.stream;
+  Stream<bool> watchIsPro() async* {
+    // Seed every new subscriber with the current value, then forward updates.
+    // The old broadcast `onListen`-add approach emitted the initial value
+    // synchronously inside `listen()`, before Riverpod had wired its handler,
+    // so a genuinely-Pro user could stay stuck on the Free UI on startup.
+    yield _isProValue;
+    yield* _isProController.stream;
+  }
 
   @override
   Future<PurchaseOffering?> getCurrentOffering() async {
@@ -124,9 +149,9 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
         );
       }
       final info = await Purchases.purchasePackage(native);
-      _updateFromCustomerInfo(info);
+      final active = _updateFromCustomerInfo(info);
       return PurchaseResult(
-        status: _isProValue ? PurchaseStatus.success : PurchaseStatus.pending,
+        status: active ? PurchaseStatus.success : PurchaseStatus.pending,
       );
     } on PlatformException catch (e) {
       final code = PurchasesErrorHelper.getErrorCode(e);
@@ -155,12 +180,18 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
     }
     try {
       final info = await Purchases.restorePurchases();
-      _updateFromCustomerInfo(info);
+      final active = _updateFromCustomerInfo(info);
+      debugPrint(
+        '[RevenueCat] restorePurchases -> active=$active '
+        'entitlements.active=${info.entitlements.active.keys.toList()} '
+        'expected=${AppConstants.entitlementId}',
+      );
       return PurchaseResult(
-        status: _isProValue ? PurchaseStatus.success : PurchaseStatus.error,
-        errorMessage: _isProValue ? null : 'No active entitlement to restore',
+        status: active ? PurchaseStatus.success : PurchaseStatus.error,
+        errorMessage: active ? null : 'No active entitlement to restore',
       );
     } catch (e) {
+      debugPrint('[RevenueCat] restorePurchases failed: $e');
       return PurchaseResult(
         status: PurchaseStatus.error,
         errorMessage: e.toString(),

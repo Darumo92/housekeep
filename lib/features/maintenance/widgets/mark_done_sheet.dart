@@ -230,7 +230,7 @@ class _MarkDoneSheetState extends ConsumerState<MarkDoneSheet> {
       await repository.markAsDone(widget.maintenance.id, doneAt: completedAt);
       final updated = await repository.getMaintenance(widget.maintenance.id);
       if (updated != null) {
-        final isPro = await ref.read(isProProvider.future);
+        final isPro = ref.read(isProProvider).valueOrNull ?? false;
         await ref
             .read(notificationSchedulerProvider)
             .rescheduleMaintenance(

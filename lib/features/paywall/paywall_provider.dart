@@ -21,6 +21,9 @@ class PurchaseController extends _$PurchaseController {
     state = const PurchaseControllerState.loading();
     final repo = ref.read(purchaseRepositoryProvider);
     final result = await repo.purchasePackage(package);
+    if (result.status == PurchaseStatus.success) {
+      ref.invalidate(isProProvider);
+    }
     state = PurchaseControllerState.fromResult(result);
   }
 
@@ -28,6 +31,11 @@ class PurchaseController extends _$PurchaseController {
     state = const PurchaseControllerState.loading();
     final repo = ref.read(purchaseRepositoryProvider);
     final result = await repo.restorePurchases();
+    if (result.status == PurchaseStatus.success) {
+      // Re-read isPro from the repository so the success screen and every
+      // gated widget reflect the restored entitlement immediately.
+      ref.invalidate(isProProvider);
+    }
     state = PurchaseControllerState.fromResult(result);
   }
 
