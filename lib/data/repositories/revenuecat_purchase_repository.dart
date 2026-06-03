@@ -25,8 +25,6 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
       throw StateError('RevenueCat apiKey is empty');
     }
 
-    _isProController.onListen = () => _isProController.add(_isProValue);
-
     await Purchases.setLogLevel(LogLevel.warn);
     await Purchases.configure(PurchasesConfiguration(apiKey));
 
@@ -79,7 +77,14 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
   Future<bool> get isPro async => _isProValue;
 
   @override
-  Stream<bool> watchIsPro() => _isProController.stream;
+  Stream<bool> watchIsPro() async* {
+    // Seed every new subscriber with the current value, then forward updates.
+    // The old broadcast `onListen`-add approach emitted the initial value
+    // synchronously inside `listen()`, before Riverpod had wired its handler,
+    // so a genuinely-Pro user could stay stuck on the Free UI on startup.
+    yield _isProValue;
+    yield* _isProController.stream;
+  }
 
   @override
   Future<PurchaseOffering?> getCurrentOffering() async {
