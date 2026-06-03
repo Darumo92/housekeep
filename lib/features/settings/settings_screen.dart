@@ -316,6 +316,11 @@ class SettingsScreen extends ConsumerWidget {
       final result = await ref
           .read(purchaseRepositoryProvider)
           .restorePurchases();
+      if (result.status == PurchaseStatus.success) {
+        // Force every isPro watcher to re-read the repository's current value
+        // so the UI cannot get stuck on a stale Free state after a restore.
+        ref.invalidate(isProProvider);
+      }
       final message = result.status == PurchaseStatus.success
           ? l10n.settingsPremiumRestoreSuccess
           : l10n.settingsPremiumRestoreNone;
