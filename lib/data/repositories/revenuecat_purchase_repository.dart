@@ -53,6 +53,12 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
     final active = info.entitlements.active.containsKey(
       AppConstants.entitlementId,
     );
+    debugPrint(
+      '[RevenueCat] customerInfo update -> active=$active '
+      'appUserId=${info.originalAppUserId} '
+      'allEntitlements=${info.entitlements.all.keys.toList()} '
+      'activeEntitlements=${info.entitlements.active.keys.toList()}',
+    );
     _isProValue = active;
     _isProController.add(active);
     return active;
