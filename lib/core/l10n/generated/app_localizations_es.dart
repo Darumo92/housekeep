@@ -812,7 +812,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get homeSeeAll => 'Ver todo';
 
   @override
-  String get homeProUpsellTitle => 'Pásate a Pro por €5,99';
+  String get homeProUpsellTitle => 'Pásate a Pro por 4,99 €';
 
   @override
   String get homeProUpsellSub => 'Sin límites · pago único · para siempre';
