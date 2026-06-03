@@ -109,4 +109,60 @@ void main() {
       expect(container.read(proDebugOverrideProvider), isTrue);
     });
   });
+
+  group('isProProvider override semantics', () {
+    setUp(() {
+      SharedPreferencesAsyncPlatform.instance =
+          InMemorySharedPreferencesAsync.empty();
+    });
+
+    test('a real entitlement is honored when override is null', () async {
+      final container = ProviderContainer(
+        overrides: [
+          purchaseRepositoryProvider.overrideWithValue(
+            MockPurchaseRepository(initialIsPro: true),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      expect(await container.read(isProProvider.future), isTrue);
+    });
+
+    test(
+      'override=false must NOT mask a real active entitlement (restore bug)',
+      () async {
+        final container = ProviderContainer(
+          overrides: [
+            purchaseRepositoryProvider.overrideWithValue(
+              MockPurchaseRepository(initialIsPro: true),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        // A tester toggled "Simular PRO" off at some point -> stored false.
+        await container.read(proDebugOverrideProvider.notifier).set(false);
+
+        // The user then restored a real purchase: entitlement is active.
+        // Pro must be reported as active despite the stale false override.
+        expect(await container.read(isProProvider.future), isTrue);
+      },
+    );
+
+    test('override=true forces pro even without a real entitlement', () async {
+      final container = ProviderContainer(
+        overrides: [
+          purchaseRepositoryProvider.overrideWithValue(
+            MockPurchaseRepository(initialIsPro: false),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      await container.read(proDebugOverrideProvider.notifier).set(true);
+
+      expect(await container.read(isProProvider.future), isTrue);
+    });
+  });
 }

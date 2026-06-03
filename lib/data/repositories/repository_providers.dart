@@ -56,8 +56,13 @@ class ProDebugOverride extends _$ProDebugOverride {
 @riverpod
 Stream<bool> isPro(IsProRef ref) {
   final override = ref.watch(proDebugOverrideProvider);
-  if (override != null) {
-    return Stream.value(override);
+  // The debug "simulate PRO" override may only FORCE Pro on for testing. It
+  // must never mask a real active entitlement: a stale stored `false` (left
+  // behind after a tester flipped the switch off) used to override a genuine
+  // purchase/restore, so the user saw "restore successful" yet stayed Free.
+  // Real entitlements always win.
+  if (override == true) {
+    return Stream.value(true);
   }
   return ref.watch(purchaseRepositoryProvider).watchIsPro();
 }
