@@ -805,7 +805,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeSeeAll => 'See all';
 
   @override
-  String get homeProUpsellTitle => 'Go Pro for €4.99';
+  String homeProUpsellTitle(String price) {
+    return 'Go Pro for $price';
+  }
+
+  @override
+  String get homeProUpsellTitleGeneric => 'Go Pro';
 
   @override
   String get homeProUpsellSub => 'No limits · one-time payment · forever';

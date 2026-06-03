@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 import '../../../core/l10n/generated/app_localizations.dart';
@@ -14,6 +15,7 @@ import '../../../shared/widgets/hk_chip.dart' show HkTone;
 import '../../../shared/widgets/hk_status_pill.dart';
 import '../../../shared/widgets/hk_summary_stat.dart';
 import '../../onboarding/widgets/onboarding_art.dart';
+import '../../paywall/paywall_provider.dart';
 
 class GreetingHeader extends StatelessWidget {
   const GreetingHeader({
@@ -317,14 +319,22 @@ String shortDayLabel(AppLocalizations l10n, int days) {
   return l10n.homeShortDayAgo(-days);
 }
 
-class ProUpsellCard extends StatelessWidget {
+class ProUpsellCard extends ConsumerWidget {
   const ProUpsellCard({super.key, required this.onTap});
 
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    // Use the real, store-localized price (currency + tax per country). Falls
+    // back to a price-less title while the offering loads or if it's missing,
+    // so we never show a hardcoded price that could be wrong in other regions.
+    final price =
+        ref.watch(currentOfferingProvider).valueOrNull?.primaryPackage?.priceString;
+    final title = price != null
+        ? l10n.homeProUpsellTitle(price)
+        : l10n.homeProUpsellTitleGeneric;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 22),
       child: Material(
@@ -373,7 +383,7 @@ class ProUpsellCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        l10n.homeProUpsellTitle,
+                        title,
                         style: const TextStyle(
                           fontSize: 14.5,
                           fontWeight: FontWeight.w700,

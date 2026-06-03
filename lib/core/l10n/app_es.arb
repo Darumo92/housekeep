@@ -310,7 +310,11 @@
   "homeSummarySoon": "Esta semana",
   "homeSummaryOk": "Al día",
   "homeSeeAll": "Ver todo",
-  "homeProUpsellTitle": "Pásate a Pro por 4,99 €",
+  "homeProUpsellTitle": "Pásate a Pro por {price}",
+  "@homeProUpsellTitle": {
+    "placeholders": { "price": { "type": "String" } }
+  },
+  "homeProUpsellTitleGeneric": "Hazte Pro",
   "homeProUpsellSub": "Sin límites · pago único · para siempre",
   "homeProUpsellCta": "Ver",
   "homeShortDayToday": "hoy",

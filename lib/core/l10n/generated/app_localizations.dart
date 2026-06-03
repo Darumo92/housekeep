@@ -1427,8 +1427,14 @@ abstract class AppLocalizations {
   /// No description provided for @homeProUpsellTitle.
   ///
   /// In en, this message translates to:
-  /// **'Go Pro for €4.99'**
-  String get homeProUpsellTitle;
+  /// **'Go Pro for {price}'**
+  String homeProUpsellTitle(String price);
+
+  /// No description provided for @homeProUpsellTitleGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Pro'**
+  String get homeProUpsellTitleGeneric;
 
   /// No description provided for @homeProUpsellSub.
   ///
