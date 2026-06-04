@@ -44,13 +44,25 @@ class _FakeNotificationService extends NotificationService {
   Future<void> cancel(int id) async {}
 }
 
+extension _Find on List<_ScheduledCall> {
+  _ScheduledCall byPayload(String payload) =>
+      firstWhere((c) => c.payload == payload);
+  bool hasPayload(String payload) => any((c) => c.payload == payload);
+}
+
 NotificationTexts _texts() => NotificationTexts(
   maintenanceTitle: 'M',
   maintenanceBody: (i, t, d) => 'm:$i:$t:$d',
+  maintenanceOverdueTitle: 'MO',
+  maintenanceOverdueBody: (i, t) => 'mo:$i:$t',
   documentTitle: 'D',
   documentBody: (n, d) => 'd:$n:$d',
+  documentExpiredTitle: 'DE',
+  documentExpiredBody: (n) => 'de:$n',
   warrantyTitle: 'W',
   warrantyBody: (n, d) => 'w:$n:$d',
+  warrantyExpiredTitle: 'WE',
+  warrantyExpiredBody: (n) => 'we:$n',
 );
 
 Maintenance _maintenance({
@@ -109,7 +121,7 @@ Document _document({
 void main() {
   group('NotificationScheduler.rescheduleMaintenance', () {
     test(
-      'free tier schedules one notification at nextDue - notifyDaysBefore',
+      'free tier schedules reminder at 09:00 plus overdue notification',
       () async {
         final now = DateTime(2026, 1, 1);
         final fake = _FakeNotificationService();
@@ -127,14 +139,19 @@ void main() {
         );
 
         expect(fake.cancelledPrefixes, ['hk:m:maint-1:']);
-        expect(fake.scheduled, hasLength(1));
-        expect(fake.scheduled.first.when, DateTime(2026, 5, 25));
-        expect(fake.scheduled.first.payload, 'hk:m:maint-1:7');
-        expect(fake.scheduled.first.body, 'm:Fridge:Filter:7');
+        final tier = fake.scheduled.byPayload('hk:m:maint-1:7');
+        expect(tier.when, DateTime(2026, 5, 25, 9));
+        expect(tier.body, 'm:Fridge:Filter:7');
+
+        final overdue = fake.scheduled.byPayload('hk:m:maint-1:expired');
+        expect(overdue.when, DateTime(2026, 6, 1, 9));
+        expect(overdue.title, 'MO');
+        expect(overdue.body, 'mo:Fridge:Filter');
+        expect(fake.scheduled, hasLength(2));
       },
     );
 
-    test('pro tier schedules 90/30/7 day reminders', () async {
+    test('pro tier schedules 90/30/7 reminders plus overdue', () async {
       final now = DateTime(2026, 1, 1);
       final fake = _FakeNotificationService();
       final scheduler = NotificationScheduler(service: fake, now: () => now);
@@ -147,11 +164,16 @@ void main() {
         texts: _texts(),
       );
 
-      final tiers = fake.scheduled.map((s) => s.payload).toList()..sort();
-      expect(tiers, ['hk:m:maint-1:30', 'hk:m:maint-1:7', 'hk:m:maint-1:90']);
+      final payloads = fake.scheduled.map((s) => s.payload).toList()..sort();
+      expect(payloads, [
+        'hk:m:maint-1:30',
+        'hk:m:maint-1:7',
+        'hk:m:maint-1:90',
+        'hk:m:maint-1:expired',
+      ]);
     });
 
-    test('skips tiers that fall in the past', () async {
+    test('skips past tiers but still schedules future tier + overdue', () async {
       final now = DateTime(2026, 1, 1);
       final fake = _FakeNotificationService();
       final scheduler = NotificationScheduler(service: fake, now: () => now);
@@ -164,13 +186,14 @@ void main() {
         texts: _texts(),
       );
 
-      expect(fake.scheduled, hasLength(1));
-      expect(fake.scheduled.first.payload, 'hk:m:maint-1:7');
+      expect(fake.scheduled, hasLength(2));
+      expect(fake.scheduled.hasPayload('hk:m:maint-1:7'), isTrue);
+      expect(fake.scheduled.hasPayload('hk:m:maint-1:expired'), isTrue);
     });
   });
 
   group('NotificationScheduler.rescheduleDocument', () {
-    test('free tier uses notifyDaysBefore', () async {
+    test('free tier at 09:00 plus expired notification', () async {
       final now = DateTime(2026, 1, 1);
       final fake = _FakeNotificationService();
       final scheduler = NotificationScheduler(service: fake, now: () => now);
@@ -183,9 +206,61 @@ void main() {
       );
 
       expect(fake.cancelledPrefixes, ['hk:d:doc-1:']);
-      expect(fake.scheduled.first.when, DateTime(2026, 5, 2));
-      expect(fake.scheduled.first.payload, 'hk:d:doc-1:30');
+      final tier = fake.scheduled.byPayload('hk:d:doc-1:30');
+      expect(tier.when, DateTime(2026, 5, 2, 9));
+
+      final expired = fake.scheduled.byPayload('hk:d:doc-1:expired');
+      expect(expired.when, DateTime(2026, 6, 1, 9));
+      expect(expired.body, 'de:ID card');
     });
+
+    test(
+      'recovery: all tiers past but not yet expired fires one catch-up',
+      () async {
+        final now = DateTime(2026, 1, 1, 12);
+        final fake = _FakeNotificationService();
+        final scheduler = NotificationScheduler(service: fake, now: () => now);
+        final d = _document(expiryDate: DateTime(2026, 1, 6));
+
+        await scheduler.rescheduleDocument(
+          document: d,
+          isPro: true,
+          texts: _texts(),
+        );
+
+        // No tier in the future.
+        expect(fake.scheduled.hasPayload('hk:d:doc-1:90'), isFalse);
+        expect(fake.scheduled.hasPayload('hk:d:doc-1:7'), isFalse);
+
+        final soon = fake.scheduled.byPayload('hk:d:doc-1:soon');
+        expect(soon.when, DateTime(2026, 1, 2, 9)); // next 09:00
+        expect(soon.body, 'd:ID card:4'); // days remaining
+
+        expect(fake.scheduled.hasPayload('hk:d:doc-1:expired'), isTrue);
+        expect(fake.scheduled, hasLength(2));
+      },
+    );
+
+    test(
+      'already expired on save: only expired notification at next 09:00',
+      () async {
+        final now = DateTime(2026, 1, 1, 12);
+        final fake = _FakeNotificationService();
+        final scheduler = NotificationScheduler(service: fake, now: () => now);
+        final d = _document(expiryDate: DateTime(2025, 12, 30));
+
+        await scheduler.rescheduleDocument(
+          document: d,
+          isPro: false,
+          texts: _texts(),
+        );
+
+        expect(fake.scheduled, hasLength(1));
+        final expired = fake.scheduled.byPayload('hk:d:doc-1:expired');
+        expect(expired.when, DateTime(2026, 1, 2, 9));
+        expect(expired.body, 'de:ID card');
+      },
+    );
   });
 
   group('NotificationScheduler.rescheduleWarranty', () {
@@ -205,7 +280,7 @@ void main() {
     });
 
     test(
-      'schedules default 30-day reminder when warranty exists (free)',
+      'schedules default 30-day reminder + expired when warranty exists (free)',
       () async {
         final now = DateTime(2026, 1, 1);
         final fake = _FakeNotificationService();
@@ -221,8 +296,10 @@ void main() {
           texts: _texts(),
         );
 
-        expect(fake.scheduled, hasLength(1));
-        expect(fake.scheduled.first.payload, 'hk:w:item-1:30');
+        expect(fake.scheduled, hasLength(2));
+        expect(fake.scheduled.hasPayload('hk:w:item-1:30'), isTrue);
+        final expired = fake.scheduled.byPayload('hk:w:item-1:expired');
+        expect(expired.body, 'we:Fridge');
       },
     );
   });

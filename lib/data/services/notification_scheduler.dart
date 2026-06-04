@@ -24,6 +24,73 @@ class NotificationScheduler {
 
   int notificationIdFor(String payload) => payload.hashCode & 0x7FFFFFFF;
 
+  static const int _notifyHour = 9;
+
+  DateTime _atNineAm(DateTime day) =>
+      DateTime(day.year, day.month, day.day, _notifyHour);
+
+  DateTime _nextNineAm(DateTime now) {
+    final today = _atNineAm(now);
+    return today.isAfter(now) ? today : today.add(const Duration(days: 1));
+  }
+
+  /// Schedules the tier, recovery and expired notifications for a single
+  /// entity sharing [prefix]. [reference] is the expiry/due date.
+  Future<void> _scheduleEntity({
+    required String prefix,
+    required DateTime reference,
+    required List<int> tiers,
+    required String tierTitle,
+    required String Function(int days) tierBody,
+    required String expiredTitle,
+    required String expiredBody,
+  }) async {
+    await _service.cancelByPayloadPrefix(prefix);
+
+    final now = _now();
+    var anyTierScheduled = false;
+    for (final days in tiers) {
+      if (days < 0) continue;
+      final when = _atNineAm(reference.subtract(Duration(days: days)));
+      if (!when.isAfter(now)) continue;
+      final payload = '$prefix$days';
+      await _service.schedule(
+        id: notificationIdFor(payload),
+        title: tierTitle,
+        body: tierBody(days),
+        when: when,
+        payload: payload,
+      );
+      anyTierScheduled = true;
+    }
+
+    // Recovery: every tier fell in the past but the entity is still valid.
+    // Fire a single catch-up at the next 09:00 with the real days remaining.
+    if (!anyTierScheduled && reference.isAfter(now)) {
+      final payload = '${prefix}soon';
+      final remaining = reference.difference(now).inDays;
+      await _service.schedule(
+        id: notificationIdFor(payload),
+        title: tierTitle,
+        body: tierBody(remaining),
+        when: _nextNineAm(now),
+        payload: payload,
+      );
+    }
+
+    // Expired/overdue: a single notification once the reference date arrives.
+    var expiredWhen = _atNineAm(reference);
+    if (!expiredWhen.isAfter(now)) expiredWhen = _nextNineAm(now);
+    final expiredPayload = '${prefix}expired';
+    await _service.schedule(
+      id: notificationIdFor(expiredPayload),
+      title: expiredTitle,
+      body: expiredBody,
+      when: expiredWhen,
+      payload: expiredPayload,
+    );
+  }
+
   List<int> _maintenanceTiers(Maintenance m, {required bool isPro}) {
     if (isPro) return proTiers;
     return [m.notifyDaysBefore];
@@ -45,25 +112,16 @@ class NotificationScheduler {
     required bool isPro,
     required NotificationTexts texts,
   }) async {
-    await _service.cancelByPayloadPrefix(
-      maintenancePayloadPrefix(maintenance.id),
+    await _scheduleEntity(
+      prefix: maintenancePayloadPrefix(maintenance.id),
+      reference: maintenance.nextDueAt,
+      tiers: _maintenanceTiers(maintenance, isPro: isPro),
+      tierTitle: texts.maintenanceTitle,
+      tierBody: (days) =>
+          texts.maintenanceBody(item.name, maintenance.name, days),
+      expiredTitle: texts.maintenanceOverdueTitle,
+      expiredBody: texts.maintenanceOverdueBody(item.name, maintenance.name),
     );
-
-    final tiers = _maintenanceTiers(maintenance, isPro: isPro);
-    final now = _now();
-    for (final days in tiers) {
-      if (days < 0) continue;
-      final when = maintenance.nextDueAt.subtract(Duration(days: days));
-      if (!when.isAfter(now)) continue;
-      final payload = '${maintenancePayloadPrefix(maintenance.id)}$days';
-      await _service.schedule(
-        id: notificationIdFor(payload),
-        title: texts.maintenanceTitle,
-        body: texts.maintenanceBody(item.name, maintenance.name, days),
-        when: when,
-        payload: payload,
-      );
-    }
   }
 
   Future<void> cancelMaintenance(String maintenanceId) {
@@ -77,23 +135,15 @@ class NotificationScheduler {
     required bool isPro,
     required NotificationTexts texts,
   }) async {
-    await _service.cancelByPayloadPrefix(documentPayloadPrefix(document.id));
-
-    final tiers = _documentTiers(document, isPro: isPro);
-    final now = _now();
-    for (final days in tiers) {
-      if (days < 0) continue;
-      final when = document.expiryDate.subtract(Duration(days: days));
-      if (!when.isAfter(now)) continue;
-      final payload = '${documentPayloadPrefix(document.id)}$days';
-      await _service.schedule(
-        id: notificationIdFor(payload),
-        title: texts.documentTitle,
-        body: texts.documentBody(document.name, days),
-        when: when,
-        payload: payload,
-      );
-    }
+    await _scheduleEntity(
+      prefix: documentPayloadPrefix(document.id),
+      reference: document.expiryDate,
+      tiers: _documentTiers(document, isPro: isPro),
+      tierTitle: texts.documentTitle,
+      tierBody: (days) => texts.documentBody(document.name, days),
+      expiredTitle: texts.documentExpiredTitle,
+      expiredBody: texts.documentExpiredBody(document.name),
+    );
   }
 
   Future<void> cancelDocument(String documentId) {
@@ -105,26 +155,21 @@ class NotificationScheduler {
     required bool isPro,
     required NotificationTexts texts,
   }) async {
-    await _service.cancelByPayloadPrefix(warrantyPayloadPrefix(item.id));
-
     final expiry = item.warrantyExpiryDate;
-    if (expiry == null) return;
-
-    final tiers = _warrantyTiers(isPro: isPro);
-    final now = _now();
-    for (final days in tiers) {
-      if (days < 0) continue;
-      final when = expiry.subtract(Duration(days: days));
-      if (!when.isAfter(now)) continue;
-      final payload = '${warrantyPayloadPrefix(item.id)}$days';
-      await _service.schedule(
-        id: notificationIdFor(payload),
-        title: texts.warrantyTitle,
-        body: texts.warrantyBody(item.name, days),
-        when: when,
-        payload: payload,
-      );
+    if (expiry == null) {
+      await _service.cancelByPayloadPrefix(warrantyPayloadPrefix(item.id));
+      return;
     }
+
+    await _scheduleEntity(
+      prefix: warrantyPayloadPrefix(item.id),
+      reference: expiry,
+      tiers: _warrantyTiers(isPro: isPro),
+      tierTitle: texts.warrantyTitle,
+      tierBody: (days) => texts.warrantyBody(item.name, days),
+      expiredTitle: texts.warrantyExpiredTitle,
+      expiredBody: texts.warrantyExpiredBody(item.name),
+    );
   }
 
   Future<void> cancelWarranty(String itemId) {

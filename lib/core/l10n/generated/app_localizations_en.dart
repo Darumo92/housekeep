@@ -903,6 +903,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get notificationMaintenanceOverdueTitle => 'Maintenance overdue';
+
+  @override
+  String notificationMaintenanceOverdueBody(String item, String task) {
+    return '🔧 $item: $task is overdue';
+  }
+
+  @override
   String get notificationDocumentTitle => 'Document reminder';
 
   @override
@@ -918,6 +926,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get notificationDocumentExpiredTitle => 'Document expired';
+
+  @override
+  String notificationDocumentExpiredBody(String name) {
+    return '📄 $name has expired';
+  }
+
+  @override
   String get notificationWarrantyTitle => 'Warranty reminder';
 
   @override
@@ -930,6 +946,14 @@ class AppLocalizationsEn extends AppLocalizations {
       zero: 'ends today',
     );
     return '⚠️ $item warranty $_temp0';
+  }
+
+  @override
+  String get notificationWarrantyExpiredTitle => 'Warranty expired';
+
+  @override
+  String notificationWarrantyExpiredBody(String item) {
+    return '⚠️ $item warranty has expired';
   }
 
   @override

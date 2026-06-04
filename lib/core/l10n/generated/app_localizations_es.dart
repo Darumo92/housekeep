@@ -910,6 +910,14 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get notificationMaintenanceOverdueTitle => 'Mantenimiento vencido';
+
+  @override
+  String notificationMaintenanceOverdueBody(String item, String task) {
+    return '🔧 $item: $task está vencido';
+  }
+
+  @override
   String get notificationDocumentTitle => 'Recordatorio de documento';
 
   @override
@@ -925,6 +933,14 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get notificationDocumentExpiredTitle => 'Documento caducado';
+
+  @override
+  String notificationDocumentExpiredBody(String name) {
+    return '📄 $name ha caducado';
+  }
+
+  @override
   String get notificationWarrantyTitle => 'Recordatorio de garantía';
 
   @override
@@ -937,6 +953,14 @@ class AppLocalizationsEs extends AppLocalizations {
       zero: 'termina hoy',
     );
     return '⚠️ La garantía de $item $_temp0';
+  }
+
+  @override
+  String get notificationWarrantyExpiredTitle => 'Garantía caducada';
+
+  @override
+  String notificationWarrantyExpiredBody(String item) {
+    return '⚠️ La garantía de $item ha caducado';
   }
 
   @override

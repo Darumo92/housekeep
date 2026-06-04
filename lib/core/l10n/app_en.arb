@@ -354,6 +354,14 @@
       "days": {"type": "int"}
     }
   },
+  "notificationMaintenanceOverdueTitle": "Maintenance overdue",
+  "notificationMaintenanceOverdueBody": "🔧 {item}: {task} is overdue",
+  "@notificationMaintenanceOverdueBody": {
+    "placeholders": {
+      "item": {"type": "String"},
+      "task": {"type": "String"}
+    }
+  },
   "notificationDocumentTitle": "Document reminder",
   "notificationDocumentBody": "📄 {name} {days, plural, =0{expires today} one {expires in 1 day} other {expires in {days} days}}",
   "@notificationDocumentBody": {
@@ -362,12 +370,26 @@
       "days": {"type": "int"}
     }
   },
+  "notificationDocumentExpiredTitle": "Document expired",
+  "notificationDocumentExpiredBody": "📄 {name} has expired",
+  "@notificationDocumentExpiredBody": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
   "notificationWarrantyTitle": "Warranty reminder",
   "notificationWarrantyBody": "⚠️ {item} warranty {days, plural, =0{ends today} one {ends in 1 day} other {ends in {days} days}}",
   "@notificationWarrantyBody": {
     "placeholders": {
       "item": {"type": "String"},
       "days": {"type": "int"}
+    }
+  },
+  "notificationWarrantyExpiredTitle": "Warranty expired",
+  "notificationWarrantyExpiredBody": "⚠️ {item} warranty has expired",
+  "@notificationWarrantyExpiredBody": {
+    "placeholders": {
+      "item": {"type": "String"}
     }
   },
   "notificationsPermissionDeniedTitle": "Notifications disabled",

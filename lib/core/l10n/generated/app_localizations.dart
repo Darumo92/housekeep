@@ -1556,6 +1556,18 @@ abstract class AppLocalizations {
   /// **'🔧 {item}: {task} {days, plural, =0{is due today} one {is due in 1 day} other {is due in {days} days}}'**
   String notificationMaintenanceBody(String item, String task, int days);
 
+  /// No description provided for @notificationMaintenanceOverdueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance overdue'**
+  String get notificationMaintenanceOverdueTitle;
+
+  /// No description provided for @notificationMaintenanceOverdueBody.
+  ///
+  /// In en, this message translates to:
+  /// **'🔧 {item}: {task} is overdue'**
+  String notificationMaintenanceOverdueBody(String item, String task);
+
   /// No description provided for @notificationDocumentTitle.
   ///
   /// In en, this message translates to:
@@ -1568,6 +1580,18 @@ abstract class AppLocalizations {
   /// **'📄 {name} {days, plural, =0{expires today} one {expires in 1 day} other {expires in {days} days}}'**
   String notificationDocumentBody(String name, int days);
 
+  /// No description provided for @notificationDocumentExpiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Document expired'**
+  String get notificationDocumentExpiredTitle;
+
+  /// No description provided for @notificationDocumentExpiredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'📄 {name} has expired'**
+  String notificationDocumentExpiredBody(String name);
+
   /// No description provided for @notificationWarrantyTitle.
   ///
   /// In en, this message translates to:
@@ -1579,6 +1603,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'⚠️ {item} warranty {days, plural, =0{ends today} one {ends in 1 day} other {ends in {days} days}}'**
   String notificationWarrantyBody(String item, int days);
+
+  /// No description provided for @notificationWarrantyExpiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Warranty expired'**
+  String get notificationWarrantyExpiredTitle;
+
+  /// No description provided for @notificationWarrantyExpiredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'⚠️ {item} warranty has expired'**
+  String notificationWarrantyExpiredBody(String item);
 
   /// No description provided for @notificationsPermissionDeniedTitle.
   ///
