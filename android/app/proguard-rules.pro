@@ -19,3 +19,12 @@
 
 # flutter_local_notifications
 -keep class com.dexterous.** { *; }
+
+# Gson — flutter_local_notifications serializes scheduled notifications with
+# Gson TypeToken reflection. R8 strips generic signatures, breaking
+# pendingNotificationRequests() with "Missing type parameter".
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.gson.** { *; }
+-keep class * extends com.google.gson.reflect.TypeToken
+-keep public class * implements java.lang.reflect.Type
