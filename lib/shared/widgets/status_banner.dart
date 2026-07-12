@@ -32,7 +32,7 @@ class StatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final palette = _palette(theme, variant);
+    final palette = _palette(context, theme, variant);
 
     return Container(
       margin: margin,
@@ -100,14 +100,14 @@ class StatusBanner extends StatelessWidget {
     }
   }
 
-  _BannerPalette _palette(ThemeData theme, StatusBannerVariant v) {
+  _BannerPalette _palette(BuildContext context, ThemeData theme, StatusBannerVariant v) {
     final scheme = theme.colorScheme;
     switch (v) {
       case StatusBannerVariant.success:
-        return const _BannerPalette(
-          background: AppStatusColors.successContainer,
-          foreground: AppStatusColors.onSuccessContainer,
-          border: AppStatusColors.successContainer,
+        return _BannerPalette(
+          background: context.hkc.okSoft,
+          foreground: context.hkc.onOkSoft,
+          border: context.hkc.okSoft,
         );
       case StatusBannerVariant.info:
         return _BannerPalette(
@@ -116,10 +116,10 @@ class StatusBanner extends StatelessWidget {
           border: scheme.primaryContainer,
         );
       case StatusBannerVariant.warning:
-        return const _BannerPalette(
-          background: AppStatusColors.warningContainer,
-          foreground: AppStatusColors.onWarningContainer,
-          border: AppStatusColors.warningContainer,
+        return _BannerPalette(
+          background: context.hkc.warnSoft,
+          foreground: context.hkc.onWarnSoft,
+          border: context.hkc.warnSoft,
         );
       case StatusBannerVariant.danger:
         return _BannerPalette(

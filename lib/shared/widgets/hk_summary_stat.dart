@@ -19,11 +19,11 @@ class HkSummaryStat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dotColor = _toneColor(tone);
+    final dotColor = _toneColor(context, tone);
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.hkc.surface,
         borderRadius: BorderRadius.circular(AppRadii.card * 0.8),
       ),
       child: Column(
@@ -56,10 +56,10 @@ class HkSummaryStat extends StatelessWidget {
             child: Text(
               '$count',
               key: ValueKey<int>(count),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: context.hkc.text,
                 height: 1.05,
                 letterSpacing: -0.4,
               ),
@@ -68,10 +68,10 @@ class HkSummaryStat extends StatelessWidget {
           const SizedBox(height: 2),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColors.textMuted,
+              color: context.hkc.textMuted,
               height: 1.2,
             ),
           ),
@@ -80,18 +80,18 @@ class HkSummaryStat extends StatelessWidget {
     );
   }
 
-  static Color _toneColor(HkTone tone) {
+  static Color _toneColor(BuildContext context, HkTone tone) {
     switch (tone) {
       case HkTone.primary:
-        return AppColors.primary;
+        return context.hkc.primary;
       case HkTone.accent:
-        return AppColors.accent;
+        return context.hkc.accent;
       case HkTone.ok:
-        return AppColors.ok;
+        return context.hkc.ok;
       case HkTone.warn:
-        return AppColors.warn;
+        return context.hkc.warn;
       case HkTone.danger:
-        return AppColors.danger;
+        return context.hkc.danger;
     }
   }
 }

@@ -36,7 +36,7 @@ class HkToggle extends StatelessWidget {
               width: _trackWidth,
               height: _trackHeight,
               decoration: BoxDecoration(
-                color: value ? AppColors.primary : AppColors.border,
+                color: value ? context.hkc.primary : context.hkc.border,
                 borderRadius: BorderRadius.circular(_trackHeight / 2),
               ),
               child: Stack(

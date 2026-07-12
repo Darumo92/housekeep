@@ -26,7 +26,7 @@ class HkFab extends StatelessWidget {
       width: _size,
       height: _size,
       decoration: BoxDecoration(
-        color: AppColors.accent,
+        color: context.hkc.accent,
         borderRadius: BorderRadius.circular(_radius),
         boxShadow: AppShadows.fab,
       ),

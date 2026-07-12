@@ -53,7 +53,7 @@ class _ItemsListScreenState extends ConsumerState<ItemsListScreen> {
     final isPro = ref.watch(isProProvider).valueOrNull ?? false;
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: context.hkc.bg,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 24, right: 4),
         child: HkFab(
@@ -143,21 +143,21 @@ class _Header extends StatelessWidget {
             child: Text(
               l10n.itemsTitle,
               style: theme.textTheme.displaySmall?.copyWith(
-                color: AppColors.text,
+                color: context.hkc.text,
               ),
             ),
           ),
           Text(
             counterText,
             style: isPro
-                ? const TextStyle(
+                ? TextStyle(
                     fontSize: 13,
-                    color: AppColors.textMuted,
+                    color: context.hkc.textMuted,
                     fontWeight: FontWeight.w500,
                   )
                 : GoogleFonts.jetBrainsMono(
                     fontSize: 13,
-                    color: AppColors.textMuted,
+                    color: context.hkc.textMuted,
                     fontWeight: FontWeight.w500,
                   ),
           ),
@@ -254,7 +254,7 @@ class _ItemCard extends StatelessWidget {
                   Text(
                     brandModel,
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.textMuted,
+                      color: context.hkc.textMuted,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -272,10 +272,10 @@ class _ItemCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          const Icon(
+          Icon(
             Symbols.chevron_right_rounded,
             size: 18,
-            color: AppColors.textFaint,
+            color: context.hkc.textFaint,
           ),
         ],
       ),
@@ -317,17 +317,17 @@ class _WarrantyRow extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              Icon(
                 Symbols.lock_outline_rounded,
                 size: 11,
-                color: AppColors.textMuted,
+                color: context.hkc.textMuted,
               ),
               const SizedBox(width: 4),
               Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11.5,
-                  color: AppColors.textMuted,
+                  color: context.hkc.textMuted,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -358,15 +358,15 @@ class _EmptyItems extends StatelessWidget {
               Container(
                 width: 64,
                 height: 64,
-                decoration: const BoxDecoration(
-                  color: AppColors.primarySoft,
+                decoration: BoxDecoration(
+                  color: context.hkc.primarySoft,
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
-                child: const Icon(
+                child: Icon(
                   Symbols.inventory_2_rounded,
                   size: 36,
-                  color: AppColors.primary,
+                  color: context.hkc.primary,
                 ),
               ),
               const SizedBox(height: 18),
@@ -381,7 +381,7 @@ class _EmptyItems extends StatelessWidget {
               Text(
                 l10n.itemsEmptyBody,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: AppColors.textMuted,
+                  color: context.hkc.textMuted,
                   height: 1.45,
                 ),
                 textAlign: TextAlign.center,
@@ -418,19 +418,19 @@ class _FilteredEmpty extends StatelessWidget {
             children: [
               Text(
                 l10n.itemsFilteredEmptyTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15.5,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.text,
+                  color: context.hkc.text,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 6),
               Text(
                 l10n.itemsFilteredEmptyBody,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
-                  color: AppColors.textMuted,
+                  color: context.hkc.textMuted,
                   height: 1.4,
                 ),
                 textAlign: TextAlign.center,
@@ -462,7 +462,7 @@ class _ItemsSkeleton extends StatelessWidget {
       itemBuilder: (_, __) => Container(
         height: 92,
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.hkc.surface,
           borderRadius: BorderRadius.circular(20),
         ),
       ),

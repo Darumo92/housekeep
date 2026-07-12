@@ -97,12 +97,12 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
         _populateFromItem(item);
         return _buildScaffold(title, existingItem: item);
       },
-      loading: () => const Scaffold(
-        backgroundColor: AppColors.bg,
-        body: Center(child: CircularProgressIndicator()),
+      loading: () => Scaffold(
+        backgroundColor: context.hkc.bg,
+        body: const Center(child: CircularProgressIndicator()),
       ),
       error: (e, _) => Scaffold(
-        backgroundColor: AppColors.bg,
+        backgroundColor: context.hkc.bg,
         body: Center(child: Text(e.toString())),
       ),
     );
@@ -110,7 +110,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
 
   Widget _buildScaffold(String title, {Item? existingItem}) {
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: context.hkc.bg,
       body: SafeArea(
         bottom: false,
         child: Stack(
@@ -226,16 +226,16 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
           height: 48,
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.hkc.surface,
             borderRadius: BorderRadius.circular(AppRadii.btn),
-            border: Border.all(color: AppColors.border, width: 1),
+            border: Border.all(color: context.hkc.border, width: 1),
           ),
           child: Row(
             children: [
-              const Icon(
+              Icon(
                 Symbols.calendar_today_rounded,
                 size: 16,
-                color: AppColors.textMuted,
+                color: context.hkc.textMuted,
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -244,8 +244,8 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
                   style: GoogleFonts.jetBrainsMono(
                     fontSize: 13,
                     color: _purchaseDate == null
-                        ? AppColors.textFaint
-                        : AppColors.text,
+                        ? context.hkc.textFaint
+                        : context.hkc.text,
                   ),
                 ),
               ),
@@ -267,7 +267,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
         textAlign: TextAlign.center,
         style: GoogleFonts.jetBrainsMono(
           fontSize: 15,
-          color: AppColors.text,
+          color: context.hkc.text,
           fontWeight: FontWeight.w600,
         ),
         decoration: const InputDecoration(hintText: '24'),
@@ -442,7 +442,7 @@ class _Header extends StatelessWidget {
       children: [
         IconButton(
           onPressed: onBack,
-          icon: const Icon(Symbols.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Symbols.arrow_back_rounded, color: context.hkc.text),
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
         ),
@@ -536,8 +536,8 @@ class _CategoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final bg = active ? AppColors.primary : AppColors.surfaceAlt;
-    final fg = active ? AppColors.onPrimary : AppColors.text;
+    final bg = active ? context.hkc.primary : context.hkc.surfaceAlt;
+    final fg = active ? context.hkc.onPrimary : context.hkc.text;
     return Material(
       color: bg,
       borderRadius: BorderRadius.circular(AppRadii.chip),
@@ -589,8 +589,8 @@ class _SaveBar extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            AppColors.bg.withValues(alpha: 0),
-            AppColors.bg,
+            context.hkc.bg.withValues(alpha: 0),
+            context.hkc.bg,
           ],
           stops: const [0, 0.6],
         ),

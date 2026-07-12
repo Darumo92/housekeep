@@ -65,7 +65,7 @@ class HomeScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: context.hkc.bg,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 24, right: 4),
         child: HomeExpandableFab(

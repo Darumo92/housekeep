@@ -67,7 +67,7 @@ class SettingsScreen extends ConsumerWidget {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
-                color: AppColors.text,
+                color: context.hkc.text,
                 fontFamily: GoogleFonts.inter().fontFamily,
               ),
             ),
@@ -123,6 +123,18 @@ class SettingsScreen extends ConsumerWidget {
                         await ref
                             .read(settingsControllerProvider.notifier)
                             .setLocalePreference(pref);
+                      },
+                    ),
+                  ),
+                  _SettingsRow(
+                    icon: Icons.brightness_6_rounded,
+                    label: l10n.settingsThemeLabel,
+                    trailing: _ThemePillSwitcher(
+                      current: settings.themePreference,
+                      onChanged: (pref) async {
+                        await ref
+                            .read(settingsControllerProvider.notifier)
+                            .setThemePreference(pref);
                       },
                     ),
                   ),
@@ -298,7 +310,7 @@ class SettingsScreen extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 11,
                   letterSpacing: 0.8,
-                  color: AppColors.textFaint,
+                  color: context.hkc.textFaint,
                   fontFamily: GoogleFonts.jetBrainsMono().fontFamily,
                 ),
               ),
@@ -405,10 +417,10 @@ class _PlanCard extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [AppColors.primary, AppColors.accent],
+            colors: [context.hkc.primary, context.hkc.accent],
           ),
           borderRadius: BorderRadius.circular(AppRadii.card),
         ),
@@ -479,12 +491,12 @@ class _PlanCard extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.primarySoft,
+              color: context.hkc.primarySoft,
               borderRadius: BorderRadius.circular(AppRadii.card * 0.5),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.auto_awesome_rounded,
-              color: AppColors.primary,
+              color: context.hkc.primary,
             ),
           ),
           const SizedBox(width: 14),
@@ -494,18 +506,18 @@ class _PlanCard extends StatelessWidget {
               children: [
                 Text(
                   l10n.settingsPremiumStatusFree,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    color: context.hkc.text,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   l10n.settingsPlanFreeSub,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
-                    color: AppColors.textMuted,
+                    color: context.hkc.textMuted,
                   ),
                 ),
               ],
@@ -534,10 +546,10 @@ class _Section extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(4, 22, 4, 8),
       child: Text(
         label.toUpperCase(),
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 11.5,
           fontWeight: FontWeight.w700,
-          color: AppColors.textMuted,
+          color: context.hkc.textMuted,
           letterSpacing: 0.7,
         ),
       ),
@@ -570,29 +582,29 @@ class _SettingsRow extends StatelessWidget {
             width: 32,
             height: 32,
             decoration: BoxDecoration(
-              color: AppColors.primarySoft,
+              color: context.hkc.primarySoft,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, size: 16, color: AppColors.primary),
+            child: Icon(icon, size: 16, color: context.hkc.primary),
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14.5,
                 fontWeight: FontWeight.w500,
-                color: AppColors.text,
+                color: context.hkc.text,
               ),
             ),
           ),
           if (trailing != null) trailing!,
           if (chevron) ...[
             const SizedBox(width: 4),
-            const Icon(
+            Icon(
               Icons.chevron_right_rounded,
               size: 20,
-              color: AppColors.textFaint,
+              color: context.hkc.textFaint,
             ),
           ],
         ],
@@ -609,9 +621,9 @@ class _RowDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(left: 58),
-      child: Divider(height: 1, thickness: 1, color: AppColors.border),
+    return Padding(
+      padding: const EdgeInsets.only(left: 58),
+      child: Divider(height: 1, thickness: 1, color: context.hkc.border),
     );
   }
 }
@@ -633,9 +645,9 @@ class _LanguagePillSwitcher extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.surfaceAlt,
+        color: context.hkc.surfaceAlt,
         borderRadius: BorderRadius.circular(99),
-        border: Border.all(color: AppColors.border, width: 1),
+        border: Border.all(color: context.hkc.border, width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -652,7 +664,7 @@ class _LanguagePillSwitcher extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   color: current == pref
-                      ? AppColors.primary
+                      ? context.hkc.primary
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(99),
                 ),
@@ -660,11 +672,70 @@ class _LanguagePillSwitcher extends StatelessWidget {
                   label,
                   style: TextStyle(
                     color: current == pref
-                        ? AppColors.onPrimary
-                        : AppColors.textMuted,
+                        ? context.hkc.onPrimary
+                        : context.hkc.textMuted,
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
                     letterSpacing: 0.5,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ThemePillSwitcher extends StatelessWidget {
+  const _ThemePillSwitcher({required this.current, required this.onChanged});
+
+  final ThemePreference current;
+  final ValueChanged<ThemePreference> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final options = <(ThemePreference, IconData, String)>[
+      (ThemePreference.system, Icons.brightness_auto_rounded, l10n.settingsThemeSystem),
+      (ThemePreference.light, Icons.light_mode_rounded, l10n.settingsThemeLight),
+      (ThemePreference.dark, Icons.dark_mode_rounded, l10n.settingsThemeDark),
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: context.hkc.surfaceAlt,
+        borderRadius: BorderRadius.circular(99),
+        border: Border.all(color: context.hkc.border, width: 1),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final (pref, icon, tooltip) in options)
+            Tooltip(
+              message: tooltip,
+              child: GestureDetector(
+                onTap: () => onChanged(pref),
+                behavior: HitTestBehavior.opaque,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: current == pref
+                        ? context.hkc.primary
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(99),
+                  ),
+                  child: Icon(
+                    icon,
+                    size: 18,
+                    color: current == pref
+                        ? context.hkc.onPrimary
+                        : context.hkc.textMuted,
                   ),
                 ),
               ),
@@ -693,7 +764,7 @@ class _ProActionLabel extends StatelessWidget {
       style: TextStyle(
         fontSize: 13,
         fontWeight: FontWeight.w600,
-        color: isPro ? AppColors.primary : AppColors.accent,
+        color: isPro ? context.hkc.primary : context.hkc.accent,
       ),
     );
   }
@@ -804,7 +875,7 @@ class _VersionRowState extends State<_VersionRow> {
         _version ?? '…',
         style: TextStyle(
           fontSize: 12,
-          color: AppColors.textFaint,
+          color: context.hkc.textFaint,
           fontFamily: GoogleFonts.jetBrainsMono().fontFamily,
         ),
       ),

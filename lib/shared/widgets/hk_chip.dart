@@ -22,7 +22,7 @@ class HkChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = _palette(tone);
+    final palette = _palette(context, tone);
     final bg = active ? palette.fg : palette.bg;
     final fg = active ? Colors.white : palette.fg;
 
@@ -57,18 +57,18 @@ class HkChip extends StatelessWidget {
     );
   }
 
-  static _TonePalette _palette(HkTone tone) {
+  static _TonePalette _palette(BuildContext context, HkTone tone) {
     switch (tone) {
       case HkTone.primary:
-        return const _TonePalette(AppColors.primarySoft, AppColors.primary);
+        return _TonePalette(context.hkc.primarySoft, context.hkc.primary);
       case HkTone.accent:
-        return const _TonePalette(AppColors.accentSoft, AppColors.accent);
+        return _TonePalette(context.hkc.accentSoft, context.hkc.accent);
       case HkTone.ok:
-        return const _TonePalette(AppColors.okSoft, AppColors.ok);
+        return _TonePalette(context.hkc.okSoft, context.hkc.ok);
       case HkTone.warn:
-        return const _TonePalette(AppColors.warnSoft, AppColors.warn);
+        return _TonePalette(context.hkc.warnSoft, context.hkc.warn);
       case HkTone.danger:
-        return const _TonePalette(AppColors.dangerSoft, AppColors.danger);
+        return _TonePalette(context.hkc.dangerSoft, context.hkc.danger);
     }
   }
 }

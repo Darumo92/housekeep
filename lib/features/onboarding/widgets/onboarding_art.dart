@@ -39,14 +39,14 @@ class OnboardingArtHomeCluster extends StatelessWidget {
               width: 180,
               height: 160,
               decoration: BoxDecoration(
-                color: AppColors.primarySoft,
+                color: context.hkc.primarySoft,
                 borderRadius: BorderRadius.circular(AppRadii.card * 1.4),
               ),
               alignment: Alignment.center,
-              child: const Icon(
+              child: Icon(
                 Symbols.home_rounded,
                 size: 92,
-                color: AppColors.primary,
+                color: context.hkc.primary,
               ),
             ),
           ),
@@ -100,9 +100,9 @@ class OnboardingArtBellStack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cards = [
-      _fakeNotification(AppColors.dangerSoft, AppColors.danger, 1.0),
-      _fakeNotification(AppColors.warnSoft, AppColors.warn, 0.82),
-      _fakeNotification(AppColors.okSoft, AppColors.ok, 0.64),
+      _fakeNotification(context, context.hkc.dangerSoft, context.hkc.danger, 1.0),
+      _fakeNotification(context, context.hkc.warnSoft, context.hkc.warn, 0.82),
+      _fakeNotification(context, context.hkc.okSoft, context.hkc.ok, 0.64),
     ];
 
     return SizedBox(
@@ -122,8 +122,8 @@ class OnboardingArtBellStack extends StatelessWidget {
             child: Container(
               width: 100,
               height: 100,
-              decoration: const BoxDecoration(
-                color: AppColors.accent,
+              decoration: BoxDecoration(
+                color: context.hkc.accent,
                 shape: BoxShape.circle,
                 boxShadow: AppShadows.fab,
               ),
@@ -140,7 +140,7 @@ class OnboardingArtBellStack extends StatelessWidget {
     );
   }
 
-  Widget _fakeNotification(Color iconBg, Color iconFg, double opacity) {
+  Widget _fakeNotification(BuildContext context, Color iconBg, Color iconFg, double opacity) {
     return Opacity(
       opacity: opacity,
       child: Container(
@@ -148,7 +148,7 @@ class OnboardingArtBellStack extends StatelessWidget {
         height: 70,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.hkc.surface,
           borderRadius: BorderRadius.circular(AppRadii.card * 0.7),
           boxShadow: AppShadows.card,
         ),
@@ -177,7 +177,7 @@ class OnboardingArtBellStack extends StatelessWidget {
                   Container(
                     height: 8,
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceAlt,
+                      color: context.hkc.surfaceAlt,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -186,7 +186,7 @@ class OnboardingArtBellStack extends StatelessWidget {
                     height: 6,
                     width: 110,
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceAlt,
+                      color: context.hkc.surfaceAlt,
                       borderRadius: BorderRadius.circular(3),
                     ),
                   ),
@@ -216,7 +216,7 @@ class OnboardingArtSparkleItem extends StatelessWidget {
             width: 220,
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: context.hkc.surface,
               borderRadius: BorderRadius.circular(AppRadii.card),
               boxShadow: AppShadows.card,
             ),
@@ -238,7 +238,7 @@ class OnboardingArtSparkleItem extends StatelessWidget {
                           Container(
                             height: 10,
                             decoration: BoxDecoration(
-                              color: AppColors.surfaceAlt,
+                              color: context.hkc.surfaceAlt,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -247,7 +247,7 @@ class OnboardingArtSparkleItem extends StatelessWidget {
                             height: 7,
                             width: 90,
                             decoration: BoxDecoration(
-                              color: AppColors.surfaceAlt,
+                              color: context.hkc.surfaceAlt,
                               borderRadius: BorderRadius.circular(3),
                             ),
                           ),
@@ -267,7 +267,7 @@ class OnboardingArtSparkleItem extends StatelessWidget {
                       child: Container(
                         height: 7,
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceAlt,
+                          color: context.hkc.surfaceAlt,
                           borderRadius: BorderRadius.circular(3),
                         ),
                       ),
@@ -282,15 +282,15 @@ class OnboardingArtSparkleItem extends StatelessWidget {
             right: 8,
             child: Container(
               padding: const EdgeInsets.all(2),
-              decoration: const BoxDecoration(
-                color: AppColors.accentSoft,
+              decoration: BoxDecoration(
+                color: context.hkc.accentSoft,
                 shape: BoxShape.circle,
                 boxShadow: AppShadows.fab,
               ),
-              child: const Icon(
+              child: Icon(
                 Symbols.auto_awesome_rounded,
                 size: 44,
-                color: AppColors.accent,
+                color: context.hkc.accent,
                 fill: 1,
               ),
             ),

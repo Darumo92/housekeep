@@ -18,7 +18,7 @@ class HkStatusPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = _palette(status);
+    final palette = _palette(context, status);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
       decoration: BoxDecoration(
@@ -52,15 +52,15 @@ class HkStatusPill extends StatelessWidget {
     );
   }
 
-  static _StatusPalette _palette(HkStatus status) {
+  static _StatusPalette _palette(BuildContext context, HkStatus status) {
     switch (status) {
       case HkStatus.overdue:
       case HkStatus.due:
-        return const _StatusPalette(AppColors.dangerSoft, AppColors.danger);
+        return _StatusPalette(context.hkc.dangerSoft, context.hkc.danger);
       case HkStatus.soon:
-        return const _StatusPalette(AppColors.warnSoft, AppColors.warn);
+        return _StatusPalette(context.hkc.warnSoft, context.hkc.warn);
       case HkStatus.ok:
-        return const _StatusPalette(AppColors.okSoft, AppColors.ok);
+        return _StatusPalette(context.hkc.okSoft, context.hkc.ok);
     }
   }
 }

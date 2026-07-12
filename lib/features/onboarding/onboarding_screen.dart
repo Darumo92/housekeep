@@ -102,7 +102,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: context.hkc.bg,
       body: SafeArea(
         child: Stack(
           children: [
@@ -140,7 +140,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                   TextButton(
                     onPressed: _saving ? null : _finish,
                     style: TextButton.styleFrom(
-                      foregroundColor: AppColors.textMuted,
+                      foregroundColor: context.hkc.textMuted,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 6,
@@ -148,10 +148,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                     ),
                     child: Text(
                       l10n.onboardingSkip,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.textMuted,
+                        color: context.hkc.textMuted,
                       ),
                     ),
                   ),
@@ -243,7 +243,7 @@ class _OnboardingPage extends StatelessWidget {
             data.title,
             style: theme.textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: AppColors.text,
+              color: context.hkc.text,
             ),
           ),
           const SizedBox(height: 12),
@@ -252,7 +252,7 @@ class _OnboardingPage extends StatelessWidget {
             style: theme.textTheme.bodyLarge?.copyWith(
               fontSize: 16,
               height: 1.5,
-              color: AppColors.textMuted,
+              color: context.hkc.textMuted,
             ),
           ),
         ],
@@ -280,7 +280,7 @@ class _Dots extends StatelessWidget {
             height: 6,
             width: i == current ? 24 : 6,
             decoration: BoxDecoration(
-              color: i == current ? AppColors.primary : AppColors.border,
+              color: i == current ? context.hkc.primary : context.hkc.border,
               borderRadius: BorderRadius.circular(3),
             ),
           ),
@@ -309,7 +309,7 @@ class _CompletionOverlay extends StatelessWidget {
       ),
     );
     return Container(
-      color: AppColors.bg,
+      color: context.hkc.bg,
       alignment: Alignment.center,
       child: FadeTransition(
         opacity: fade,
@@ -318,13 +318,13 @@ class _CompletionOverlay extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(36),
             decoration: BoxDecoration(
-              color: AppColors.primarySoft,
+              color: context.hkc.primarySoft,
               borderRadius: BorderRadius.circular(AppRadii.card * 2),
             ),
-            child: const Icon(
+            child: Icon(
               Symbols.check_circle_rounded,
               size: 96,
-              color: AppColors.primary,
+              color: context.hkc.primary,
               fill: 1,
             ),
           ),

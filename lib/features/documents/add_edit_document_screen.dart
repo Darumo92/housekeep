@@ -92,12 +92,12 @@ class _AddEditDocumentScreenState extends ConsumerState<AddEditDocumentScreen> {
         _populateFromDocument(document);
         return _buildScaffold(title, existing: document);
       },
-      loading: () => const Scaffold(
-        backgroundColor: AppColors.bg,
-        body: Center(child: CircularProgressIndicator()),
+      loading: () => Scaffold(
+        backgroundColor: context.hkc.bg,
+        body: const Center(child: CircularProgressIndicator()),
       ),
       error: (error, _) => Scaffold(
-        backgroundColor: AppColors.bg,
+        backgroundColor: context.hkc.bg,
         body: Center(child: Text(error.toString())),
       ),
     );
@@ -106,7 +106,7 @@ class _AddEditDocumentScreenState extends ConsumerState<AddEditDocumentScreen> {
   Widget _buildScaffold(String title, {Document? existing}) {
     final isPro = ref.watch(isProProvider).valueOrNull ?? false;
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: context.hkc.bg,
       body: SafeArea(
         bottom: false,
         child: Stack(
@@ -206,16 +206,16 @@ class _AddEditDocumentScreenState extends ConsumerState<AddEditDocumentScreen> {
           height: 48,
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.hkc.surface,
             borderRadius: BorderRadius.circular(AppRadii.btn),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: context.hkc.border),
           ),
           child: Row(
             children: [
-              const Icon(
+              Icon(
                 Symbols.calendar_today_rounded,
                 size: 16,
-                color: AppColors.textMuted,
+                color: context.hkc.textMuted,
               ),
               const SizedBox(width: 8),
               Text(
@@ -223,8 +223,8 @@ class _AddEditDocumentScreenState extends ConsumerState<AddEditDocumentScreen> {
                 style: GoogleFonts.jetBrainsMono(
                   fontSize: 13,
                   color: _expiryDate == null
-                      ? AppColors.textFaint
-                      : AppColors.text,
+                      ? context.hkc.textFaint
+                      : context.hkc.text,
                 ),
               ),
             ],
@@ -263,7 +263,7 @@ class _AddEditDocumentScreenState extends ConsumerState<AddEditDocumentScreen> {
             const SizedBox(height: 8),
             Text(
               l10n.documentReminderProHint,
-              style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
+              style: TextStyle(fontSize: 12, color: context.hkc.textMuted),
             ),
           ],
         ),
@@ -296,9 +296,9 @@ class _AddEditDocumentScreenState extends ConsumerState<AddEditDocumentScreen> {
             onTap: () => context.push('/paywall?gate=true'),
             child: Text(
               l10n.documentReminderFreeHint,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
-                color: AppColors.primary,
+                color: context.hkc.primary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -470,7 +470,7 @@ class _Header extends StatelessWidget {
       children: [
         IconButton(
           onPressed: onBack,
-          icon: const Icon(Symbols.arrow_back_rounded, color: AppColors.text),
+          icon: Icon(Symbols.arrow_back_rounded, color: context.hkc.text),
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
         ),
@@ -574,9 +574,9 @@ class _DocumentTypeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = active ? AppColors.onPrimary : AppColors.text;
+    final foreground = active ? context.hkc.onPrimary : context.hkc.text;
     return Material(
-      color: active ? AppColors.primary : AppColors.surfaceAlt,
+      color: active ? context.hkc.primary : context.hkc.surfaceAlt,
       borderRadius: BorderRadius.circular(AppRadii.chip),
       child: InkWell(
         onTap: onTap,
@@ -618,10 +618,10 @@ class _ReminderChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: selected ? AppColors.primarySoft : AppColors.surfaceAlt,
+      color: selected ? context.hkc.primarySoft : context.hkc.surfaceAlt,
       shape: StadiumBorder(
         side: BorderSide(
-          color: selected ? Colors.transparent : AppColors.border,
+          color: selected ? Colors.transparent : context.hkc.border,
         ),
       ),
       child: InkWell(
@@ -634,7 +634,7 @@ class _ReminderChip extends StatelessWidget {
             style: TextStyle(
               fontSize: 12.5,
               fontWeight: FontWeight.w600,
-              color: selected ? AppColors.primary : AppColors.textMuted,
+              color: selected ? context.hkc.primary : context.hkc.textMuted,
             ),
           ),
         ),
@@ -664,7 +664,7 @@ class _SaveBar extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [AppColors.bg.withValues(alpha: 0), AppColors.bg],
+          colors: [context.hkc.bg.withValues(alpha: 0), context.hkc.bg],
           stops: const [0, .6],
         ),
       ),

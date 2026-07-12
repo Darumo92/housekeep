@@ -28,7 +28,7 @@ class HkButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = _resolveColors();
+    final colors = _resolveColors(context);
     final dims = _resolveDimensions();
 
     final row = Row(
@@ -85,33 +85,33 @@ class HkButton extends StatelessWidget {
     return material;
   }
 
-  _ButtonColors _resolveColors() {
+  _ButtonColors _resolveColors(BuildContext context) {
     switch (variant) {
       case HkButtonVariant.primary:
-        return const _ButtonColors(
-          background: AppColors.primary,
-          foreground: AppColors.onPrimary,
+        return _ButtonColors(
+          background: context.hkc.primary,
+          foreground: context.hkc.onPrimary,
         );
       case HkButtonVariant.accent:
-        return const _ButtonColors(
-          background: AppColors.accent,
-          foreground: Colors.white,
+        return _ButtonColors(
+          background: context.hkc.accent,
+          foreground: context.hkc.onAccent,
         );
       case HkButtonVariant.soft:
-        return const _ButtonColors(
-          background: AppColors.primarySoft,
-          foreground: AppColors.primary,
+        return _ButtonColors(
+          background: context.hkc.primarySoft,
+          foreground: context.hkc.primary,
         );
       case HkButtonVariant.outline:
-        return const _ButtonColors(
+        return _ButtonColors(
           background: Colors.transparent,
-          foreground: AppColors.text,
-          border: AppColors.border,
+          foreground: context.hkc.text,
+          border: context.hkc.border,
         );
       case HkButtonVariant.ghost:
-        return const _ButtonColors(
+        return _ButtonColors(
           background: Colors.transparent,
-          foreground: AppColors.text,
+          foreground: context.hkc.text,
         );
     }
   }

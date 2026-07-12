@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -227,12 +228,18 @@ class _HouseKeepAppState extends ConsumerState<HouseKeepApp> {
       data: (s) => s.localePreference.toLocale(),
       orElse: () => null,
     );
+    final themeMode = settings.maybeWhen(
+      data: (s) => s.themePreference.mode,
+      orElse: () => ThemeMode.system,
+    );
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       locale: widget.localeOverride ?? localeFromSettings,
       theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: themeMode,
       restorationScopeId: 'housekeep_app',
       routerConfig: _router,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -275,14 +282,26 @@ class _AppShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(bottom: false, child: child),
-      bottomNavigationBar: HkTabBar(
-        current: _currentTab(),
-        onChanged: (tab) {
-          final dest = _destinations[tab]!;
-          context.go(dest);
-        },
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bg = Theme.of(context).scaffoldBackgroundColor;
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+        systemNavigationBarColor: bg,
+        systemNavigationBarIconBrightness:
+            isDark ? Brightness.light : Brightness.dark,
+      ),
+      child: Scaffold(
+        body: SafeArea(bottom: false, child: child),
+        bottomNavigationBar: HkTabBar(
+          current: _currentTab(),
+          onChanged: (tab) {
+            final dest = _destinations[tab]!;
+            context.go(dest);
+          },
+        ),
       ),
     );
   }

@@ -57,7 +57,7 @@ class MaintenanceCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  _UrgencyDot(color: urgency.color),
+                  _UrgencyDot(color: urgency.color(context)),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -104,7 +104,7 @@ class MaintenanceCard extends StatelessWidget {
                     Text(
                       dueLabel,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: urgency.color,
+                        color: urgency.color(context),
                         fontWeight: FontWeight.w600,
                       ),
                     ),

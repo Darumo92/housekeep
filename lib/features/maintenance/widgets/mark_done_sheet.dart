@@ -89,7 +89,7 @@ class _MarkDoneSheetState extends ConsumerState<MarkDoneSheet> {
             height: 4,
             margin: const EdgeInsets.only(bottom: 14),
             decoration: BoxDecoration(
-              color: AppColors.border,
+              color: context.hkc.border,
               borderRadius: BorderRadius.circular(AppRadii.chip),
             ),
           ),
@@ -97,7 +97,7 @@ class _MarkDoneSheetState extends ConsumerState<MarkDoneSheet> {
         Text(
           l10n.maintenanceMarkDoneSheetTitle,
           style: theme.textTheme.headlineMedium?.copyWith(
-            color: AppColors.text,
+            color: context.hkc.text,
             fontSize: 22,
           ),
         ),
@@ -105,14 +105,14 @@ class _MarkDoneSheetState extends ConsumerState<MarkDoneSheet> {
         Text(
           widget.maintenance.name,
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: AppColors.textMuted,
+            color: context.hkc.textMuted,
           ),
         ),
         const SizedBox(height: 24),
         Text(
           l10n.maintenanceMarkDoneWhenLabel.toUpperCase(),
           style: theme.textTheme.labelMedium?.copyWith(
-            color: AppColors.textMuted,
+            color: context.hkc.textMuted,
           ),
         ),
         const SizedBox(height: 10),
@@ -153,15 +153,15 @@ class _MarkDoneSheetState extends ConsumerState<MarkDoneSheet> {
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: AppColors.primarySoft,
+            color: context.hkc.primarySoft,
             borderRadius: BorderRadius.circular(AppRadii.btn),
           ),
           child: Row(
             children: [
-              const Icon(
+              Icon(
                 Symbols.notifications_rounded,
                 size: 18,
-                color: AppColors.primary,
+                color: context.hkc.primary,
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -180,7 +180,7 @@ class _MarkDoneSheetState extends ConsumerState<MarkDoneSheet> {
                     ],
                   ),
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.primary,
+                    color: context.hkc.primary,
                   ),
                 ),
               ),
@@ -306,14 +306,14 @@ class _SuccessView extends StatelessWidget {
           child: Container(
             width: 72,
             height: 72,
-            decoration: const BoxDecoration(
-              color: AppColors.okSoft,
+            decoration: BoxDecoration(
+              color: context.hkc.okSoft,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               Symbols.check_rounded,
               size: 36,
-              color: AppColors.ok,
+              color: context.hkc.ok,
             ),
           ),
         ),
@@ -322,14 +322,14 @@ class _SuccessView extends StatelessWidget {
           l10n.maintenanceMarkDoneCompletedTitle,
           style: theme.textTheme.displaySmall?.copyWith(
             fontSize: 22,
-            color: AppColors.text,
+            color: context.hkc.text,
           ),
         ),
         const SizedBox(height: 8),
         Text(
           l10n.maintenanceMarkDoneCompletedSubtitle(days),
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: AppColors.textMuted,
+            color: context.hkc.textMuted,
           ),
           textAlign: TextAlign.center,
         ),

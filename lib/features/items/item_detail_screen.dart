@@ -39,7 +39,7 @@ class ItemDetailScreen extends ConsumerWidget {
     final itemAsync = ref.watch(itemByIdProvider(itemId));
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: context.hkc.bg,
       body: itemAsync.when(
         data: (item) {
           if (item == null) {
@@ -101,7 +101,7 @@ class _ItemDetailBody extends ConsumerWidget {
                 item.name,
                 style: theme.textTheme.displaySmall?.copyWith(
                   fontSize: 24,
-                  color: AppColors.text,
+                  color: context.hkc.text,
                 ),
               ),
               if (_brandModel(item).isNotEmpty) ...[
@@ -109,7 +109,7 @@ class _ItemDetailBody extends ConsumerWidget {
                 Text(
                   _brandModel(item),
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    color: AppColors.textMuted,
+                    color: context.hkc.textMuted,
                   ),
                 ),
               ],
@@ -313,7 +313,7 @@ class _CircleIconButton extends StatelessWidget {
             child: SizedBox(
               width: 40,
               height: 40,
-              child: Icon(icon, size: 20, color: AppColors.text),
+              child: Icon(icon, size: 20, color: context.hkc.text),
             ),
           ),
         ),
@@ -361,7 +361,7 @@ class _WarrantyCard extends StatelessWidget {
                     Text(
                       l10n.itemDetailWarranty.toUpperCase(),
                       style: theme.textTheme.labelMedium?.copyWith(
-                        color: AppColors.textMuted,
+                        color: context.hkc.textMuted,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -379,7 +379,7 @@ class _WarrantyCard extends StatelessWidget {
                       Text(
                         l10n.itemDetailPurchasedOn(dateFmt.format(purchase)),
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: AppColors.textMuted,
+                          color: context.hkc.textMuted,
                         ),
                       ),
                     ],
@@ -400,7 +400,7 @@ class _WarrantyCard extends StatelessWidget {
                     '→ ${dateFmt.format(expiry)}',
                     style: GoogleFonts.jetBrainsMono(
                       fontSize: 11.5,
-                      color: AppColors.textFaint,
+                      color: context.hkc.textFaint,
                     ),
                   ),
                 ],
@@ -415,7 +415,7 @@ class _WarrantyCard extends StatelessWidget {
                 Container(
                   height: 6,
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceAlt,
+                    color: context.hkc.surfaceAlt,
                     borderRadius: BorderRadius.circular(99),
                   ),
                 ),
@@ -424,7 +424,7 @@ class _WarrantyCard extends StatelessWidget {
                   child: Container(
                     height: 6,
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: context.hkc.primary,
                       borderRadius: BorderRadius.circular(99),
                     ),
                   ),
@@ -464,17 +464,17 @@ class _SectionHeader extends StatelessWidget {
         TextButton.icon(
           onPressed: onAction,
           style: TextButton.styleFrom(
-            foregroundColor: AppColors.primary,
+            foregroundColor: context.hkc.primary,
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             minimumSize: const Size(0, 36),
           ),
           icon: const Icon(Symbols.add_rounded, size: 16),
           label: Text(
             actionLabel,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.primary,
+              color: context.hkc.primary,
             ),
           ),
         ),
@@ -507,7 +507,7 @@ class _MaintenancesList extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: Text(
               l10n.itemMaintenanceSectionEmpty,
-              style: const TextStyle(color: AppColors.textMuted, fontSize: 13),
+              style: TextStyle(color: context.hkc.textMuted, fontSize: 13),
             ),
           );
         }
@@ -537,7 +537,7 @@ class _MaintenancesList extends ConsumerWidget {
     await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.hkc.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(AppRadii.sheet),
@@ -596,14 +596,14 @@ class _MaintenanceRow extends StatelessWidget {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: AppColors.primarySoft,
+                  color: context.hkc.primarySoft,
                   borderRadius: BorderRadius.circular(AppRadii.card * 0.4),
                 ),
                 alignment: Alignment.center,
-                child: const Icon(
+                child: Icon(
                   Symbols.calendar_today_rounded,
                   size: 18,
-                  color: AppColors.primary,
+                  color: context.hkc.primary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -624,7 +624,7 @@ class _MaintenanceRow extends StatelessWidget {
                         maintenance.intervalMonths,
                       ),
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.textMuted,
+                        color: context.hkc.textMuted,
                       ),
                     ),
                   ],

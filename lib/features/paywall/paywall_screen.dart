@@ -47,7 +47,7 @@ class PaywallScreen extends ConsumerWidget {
         statusBarBrightness: Brightness.dark,
       ),
       child: Scaffold(
-        backgroundColor: AppColors.bg,
+        backgroundColor: context.hkc.bg,
         body: offeringAsync.when(
           data: (offering) => _PaywallBody(
             offering: offering,
@@ -163,12 +163,12 @@ class _HeroBand extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(22, topPadding + 12, 22, 36),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment(0, -1),
-          end: Alignment(0.3, 1),
-          colors: [AppColors.primary, AppColors.primary, AppColors.accent],
-          stops: [0.0, 0.5, 1.0],
+          begin: const Alignment(0, -1),
+          end: const Alignment(0.3, 1),
+          colors: [context.hkc.primary, context.hkc.primary, context.hkc.accent],
+          stops: const [0.0, 0.5, 1.0],
         ),
       ),
       child: Column(
@@ -379,10 +379,10 @@ class _BenefitsList extends StatelessWidget {
                     width: 36,
                     height: 36,
                     decoration: BoxDecoration(
-                      color: AppColors.primarySoft,
+                      color: context.hkc.primarySoft,
                       borderRadius: BorderRadius.circular(AppRadii.card * 0.45),
                     ),
-                    child: Icon(icon, size: 18, color: AppColors.primary),
+                    child: Icon(icon, size: 18, color: context.hkc.primary),
                   ),
                   const SizedBox(width: 14),
                   Expanded(
@@ -394,18 +394,18 @@ class _BenefitsList extends StatelessWidget {
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                           height: 1.4,
-                          color: AppColors.text,
+                          color: context.hkc.text,
                           fontFamily: GoogleFonts.inter().fontFamily,
                         ),
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 6),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6),
                     child: Icon(
                       Icons.check_rounded,
                       size: 18,
-                      color: AppColors.ok,
+                      color: context.hkc.ok,
                     ),
                   ),
                 ],
@@ -443,9 +443,9 @@ class _StickyCtaBar extends StatelessWidget {
     final bottomPad = MediaQuery.of(context).padding.bottom;
     return Container(
       padding: EdgeInsets.fromLTRB(22, 14, 22, 22 + bottomPad),
-      decoration: const BoxDecoration(
-        color: AppColors.bg,
-        border: Border(top: BorderSide(color: AppColors.border, width: 1)),
+      decoration: BoxDecoration(
+        color: context.hkc.bg,
+        border: Border(top: BorderSide(color: context.hkc.border, width: 1)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -473,7 +473,7 @@ class _StickyCtaBar extends StatelessWidget {
                   child: TextButton(
                     onPressed: onRestore,
                     style: TextButton.styleFrom(
-                      foregroundColor: AppColors.textMuted,
+                      foregroundColor: context.hkc.textMuted,
                       minimumSize: const Size(0, 36),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 4,
@@ -493,7 +493,7 @@ class _StickyCtaBar extends StatelessWidget {
                   child: TextButton(
                     onPressed: onSkip,
                     style: TextButton.styleFrom(
-                      foregroundColor: AppColors.textMuted,
+                      foregroundColor: context.hkc.textMuted,
                       minimumSize: const Size(0, 36),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 4,
@@ -523,7 +523,7 @@ class _LoadingCtaButton extends StatelessWidget {
     return Container(
       height: 56,
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: context.hkc.primary,
         borderRadius: BorderRadius.circular(AppRadii.btn),
       ),
       alignment: Alignment.center,
@@ -550,7 +550,7 @@ class _UnavailableNotice extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.dangerSoft,
+        color: context.hkc.dangerSoft,
         borderRadius: BorderRadius.circular(AppRadii.btn),
       ),
       child: Column(
@@ -558,19 +558,19 @@ class _UnavailableNotice extends StatelessWidget {
         children: [
           Text(
             l10n.paywallOfferingUnavailable,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: AppColors.danger,
+              color: context.hkc.danger,
             ),
           ),
           if (message != null) ...[
             const SizedBox(height: 6),
             Text(
               message!,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
-                color: AppColors.textMuted,
+                color: context.hkc.textMuted,
               ),
             ),
           ],
@@ -596,32 +596,32 @@ class _SuccessView extends StatelessWidget {
           Container(
             width: 96,
             height: 96,
-            decoration: const BoxDecoration(
-              color: AppColors.primarySoft,
+            decoration: BoxDecoration(
+              color: context.hkc.primarySoft,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               Icons.check_rounded,
               size: 56,
-              color: AppColors.primary,
+              color: context.hkc.primary,
             ),
           ),
           const SizedBox(height: 24),
           Text(
             l10n.paywallSuccessTitle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w600,
-              color: AppColors.text,
+              color: context.hkc.text,
             ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 12),
           Text(
             l10n.paywallSuccessBody,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
-              color: AppColors.textMuted,
+              color: context.hkc.textMuted,
               height: 1.4,
             ),
             textAlign: TextAlign.center,

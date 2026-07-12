@@ -39,7 +39,7 @@ class _DocumentsListScreenState extends ConsumerState<DocumentsListScreen> {
     final isPro = ref.watch(isProProvider).valueOrNull ?? false;
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: context.hkc.bg,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 24, right: 4),
         child: HkFab(
@@ -142,20 +142,20 @@ class _Header extends StatelessWidget {
               l10n.documentsTitle,
               style: Theme.of(
                 context,
-              ).textTheme.displaySmall?.copyWith(color: AppColors.text),
+              ).textTheme.displaySmall?.copyWith(color: context.hkc.text),
             ),
           ),
           Text(
             counter,
             style: isPro
-                ? const TextStyle(
+                ? TextStyle(
                     fontSize: 13,
-                    color: AppColors.textMuted,
+                    color: context.hkc.textMuted,
                     fontWeight: FontWeight.w500,
                   )
                 : GoogleFonts.jetBrainsMono(
                     fontSize: 13,
-                    color: overLimit ? AppColors.danger : AppColors.textMuted,
+                    color: overLimit ? context.hkc.danger : context.hkc.textMuted,
                     fontWeight: FontWeight.w500,
                   ),
           ),
@@ -210,7 +210,7 @@ class _GroupedDocuments extends StatelessWidget {
         if (expired.isNotEmpty)
           _DocumentSection(
             label: l10n.documentsSectionExpired,
-            tone: AppColors.danger,
+            tone: context.hkc.danger,
             documents: expired,
             onOpen: onOpen,
             onDelete: onDelete,
@@ -218,7 +218,7 @@ class _GroupedDocuments extends StatelessWidget {
         if (soon.isNotEmpty)
           _DocumentSection(
             label: l10n.documentsSectionSoon,
-            tone: AppColors.warn,
+            tone: context.hkc.warn,
             documents: soon,
             onOpen: onOpen,
             onDelete: onDelete,
@@ -226,7 +226,7 @@ class _GroupedDocuments extends StatelessWidget {
         if (current.isNotEmpty)
           _DocumentSection(
             label: l10n.documentsSectionCurrent,
-            tone: AppColors.ok,
+            tone: context.hkc.ok,
             documents: current,
             onOpen: onOpen,
             onDelete: onDelete,
@@ -272,8 +272,8 @@ class _DocumentSection extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   label.toUpperCase(),
-                  style: const TextStyle(
-                    color: AppColors.textMuted,
+                  style: TextStyle(
+                    color: context.hkc.textMuted,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.6,
@@ -284,7 +284,7 @@ class _DocumentSection extends StatelessWidget {
                   '${documents.length}',
                   style: GoogleFonts.jetBrainsMono(
                     fontSize: 12,
-                    color: AppColors.textFaint,
+                    color: context.hkc.textFaint,
                   ),
                 ),
               ],
@@ -324,13 +324,13 @@ class _EmptyDocuments extends StatelessWidget {
             Container(
               width: 70,
               height: 70,
-              decoration: const BoxDecoration(
-                color: AppColors.primarySoft,
+              decoration: BoxDecoration(
+                color: context.hkc.primarySoft,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Symbols.description_rounded,
-                color: AppColors.primary,
+                color: context.hkc.primary,
                 size: 36,
               ),
             ),
@@ -347,8 +347,8 @@ class _EmptyDocuments extends StatelessWidget {
             Text(
               l10n.documentsEmptyBody,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: AppColors.textMuted,
+              style: TextStyle(
+                color: context.hkc.textMuted,
                 fontSize: 13,
                 height: 1.45,
               ),

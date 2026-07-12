@@ -23,8 +23,8 @@ class WarrantyBadge extends StatelessWidget {
     final (Color background, Color foreground) =
         switch ((hasWarranty, isActive)) {
       (true, true) => (
-          AppStatusColors.successContainer,
-          AppStatusColors.onSuccessContainer,
+          context.hkc.okSoft,
+          context.hkc.onOkSoft,
         ),
       (true, false) => (
           theme.colorScheme.errorContainer,

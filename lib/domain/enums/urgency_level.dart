@@ -57,12 +57,12 @@ enum UrgencyLevel {
     };
   }
 
-  Color get color {
+  Color color(BuildContext context) {
     return switch (this) {
-      UrgencyLevel.ok => AppColors.success,
-      UrgencyLevel.upcoming => AppColors.warning,
-      UrgencyLevel.urgent => AppColors.error,
-      UrgencyLevel.overdue => AppColors.error,
+      UrgencyLevel.ok => context.hkc.success,
+      UrgencyLevel.upcoming => context.hkc.warning,
+      UrgencyLevel.urgent => context.hkc.error,
+      UrgencyLevel.overdue => context.hkc.error,
     };
   }
 }

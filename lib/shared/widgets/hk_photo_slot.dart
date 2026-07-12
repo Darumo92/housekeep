@@ -31,14 +31,14 @@ class HkPhotoSlot extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            const DecoratedBox(
-              decoration: BoxDecoration(color: AppColors.surfaceAlt),
+            DecoratedBox(
+              decoration: BoxDecoration(color: context.hkc.surfaceAlt),
             ),
-            CustomPaint(painter: _StripesPainter()),
+            CustomPaint(painter: _StripesPainter(context.hkc.placeholderStripe)),
             DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(r),
-                border: Border.all(color: AppColors.border, width: 1),
+                border: Border.all(color: context.hkc.border, width: 1),
               ),
             ),
             Center(
@@ -48,7 +48,7 @@ class HkPhotoSlot extends StatelessWidget {
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.4,
-                  color: AppColors.textFaint,
+                  color: context.hkc.textFaint,
                   height: 1.2,
                 ),
               ),
@@ -61,7 +61,9 @@ class HkPhotoSlot extends StatelessWidget {
 }
 
 class _StripesPainter extends CustomPainter {
-  static const _stripeColor = AppColors.placeholderStripe;
+  _StripesPainter(this._stripeColor);
+
+  final Color _stripeColor;
   static const _spacing = 10.0;
   static const _strokeWidth = 6.0;
 
@@ -83,5 +85,6 @@ class _StripesPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _StripesPainter oldDelegate) =>
+      oldDelegate._stripeColor != _stripeColor;
 }

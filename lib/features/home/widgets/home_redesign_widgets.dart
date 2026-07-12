@@ -50,28 +50,28 @@ class GreetingHeader extends StatelessWidget {
                   Text(
                     '$greeting,',
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.textMuted,
+                      color: context.hkc.textMuted,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     userName,
                     style: theme.textTheme.displaySmall?.copyWith(
-                      color: AppColors.text,
+                      color: context.hkc.text,
                     ),
                   ),
                 ] else
                   Text(
                     greeting,
                     style: theme.textTheme.displaySmall?.copyWith(
-                      color: AppColors.text,
+                      color: context.hkc.text,
                     ),
                   ),
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textMuted,
+                    color: context.hkc.textMuted,
                   ),
                 ),
               ],
@@ -81,8 +81,8 @@ class GreetingHeader extends StatelessWidget {
           Container(
             width: 44,
             height: 44,
-            decoration: const BoxDecoration(
-              color: AppColors.primarySoft,
+            decoration: BoxDecoration(
+              color: context.hkc.primarySoft,
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
@@ -90,13 +90,13 @@ class GreetingHeader extends StatelessWidget {
                 ? Text(
                     userName.characters.first.toUpperCase(),
                     style: theme.textTheme.titleMedium?.copyWith(
-                      color: AppColors.primary,
+                      color: context.hkc.primary,
                       fontWeight: FontWeight.w700,
                     ),
                   )
-                : const Icon(
+                : Icon(
                     Icons.home_rounded,
-                    color: AppColors.primary,
+                    color: context.hkc.primary,
                     size: 22,
                   ),
           ),
@@ -178,7 +178,7 @@ class TimelineSectionHeader extends StatelessWidget {
             TextButton(
               onPressed: onSeeAll,
               style: TextButton.styleFrom(
-                foregroundColor: AppColors.primary,
+                foregroundColor: context.hkc.primary,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
                   vertical: 4,
@@ -190,17 +190,17 @@ class TimelineSectionHeader extends StatelessWidget {
                 children: [
                   Text(
                     l10n.homeSeeAll,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
+                      color: context.hkc.primary,
                     ),
                   ),
                   const SizedBox(width: 4),
-                  const Icon(
+                  Icon(
                     Symbols.arrow_forward_rounded,
                     size: 16,
-                    color: AppColors.primary,
+                    color: context.hkc.primary,
                   ),
                 ],
               ),
@@ -226,7 +226,7 @@ class TimelineRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       child: Row(
         children: [
-          _leading(),
+          _leading(context),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -244,7 +244,7 @@ class TimelineRow extends StatelessWidget {
                   Text(
                     event.subtitle,
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.textMuted,
+                      color: context.hkc.textMuted,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -263,7 +263,7 @@ class TimelineRow extends StatelessWidget {
     );
   }
 
-  Widget _leading() {
+  Widget _leading(BuildContext context) {
     final category = event.category;
     if (event.type == UpcomingEventType.document) {
       final icon = event.documentType?.icon ?? Symbols.description_rounded;
@@ -271,11 +271,11 @@ class TimelineRow extends StatelessWidget {
         width: 44,
         height: 44,
         decoration: BoxDecoration(
-          color: AppColors.primarySoft,
+          color: context.hkc.primarySoft,
           borderRadius: BorderRadius.circular(AppRadii.tile),
         ),
         alignment: Alignment.center,
-        child: Icon(icon, size: 22, color: AppColors.primary),
+        child: Icon(icon, size: 22, color: context.hkc.primary),
       );
     }
     if (category == null) {
@@ -283,14 +283,14 @@ class TimelineRow extends StatelessWidget {
         width: 44,
         height: 44,
         decoration: BoxDecoration(
-          color: AppColors.surfaceAlt,
+          color: context.hkc.surfaceAlt,
           borderRadius: BorderRadius.circular(AppRadii.tile),
         ),
         alignment: Alignment.center,
-        child: const Icon(
+        child: Icon(
           Symbols.build_rounded,
           size: 22,
-          color: AppColors.textMuted,
+          color: context.hkc.textMuted,
         ),
       );
     }
@@ -350,9 +350,9 @@ class ProUpsellCard extends ConsumerWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  AppColors.primary,
-                  AppColors.primary.withValues(alpha: 0.85),
-                  AppColors.accent,
+                  context.hkc.primary,
+                  context.hkc.primary.withValues(alpha: 0.85),
+                  context.hkc.accent,
                 ],
                 stops: const [0.0, 0.6, 1.0],
               ),
@@ -416,10 +416,10 @@ class ProUpsellCard extends ConsumerWidget {
                   ),
                   child: Text(
                     l10n.homeProUpsellCta,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
+                      color: context.hkc.primary,
                     ),
                   ),
                 ),
@@ -450,7 +450,7 @@ class HomeEmptyState extends StatelessWidget {
         Text(
           l10n.homeEmptyTitle,
           style: theme.textTheme.displaySmall?.copyWith(
-            color: AppColors.text,
+            color: context.hkc.text,
             fontWeight: FontWeight.w600,
           ),
           textAlign: TextAlign.center,
@@ -459,7 +459,7 @@ class HomeEmptyState extends StatelessWidget {
         Text(
           l10n.homeEmptyBody,
           style: theme.textTheme.bodyLarge?.copyWith(
-            color: AppColors.textMuted,
+            color: context.hkc.textMuted,
             height: 1.5,
           ),
           textAlign: TextAlign.center,

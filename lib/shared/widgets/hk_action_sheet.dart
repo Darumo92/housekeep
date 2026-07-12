@@ -24,7 +24,7 @@ Future<int?> showHkActionSheet(
 }) {
   return showModalBottomSheet<int>(
     context: context,
-    backgroundColor: AppColors.surface,
+    backgroundColor: context.hkc.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadii.sheet)),
     ),
@@ -43,7 +43,7 @@ Future<int?> showHkActionSheet(
                   height: 4,
                   margin: const EdgeInsets.only(bottom: 8),
                   decoration: BoxDecoration(
-                    color: AppColors.border,
+                    color: context.hkc.border,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -54,7 +54,7 @@ Future<int?> showHkActionSheet(
                   child: Text(
                     title,
                     style: theme.textTheme.titleMedium?.copyWith(
-                      color: AppColors.textMuted,
+                      color: context.hkc.textMuted,
                     ),
                   ),
                 ),
@@ -79,7 +79,7 @@ class _ActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = action.destructive ? AppColors.danger : AppColors.text;
+    final color = action.destructive ? context.hkc.danger : context.hkc.text;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -95,8 +95,8 @@ class _ActionTile extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: action.destructive
-                      ? AppColors.danger.withValues(alpha: 0.12)
-                      : AppColors.primarySoft,
+                      ? context.hkc.danger.withValues(alpha: 0.12)
+                      : context.hkc.primarySoft,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(action.icon, size: 19, color: color),

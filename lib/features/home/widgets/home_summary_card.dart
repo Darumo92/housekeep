@@ -12,7 +12,7 @@ class HomeSummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final color = summary.overallUrgency.color;
+    final color = summary.overallUrgency.color(context);
 
     return Card(
       clipBehavior: Clip.antiAlias,

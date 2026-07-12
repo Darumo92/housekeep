@@ -54,11 +54,11 @@ class DocumentCard extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.primarySoft,
+              color: context.hkc.primarySoft,
               borderRadius: BorderRadius.circular(AppRadii.card * .5),
             ),
             alignment: Alignment.center,
-            child: Icon(document.type.icon, color: AppColors.primary, size: 24),
+            child: Icon(document.type.icon, color: context.hkc.primary, size: 24),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -79,7 +79,7 @@ class DocumentCard extends StatelessWidget {
                   DateFormat('yyyy-MM-dd').format(document.expiryDate),
                   style: GoogleFonts.jetBrainsMono(
                     fontSize: 12.5,
-                    color: AppColors.textMuted,
+                    color: context.hkc.textMuted,
                   ),
                 ),
               ],
@@ -87,9 +87,9 @@ class DocumentCard extends StatelessWidget {
           ),
           HkStatusPill(status: status, label: statusLabel),
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Symbols.more_vert_rounded,
-              color: AppColors.textFaint,
+              color: context.hkc.textFaint,
             ),
             iconSize: 20,
             padding: EdgeInsets.zero,

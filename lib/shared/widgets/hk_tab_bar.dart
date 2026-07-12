@@ -38,9 +38,9 @@ class HkTabBar extends StatelessWidget {
     return SafeArea(
       top: false,
       child: DecoratedBox(
-        decoration: const BoxDecoration(
-          color: AppColors.surface,
-          border: Border(top: BorderSide(color: AppColors.border, width: 1)),
+        decoration: BoxDecoration(
+          color: context.hkc.surface,
+          border: Border(top: BorderSide(color: context.hkc.border, width: 1)),
         ),
         child: SizedBox(
           height: 64,
@@ -79,7 +79,7 @@ class _TabItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fg = active ? AppColors.primary : AppColors.textMuted;
+    final fg = active ? context.hkc.primary : context.hkc.textMuted;
     return Semantics(
       selected: active,
       button: true,
@@ -96,7 +96,7 @@ class _TabItem extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 decoration: BoxDecoration(
-                  color: active ? AppColors.primarySoft : Colors.transparent,
+                  color: active ? context.hkc.primarySoft : Colors.transparent,
                   borderRadius: BorderRadius.circular(AppRadii.chip),
                 ),
                 child: Icon(

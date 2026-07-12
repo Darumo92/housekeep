@@ -26,7 +26,7 @@ class HkCard extends StatelessWidget {
     final r = radius ?? AppRadii.card;
     final body = Container(
       decoration: BoxDecoration(
-        color: color ?? AppColors.surface,
+        color: color ?? context.hkc.surface,
         borderRadius: BorderRadius.circular(r),
         boxShadow: AppShadows.card,
       ),

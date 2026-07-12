@@ -50,8 +50,8 @@ class UpcomingEventCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundColor: event.urgency.color.withValues(alpha: 0.16),
-                child: Icon(typeIcon, color: event.urgency.color),
+                backgroundColor: event.urgency.color(context).withValues(alpha: 0.16),
+                child: Icon(typeIcon, color: event.urgency.color(context)),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -84,7 +84,7 @@ class UpcomingEventCard extends StatelessWidget {
                     Text(
                       dueLabel,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: event.urgency.color,
+                            color: event.urgency.color(context),
                             fontWeight: FontWeight.w600,
                           ),
                     ),

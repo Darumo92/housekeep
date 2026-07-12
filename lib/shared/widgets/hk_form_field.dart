@@ -20,10 +20,10 @@ class HkFormField extends StatelessWidget {
       children: [
         Text(
           label.toUpperCase(),
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12.5,
             fontWeight: FontWeight.w600,
-            color: AppColors.textMuted,
+            color: context.hkc.textMuted,
             letterSpacing: 0.2,
             height: 1.2,
           ),
