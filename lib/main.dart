@@ -163,13 +163,13 @@ Future<String> _resolveInitialLocation() async {
 }
 
 void _configureSystemUi() {
+  // Transparent system bars for edge-to-edge (Android 15 / SDK 35 enforces
+  // this). Per-theme icon/nav colors are applied reactively by the app shell's
+  // AnnotatedRegion, which avoids a light-bar flash on dark cold starts.
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Color(0x00000000),
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
-      systemNavigationBarColor: Color(0xFFFAFAF8),
-      systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Color(0x00000000),
       systemNavigationBarDividerColor: Color(0x00000000),
     ),
   );
