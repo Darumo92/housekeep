@@ -113,48 +113,45 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
       backgroundColor: context.hkc.bg,
       body: SafeArea(
         bottom: false,
-        child: Stack(
+        child: Column(
           children: [
-            Form(
-              key: _formKey,
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(22, 12, 22, 120),
-                children: [
-                  _Header(title: title, onBack: () => context.pop()),
-                  const SizedBox(height: 18),
-                  _PhotoBlock(
-                    photoPath: _photoPath,
-                    onPickPhoto: _onPhotoPressed,
-                  ),
-                  const SizedBox(height: 22),
-                  _buildNameField(),
-                  const SizedBox(height: 14),
-                  _buildBrandField(),
-                  const SizedBox(height: 14),
-                  _buildCategoryPicker(),
-                  const SizedBox(height: 14),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(child: _buildPurchaseDateField()),
-                      const SizedBox(width: 10),
-                      Expanded(child: _buildWarrantyMonthsField()),
-                    ],
-                  ),
-                  const SizedBox(height: 14),
-                  _buildNotesField(),
-                ],
+            Expanded(
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(22, 12, 22, 24),
+                  children: [
+                    _Header(title: title, onBack: () => context.pop()),
+                    const SizedBox(height: 18),
+                    _PhotoBlock(
+                      photoPath: _photoPath,
+                      onPickPhoto: _onPhotoPressed,
+                    ),
+                    const SizedBox(height: 22),
+                    _buildNameField(),
+                    const SizedBox(height: 14),
+                    _buildBrandField(),
+                    const SizedBox(height: 14),
+                    _buildCategoryPicker(),
+                    const SizedBox(height: 14),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: _buildPurchaseDateField()),
+                        const SizedBox(width: 10),
+                        Expanded(child: _buildWarrantyMonthsField()),
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+                    _buildNotesField(),
+                  ],
+                ),
               ),
             ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: _SaveBar(
-                onCancel: () => context.pop(),
-                onSave: () => _saveItem(existingItem: existingItem),
-                isSaving: ref.watch(saveItemProvider).isLoading,
-              ),
+            _SaveBar(
+              onCancel: () => context.pop(),
+              onSave: () => _saveItem(existingItem: existingItem),
+              isSaving: ref.watch(saveItemProvider).isLoading,
             ),
           ],
         ),
@@ -216,7 +213,9 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
   Widget _buildPurchaseDateField() {
     final l10n = AppLocalizations.of(context);
     final fmt = DateFormat('yyyy-MM-dd');
-    final text = _purchaseDate == null ? 'YYYY-MM-DD' : fmt.format(_purchaseDate!);
+    final text = _purchaseDate == null
+        ? 'YYYY-MM-DD'
+        : fmt.format(_purchaseDate!);
     return HkFormField(
       label: l10n.addFieldPurchased,
       child: InkWell(
@@ -355,10 +354,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     }
   }
 
-  Future<void> _replacePhoto(
-    String? next,
-    PhotoService photoService,
-  ) async {
+  Future<void> _replacePhoto(String? next, PhotoService photoService) async {
     if (next == null) return;
     final prev = _photoPath;
     if (prev != null && prev != next) {
@@ -390,8 +386,9 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
       brand: brandText.isEmpty ? null : brandText,
       model: existingItem?.model,
       purchaseDate: _purchaseDate ?? existingItem?.purchaseDate,
-      warrantyMonths:
-          warrantyMonthsText.isEmpty ? null : int.parse(warrantyMonthsText),
+      warrantyMonths: warrantyMonthsText.isEmpty
+          ? null
+          : int.parse(warrantyMonthsText),
       photoPath: _photoPath,
       notes: _trimmedOrNull(_notesController.text),
       createdAt: existingItem?.createdAt ?? now,
@@ -417,9 +414,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     }
 
     if (!mounted) return;
-    messenger.showSnackBar(
-      SnackBar(content: Text(l10n.itemSavedSuccess)),
-    );
+    messenger.showSnackBar(SnackBar(content: Text(l10n.itemSavedSuccess)));
     context.pop();
   }
 
@@ -585,15 +580,11 @@ class _SaveBar extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(22, 14, 22, 22),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            context.hkc.bg.withValues(alpha: 0),
-            context.hkc.bg,
-          ],
-          stops: const [0, 0.6],
-        ),
+        // Solid (opaque) so form fields scroll cleanly behind the bar instead
+        // of showing through a translucent gradient, which read as text/inputs
+        // sitting on top of the Cancel/Save buttons.
+        color: context.hkc.bg,
+        border: Border(top: BorderSide(color: context.hkc.border)),
       ),
       child: SafeArea(
         top: false,

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_api_availability/google_api_availability.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
@@ -32,6 +33,12 @@ const _kScreenshotLocale = String.fromEnvironment(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Fonts (Inter + JetBrains Mono) are bundled under assets/google_fonts/, so
+  // never fetch them over the network at runtime. Runtime fetching failed for
+  // offline users and — because PlatformDispatcher.onError reports as fatal —
+  // surfaced in Crashlytics as a fatal "Failed to load font" crash.
+  GoogleFonts.config.allowRuntimeFetching = false;
 
   _configureSystemUi();
 

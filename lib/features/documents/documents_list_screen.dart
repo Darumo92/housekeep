@@ -205,7 +205,7 @@ class _GroupedDocuments extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return ListView(
-      padding: const EdgeInsets.only(bottom: 100),
+      padding: const EdgeInsets.only(bottom: HkFab.scrollReserve),
       children: [
         if (expired.isNotEmpty)
           _DocumentSection(
@@ -316,7 +316,7 @@ class _EmptyDocuments extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(18, 54, 18, 100),
+      padding: const EdgeInsets.fromLTRB(18, 54, 18, HkFab.scrollReserve),
       child: HkCard(
         padding: const EdgeInsets.fromLTRB(24, 30, 24, 28),
         child: Column(

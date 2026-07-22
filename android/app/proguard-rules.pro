@@ -20,6 +20,12 @@
 # flutter_local_notifications
 -keep class com.dexterous.** { *; }
 
+# Jetpack Glance is excluded from the build (see build.gradle.kts): the app uses
+# classic RemoteViews widgets only. home_widget's bytecode still references a few
+# Glance symbols in code paths we never call, so silence R8's missing-class
+# warnings for the removed package.
+-dontwarn androidx.glance.**
+
 # Gson — flutter_local_notifications serializes scheduled notifications with
 # Gson TypeToken reflection. R8 strips generic signatures, breaking
 # pendingNotificationRequests() with "Missing type parameter".

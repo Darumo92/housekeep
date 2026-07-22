@@ -9,6 +9,7 @@ import '../../domain/enums/urgency_level.dart';
 import '../../domain/models/item.dart';
 import '../../domain/models/upcoming_event.dart';
 import '../../shared/widgets/error_state.dart';
+import '../../shared/widgets/hk_fab.dart';
 import '../../shared/widgets/item_picker_sheet.dart';
 import '../documents/documents_provider.dart';
 import '../items/items_provider.dart';
@@ -113,7 +114,7 @@ class HomeScreen extends ConsumerWidget {
 
             return ListView(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.only(bottom: 100),
+              padding: const EdgeInsets.only(bottom: HkFab.scrollReserve),
               children: [
                 GreetingHeader(
                   greeting: greeting,

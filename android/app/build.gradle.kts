@@ -87,4 +87,14 @@ configurations.all {
         force("androidx.work:work-runtime-ktx:2.9.1")
         force("androidx.work:work-gcm:2.9.1")
     }
+    // The app ships classic RemoteViews home-screen widgets and uses zero
+    // Jetpack Glance. Glance is only pulled in transitively by home_widget for
+    // its optional Glance-widget support, which this app does not use. Glance
+    // registers InvisibleActionTrampolineActivity in the merged manifest, and
+    // that component crashes on some launchers (observed on Huawei/EMUI) with
+    // "List adapter activity trampoline invoked without specifying target
+    // intent." Excluding Glance removes the component entirely, so the crash
+    // cannot occur, and also drops the unused Glance/Compose runtime.
+    exclude(group = "androidx.glance", module = "glance-appwidget")
+    exclude(group = "androidx.glance", module = "glance")
 }

@@ -313,7 +313,11 @@ class _CircleIconButton extends StatelessWidget {
             child: SizedBox(
               width: 40,
               height: 40,
-              child: Icon(icon, size: 20, color: context.hkc.text),
+              // The circle background is always white (it sits over the photo
+              // header), so the icon must be a fixed dark colour. Using the
+              // theme-aware context.hkc.text made the icon white-on-white and
+              // invisible in dark mode.
+              child: Icon(icon, size: 20, color: AppColors.text),
             ),
           ),
         ),
@@ -424,7 +428,10 @@ class _WarrantyCard extends StatelessWidget {
                   child: Container(
                     height: 6,
                     decoration: BoxDecoration(
-                      color: context.hkc.primary,
+                      // Green (primary) reads as healthy; an expired warranty
+                      // must not show a full green bar. Use the danger colour
+                      // when the warranty is no longer active.
+                      color: active ? context.hkc.primary : context.hkc.danger,
                       borderRadius: BorderRadius.circular(99),
                     ),
                   ),

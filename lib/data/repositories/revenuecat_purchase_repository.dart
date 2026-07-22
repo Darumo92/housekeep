@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
+// Hide the SDK's own PurchaseResult: this repository exposes its own domain
+// PurchaseResult (from purchase_repository.dart). We only ever read
+// `.customerInfo` off the SDK result via type inference, never by name.
+import 'package:purchases_flutter/purchases_flutter.dart' hide PurchaseResult;
 
 import '../../core/constants/app_constants.dart';
 import 'purchase_repository.dart';
@@ -148,8 +151,8 @@ class RevenueCatPurchaseRepository implements PurchaseRepository {
           errorMessage: 'Package not found',
         );
       }
-      final info = await Purchases.purchasePackage(native);
-      final active = _updateFromCustomerInfo(info);
+      final result = await Purchases.purchase(PurchaseParams.package(native));
+      final active = _updateFromCustomerInfo(result.customerInfo);
       return PurchaseResult(
         status: active ? PurchaseStatus.success : PurchaseStatus.pending,
       );

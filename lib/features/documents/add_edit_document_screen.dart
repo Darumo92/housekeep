@@ -109,44 +109,41 @@ class _AddEditDocumentScreenState extends ConsumerState<AddEditDocumentScreen> {
       backgroundColor: context.hkc.bg,
       body: SafeArea(
         bottom: false,
-        child: Stack(
+        child: Column(
           children: [
-            Form(
-              key: _formKey,
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(22, 12, 22, 120),
-                children: [
-                  _Header(title: title, onBack: () => context.pop()),
-                  const SizedBox(height: 18),
-                  _PhotoBlock(
-                    photoPath: _photoPath,
-                    cameraEnabled: _supportsCameraCapture,
-                    onPreviewPressed: _onPhotoPressed,
-                    onCameraPressed: _pickFromCamera,
-                    onGalleryPressed: _pickFromGallery,
-                  ),
-                  const SizedBox(height: 22),
-                  _buildTypePicker(),
-                  const SizedBox(height: 14),
-                  _buildNameField(),
-                  const SizedBox(height: 14),
-                  _buildExpiryDateField(),
-                  const SizedBox(height: 14),
-                  _buildReminderField(isPro: isPro),
-                  const SizedBox(height: 14),
-                  _buildNotesField(),
-                ],
+            Expanded(
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(22, 12, 22, 24),
+                  children: [
+                    _Header(title: title, onBack: () => context.pop()),
+                    const SizedBox(height: 18),
+                    _PhotoBlock(
+                      photoPath: _photoPath,
+                      cameraEnabled: _supportsCameraCapture,
+                      onPreviewPressed: _onPhotoPressed,
+                      onCameraPressed: _pickFromCamera,
+                      onGalleryPressed: _pickFromGallery,
+                    ),
+                    const SizedBox(height: 22),
+                    _buildTypePicker(),
+                    const SizedBox(height: 14),
+                    _buildNameField(),
+                    const SizedBox(height: 14),
+                    _buildExpiryDateField(),
+                    const SizedBox(height: 14),
+                    _buildReminderField(isPro: isPro),
+                    const SizedBox(height: 14),
+                    _buildNotesField(),
+                  ],
+                ),
               ),
             ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: _SaveBar(
-                isSaving: ref.watch(saveDocumentProvider).isLoading,
-                onCancel: () => context.pop(),
-                onSave: () => _save(existing: existing),
-              ),
+            _SaveBar(
+              isSaving: ref.watch(saveDocumentProvider).isLoading,
+              onCancel: () => context.pop(),
+              onSave: () => _save(existing: existing),
             ),
           ],
         ),
@@ -661,12 +658,11 @@ class _SaveBar extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(22, 14, 22, 22),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [context.hkc.bg.withValues(alpha: 0), context.hkc.bg],
-          stops: const [0, .6],
-        ),
+        // Solid (opaque) so form fields scroll cleanly behind the bar instead
+        // of showing through a translucent gradient, which read as text/inputs
+        // sitting on top of the Cancel/Save buttons.
+        color: context.hkc.bg,
+        border: Border(top: BorderSide(color: context.hkc.border)),
       ),
       child: SafeArea(
         top: false,

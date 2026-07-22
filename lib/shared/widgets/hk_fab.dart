@@ -20,6 +20,14 @@ class HkFab extends StatelessWidget {
   static const double _size = 56;
   static const double _radius = AppRadii.card * 0.9;
 
+  /// Bottom space (logical px) a scrollable list should reserve so its last
+  /// item can scroll clear of a floating [HkFab]. Derived from the FAB's real
+  /// footprint — its size, the standard 24px bottom margin the screens apply,
+  /// plus a 16px breathing gap — so it stays correct on any screen density or
+  /// resolution (logical px are density-independent; the device safe-area at
+  /// the bottom is already handled by the app shell's tab bar).
+  static const double scrollReserve = _size + 24 + 16;
+
   @override
   Widget build(BuildContext context) {
     final body = Container(

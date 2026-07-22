@@ -65,10 +65,7 @@ class _ItemsListScreenState extends ConsumerState<ItemsListScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _Header(
-            isPro: isPro,
-            count: itemsAsync.valueOrNull?.length ?? 0,
-          ),
+          _Header(isPro: isPro, count: itemsAsync.valueOrNull?.length ?? 0),
           const SizedBox(height: 14),
           _FilterChips(
             selected: selected,
@@ -89,14 +86,20 @@ class _ItemsListScreenState extends ConsumerState<ItemsListScreen> {
                 if (items.isEmpty) {
                   if (selected != null) {
                     return _FilteredEmpty(
-                      onClear: () =>
-                          ref.read(selectedItemCategoryProvider.notifier).clear(),
+                      onClear: () => ref
+                          .read(selectedItemCategoryProvider.notifier)
+                          .clear(),
                     );
                   }
                   return _EmptyItems(onAdd: _navigateToAdd);
                 }
                 return ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(18, 0, 18, 100),
+                  padding: const EdgeInsets.fromLTRB(
+                    18,
+                    0,
+                    18,
+                    HkFab.scrollReserve,
+                  ),
                   itemCount: items.length,
                   separatorBuilder: (_, __) => const SizedBox(height: 10),
                   itemBuilder: (context, i) {
@@ -207,11 +210,7 @@ class _FilterChips extends StatelessWidget {
 }
 
 class _ItemCard extends StatelessWidget {
-  const _ItemCard({
-    required this.item,
-    required this.onTap,
-    super.key,
-  });
+  const _ItemCard({required this.item, required this.onTap, super.key});
 
   final Item item;
   final VoidCallback onTap;
@@ -348,7 +347,7 @@ class _EmptyItems extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     return ListView(
-      padding: const EdgeInsets.fromLTRB(18, 24, 18, 100),
+      padding: const EdgeInsets.fromLTRB(18, 24, 18, HkFab.scrollReserve),
       children: [
         HkCard(
           padding: const EdgeInsets.fromLTRB(24, 32, 24, 28),
@@ -410,7 +409,7 @@ class _FilteredEmpty extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return ListView(
-      padding: const EdgeInsets.fromLTRB(18, 24, 18, 100),
+      padding: const EdgeInsets.fromLTRB(18, 24, 18, HkFab.scrollReserve),
       children: [
         HkCard(
           padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
@@ -456,7 +455,7 @@ class _ItemsSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(18, 0, 18, 100),
+      padding: const EdgeInsets.fromLTRB(18, 0, 18, HkFab.scrollReserve),
       itemCount: 5,
       separatorBuilder: (_, __) => const SizedBox(height: 10),
       itemBuilder: (_, __) => Container(
