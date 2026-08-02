@@ -6,7 +6,7 @@ App móvil freemium (iOS + Android) para gestión del mantenimiento del hogar, c
 
 **Qué es:** App de utilidad del hogar con modelo de pago único (4,99 € lifetime unlock).
 
-**Estado actual:** Fases 0-10 completadas. Fase 11 (Store prep) en curso: legales, metadata, assets, landing y screenshots Android listos; listing, formularios Play y release de producción pendientes. La cuenta Play parece antigua; confirmar en Play Console si exige prueba cerrada 12 testers/14 días.
+**Estado actual:** Fases 0-10 completadas. Fase 11: la versión Android está publicada en producción. La ficha pública es [HouseKeep en Google Play](https://play.google.com/store/apps/details?id=com.housekeep.app). Hay una incidencia pendiente de elegibilidad en Google Play para un Xiaomi 12 Pro que debe revisarse en el catálogo de dispositivos y en el artefacto del canal Production.
 
 **Documentación completa en `/docs/`:**
 - `docs/PLAN.md` — Plan de desarrollo, fases, stack, costes, roadmap
@@ -33,6 +33,7 @@ App móvil freemium (iOS + Android) para gestión del mantenimiento del hogar, c
 ## Decisiones clave
 
 - **Bundle ID:** `com.housekeep.app`
+- **Google Play:** https://play.google.com/store/apps/details?id=com.housekeep.app
 - **Entitlement:** `housekeep_pro` (non-consumable, lifetime)
 - **Límite free:** 5 items + 3 documentos
 - **Diseño:** Material 3 custom, cálido, rounded, minimal

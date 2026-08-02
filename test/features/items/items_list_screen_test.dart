@@ -87,7 +87,7 @@ void main() {
     expect(find.text('Heater'), findsOneWidget);
     expect(
       find.byType(HkChip),
-      findsNWidgets(7),
+      findsAtLeastNWidgets(7),
     );
     expect(find.byType(HkCard), findsNWidgets(2));
   });

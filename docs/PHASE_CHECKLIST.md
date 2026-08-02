@@ -432,25 +432,26 @@ Marca cada tarea con [x] cuando esté completada.
 
 ### Google Play Console — ver guía en `docs/STORE_SETUP_GUIDE.md`
 - [x] A1. Crear app "HouseKeep" en Play Console
-- [ ] A2. Completar store listing ES + EN (metadata en `docs/STORE_METADATA.md`)
-- [ ] A3. Content rating (IARC — Everyone)
-- [ ] A4. Data Safety (sin recopilación de datos)
-- [ ] A5. Privacy policy URL
-- [ ] A6. Target audience
+- [x] A2. Completar store listing ES + EN (metadata en `docs/STORE_METADATA.md`)
+- [x] A3. Content rating (IARC — Everyone)
+- [x] A4. Data Safety (sin recopilación de datos)
+- [x] A5. Privacy policy URL
+- [x] A6. Target audience
 - [x] B1. Configurar cuenta de merchant en Play Console
 - [x] B2. Crear IAP `housekeep_pro_lifetime` (one-time, 4,99 €)
 - [x] C1. Generar keystore release (`/home/darumo/housekeep-upload-keystore.jks`, fuera del repo)
 - [x] C2. Crear `android/key.properties` con credenciales de signing
 - [x] C3. build.gradle.kts configurado para release signing
 - [x] C4. .gitignore actualizado (key.properties, *.jks)
-- [x] C5. Generar AAB firmado (`flutter build appbundle --release`) — v1.0.0+3 generado en `build/app/outputs/bundle/release/app-release.aab`, pendiente de subir a producción
+- [x] C5. Generar AAB firmado (`flutter build appbundle --release`) — v1.0.0+14 generado en `build/app/outputs/bundle/release/app-release.aab`
 - [x] D1. App Signing by Google Play (aceptar)
 - [x] D2. Subir AAB a Internal Testing
 - [x] D3. Configurar testers internos
-- [ ] D4. Revisar y publicar en Internal Testing
+- [x] D4. Revisar y publicar en Internal Testing
 - [x] F1-F4. Probar compra sandbox en Internal Testing
-- [ ] Confirmar si Play exige prueba cerrada 12 testers/14 días (cuenta antigua; revisar al crear release de producción)
-- [ ] G1-G5. Checklist pre-producción y publicar en Production
+- [x] Confirmar si Play exige prueba cerrada 12 testers/14 días — producción publicada sin bloqueo
+- [x] G1-G5. Checklist pre-producción y publicar en Production — ficha pública disponible; pendiente resolver elegibilidad del Xiaomi 12 Pro
+- [ ] G6. Investigar exclusión del Xiaomi 12 Pro en el catálogo de dispositivos de Production
 
 ### RevenueCat producción — ver guía en `docs/STORE_SETUP_GUIDE.md`
 - [x] E1. Crear Service Account en Google Cloud

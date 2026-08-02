@@ -6,9 +6,10 @@ Copy listo para pegar en App Store Connect y Google Play Console. ES + EN.
 - Support email: `darumo092@gmail.com`
 - Privacy URL: `https://darumo92.github.io/housekeep-legal/privacy_en.html` (+ `_es`)
 - Terms URL: `https://darumo92.github.io/housekeep-legal/terms_en.html` (+ `_es`)
+- Google Play: `https://play.google.com/store/apps/details?id=com.housekeep.app`
 
-**Pendiente:**
-- `{MARKETING_URL}` → landing page (opcional v1, puede ir vacío)
+**Resuelto:**
+- Marketing URL: `https://darumo92.github.io/housekeep-site/`
 
 ---
 
@@ -21,7 +22,7 @@ Copy listo para pegar en App Store Connect y Google Play Console. ES + EN.
 | IAP iOS | `com.housekeep.app.pro` |
 | IAP Android | `housekeep_pro_lifetime` |
 | Precio Pro | 4,99 € one-time (non-consumable) |
-| Versión | 1.0.0 (build 3) |
+| Versión | 1.0.0 (build 14) |
 | Category iOS | Lifestyle (primary) — House & Home no existe en iOS; usar Lifestyle |
 | Category Android | House & Home (primary), Productivity (secondary) |
 

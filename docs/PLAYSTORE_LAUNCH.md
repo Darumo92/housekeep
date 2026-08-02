@@ -1,6 +1,6 @@
 # HouseKeep — Estado de lanzamiento Play Store + RevenueCat
 
-_Última actualización: 2026-05-31_
+_Última actualización: 2026-08-02_
 
 Documento de seguimiento del proceso de publicación en Google Play y la
 integración de compras con RevenueCat. Resume lo hecho y lo pendiente para
@@ -16,11 +16,12 @@ Docs relacionados: `STORE_METADATA.md`, `SCREENSHOT_PLAN.md`, `ASO_STRATEGY.md`,
 | Dato | Valor |
 |------|-------|
 | Package / applicationId | `com.housekeep.app` |
-| Versión actual | `1.0.0+4` (versionName 1.0.0, versionCode 4) — versionCode 3 ya consumido por Prueba interna; +4 es el AAB de la Prueba cerrada |
+| Versión actual | `1.0.0+14` (versionName 1.0.0, versionCode 14) |
 | Cuenta desarrollador Play | David Rubio Mota (cuenta personal, ID 6648310945366824901) |
 | Email soporte | darumo092@gmail.com |
 | Proyecto Firebase / Google Cloud | `housekeep-8715e` |
 | RevenueCat proyecto | HouseKeep |
+| Ficha pública | https://play.google.com/store/apps/details?id=com.housekeep.app |
 
 ### Firma (upload key)
 - Keystore: `/home/darumo/housekeep-upload-keystore.jks` (FUERA del repo)
@@ -178,9 +179,12 @@ Docs relacionados: `STORE_METADATA.md`, `SCREENSHOT_PLAN.md`, `ASO_STRATEGY.md`,
 - Nota: las carpetas `tablet_7/` y `tablet_10/` previas contienen composiciones
   derivadas del set móvil. Para Play Console, usar las carpetas `_real`.
 
-## PENDIENTE (para publicar en producción)
+## Checklist de publicación
 
-1. **Ficha Play Store** (Store listing) — ver `STORE_METADATA.md`:
+La publicación de producción ya está hecha. Esta lista conserva los elementos
+que se completaron y la incidencia de compatibilidad queda documentada abajo.
+
+1. **Ficha Play Store** (Store listing) — completada; ver `STORE_METADATA.md`:
    - Descripción corta (máx 80 chars)
    - Descripción larga (máx 4000 chars)
    - Feature graphic 1024×500 — ES `store/feature_graphic_1024x500_es.png`,
@@ -193,21 +197,50 @@ Docs relacionados: `STORE_METADATA.md`, `SCREENSHOT_PLAN.md`, `ASO_STRATEGY.md`,
      `store/screenshots/android/tablet_10_real/`)
    - Icono 512×512 — `store/icon_512.png`
    - (ES + EN)
-2. **Data safety** (formulario datos): declarar fotos (image_picker),
+2. **Data safety** (formulario datos): completado; declarar fotos (image_picker),
    notificaciones, Firebase Analytics/Crashlytics, y **AD_ID** (firebase_analytics
    inyecta permiso de publicidad). Valorar quitar analytics si no se quiere.
-3. **Content rating** (cuestionario IARC).
-4. **App content / Target audience** (apartados obligatorios).
-5. **Crear release de producción** con el AAB v1.0.0+3:
-   `build/app/outputs/bundle/release/app-release.aab`.
-6. **Enviar a revisión de producción**.
+3. **Content rating** (cuestionario IARC) — completado.
+4. **App content / Target audience** — completado.
+5. **Crear release de producción** con el AAB v1.0.0+14 — completado.
+6. **Enviar a revisión de producción** — completado.
+
+## Estado de producción y compatibilidad
+
+La ficha pública ya está disponible en Google Play y muestra como última
+actualización el 31 de julio de 2026. El problema pendiente es que un Xiaomi 12
+Pro con Android 13 aparece como no compatible desde la ficha de producción,
+aunque sí fue compatible durante las pruebas.
+
+La build local de release se ha inspeccionado el 2 de agosto de 2026:
+
+- AAB generado: `build/app/outputs/bundle/release/app-release.aab`.
+- `versionCode`: `14`.
+- `minSdkVersion`: `24`.
+- `targetSdkVersion`: `36`.
+- ABI `arm64-v8a` incluido.
+- No hay `uses-feature` obligatorio de cámara, Bluetooth, GPS u otro hardware.
+
+Estos valores son compatibles con el Xiaomi de la incidencia, por lo que no se
+debe bajar el SDK ni añadir filtros Android sin evidencia. Revisar en Play
+Console, en este orden:
+
+1. Catálogo de dispositivos: buscar exactamente `Xiaomi 12 Pro` y consultar el
+   motivo de exclusión para Production.
+2. Release de Production: confirmar que el artefacto activo es el AAB y que
+   incluye el `versionCode` publicado, no un APK `armeabi-v7a` aislado.
+3. Países/regiones y porcentaje de rollout del release de Production.
+4. Probar la URL pública con la cuenta del dispositivo después de actualizar
+   Play Store y Google Play Services; la elegibilidad de Internal/Closed
+   Testing no demuestra la elegibilidad del track público.
+
+Si el catálogo no muestra exclusión, abrir incidencia en Play Console con el
+número de modelo, Android 13, versión de Play Store y una captura del mensaje.
 
 ### Notas / decisiones tomadas
 - Monetización: **pago único Lifetime 4,99 €** (no suscripción), por ser app
   local-first sin coste recurrente y mejor para reviews/primera app.
-- Cuenta Play parece antigua: **confirmar en Play Console** si exige prueba
-  cerrada 12 testers/14 días. Si no aparece bloqueo al crear Production release,
-  seguir directo a revisión; Internal Testing queda como canal de QA/sandbox.
+- Internal Testing queda como canal de QA/sandbox.
 - iOS no configurado (solo Android). `revenueCatIosKey` vacío, `_kStoreUrlIos`
   placeholder.
 - Privacy + terms publicados: `https://darumo92.github.io/housekeep-legal/`
