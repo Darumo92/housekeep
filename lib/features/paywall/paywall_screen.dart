@@ -8,6 +8,7 @@ import '../../core/l10n/generated/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
 import '../../data/repositories/purchase_repository.dart';
+import '../../data/services/analytics_providers.dart';
 import '../../shared/widgets/hk_button.dart';
 import 'paywall_provider.dart';
 
@@ -21,6 +22,8 @@ class PaywallScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final offeringAsync = ref.watch(currentOfferingProvider);
     final controllerState = ref.watch(purchaseControllerProvider);
+
+    ref.read(analyticsServiceProvider).paywallViewed(gate ? 'gate' : 'settings');
 
     ref.listen<PurchaseControllerState>(purchaseControllerProvider, (
       previous,
@@ -129,12 +132,19 @@ class _PaywallBody extends ConsumerWidget {
           onPurchase: () {
             if (package == null) return;
             HapticFeedback.lightImpact();
+            ref.read(analyticsServiceProvider).paywallPurchaseStarted(gate ? 'gate' : 'settings');
             ref.read(purchaseControllerProvider.notifier).buy(package);
           },
           onRestore: controllerState.isLoading
               ? null
-              : () => ref.read(purchaseControllerProvider.notifier).restore(),
-          onSkip: () => context.canPop() ? context.pop() : context.go('/'),
+              : () {
+                  ref.read(analyticsServiceProvider).paywallRestoreStarted();
+                  ref.read(purchaseControllerProvider.notifier).restore();
+                },
+          onSkip: () {
+            ref.read(analyticsServiceProvider).paywallSkipped(gate ? 'gate' : 'settings');
+            context.canPop() ? context.pop() : context.go('/');
+          },
           ctaLabel: l10n.paywallUnlockCta,
           restoreLabel: l10n.paywallRestore,
           skipLabel: l10n.paywallSkip,

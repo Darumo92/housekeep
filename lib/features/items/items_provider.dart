@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/repositories/repository_providers.dart';
+import '../../data/services/analytics_providers.dart';
 import '../../domain/enums/item_category.dart';
 import '../../domain/models/item.dart';
 
@@ -33,6 +34,9 @@ Stream<List<Item>> filteredItems(FilteredItemsRef ref) {
 @riverpod
 Future<String> addItemDestination(AddItemDestinationRef ref) async {
   final canAddItem = await ref.watch(canAddItemProvider.future);
+  if (!canAddItem) {
+    ref.read(analyticsServiceProvider).limitHit('item');
+  }
   return canAddItem ? '/items/add' : '/paywall?gate=true';
 }
 

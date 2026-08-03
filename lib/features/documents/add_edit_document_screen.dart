@@ -12,6 +12,7 @@ import '../../core/l10n/generated/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
 import '../../data/repositories/repository_providers.dart';
+import '../../data/services/analytics_providers.dart';
 import '../../data/services/notification_providers.dart';
 import '../../data/services/notification_strings.dart';
 import '../../data/services/photo_service.dart';
@@ -422,6 +423,11 @@ class _AddEditDocumentScreenState extends ConsumerState<AddEditDocumentScreen> {
 
     try {
       await ref.read(saveDocumentProvider.notifier).save(document);
+      ref.read(analyticsServiceProvider).documentSaved(
+        isNew: existing == null,
+        type: _selectedType.name,
+        hasPhoto: _photoPath != null,
+      );
     } catch (_) {
       if (mounted) {
         messenger.showSnackBar(

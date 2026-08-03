@@ -37,7 +37,7 @@ final widgetSnapshotBuilderProvider = Provider<WidgetSnapshotBuilder>.internal(
 );
 
 typedef WidgetSnapshotBuilderRef = ProviderRef<WidgetSnapshotBuilder>;
-String _$widgetSyncHash() => r'56d441a7567aed865dfae9d428479feb4b651b03';
+String _$widgetSyncHash() => r'236357905dc53f0c0ef9e5a5d96500e9b4173247';
 
 /// See also [widgetSync].
 @ProviderFor(widgetSync)

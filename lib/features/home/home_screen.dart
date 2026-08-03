@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/generated/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 import '../../data/repositories/repository_providers.dart' show isProProvider;
+import '../../data/services/analytics_providers.dart';
 import '../../domain/enums/urgency_level.dart';
 import '../../domain/models/item.dart';
 import '../../domain/models/upcoming_event.dart';
@@ -24,6 +25,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    ref.read(analyticsServiceProvider).homeViewed();
     final summaryAsync = ref.watch(homeSummaryProvider);
     final eventsAsync = ref.watch(upcomingEventsProvider(limit: 6));
     final isPro = ref.watch(isProProvider).valueOrNull ?? false;

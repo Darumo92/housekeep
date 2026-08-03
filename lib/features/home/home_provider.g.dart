@@ -306,7 +306,7 @@ class _HomeExpiringDocumentsProviderElement
   int get limit => (origin as HomeExpiringDocumentsProvider).limit;
 }
 
-String _$upcomingEventsHash() => r'51a5c5a3b1703ee758697aea5e8cecefe6518bf8';
+String _$upcomingEventsHash() => r'0257ce1f87dfb8364cd10680aad103e1b4f10627';
 
 /// See also [upcomingEvents].
 @ProviderFor(upcomingEvents)

@@ -22,7 +22,7 @@ final filteredItemsProvider = AutoDisposeStreamProvider<List<Item>>.internal(
 
 typedef FilteredItemsRef = AutoDisposeStreamProviderRef<List<Item>>;
 String _$addItemDestinationHash() =>
-    r'd36875aff8e070f57d1b19aa3b0ce90aca5e9c58';
+    r'3fd4c8575b24940b94242c18c3060d13774d3df6';
 
 /// See also [addItemDestination].
 @ProviderFor(addItemDestination)

@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/repositories/purchase_repository.dart';
 import '../../data/repositories/repository_providers.dart';
+import '../../data/services/analytics_providers.dart';
 
 part 'paywall_provider.g.dart';
 
@@ -23,6 +24,11 @@ class PurchaseController extends _$PurchaseController {
     final result = await repo.purchasePackage(package);
     if (result.status == PurchaseStatus.success) {
       ref.invalidate(isProProvider);
+      ref.read(analyticsServiceProvider).paywallPurchaseSuccess();
+    } else if (result.status == PurchaseStatus.cancelled) {
+      ref.read(analyticsServiceProvider).paywallPurchaseCancelled();
+    } else if (result.status == PurchaseStatus.error) {
+      ref.read(analyticsServiceProvider).paywallPurchaseError(result.errorMessage);
     }
     state = PurchaseControllerState.fromResult(result);
   }
@@ -32,9 +38,10 @@ class PurchaseController extends _$PurchaseController {
     final repo = ref.read(purchaseRepositoryProvider);
     final result = await repo.restorePurchases();
     if (result.status == PurchaseStatus.success) {
-      // Re-read isPro from the repository so the success screen and every
-      // gated widget reflect the restored entitlement immediately.
       ref.invalidate(isProProvider);
+      ref.read(analyticsServiceProvider).paywallRestoreSuccess();
+    } else if (result.status == PurchaseStatus.error) {
+      ref.read(analyticsServiceProvider).paywallRestoreFailed();
     }
     state = PurchaseControllerState.fromResult(result);
   }

@@ -10,6 +10,7 @@ import '../../../core/theme/app_radii.dart';
 import '../../../core/utils/date_calculations.dart';
 import '../../../core/utils/haptics.dart';
 import '../../../data/repositories/repository_providers.dart';
+import '../../../data/services/analytics_providers.dart';
 import '../../../data/services/notification_providers.dart';
 import '../../../data/services/notification_strings.dart';
 import '../../../data/services/review_service.dart';
@@ -231,6 +232,7 @@ class _MarkDoneSheetState extends ConsumerState<MarkDoneSheet> {
     try {
       final repository = ref.read(maintenancesRepositoryProvider);
       await repository.markAsDone(widget.maintenance.id, doneAt: completedAt);
+      ref.read(analyticsServiceProvider).maintenanceMarkedDone(_when.name);
       final updated = await repository.getMaintenance(widget.maintenance.id);
       if (updated != null) {
         final isPro = ref.read(isProProvider).valueOrNull ?? false;

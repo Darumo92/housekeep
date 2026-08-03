@@ -7,6 +7,7 @@ import '../../core/l10n/generated/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
 import '../../core/utils/haptics.dart';
+import '../../data/services/analytics_providers.dart';
 import '../../shared/widgets/hk_button.dart';
 import 'onboarding_provider.dart';
 import 'widgets/onboarding_art.dart';
@@ -68,6 +69,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     setState(() => _saving = true);
     try {
       await ref.read(onboardingControllerProvider.notifier).complete();
+      ref.read(analyticsServiceProvider).onboardingCompleted();
       AppHaptics.success();
       if (!mounted) return;
       setState(() => _completing = true);
@@ -138,7 +140,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
               children: [
                 if (showSkip)
                   TextButton(
-                    onPressed: _saving ? null : _finish,
+                    onPressed: _saving
+                        ? null
+                        : () {
+                            ref.read(
+                              analyticsServiceProvider,
+                            ).onboardingSkipped();
+                            _finish();
+                          },
                     style: TextButton.styleFrom(
                       foregroundColor: context.hkc.textMuted,
                       padding: const EdgeInsets.symmetric(

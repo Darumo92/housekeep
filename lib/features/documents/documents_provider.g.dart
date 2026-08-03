@@ -37,7 +37,7 @@ final filteredDocumentsProvider =
 
 typedef FilteredDocumentsRef = AutoDisposeStreamProviderRef<List<Document>>;
 String _$addDocumentDestinationHash() =>
-    r'9dc528879629de2d13f90a3ea86b38be0abccb6d';
+    r'068335d21f93c74f9dec5f35c00e04a471514716';
 
 /// See also [addDocumentDestination].
 @ProviderFor(addDocumentDestination)

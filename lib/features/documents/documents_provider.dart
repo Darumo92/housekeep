@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/repositories/repository_providers.dart';
+import '../../data/services/analytics_providers.dart';
 import '../../domain/enums/document_type.dart';
 import '../../domain/models/document.dart';
 
@@ -38,6 +39,9 @@ Stream<List<Document>> filteredDocuments(FilteredDocumentsRef ref) {
 @riverpod
 Future<String> addDocumentDestination(AddDocumentDestinationRef ref) async {
   final canAddDocument = await ref.watch(canAddDocumentProvider.future);
+  if (!canAddDocument) {
+    ref.read(analyticsServiceProvider).limitHit('document');
+  }
   return canAddDocument ? '/documents/add' : '/paywall?gate=true';
 }
 

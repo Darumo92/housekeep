@@ -23,7 +23,7 @@ final currentOfferingProvider =
 
 typedef CurrentOfferingRef = AutoDisposeFutureProviderRef<PurchaseOffering?>;
 String _$purchaseControllerHash() =>
-    r'b6038a03b80aca642d3b100beecdf16b3e0bbe6c';
+    r'38e7f07cb1548cd82c03898168db97d82b213a7b';
 
 /// See also [PurchaseController].
 @ProviderFor(PurchaseController)

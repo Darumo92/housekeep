@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../core/l10n/generated/app_localizations.dart';
 import '../../data/repositories/repository_providers.dart';
+import '../../data/services/analytics_providers.dart';
 import '../../data/services/notification_providers.dart';
 import '../../data/services/notification_strings.dart';
 import '../../domain/enums/item_category.dart';
@@ -214,12 +215,18 @@ class _AddEditMaintenanceScreenState
   }
 
   Future<void> _pickTemplate(ItemCategory category) async {
+    ref.read(analyticsServiceProvider).templatePickerOpened();
     final template = await showMaintenanceTemplatePicker(
       context,
       category: category,
     );
     if (template == null || !mounted) return;
     _applyTemplate(template);
+    final isSpanish = Localizations.localeOf(context).languageCode == 'es';
+    ref.read(analyticsServiceProvider).templateApplied(
+      label: isSpanish ? template.nameEs : template.nameEn,
+      category: category.name,
+    );
   }
 
   void _applyTemplate(MaintenanceTemplate template) {
@@ -268,6 +275,11 @@ class _AddEditMaintenanceScreenState
 
     try {
       await ref.read(saveMaintenanceProvider.notifier).save(maintenance);
+      ref.read(analyticsServiceProvider).maintenanceSaved(
+        isNew: existing == null,
+        fromTemplate: (existing?.isFromTemplate ?? false) || _isFromTemplate,
+        category: item.category.name,
+      );
     } catch (_) {
       if (!mounted) return;
       messenger.showSnackBar(

@@ -17,6 +17,7 @@ import '../../shared/widgets/hk_toggle.dart';
 import '../../shared/widgets/status_banner.dart';
 import '../../data/repositories/purchase_repository.dart';
 import '../../data/repositories/repository_providers.dart';
+import '../../data/services/analytics_providers.dart';
 import '../../data/services/demo_seed_service.dart';
 import '../../data/services/notification_providers.dart';
 import '../../data/services/notification_strings.dart';
@@ -86,12 +87,13 @@ class SettingsScreen extends ConsumerWidget {
                     trailing: HkToggle(
                       value: settings.notificationsEnabled,
                       onChanged: (value) async {
-                        await ref
-                            .read(settingsControllerProvider.notifier)
-                            .setNotificationsEnabled(
-                              value,
-                              texts: NotificationTexts.fromL10n(l10n),
-                            );
+                      await ref
+                          .read(settingsControllerProvider.notifier)
+                          .setNotificationsEnabled(
+                            value,
+                            texts: NotificationTexts.fromL10n(l10n),
+                          );
+                      ref.read(analyticsServiceProvider).settingsNotificationsToggled(value);
                       },
                     ),
                   ),
@@ -123,6 +125,7 @@ class SettingsScreen extends ConsumerWidget {
                         await ref
                             .read(settingsControllerProvider.notifier)
                             .setLocalePreference(pref);
+                        ref.read(analyticsServiceProvider).settingsLanguageChanged(pref.name);
                       },
                     ),
                   ),
@@ -135,6 +138,7 @@ class SettingsScreen extends ConsumerWidget {
                         await ref
                             .read(settingsControllerProvider.notifier)
                             .setThemePreference(pref);
+                        ref.read(analyticsServiceProvider).settingsThemeChanged(pref.name);
                       },
                     ),
                   ),
@@ -325,6 +329,7 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
     try {
+      ref.read(analyticsServiceProvider).paywallRestoreStarted();
       final result = await ref
           .read(purchaseRepositoryProvider)
           .restorePurchases();
@@ -332,6 +337,7 @@ class SettingsScreen extends ConsumerWidget {
         // Force every isPro watcher to re-read the repository's current value
         // so the UI cannot get stuck on a stale Free state after a restore.
         ref.invalidate(isProProvider);
+        ref.read(analyticsServiceProvider).paywallRestoreSuccess();
       }
       final message = result.status == PurchaseStatus.success
           ? l10n.settingsPremiumRestoreSuccess
@@ -795,10 +801,16 @@ class _ExportPdfRowState extends ConsumerState<_ExportPdfRow> {
       SnackBar(content: Text(l10n.settingsDataExportProgress)),
     );
     try {
+      ref.read(analyticsServiceProvider).exportPdfStarted();
       final localeTag = Localizations.localeOf(context).toLanguageTag();
       final ok = await ref
           .read(exportControllerProvider)
           .exportAndShare(l10n, localeTag: localeTag);
+      if (ok) {
+        ref.read(analyticsServiceProvider).exportPdfSuccess();
+      } else {
+        ref.read(analyticsServiceProvider).exportPdfEmpty();
+      }
       messenger.showSnackBar(
         SnackBar(
           content: Text(
@@ -807,6 +819,7 @@ class _ExportPdfRowState extends ConsumerState<_ExportPdfRow> {
         ),
       );
     } catch (_) {
+      ref.read(analyticsServiceProvider).exportPdfFailed();
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.settingsDataExportFailed)),
       );

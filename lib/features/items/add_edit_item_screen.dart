@@ -13,6 +13,7 @@ import '../../core/l10n/generated/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
 import '../../data/repositories/repository_providers.dart';
+import '../../data/services/analytics_providers.dart';
 import '../../data/services/notification_providers.dart';
 import '../../data/services/notification_strings.dart';
 import '../../data/services/photo_service.dart';
@@ -400,6 +401,10 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
 
     try {
       await ref.read(saveItemProvider.notifier).save(item);
+      ref.read(analyticsServiceProvider).itemSaved(
+        isNew: existingItem == null,
+        category: _selectedCategory.name,
+      );
     } catch (_) {
       return;
     }

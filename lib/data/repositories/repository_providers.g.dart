@@ -72,7 +72,7 @@ final purchaseRepositoryProvider = Provider<PurchaseRepository>.internal(
 );
 
 typedef PurchaseRepositoryRef = ProviderRef<PurchaseRepository>;
-String _$isProHash() => r'aba244ae43da9d23d6402b9203a98fca498f9a8d';
+String _$isProHash() => r'7536be3840551338fe539b7e4e561d96556b6ec8';
 
 /// See also [isPro].
 @ProviderFor(isPro)
@@ -115,7 +115,7 @@ final canAddDocumentProvider = AutoDisposeFutureProvider<bool>.internal(
 );
 
 typedef CanAddDocumentRef = AutoDisposeFutureProviderRef<bool>;
-String _$proDebugOverrideHash() => r'6fc24051be3d6df3848c7eb7cde582397dcebe65';
+String _$proDebugOverrideHash() => r'e9cc668f31e0d8e700e6616c779f63385d622294';
 
 /// See also [ProDebugOverride].
 @ProviderFor(ProDebugOverride)
